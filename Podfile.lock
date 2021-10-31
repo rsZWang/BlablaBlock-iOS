@@ -1,0 +1,100 @@
+PODS:
+  - Alamofire (5.4.4)
+  - Moya/Core (15.0.0):
+    - Alamofire (~> 5.0)
+  - Moya/RxSwift (15.0.0):
+    - Moya/Core
+    - RxSwift (~> 6.0)
+  - PromiseKit (6.15.3):
+    - PromiseKit/CorePromise (= 6.15.3)
+    - PromiseKit/Foundation (= 6.15.3)
+    - PromiseKit/UIKit (= 6.15.3)
+  - PromiseKit/CorePromise (6.15.3)
+  - PromiseKit/Foundation (6.15.3):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (6.15.3):
+    - PromiseKit/CorePromise
+  - ReachabilitySwift (5.0.0)
+  - Realm (10.18.0):
+    - Realm/Headers (= 10.18.0)
+  - Realm/Headers (10.18.0)
+  - RealmSwift (10.18.0):
+    - Realm (= 10.18.0)
+  - Resolver (1.5.0)
+  - RxCocoa (6.1.0):
+    - RxRelay (= 6.1.0)
+    - RxSwift (= 6.1.0)
+  - RxGesture (4.0.2):
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
+  - RxReachability (1.2.1):
+    - ReachabilitySwift (< 6.0, >= 5.0)
+    - RxCocoa (~> 6)
+    - RxSwift (~> 6)
+  - RxRealm (5.0.3):
+    - Realm (~> 10.7)
+    - RealmSwift (~> 10.7)
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
+  - RxRelay (6.1.0):
+    - RxSwift (= 6.1.0)
+  - RxSwift (6.1.0)
+  - RxSwiftExt/Core (6.0.1):
+    - RxSwift (~> 6.0)
+  - SnapKit (5.0.1)
+  - SwiftyJSON (5.0.1)
+
+DEPENDENCIES:
+  - Moya/RxSwift
+  - PromiseKit
+  - RealmSwift
+  - Resolver
+  - RxCocoa
+  - RxGesture
+  - RxReachability
+  - RxRealm
+  - RxSwift
+  - RxSwiftExt/Core
+  - SnapKit (~> 5.0.0)
+  - SwiftyJSON
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - Moya
+    - PromiseKit
+    - ReachabilitySwift
+    - Realm
+    - RealmSwift
+    - Resolver
+    - RxCocoa
+    - RxGesture
+    - RxReachability
+    - RxRealm
+    - RxRelay
+    - RxSwift
+    - RxSwiftExt
+    - SnapKit
+    - SwiftyJSON
+
+SPEC CHECKSUMS:
+  Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
+  Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
+  PromiseKit: 3b2b6995e51a954c46dbc550ce3da44fbfb563c5
+  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
+  Realm: b8b0a36bf48c39c50fd8cee7ac34005e6d887ddd
+  RealmSwift: fe2f33d731f47aaf4c3618930f9f7cf7b935c33f
+  Resolver: 68984624572763018fd8ec7b8e3e8df0e3b6bba5
+  RxCocoa: 5c51f02d562cbd94629f6c26cf0c80fe4ab8d343
+  RxGesture: f059f2aeef966fb17dad56ee440e76410f10e55f
+  RxReachability: bfd13548bf1dac7a877082d13918a9f39bdb5c18
+  RxRealm: d9fedf16e3ead54b0be2077d2ff4a1b2dc27be39
+  RxRelay: 483e1a19fad961b41f0b0c0bee506f46c1ae14fe
+  RxSwift: a834e5c538e89eca0cae86f403f4fbf0336786ce
+  RxSwiftExt: d61c4b9b06e0a448041b1c659e0f1b5c5a035afc
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
+  SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
+
+PODFILE CHECKSUM: 626f048db13fc3108cbcaecc9144e3f82ddf9159
+
+COCOAPODS: 1.11.2

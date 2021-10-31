@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r7a-xA-aLt">
+                                <rect key="frame" x="108" y="403.5" width="198" height="99.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Blablablock" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uQj-f5-qP4">
+                                        <rect key="frame" x="0.0" y="0.0" width="198" height="38.5"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connect Everything about Crypto Trading" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bep-K9-G7C">
+                                        <rect key="frame" x="0.0" y="58.5" width="198" height="41"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="uQj-f5-qP4" secondAttribute="trailing" id="IwE-eF-045"/>
+                                    <constraint firstAttribute="bottom" secondItem="bep-K9-G7C" secondAttribute="bottom" id="K7z-IM-5JH"/>
+                                    <constraint firstItem="uQj-f5-qP4" firstAttribute="top" secondItem="r7a-xA-aLt" secondAttribute="top" id="OJd-ns-aiS"/>
+                                    <constraint firstAttribute="trailing" secondItem="bep-K9-G7C" secondAttribute="trailing" id="YY7-B4-GJ4"/>
+                                    <constraint firstItem="bep-K9-G7C" firstAttribute="top" secondItem="uQj-f5-qP4" secondAttribute="bottom" constant="20" id="ZpO-A2-axp"/>
+                                    <constraint firstItem="bep-K9-G7C" firstAttribute="leading" secondItem="r7a-xA-aLt" secondAttribute="leading" id="k7D-CJ-ZHW"/>
+                                    <constraint firstItem="uQj-f5-qP4" firstAttribute="leading" secondItem="r7a-xA-aLt" secondAttribute="leading" id="yN1-Mx-Aed"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="r7a-xA-aLt" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Efu-Dk-m5x"/>
+                            <constraint firstItem="r7a-xA-aLt" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="MtB-ff-8H3"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="53" y="375"/>
+        </scene>
+    </scenes>
+</document>
