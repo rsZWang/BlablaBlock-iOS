@@ -20,7 +20,6 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var listSectionView: UIView!
     @IBOutlet weak var exchangeSelectorView: UIView!
     @IBOutlet weak var unitLabel: UILabel!
-    @IBOutlet weak var shareBtn: ColorButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,9 +38,10 @@ class ProfileViewController: UIViewController {
         listSectionView.layer.cornerRadius = 6
         listSectionView.layer.borderWidth = 1
         listSectionView.layer.borderColor = UIColor.black.cgColor
-        
-        shareBtn.titleLabel?.adjustsFontSizeToFitWidth = true
-        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         avatarImageView.makeCircle()
     }
 

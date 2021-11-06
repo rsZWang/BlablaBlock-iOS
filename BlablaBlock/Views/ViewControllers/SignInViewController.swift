@@ -17,6 +17,10 @@ class SignInViewController: UIViewController, RadioButtonGroupDelegate {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var signUpBtn: ColorTextButton!
     @IBOutlet weak var signInBtn: ColorTextButton!
+    @IBOutlet weak var textFieldsStackView: UIStackView!
+    @IBOutlet weak var userNameTextField: InputTextField!
+    @IBOutlet weak var emailTextField: InputTextField!
+    @IBOutlet weak var passwordTextField: InputTextField!
     @IBOutlet weak var nextBtn: ColorButton!
     
     override func viewDidLoad() {
@@ -29,8 +33,8 @@ class SignInViewController: UIViewController, RadioButtonGroupDelegate {
         containerView.layer.shadowColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         
         radioButtonGruop.delegate = self
-        radioButtonGruop.add(signUpBtn)
         radioButtonGruop.add(signInBtn)
+        radioButtonGruop.add(signUpBtn)
         
         signUpBtn.contentHorizontalAlignment = .left
         signInBtn.contentHorizontalAlignment = .left
@@ -39,19 +43,47 @@ class SignInViewController: UIViewController, RadioButtonGroupDelegate {
             .tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
-                self?.toMainPage()
+//                self?.toMainPage()
+                let vc = LinkExchangeViewController()
+                self?.present(vc, animated: true, completion: nil)
             })
             .disposed(by: disposeBag)
 //        nextBtn.setImage(UIImage(systemName: "arrow.right"), for: .normal)
     }
     
     func onClicked(radioButton: RadioButton) {
-        Timber.i("\(radioButton)")
+        let shouldHidden = radioButton == signInBtn
+        if shouldHidden {
+            userNameTextField.fadeIn { [weak self] in
+                self?.userNameTextField.isHidden = true
+                UIView.animate(
+                    withDuration: 0.2,
+                    animations: { [weak self] in
+                        self?.textFieldsStackView.layoutIfNeeded()
+                        self?.containerView.layoutIfNeeded()
+                    }
+                )
+            }
+        } else {
+            userNameTextField.isHidden = false
+            UIView.animate(
+                withDuration: 0.2,
+                animations: { [weak self] in
+                    self?.textFieldsStackView.layoutIfNeeded()
+                    self?.containerView.layoutIfNeeded()
+                },
+                completion: { [weak self] completed in
+                    if completed {
+                        self?.userNameTextField.fadeOut()
+                    }
+                }
+            )
+        }
     }
     
     private func toMainPage() {
         let mainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainTabBarController") as! UITabBarController
-        mainTabBarController.tabBar.barTintColor = UIColor(named: "bg_gray")!
+        mainTabBarController.tabBar.barTintColor = UIColor(named: "gray_tab_bar")!
         mainTabBarController.selectedIndex = 2
         let navigationViewController = UINavigationController(rootViewController: mainTabBarController)
         navigationViewController.modalPresentationStyle = .fullScreen

@@ -90,7 +90,35 @@ public extension UIView {
         }
     }
     
-    func fade(isHidden: Bool) {
+    func fadeIn(duration: TimeInterval = 0.2, completion: (() -> Void)? = nil) {
+        UIView.animate(
+            withDuration: duration,
+            animations: { [weak self] in
+                self?.alpha = 0
+            },
+            completion: { completed in
+                if completed {
+                    completion?()
+                }
+            }
+        )
+    }
+    
+    func fadeOut(duration: TimeInterval = 0.2, completion: (() -> Void)? = nil) {
+        UIView.animate(
+            withDuration: duration,
+            animations: { [weak self] in
+                self?.alpha = 1
+            },
+            completion: { completed in
+                if completed {
+                    completion?()
+                }
+            }
+        )
+    }
+    
+    func fadeAndHide(isHidden: Bool) {
         if isHidden == true {
             UIView.animate(
                 withDuration: 0.3,
@@ -107,6 +135,23 @@ public extension UIView {
                 self?.alpha = 1
             }
         }
+    }
+    
+    func roundCorners(corners: UIRectCorner, radius: CGFloat) {
+        let path = UIBezierPath(
+            roundedRect: bounds,
+            byRoundingCorners: corners,
+            cornerRadii: CGSize(width: radius, height: radius)
+        )
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        layer.mask = mask
+    }
+    
+    func makeCircle() {
+        self.layer.masksToBounds = false
+        self.layer.cornerRadius = self.frame.height / 2
+        self.clipsToBounds = true
     }
     
 }
@@ -186,13 +231,5 @@ extension UIApplication {
             let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView
             return statusBar
         }
-    }
-}
-
-extension UIImageView {
-    func makeCircle() {
-        self.layer.masksToBounds = false
-        self.layer.cornerRadius = self.frame.height / 2
-        self.clipsToBounds = true
     }
 }
