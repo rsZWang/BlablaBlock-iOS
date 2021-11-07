@@ -156,6 +156,20 @@ public extension UIView {
     
 }
 
+public extension UILabel {
+    
+    func autoResize(
+        font: UIFont,
+        scaleFactor: CGFloat = 0.5
+    ) {
+        self.font = font
+        minimumScaleFactor = scaleFactor
+        numberOfLines = 0
+        adjustsFontSizeToFitWidth = true
+        lineBreakMode = .byClipping
+    }
+}
+
 public extension UIViewController {
     
     func present(storyboard: String, name: String, animated: Bool = true) {

@@ -43,12 +43,9 @@ class SignInViewController: UIViewController, RadioButtonGroupDelegate {
             .tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
-//                self?.toMainPage()
-                let vc = LinkExchangeViewController()
-                self?.present(vc, animated: true, completion: nil)
+                self?.toMainPage()
             })
             .disposed(by: disposeBag)
-//        nextBtn.setImage(UIImage(systemName: "arrow.right"), for: .normal)
     }
     
     func onClicked(radioButton: RadioButton) {

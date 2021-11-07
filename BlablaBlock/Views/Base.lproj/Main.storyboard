@@ -915,7 +915,7 @@
                     </tabBarItem>
                     <connections>
                         <outlet property="avatarImageView" destination="Pna-9u-WT3" id="rGQ-dz-lz2"/>
-                        <outlet property="linkCardListStackView" destination="4Kg-yW-Gj9" id="39k-my-C1y"/>
+                        <outlet property="linkCardViewListStackView" destination="4Kg-yW-Gj9" id="z0o-rn-aJN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LHM-Lc-TKH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -940,22 +940,22 @@
     </scenes>
     <designables>
         <designable name="0hi-Ip-Qri">
-            <size key="intrinsicContentSize" width="30" height="29"/>
+            <size key="intrinsicContentSize" width="37" height="34"/>
         </designable>
         <designable name="1o4-Vr-QUA">
             <size key="intrinsicContentSize" width="53" height="44"/>
         </designable>
         <designable name="4CV-sV-43g">
-            <size key="intrinsicContentSize" width="102" height="36"/>
+            <size key="intrinsicContentSize" width="92" height="34"/>
         </designable>
         <designable name="Ark-2r-ftG">
-            <size key="intrinsicContentSize" width="82" height="36"/>
+            <size key="intrinsicContentSize" width="74" height="34"/>
         </designable>
         <designable name="Cbm-ds-leR">
             <size key="intrinsicContentSize" width="53" height="44"/>
         </designable>
         <designable name="VXG-1j-OdW">
-            <size key="intrinsicContentSize" width="62" height="36"/>
+            <size key="intrinsicContentSize" width="80" height="44"/>
         </designable>
     </designables>
     <resources>

@@ -15,8 +15,8 @@
 		A0290E2B27230E5800A07224 /* Timber.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0290E2A27230E5800A07224 /* Timber.swift */; };
 		A0290E2F272319DE00A07224 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0290E2E272319DE00A07224 /* ProfileViewController.swift */; };
 		A0859AE5272DBE8100CF936E /* ExchangeListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0859AE4272DBE8100CF936E /* ExchangeListTableView.swift */; };
-		A09D70E3272518F700ACE44A /* LinkCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09D70E2272518F700ACE44A /* LinkCard.swift */; };
-		A09D70E52725194B00ACE44A /* LinkCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = A09D70E42725194B00ACE44A /* LinkCard.xib */; };
+		A09D70E3272518F700ACE44A /* LinkCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09D70E2272518F700ACE44A /* LinkCardView.swift */; };
+		A09D70E52725194B00ACE44A /* LinkCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A09D70E42725194B00ACE44A /* LinkCardView.xib */; };
 		A09D70E727251C3500ACE44A /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09D70E627251C3500ACE44A /* SettingViewController.swift */; };
 		A0C8E559271FF18900848FCB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C8E558271FF18900848FCB /* AppDelegate.swift */; };
 		A0C8E560271FF18900848FCB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0C8E55E271FF18900848FCB /* Main.storyboard */; };
@@ -71,8 +71,8 @@
 		A0290E2A27230E5800A07224 /* Timber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timber.swift; sourceTree = "<group>"; };
 		A0290E2E272319DE00A07224 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		A0859AE4272DBE8100CF936E /* ExchangeListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeListTableView.swift; sourceTree = "<group>"; };
-		A09D70E2272518F700ACE44A /* LinkCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkCard.swift; sourceTree = "<group>"; };
-		A09D70E42725194B00ACE44A /* LinkCard.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LinkCard.xib; sourceTree = "<group>"; };
+		A09D70E2272518F700ACE44A /* LinkCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkCardView.swift; sourceTree = "<group>"; };
+		A09D70E42725194B00ACE44A /* LinkCardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LinkCardView.xib; sourceTree = "<group>"; };
 		A09D70E627251C3500ACE44A /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		A0C8E555271FF18900848FCB /* BlablaBlock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlablaBlock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0C8E558271FF18900848FCB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -168,8 +168,8 @@
 		A09D70E1272518AD00ACE44A /* LinkCard */ = {
 			isa = PBXGroup;
 			children = (
-				A09D70E2272518F700ACE44A /* LinkCard.swift */,
-				A09D70E42725194B00ACE44A /* LinkCard.xib */,
+				A09D70E2272518F700ACE44A /* LinkCardView.swift */,
+				A09D70E42725194B00ACE44A /* LinkCardView.xib */,
 			);
 			path = LinkCard;
 			sourceTree = "<group>";
@@ -405,7 +405,7 @@
 				A0290E242722F55B00A07224 /* Colors.xcassets in Resources */,
 				A0C8E5922720075A00848FCB /* InputTextField.xib in Resources */,
 				A0C8E565271FF19000848FCB /* LaunchScreen.storyboard in Resources */,
-				A09D70E52725194B00ACE44A /* LinkCard.xib in Resources */,
+				A09D70E52725194B00ACE44A /* LinkCardView.xib in Resources */,
 				A0C8E562271FF19000848FCB /* Assets.xcassets in Resources */,
 				A0C8E560271FF18900848FCB /* Main.storyboard in Resources */,
 			);
@@ -544,7 +544,7 @@
 				A0290E2B27230E5800A07224 /* Timber.swift in Sources */,
 				A0C8E58B271FFAEE00848FCB /* SignInViewController.swift in Sources */,
 				A0C8E59627200ED300848FCB /* ColorButton.swift in Sources */,
-				A09D70E3272518F700ACE44A /* LinkCard.swift in Sources */,
+				A09D70E3272518F700ACE44A /* LinkCardView.swift in Sources */,
 				4A5FE1F827365E0F004AD836 /* LinkExchangeViewController.swift in Sources */,
 				A0C8E559271FF18900848FCB /* AppDelegate.swift in Sources */,
 				A0290E2927230AAF00A07224 /* RadioButton.swift in Sources */,

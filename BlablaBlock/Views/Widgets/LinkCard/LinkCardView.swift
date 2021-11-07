@@ -1,5 +1,5 @@
 //
-//  LinkCard.swift
+//  LinkCardView.swift
 //  BlablaBlock
 //
 //  Created by YINGHAO WANG on 2021/10/24.
@@ -7,7 +7,13 @@
 
 import UIKit
 
-class LinkCard: UIView, NibOwnerLoadable {
+protocol LinkCardViewDelegate {
+    func onTap()
+}
+
+class LinkCardView: UIView, NibOwnerLoadable {
+    
+    private var delegate: LinkCardViewDelegate?
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -23,8 +29,9 @@ class LinkCard: UIView, NibOwnerLoadable {
         commonInit()
     }
     
-    convenience init(image: UIImage, title: String) {
+    convenience init(_ delegate: LinkCardViewDelegate, image: UIImage, title: String) {
         self.init(frame: .zero)
+        self.delegate = delegate
         imageView.image = image
         titleLabel.text = title
     }
@@ -36,11 +43,17 @@ class LinkCard: UIView, NibOwnerLoadable {
         layer.cornerRadius = 6
         layer.borderWidth = 1
         layer.borderColor = UIColor.black.cgColor
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTap)))
     }
     
     func setConnection(state: Bool) {
         connectionStateBtn.isSelected = state
         connectionStateBtn.setTitle("已連結", for: .normal)
+    }
+    
+    @objc
+    private func onTap() {
+        delegate?.onTap()
     }
     
 }
