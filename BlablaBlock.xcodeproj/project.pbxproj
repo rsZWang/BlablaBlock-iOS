@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A7AFE2227393ED4005E0A72 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4A7AFE2127393ED4005E0A72 /* GoogleService-Info.plist */; };
 		8B0B4BC1443AF62EF3B78A35 /* Pods_BlablaBlock_BlablaBlockUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40D15300A897FD6E56604883 /* Pods_BlablaBlock_BlablaBlockUITests.framework */; };
 		A0290E242722F55B00A07224 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0290E232722F55B00A07224 /* Colors.xcassets */; };
 		A0290E272722F6EE00A07224 /* RadioButtonGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0290E262722F6EE00A07224 /* RadioButtonGroup.swift */; };
@@ -58,6 +59,7 @@
 		35464E268B629C2687DF8E9E /* Pods_BlablaBlock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlablaBlock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D28FC7232A5D31FBD368F60 /* Pods-BrabraBlockTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BrabraBlockTests.release.xcconfig"; path = "Target Support Files/Pods-BrabraBlockTests/Pods-BrabraBlockTests.release.xcconfig"; sourceTree = "<group>"; };
 		40D15300A897FD6E56604883 /* Pods_BlablaBlock_BlablaBlockUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlablaBlock_BlablaBlockUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4A7AFE2127393ED4005E0A72 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		63DDD5CE26790E51170C9B06 /* Pods-BlablaBlock.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlablaBlock.debug.xcconfig"; path = "Target Support Files/Pods-BlablaBlock/Pods-BlablaBlock.debug.xcconfig"; sourceTree = "<group>"; };
 		6709BF05B1B63F56F50A9398 /* Pods-BlablaBlock-BlablaBlockUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlablaBlock-BlablaBlockUITests.debug.xcconfig"; path = "Target Support Files/Pods-BlablaBlock-BlablaBlockUITests/Pods-BlablaBlock-BlablaBlockUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		740450BEED8563651F10AE9A /* Pods-BlablaBlock-BlablaBlockUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlablaBlock-BlablaBlockUITests.release.xcconfig"; path = "Target Support Files/Pods-BlablaBlock-BlablaBlockUITests/Pods-BlablaBlock-BlablaBlockUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -133,6 +135,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		4A7AFE2027393CE8005E0A72 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		A0290E252722F6D900A07224 /* RadioButton */ = {
 			isa = PBXGroup;
 			children = (
@@ -199,8 +208,10 @@
 				A0C8E561271FF19000848FCB /* Assets.xcassets */,
 				A0290E232722F55B00A07224 /* Colors.xcassets */,
 				A0C8E566271FF19000848FCB /* Info.plist */,
+				4A7AFE2127393ED4005E0A72 /* GoogleService-Info.plist */,
 				A0C8E589271FF1B200848FCB /* Application */,
 				A0C8E588271FF1A900848FCB /* Views */,
+				4A7AFE2027393CE8005E0A72 /* ViewModels */,
 				A0C8E58C271FFCA200848FCB /* Utils */,
 			);
 			path = BlablaBlock;
@@ -405,6 +416,7 @@
 				A09D70E52725194B00ACE44A /* LinkCard.xib in Resources */,
 				A0C8E562271FF19000848FCB /* Assets.xcassets in Resources */,
 				A0C8E560271FF18900848FCB /* Main.storyboard in Resources */,
+				4A7AFE2227393ED4005E0A72 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -729,7 +741,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.wuji.app.BlablaBlock;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wuchii.app.BlablaBlock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -750,7 +762,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.wuji.app.BlablaBlock;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wuchii.app.BlablaBlock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

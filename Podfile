@@ -12,9 +12,8 @@ target 'BlablaBlock' do
   pod 'RxGesture'
   pod 'RxReachability'
   pod 'RxSwiftExt/Core'
-
-  pod 'RealmSwift'
   pod 'RxRealm'
+  pod 'RealmSwift'
 
   pod 'Moya/RxSwift'
   pod 'SwiftyJSON'
@@ -22,6 +21,9 @@ target 'BlablaBlock' do
   pod 'PromiseKit'
   pod 'SnapKit', '~> 5.0.0'
   pod 'Resolver'
+
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Auth'
 
   target 'BlablaBlockTests' do
     inherit! :search_paths

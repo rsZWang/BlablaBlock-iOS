@@ -39,14 +39,25 @@ class SignInViewController: UIViewController, RadioButtonGroupDelegate {
             .tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
-                self?.toMainPage()
+                if self?.radioButtonGruop.selectedButton == self?.signUpBtn {
+                    self?.signUp()
+                } else {
+                    self?.signIn()
+                }
             })
             .disposed(by: disposeBag)
-//        nextBtn.setImage(UIImage(systemName: "arrow.right"), for: .normal)
+    }
+    
+    func signUp() {
+        Timber.i("Is signing up")
+    }
+    
+    func signIn() {
+        Timber.i("Is signing in")
     }
     
     func onClicked(radioButton: RadioButton) {
-        Timber.i("\(radioButton)")
+        
     }
     
     private func toMainPage() {
