@@ -7,30 +7,30 @@
 
 import UIKit
 
-class SettingViewController: UIViewController {
+class SettingViewController: UIViewController, LinkCardViewDelegate {
+    
+    private lazy var binanceLinkCard = LinkCardView(self, image: UIImage(named: "ic_setting_binance")!, title: "連結幣安")
+    private lazy var ftxLinkCard = LinkCardView(self, image: UIImage(named: "ic_setting_ftx")!, title: "連結FTX")
 
     @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var linkCardListStackView: UIStackView!
+    @IBOutlet weak var linkCardViewListStackView: UIStackView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        linkCardListStackView.spacing = 20
-        linkCardListStackView.addArrangedSubview(LinkCard(image: UIImage(named: "ic_setting_binance")!, title: "連結幣安"))
-        linkCardListStackView.addArrangedSubview(LinkCard(image: UIImage(named: "ic_setting_ftx")!, title: "連結FTX"))
-        let card1 = LinkCard()
-        card1.setConnection(state: true)
-        linkCardListStackView.addArrangedSubview(card1)
-        linkCardListStackView.addArrangedSubview(LinkCard())
-        let card2 = LinkCard()
-        card2.setConnection(state: true)
-        linkCardListStackView.addArrangedSubview(card2)
-        linkCardListStackView.addArrangedSubview(LinkCard())
-        linkCardListStackView.addArrangedSubview(LinkCard())
-        linkCardListStackView.addArrangedSubview(LinkCard())
-        linkCardListStackView.addArrangedSubview(LinkCard())
-        
+        linkCardViewListStackView.spacing = 20
+        linkCardViewListStackView.addArrangedSubview(binanceLinkCard)
+        linkCardViewListStackView.addArrangedSubview(ftxLinkCard)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         avatarImageView.makeCircle()
+    }
+    
+    func onTap() {
+        let vc = LinkExchangeViewController()
+        present(vc, animated: true)
     }
 
 }
