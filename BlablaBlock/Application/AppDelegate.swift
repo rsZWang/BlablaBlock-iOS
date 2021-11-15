@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import Resolver
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UISceneDelegate {
@@ -16,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UI
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         FirebaseApp.configure()
+        registerResolverServices()
         
         return true
     }
@@ -25,5 +27,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UI
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         window?.overrideUserInterfaceStyle = .light
     }
+}
+
+extension AppDelegate {
+    
+    func registerResolverServices() {
+        
+        Resolver.register { AuthViewModel() }.scope(.application)
+        
+    }
+    
 }
 

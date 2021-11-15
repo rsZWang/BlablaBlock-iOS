@@ -51,7 +51,7 @@ class LinkExchangeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         slide(up: true)
-        containerView.roundCorners(corners: [.topLeft, .topRight], radius: 10)
+        containerView.roundCorners(corners: [.topLeft, .topRight], radius: 6)
         imageView.roundCorners(corners: .allCorners, radius: 4)
         closeLabel.makeCircle()
     }
@@ -112,9 +112,7 @@ class LinkExchangeViewController: UIViewController {
         exchangeNameLabel.autoResize(font: .boldSystemFont(ofSize: 16))
         textSectionView.addSubview(exchangeNameLabel)
         exchangeNameLabel.snp.makeConstraints { make in
-            make.left.equalTo(textSectionView)
-            make.top.equalTo(textSectionView)
-            make.right.equalTo(textSectionView)
+            make.left.top.right.equalTo(textSectionView)
             make.height.equalTo(textSectionView.snp.height).multipliedBy(0.6)
         }
         

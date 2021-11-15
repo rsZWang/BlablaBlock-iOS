@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import Resolver
 
 class ProfileViewController: UIViewController {
     
-    private let radioGroup = RadioButtonGroup()
+    @Injected private var authViewModel: AuthViewModel
 
+    private let radioGroup = RadioButtonGroup()
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var assetTitleLabel: UILabel!

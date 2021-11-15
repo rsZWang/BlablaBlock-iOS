@@ -7,13 +7,17 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 import RxGesture
+import FirebaseAuth
+import Resolver
 
 class SignInViewController: UIViewController, RadioButtonGroupDelegate {
     
     private let disposeBag = DisposeBag()
+    @Injected private var authViewModel: AuthViewModel
+       
     private let radioButtonGruop = RadioButtonGroup()
-    
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var signUpBtn: ColorTextButton!
     @IBOutlet weak var signInBtn: ColorTextButton!
@@ -39,25 +43,85 @@ class SignInViewController: UIViewController, RadioButtonGroupDelegate {
         signUpBtn.contentHorizontalAlignment = .left
         signInBtn.contentHorizontalAlignment = .left
         
+//        authViewModel.observe(
+//            email: userNameTextField.textField.rx.text.orEmpty.asObservable(),
+//            password: passwordTextField.textField.rx.text.orEmpty.asObservable()
+//        )
+//            .subscribe(onNext: { [weak self] in self?.nextBtn.isEnabled = $0 })
+//            .disposed(by: disposeBag)
+        
+        emailTextField.textField.text = "cool890104@gmail.com"
+        passwordTextField.textField.text = "aaaa1111"
+        
         nextBtn.rx
             .tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
-                if self?.radioButtonGruop.selectedButton == self?.signUpBtn {
-                    self?.signUp()
-                } else {
+                Timber.i("CLICKED")
+                if self?.radioButtonGruop.selectedButton == self?.signInBtn {
                     self?.signIn()
+                } else {
+                    self?.signUp()
                 }
             })
             .disposed(by: disposeBag)
     }
     
-    func signUp() {
-        Timber.i("Is signing up")
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
     }
     
     func signIn() {
-        Timber.i("Is signing in")
+        authViewModel.signIn(email: emailTextField.textField.text!, password: passwordTextField.textField.text!) { [weak self] in
+            if let errorCode = $0 {
+                switch errorCode {
+                    case .operationNotAllowed:
+                        self?.promptAlert(message: "信箱或密碼無法使用")
+                    case .invalidEmail:
+                        self?.promptAlert(message: "信箱規格不符")
+                    case .userDisabled:
+                        self?.promptAlert(message: "此帳號已被停權")
+                    case .wrongPassword:
+                            self?.promptAlert(message: "密碼錯誤")
+                    default:
+                        self?.promptAlert(message: "Unknown error(\(errorCode))")
+                }
+            } else {
+                self?.toMainPage()
+            }
+        }
+    }
+    
+    func signUp() {
+        authViewModel.signUp(email: emailTextField.textField.text!, password: passwordTextField.textField.text!) { [weak self] in
+            if let errorCode = $0 {
+                switch errorCode {
+                    case .invalidEmail:
+                        self?.promptAlert(message: "信箱規格不符")
+                    case .emailAlreadyInUse:
+                        self?.promptAlert(message: "信箱已經被註冊")
+                    case .operationNotAllowed:
+                        self?.promptAlert(message: "信箱或密碼無法使用")
+                    case .weakPassword:
+                        self?.promptAlert(message: "密碼強度不足")
+                    default:
+                        self?.promptAlert(message: "Unknown error(\(errorCode))")
+                }
+            } else {
+                self?.toMainPage()
+            }
+        }
+    }
+    
+    func promptAlert(message: String) {
+        AlertBuilder()
+            .setMessage(message)
+            .setButton(title: "確定")
+            .show(self)
     }
     
     func onClicked(radioButton: RadioButton) {
@@ -67,7 +131,7 @@ class SignInViewController: UIViewController, RadioButtonGroupDelegate {
                 self?.userNameTextField.isHidden = true
                 UIView.animate(
                     withDuration: 0.2,
-                    animations: { [weak self] in
+                    animations: {
                         self?.textFieldsStackView.layoutIfNeeded()
                         self?.containerView.layoutIfNeeded()
                     }
