@@ -46,6 +46,19 @@ class SignInViewController: UIViewController, RadioButtonGroupDelegate {
                 self?.toMainPage()
             })
             .disposed(by: disposeBag)
+        
+        
+        
+        API.request(AuthService.Login(email: "rex@huijun.org", password: "123456"))
+            .subscribe(
+                onSuccess: { success in
+                    Timber.i("success: \(success)")
+                },
+                onFailure: { e in
+                    Timber.i("error: \(e)")
+                }
+            )
+            .disposed(by: disposeBag)
     }
     
     func onClicked(radioButton: RadioButton) {
