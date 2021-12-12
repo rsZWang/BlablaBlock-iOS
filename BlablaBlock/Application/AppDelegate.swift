@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Firebase
+import Resolver
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UISceneDelegate {
@@ -14,7 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UI
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        
+        FirebaseApp.configure()
+        Resolver.registerAllServices()
         
         return true
     }
@@ -25,4 +28,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UI
         window?.overrideUserInterfaceStyle = .light
     }
 }
-

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>361087624485-kgtiphta9pcrrrbg7n881ialpkun4htd.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.361087624485-kgtiphta9pcrrrbg7n881ialpkun4htd</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCWvtQn6KmQuPdZkr827xPkn6BOd0H1huw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>361087624485</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.wuchi.ios.BlablaBlock</string>
+	<key>PROJECT_ID</key>
+	<string>blablablock-fb9bf</string>
+	<key>STORAGE_BUCKET</key>
+	<string>blablablock-fb9bf.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:361087624485:ios:36dc2545332433aae7a6cc</string>
+	<key>DATABASE_URL</key>
+	<string>https://blablablock-fb9bf-default-rtdb.asia-southeast1.firebasedatabase.app</string>
+</dict>
+</plist>

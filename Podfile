@@ -6,22 +6,17 @@ inhibit_all_warnings!
 
 target 'BlablaBlock' do
 
-  # Pods for BlablaBlock
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'RxGesture'
   pod 'RxReachability'
   pod 'RxSwiftExt/Core'
 
-  pod 'RealmSwift'
-  pod 'RxRealm'
-
-  pod 'Moya/RxSwift'
-  pod 'SwiftyJSON'
-
-  pod 'PromiseKit'
-  pod 'SnapKit', '~> 5.0.0'
   pod 'Resolver'
+  pod 'Moya/RxSwift'
+  pod 'SnapKit', '~> 5.0.0'
+  pod 'IQKeyboardManager'
+  pod 'Firebase/Analytics'
 
   target 'BlablaBlockTests' do
     inherit! :search_paths

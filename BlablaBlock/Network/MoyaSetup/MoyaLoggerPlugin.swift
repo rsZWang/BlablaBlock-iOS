@@ -5,6 +5,7 @@
 //  Created by YINGHAO WANG on 2021/12/11.
 //
 
+import Foundation
 import Moya
 
 struct MoyaLoggerPlugin: PluginType {
@@ -28,40 +29,40 @@ struct MoyaLoggerPlugin: PluginType {
         guard let request = request else {
             return
         }
-
         var logs: [Log] = []
-        logs.append((request.httpMethod ?? "", request.url?.absoluteString ?? ""))
-//        logs.append(("Date", Date()))
-        logs.append(("Headers", request.allHTTPHeaderFields ?? ""))
-        if let data = request.httpBody {
-            logs.append(("Body", String(decoding: data, as: UTF8.self)))
-        } else {
-//            logs.append(("Data", "None"))
-        }
         logs.append(("Target", target))
-
-        printLogs("⬆️Request ", logs: logs)
+        logs.append((request.httpMethod ?? "Unknown Method", request.url?.absoluteString ?? "empty url"))
+//        logs.append(("Date", Date()))
+        logs.append(("Headers", request.allHTTPHeaderFields ?? "[]"))
+        if let data = request.httpBody, let prettyString = data.prettyPrintedJSONString {
+            logs.append(("Body", prettyString))
+        } else {
+            logs.append(("Body", "empty"))
+        }
+        printLogs(" Request⏩ =", logs: logs)
     }
 
     func debugResponse(_ response: Response, target: TargetType) {
         var logs: [Log] = []
-//        logs.append(("URL: ", response.request?.url?.absoluteURL ?? ""))
-//        logs.append(("Method", response.request?.httpMethod ?? ""))
+        logs.append(("Target", target))
+//        logs.append((response.request?.httpMethod ?? "Unknown Method", response.request?.url?.absoluteURL ?? "empty url"))
 //        logs.append(("Date", Date()))
         logs.append(("Status Code", response.statusCode))
-        logs.append(("Body", String(decoding: response.data, as: UTF8.self)))
-        logs.append(("Target", target))
-
-        printLogs("⬇️Response", logs: logs)
+        if let prettyString = response.data.prettyPrintedJSONString {
+            logs.append(("Body", prettyString))
+        } else {
+            logs.append(("Body", "empty"))
+        }
+        printLogs(" Response⏪ ", logs: logs)
     }
 
     func printLogs(_ title: String, logs: [Log]) {
-        let title = "============== \(title) ======================="
-        let separator = title.map { _ in "=" }.joined()
+        let title = "==============\(title)======================="
         print(title)
         for log in logs {
             print("\(log.0): \(log.1)")
         }
-        print(separator)
+        let separator = title.map { _ in "=" }.joined()
+        print("\(separator)=")
     }
 }

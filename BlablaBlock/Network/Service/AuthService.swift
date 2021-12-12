@@ -7,7 +7,7 @@
 
 import Moya
 
-enum AuthService {
+struct AuthService {
     
     struct Login: BlablaBlockApiTargetType {
         
@@ -22,10 +22,25 @@ enum AuthService {
         }
         typealias ResponseType = ResponseSuccess
         
-        let token: String = "wrkef63GXqLH9zMypXXK7Qtg"
         let email: String
         let password: String
+    }
+    
+    struct Registration: BlablaBlockApiTargetType {
         
+        var method: Method { .post }
+        var path: String { "registration" }
+        var headers: [String : String]? { ["Authorization" : "Bearer wrkef63GXqLH9zMypXXK7Qtt"] }
+        var task: Task {
+            .requestParameters(parameters: [
+                "email" : email,
+                "password" : password
+            ], encoding: JSONEncoding.default)
+        }
+        typealias ResponseType = ResponseSuccess
+        
+        let email: String
+        let password: String
     }
     
 }

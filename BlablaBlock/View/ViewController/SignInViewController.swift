@@ -7,13 +7,16 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 import RxGesture
+import Resolver
 
-class SignInViewController: UIViewController, RadioButtonGroupDelegate {
+class SignInViewController: BaseViewController, RadioButtonGroupDelegate {
     
-    private let disposeBag = DisposeBag()
+    @Injected
+    private var authViewModel: AuthViewModel
+       
     private let radioButtonGruop = RadioButtonGroup()
-    
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var signUpBtn: ColorTextButton!
     @IBOutlet weak var signInBtn: ColorTextButton!
@@ -39,26 +42,77 @@ class SignInViewController: UIViewController, RadioButtonGroupDelegate {
         signUpBtn.contentHorizontalAlignment = .left
         signInBtn.contentHorizontalAlignment = .left
         
+//        authViewModel.observe(
+//            email: userNameTextField.textField.rx.text.orEmpty.asObservable(),
+//            password: passwordTextField.textField.rx.text.orEmpty.asObservable()
+//        )
+//            .subscribe(onNext: { [weak self] in
+//                Timber.i("IS CLICKABLE: \($0)")
+//                self?.nextBtn.isEnabled = $0
+//            })
+//            .disposed(by: disposeBag)
+        
+        emailTextField.textField.text = "rex@huijun.org"
+        passwordTextField.textField.text = "123456"
+        
         nextBtn.rx
             .tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
-                self?.toMainPage()
+                if self?.radioButtonGruop.selectedButton == self?.signInBtn {
+                    self?.signIn()
+                } else {
+                    self?.signUp()
+                }
             })
             .disposed(by: disposeBag)
-        
-        
-        
-        API.request(AuthService.Login(email: "rex@huijun.org", password: "123456"))
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
+    
+    func signIn() {
+        authViewModel.signIn(
+            email: emailTextField.textField.text ?? "",
+            password: passwordTextField.textField.text ?? ""
+        )
             .subscribe(
-                onSuccess: { success in
-                    Timber.i("success: \(success)")
+                onSuccess: { [weak self] response in
+                    self?.toMainPage()
                 },
-                onFailure: { e in
-                    Timber.i("error: \(e)")
+                onFailure: { [weak self] e in
+                    self?.promptAlert(message: "帳號或密碼錯誤")
                 }
             )
             .disposed(by: disposeBag)
+    }
+    
+    func signUp() {
+        authViewModel.signUp(
+            email: emailTextField.textField.text ?? "",
+            password: passwordTextField.textField.text ?? ""
+        )
+            .subscribe(
+                onSuccess: { [weak self] response in
+                    self?.toMainPage()
+                },
+                onFailure: { [weak self] e in
+                    self?.promptAlert(message: "\(e)")
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    
+    func promptAlert(message: String) {
+        AlertBuilder()
+            .setMessage(message)
+            .setButton(title: "確定")
+            .show(self)
     }
     
     func onClicked(radioButton: RadioButton) {
@@ -68,7 +122,7 @@ class SignInViewController: UIViewController, RadioButtonGroupDelegate {
                 self?.userNameTextField.isHidden = true
                 UIView.animate(
                     withDuration: 0.2,
-                    animations: { [weak self] in
+                    animations: {
                         self?.textFieldsStackView.layoutIfNeeded()
                         self?.containerView.layoutIfNeeded()
                     }
