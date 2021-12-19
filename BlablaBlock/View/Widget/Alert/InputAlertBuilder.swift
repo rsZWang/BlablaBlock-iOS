@@ -7,53 +7,52 @@
 
 import UIKit
 
-class InputAlertBuilder {
+class InputAlert {
     
-    private lazy var alertController = UIAlertController(title: title ?? "訊息", message: message, preferredStyle: .alert)
-    private var title: String!
-    private var message: String!
-    private var confirmAction: UIAlertAction!
-    private var textFieldList: [Int : String] = [:]
+    private lazy var alertController = UIAlertController(title: "標題", message: "訊息", preferredStyle: .alert)
     
-    func setTitle(_ title: String) -> InputAlertBuilder {
-        self.title = title
+    deinit {
+        Timber.i("FUCKFUCKFUCK")
+    }
+    
+    func setTitle(_ title: String) -> InputAlert {
+        alertController.title = title
         return self
     }
     
-    func setMessage(_ message: String) -> InputAlertBuilder {
-        self.message = message
+    func setMessage(_ message: String) -> InputAlert {
+        alertController.message = message
         return self
     }
     
-    func setTextField(tag: Int, placeholder: String) -> InputAlertBuilder {
-        self.textFieldList[tag] = placeholder
+    func addTextField(tag: Int, placeholder: String) -> InputAlert {
+        alertController.addTextField(configurationHandler: { textField in
+            textField.tag = tag
+            textField.placeholder = placeholder
+        })
         return self
     }
     
-    func setConfirmButton(title: String, action: (([Int : String?]) -> Void)? = nil) -> InputAlertBuilder {
-        self.confirmAction = UIAlertAction(title: title, style: .default) { [unowned self] alertAction in
-            var result = [Int : String?]()
-            for textField in self.textFieldList {
-                if let field = alertController.view?.viewWithTag(textField.key) as? UITextField {
-                    result[textField.key] = field.text
+    func setConfirmButton(title: String, action: @escaping ([Int : String]) -> Void) -> InputAlert {
+        alertController.addAction(UIAlertAction(title: title, style: .default) { [unowned self] _ in
+            var result = [Int : String]()
+            if let textFields = alertController.textFields {
+                for textField in textFields {
+                    result[textField.tag] = textField.text
                 }
             }
-            action?(result)
-        }
+            action(result)
+        })
+        return self
+    }
+    
+    func build() -> InputAlert {
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel))
         return self
     }
     
     @discardableResult
     func show(_ parent: UIViewController? = Utils.findMostTopViewController()) -> UIAlertController {
-        if let buttonAction = confirmAction {
-            alertController.addAction(buttonAction)
-        }
-        for textFeild in textFieldList {
-            alertController.addTextField { field in
-                field.tag = textFeild.key
-                field.placeholder = textFeild.value
-            }
-        }
         parent?.present(alertController, animated: true, completion: nil)
         return alertController
     }

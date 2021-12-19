@@ -13,7 +13,14 @@
 		4A252CCE273F9737005E4C93 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A252CCD273F9737005E4C93 /* View.swift */; };
 		4A252CD0273F9751005E4C93 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A252CCF273F9751005E4C93 /* ViewController.swift */; };
 		4A5FE1F827365E0F004AD836 /* LinkExchangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */; };
+		4A7744B7276F8A350087A447 /* ResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7744B6276F8A350087A447 /* ResponseError.swift */; };
+		4A7744B9276F8E3C0087A447 /* ExchangeApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7744B8276F8E3C0087A447 /* ExchangeApiService.swift */; };
+		4A7744BB276F95910087A447 /* StatisticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7744BA276F95910087A447 /* StatisticsService.swift */; };
+		4A7744BD276F96170087A447 /* Portfolio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7744BC276F96170087A447 /* Portfolio.swift */; };
+		4A7744BF276F97520087A447 /* PNL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7744BE276F97520087A447 /* PNL.swift */; };
+		4A7744C5276FA1B50087A447 /* StatisticsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7744C4276FA1B50087A447 /* StatisticsViewModel.swift */; };
 		4A7AFE2227393ED4005E0A72 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4A7AFE2127393ED4005E0A72 /* GoogleService-Info.plist */; };
+		4A7B8AA4276FBEB200756E05 /* ExchangeApiViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7B8AA3276FBEB200756E05 /* ExchangeApiViewModel.swift */; };
 		4AA9F810276DD68B00D775F0 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA9F80F276DD68B00D775F0 /* Resolver.swift */; };
 		4AA9F812276DD6A200D775F0 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA9F811276DD6A200D775F0 /* BaseViewController.swift */; };
 		4AA9F814276E473800D775F0 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA9F813276E473800D775F0 /* BaseViewModel.swift */; };
@@ -25,7 +32,7 @@
 		A0290E272722F6EE00A07224 /* RadioButtonGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0290E262722F6EE00A07224 /* RadioButtonGroup.swift */; };
 		A0290E2927230AAF00A07224 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0290E2827230AAF00A07224 /* RadioButton.swift */; };
 		A0290E2B27230E5800A07224 /* Timber.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0290E2A27230E5800A07224 /* Timber.swift */; };
-		A0290E2F272319DE00A07224 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0290E2E272319DE00A07224 /* ProfileViewController.swift */; };
+		A0290E2F272319DE00A07224 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0290E2E272319DE00A07224 /* StatisticsViewController.swift */; };
 		A0859AE5272DBE8100CF936E /* ExchangeListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0859AE4272DBE8100CF936E /* ExchangeListTableView.swift */; };
 		A09D70E3272518F700ACE44A /* LinkCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09D70E2272518F700ACE44A /* LinkCardView.swift */; };
 		A09D70E52725194B00ACE44A /* LinkCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A09D70E42725194B00ACE44A /* LinkCardView.xib */; };
@@ -76,7 +83,14 @@
 		4A252CCD273F9737005E4C93 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		4A252CCF273F9751005E4C93 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkExchangeViewController.swift; sourceTree = "<group>"; };
+		4A7744B6276F8A350087A447 /* ResponseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseError.swift; sourceTree = "<group>"; };
+		4A7744B8276F8E3C0087A447 /* ExchangeApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeApiService.swift; sourceTree = "<group>"; };
+		4A7744BA276F95910087A447 /* StatisticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsService.swift; sourceTree = "<group>"; };
+		4A7744BC276F96170087A447 /* Portfolio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Portfolio.swift; sourceTree = "<group>"; };
+		4A7744BE276F97520087A447 /* PNL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PNL.swift; sourceTree = "<group>"; };
+		4A7744C4276FA1B50087A447 /* StatisticsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewModel.swift; sourceTree = "<group>"; };
 		4A7AFE2127393ED4005E0A72 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4A7B8AA3276FBEB200756E05 /* ExchangeApiViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeApiViewModel.swift; sourceTree = "<group>"; };
 		4AA9F80F276DD68B00D775F0 /* Resolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
 		4AA9F811276DD6A200D775F0 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		4AA9F813276E473800D775F0 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
@@ -89,7 +103,7 @@
 		A0290E262722F6EE00A07224 /* RadioButtonGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButtonGroup.swift; sourceTree = "<group>"; };
 		A0290E2827230AAF00A07224 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		A0290E2A27230E5800A07224 /* Timber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timber.swift; sourceTree = "<group>"; };
-		A0290E2E272319DE00A07224 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		A0290E2E272319DE00A07224 /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
 		A0859AE4272DBE8100CF936E /* ExchangeListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeListTableView.swift; sourceTree = "<group>"; };
 		A09D70E2272518F700ACE44A /* LinkCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkCardView.swift; sourceTree = "<group>"; };
 		A09D70E42725194B00ACE44A /* LinkCardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LinkCardView.xib; sourceTree = "<group>"; };
@@ -159,11 +173,48 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		4A7744C0276FA07D0087A447 /* Statistics */ = {
+			isa = PBXGroup;
+			children = (
+				A0290E2E272319DE00A07224 /* StatisticsViewController.swift */,
+				A0859AE4272DBE8100CF936E /* ExchangeListTableView.swift */,
+			);
+			path = Statistics;
+			sourceTree = "<group>";
+		};
+		4A7744C1276FA0AA0087A447 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				A0C8E58A271FFAEE00848FCB /* SignInViewController.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		4A7744C2276FA0B80087A447 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				A09D70E627251C3500ACE44A /* SettingViewController.swift */,
+				4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		4A7744C3276FA0C30087A447 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				4A7744C0276FA07D0087A447 /* Statistics */,
+				4A7744C2276FA0B80087A447 /* Setting */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
 		4A7AFE2027393CE8005E0A72 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
 				4AA9F813276E473800D775F0 /* BaseViewModel.swift */,
 				4ABA209E273BDC5000F66DB9 /* AuthViewModel.swift */,
+				4A7744C4276FA1B50087A447 /* StatisticsViewModel.swift */,
+				4A7B8AA3276FBEB200756E05 /* ExchangeApiViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -200,12 +251,9 @@
 		A09D70DF2725180600ACE44A /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				4A7744C1276FA0AA0087A447 /* Auth */,
+				4A7744C3276FA0C30087A447 /* Main */,
 				4AA9F811276DD6A200D775F0 /* BaseViewController.swift */,
-				A0C8E58A271FFAEE00848FCB /* SignInViewController.swift */,
-				A0290E2E272319DE00A07224 /* ProfileViewController.swift */,
-				A09D70E627251C3500ACE44A /* SettingViewController.swift */,
-				A0859AE4272DBE8100CF936E /* ExchangeListTableView.swift */,
-				4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -242,6 +290,9 @@
 			isa = PBXGroup;
 			children = (
 				A0C1FB712764935300C4201A /* ResponseSuccess.swift */,
+				4A7744B6276F8A350087A447 /* ResponseError.swift */,
+				4A7744BC276F96170087A447 /* Portfolio.swift */,
+				4A7744BE276F97520087A447 /* PNL.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -259,6 +310,8 @@
 			isa = PBXGroup;
 			children = (
 				A0C1FB7327649B0F00C4201A /* AuthService.swift */,
+				4A7744BA276F95910087A447 /* StatisticsService.swift */,
+				4A7744B8276F8E3C0087A447 /* ExchangeApiService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -293,10 +346,10 @@
 				A0C8E566271FF19000848FCB /* Info.plist */,
 				4A7AFE2127393ED4005E0A72 /* GoogleService-Info.plist */,
 				A0C8E589271FF1B200848FCB /* Application */,
-				A0C8E588271FF1A900848FCB /* View */,
-				4A7AFE2027393CE8005E0A72 /* ViewModel */,
-				A0C8E58C271FFCA200848FCB /* Utility */,
 				A0C1FB6B27647CB000C4201A /* Network */,
+				A0C8E58C271FFCA200848FCB /* Utility */,
+				4A7AFE2027393CE8005E0A72 /* ViewModel */,
+				A0C8E588271FF1A900848FCB /* View */,
 			);
 			path = BlablaBlock;
 			sourceTree = "<group>";
@@ -629,22 +682,29 @@
 				A0C1FB722764935300C4201A /* ResponseSuccess.swift in Sources */,
 				A0C1FB7A2764B5B900C4201A /* MoyaLoggerPlugin.swift in Sources */,
 				A0C8E5982720125800848FCB /* ColorTextButton.swift in Sources */,
-				A0290E2F272319DE00A07224 /* ProfileViewController.swift in Sources */,
+				4A7744BF276F97520087A447 /* PNL.swift in Sources */,
+				A0290E2F272319DE00A07224 /* StatisticsViewController.swift in Sources */,
 				4AFC6577276E7E3900ADEDA7 /* InputAlertBuilder.swift in Sources */,
+				4A7744C5276FA1B50087A447 /* StatisticsViewModel.swift in Sources */,
 				4AA9F814276E473800D775F0 /* BaseViewModel.swift in Sources */,
 				A0C8E58E271FFCB400848FCB /* Extensions.swift in Sources */,
+				4A7744BD276F96170087A447 /* Portfolio.swift in Sources */,
 				A0859AE5272DBE8100CF936E /* ExchangeListTableView.swift in Sources */,
 				4ABA209F273BDC5000F66DB9 /* AuthViewModel.swift in Sources */,
 				4A252CCE273F9737005E4C93 /* View.swift in Sources */,
+				4A7B8AA4276FBEB200756E05 /* ExchangeApiViewModel.swift in Sources */,
+				4A7744B9276F8E3C0087A447 /* ExchangeApiService.swift in Sources */,
 				4AA9F810276DD68B00D775F0 /* Resolver.swift in Sources */,
 				A0290E272722F6EE00A07224 /* RadioButtonGroup.swift in Sources */,
 				A0290E2B27230E5800A07224 /* Timber.swift in Sources */,
 				4ABA20A1273BDCB500F66DB9 /* String.swift in Sources */,
 				4AA9F812276DD6A200D775F0 /* BaseViewController.swift in Sources */,
+				4A7744B7276F8A350087A447 /* ResponseError.swift in Sources */,
 				4A252CD0273F9751005E4C93 /* ViewController.swift in Sources */,
 				A0C8E58B271FFAEE00848FCB /* SignInViewController.swift in Sources */,
 				A0C8E59627200ED300848FCB /* ColorButton.swift in Sources */,
 				4A252CCC273F96A4005E4C93 /* Utils.swift in Sources */,
+				4A7744BB276F95910087A447 /* StatisticsService.swift in Sources */,
 				A09D70E3272518F700ACE44A /* LinkCardView.swift in Sources */,
 				4A252CCA273F9209005E4C93 /* AlertBuilder.swift in Sources */,
 				4A5FE1F827365E0F004AD836 /* LinkExchangeViewController.swift in Sources */,

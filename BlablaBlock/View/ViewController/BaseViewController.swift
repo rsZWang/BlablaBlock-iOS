@@ -14,8 +14,14 @@ class BaseViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
     }
-
+    
+    func promptAlert(message: String) {
+        AlertBuilder()
+            .setMessage(message)
+            .setOkButton()
+            .show(self)
+    }
+    
 }

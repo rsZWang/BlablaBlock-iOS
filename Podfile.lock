@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (5.4.4)
+  - Differ (1.4.5)
   - Firebase/Analytics (8.10.0):
     - Firebase/Core
   - Firebase/Core (8.10.0):
@@ -94,7 +95,6 @@ PODS:
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
   - PromisesObjC (2.0.0)
-  - ReachabilitySwift (5.0.0)
   - Resolver (1.5.0)
   - RxCocoa (6.2.0):
     - RxRelay (= 6.2.0)
@@ -102,32 +102,28 @@ PODS:
   - RxGesture (4.0.2):
     - RxCocoa (~> 6.0)
     - RxSwift (~> 6.0)
-  - RxReachability (1.2.1):
-    - ReachabilitySwift (< 6.0, >= 5.0)
-    - RxCocoa (~> 6)
-    - RxSwift (~> 6)
   - RxRelay (6.2.0):
     - RxSwift (= 6.2.0)
   - RxSwift (6.2.0)
-  - RxSwiftExt/Core (6.0.1):
-    - RxSwift (~> 6.0)
   - SnapKit (5.0.1)
+  - SwiftCharts (0.6.5)
 
 DEPENDENCIES:
+  - Differ
   - Firebase/Analytics
   - IQKeyboardManager
   - Moya/RxSwift
   - Resolver
   - RxCocoa
   - RxGesture
-  - RxReachability
   - RxSwift
-  - RxSwiftExt/Core
   - SnapKit (~> 5.0.0)
+  - SwiftCharts (~> 0.6.5)
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - Differ
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
@@ -140,18 +136,17 @@ SPEC REPOS:
     - Moya
     - nanopb
     - PromisesObjC
-    - ReachabilitySwift
     - Resolver
     - RxCocoa
     - RxGesture
-    - RxReachability
     - RxRelay
     - RxSwift
-    - RxSwiftExt
     - SnapKit
+    - SwiftCharts
 
 SPEC CHECKSUMS:
   Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
+  Differ: 3b6bd78e2b20cc795d9a86f7641d087524e4273e
   Firebase: 44213362f1dcc52555b935dc925ed35ac55f1b20
   FirebaseAnalytics: 319c9b3b1bdd400d60e2f415dff0c5f6959e6760
   FirebaseCore: 04186597c095da37d90ff9fd3e53bc61a1ff2440
@@ -164,16 +159,14 @@ SPEC CHECKSUMS:
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
-  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   Resolver: 68984624572763018fd8ec7b8e3e8df0e3b6bba5
   RxCocoa: 4baf94bb35f2c0ab31bc0cb9f1900155f646ba42
   RxGesture: f059f2aeef966fb17dad56ee440e76410f10e55f
-  RxReachability: bfd13548bf1dac7a877082d13918a9f39bdb5c18
   RxRelay: e72dbfd157807478401ef1982e1c61c945c94b2f
   RxSwift: d356ab7bee873611322f134c5f9ef379fa183d8f
-  RxSwiftExt: d61c4b9b06e0a448041b1c659e0f1b5c5a035afc
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
+  SwiftCharts: 2e755ea292f0b87d3e4b2c1eb5afc080a20cdc15
 
-PODFILE CHECKSUM: c50b5dd6a9d1633a6222db99aaa04439f7acf06b
+PODFILE CHECKSUM: 468644a2b5c57fb7d12efc77174a17a5cd520041
 
 COCOAPODS: 1.11.2

@@ -10,6 +10,8 @@ import RxSwift
 
 class SettingViewController: BaseViewController, LinkCardViewDelegate {
     
+    @Inject let 
+    
     private lazy var binanceLinkCard = LinkCardView(self, image: UIImage(named: "ic_setting_binance")!, title: "連結幣安")
     private lazy var ftxLinkCard = LinkCardView(self, image: UIImage(named: "ic_setting_ftx")!, title: "連結FTX")
 
@@ -32,8 +34,8 @@ class SettingViewController: BaseViewController, LinkCardViewDelegate {
             .disposed(by: disposeBag)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         avatarImageView.makeCircle()
     }
     

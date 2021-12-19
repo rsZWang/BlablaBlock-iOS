@@ -1,5 +1,5 @@
 //
-//  ProfileViewController.swift
+//  StatisticsViewController.swift
 //  BlablaBlock
 //
 //  Created by YINGHAO WANG on 2021/10/23.
@@ -8,9 +8,9 @@
 import UIKit
 import Resolver
 
-class ProfileViewController: UIViewController {
+class StatisticsViewController: BaseViewController {
     
-    @Injected private var authViewModel: AuthViewModel
+    @Injected private var statisticsViewModel: StatisticsViewModel
 
     private let radioGroup = RadioButtonGroup()
     @IBOutlet weak var avatarImageView: UIImageView!
@@ -22,6 +22,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var listSectionView: UIView!
     @IBOutlet weak var exchangeSelectorView: UIView!
     @IBOutlet weak var unitLabel: UILabel!
+    @IBOutlet weak var tableView: ExchangeListTableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +46,20 @@ class ProfileViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         avatarImageView.makeCircle()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        statisticsViewModel.getPortfolio()
+            .subscribe(
+                onSuccess: { [unowned self] portfolio in
+                    tableView.setData(portfolio.data)
+                },
+                onFailure: { [unowned self] error in
+                    promptAlert(message: "\(error)")
+                }
+            )
+            .disposed(by: disposeBag)
     }
 
     

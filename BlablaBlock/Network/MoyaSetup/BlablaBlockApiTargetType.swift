@@ -29,6 +29,30 @@ extension BlablaBlockApiTargetType {
     
 }
 
+//extension ObservableType where Element == Response {
+//    func filterSuccess() -> Observable<Element> {
+//        flatMap { response -> Observable<Element> in
+//            if response.statusCode == 200 {
+//                Observable.just(response)
+//            }
+//            response.data.toJson()
+//        }
+//    }
+////    return flatMap { (response) -> Observable<E> in
+////    if 200 ... 299 ~= response.statusCode {
+////        return Observable.just(response)
+////    }
+////
+////    if let errorJson = response.data.toJson(),
+////       let error = Mapper<MyCustomErrorModel>().map(errorJson) {
+////        return Observable.error(error)
+////    }
+////
+////    // Its an error and can't decode error details from server, push generic message
+////    let genericError = MyCustomErrorModel.genericError(code: response.statusCode, message: "Unknown Error")
+////    return Observable.error(genericError)
+//}
+
 fileprivate final class ApiProvider {
     
     //  // Singleton API

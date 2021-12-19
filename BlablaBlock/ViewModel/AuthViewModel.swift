@@ -20,6 +20,7 @@ class AuthViewModel: BaseViewModel {
             .request()
             .subscribe(
                 onSuccess: { [unowned self] response in
+                    userToken = response.data.apiToken
                     apiReponseObservable.onNext("")
                 },
                 onFailure: { [unowned self] e in
@@ -34,6 +35,7 @@ class AuthViewModel: BaseViewModel {
             .request()
             .subscribe(
                 onSuccess: { [unowned self] response in
+                    userToken = response.data.apiToken
                     apiReponseObservable.onNext("")
                 },
                 onFailure: { [unowned self] e in
@@ -41,6 +43,13 @@ class AuthViewModel: BaseViewModel {
                 }
             )
             .disposed(by: disposeBag)
+    }
+    
+    func forgetPassword(email: String) -> Single<ResponseSuccess> {
+        AuthService.ForgetPassword(email: email)
+            .request()
+            
+            
     }
     
 }

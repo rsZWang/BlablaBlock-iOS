@@ -33,11 +33,10 @@ class SignInViewController: BaseViewController {
     private var emailTextField: UITextField { emailInputView.textField }
     private var passwordTextField: UITextField { passwordInputView.textField }
     private var passwordConfirmTextField: UITextField { passwordConfirmInputView.textField }
+    private var forgetPasswordInputAlert: InputAlert? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationController?.setNavigationBarHidden(true, animated: false)
 
         containerView.layer.masksToBounds = false
         containerView.layer.shadowOpacity = 0.3
@@ -72,7 +71,7 @@ class SignInViewController: BaseViewController {
         forgetPasswordBtn.rx
             .tap
             .subscribe(onNext: { [weak self] _ in
-                
+                self?.promptForgetPasswordAlert()
             })
             .disposed(by: disposeBag)
     
@@ -122,30 +121,39 @@ class SignInViewController: BaseViewController {
         )
     }
     
-    func promptAlert(message: String) {
-        AlertBuilder()
-            .setMessage(message)
-            .setButton(title: "確定")
-            .show(self)
+    private func promptForgetPasswordAlert() {
+        if forgetPasswordInputAlert == nil {
+            forgetPasswordInputAlert = InputAlert()
+                .setTitle("忘記密碼")
+                .setMessage("輸入註冊時的信箱，我們將寄送驗證信件給您")
+                .addTextField(tag: 1, placeholder: "電子信箱")
+                .setConfirmButton(title: "確定") { [weak self] texts in
+                    Timber.i("texts: \(texts)")
+                    if let email = texts[1], email.isEmail {
+                        self?.sendForgetPasswordMail(email)
+                    } else {
+                        self?.promptAlert(message: "電子信箱似乎輸入錯誤@@")
+                    }
+                }.build()
+        }
+        forgetPasswordInputAlert?.show(self)
     }
     
-    private func promptForgetPasswordAlert() {
-        //1. Create the alert controller.
-        let alert = UIAlertController(title: "Some Title", message: "Enter a text", preferredStyle: .alert)
-
-        //2. Add the text field. You can configure it however you need.
-        alert.addTextField { (textField) in
-            textField.text = "Some default text"
-        }
-
-        // 3. Grab the value from the text field, and print it when the user clicks OK.
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-            let textField = alert.textFields![0] // Force unwrapping because we know it exists.
-            print("Text field: \(textField.text)")
-        }))
-
-        // 4. Present the alert.
-        self.present(alert, animated: true, completion: nil)
+    private func sendForgetPasswordMail(_ email: String) {
+        authViewModel.forgetPassword(email: email)
+            .subscribe(
+                onSuccess: { [unowned self] response in
+                    AlertBuilder()
+                        .setTitle("重設密碼的信件已寄出")
+                        .setMessage("快去信箱收信喔！")
+                        .setOkButton()
+                        .show(self)
+                },
+                onFailure: { [unowned self] error in
+                    promptAlert(message: "\(error)")
+                }
+            )
+            .disposed(by: disposeBag)
     }
     
     private func toMainPage() {

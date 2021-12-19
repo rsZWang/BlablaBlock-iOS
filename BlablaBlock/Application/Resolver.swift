@@ -10,8 +10,18 @@ import Resolver
 extension Resolver: ResolverRegistering {
     
     public static func registerAllServices() {
-        register { AuthViewModel() }.scope(.shared)
+        
+        // Auth
         register { AuthService() }.scope(.shared)
+        register { AuthViewModel() }.scope(.shared)
+        
+        // Statistics
+        register { StatisticsService() }
+        register { StatisticsViewModel() }
+        
+        // Exchange Setting
+        register { ExchangeApiService() }
+        register {  }
     }
     
 }

@@ -6,17 +6,25 @@ inhibit_all_warnings!
 
 target 'BlablaBlock' do
 
+  # App
+  pod 'Resolver'
+  pod 'Firebase/Analytics'
+
+  # UI
+  pod 'SnapKit', '~> 5.0.0'
+  pod 'IQKeyboardManager'
+  pod 'SwiftCharts', '~> 0.6.5'
+  pod 'Differ'
+
+  # Network
+  pod 'Moya/RxSwift'
+
+  # Rx
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'RxGesture'
-  pod 'RxReachability'
-  pod 'RxSwiftExt/Core'
-
-  pod 'Resolver'
-  pod 'Moya/RxSwift'
-  pod 'SnapKit', '~> 5.0.0'
-  pod 'IQKeyboardManager'
-  pod 'Firebase/Analytics'
+  # pod 'RxReachability'
+  # pod 'RxSwiftExt/Core'
 
   target 'BlablaBlockTests' do
     inherit! :search_paths

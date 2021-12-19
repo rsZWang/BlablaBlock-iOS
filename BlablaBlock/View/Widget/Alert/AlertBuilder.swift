@@ -30,6 +30,11 @@ class AlertBuilder {
         return self
     }
     
+    func setOkButton(title: String = "好的") -> AlertBuilder {
+        self.action = UIAlertAction(title: title, style: .default)
+        return self
+    }
+    
     @discardableResult
     func show(_ parent: UIViewController? = Utils.findMostTopViewController()) -> UIAlertController {
         let alertController = UIAlertController(title: title ?? "訊息", message: message, preferredStyle: .alert)

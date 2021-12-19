@@ -9,6 +9,8 @@ import UIKit
 import Firebase
 import Resolver
 
+var userToken: String!
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UISceneDelegate {
 
