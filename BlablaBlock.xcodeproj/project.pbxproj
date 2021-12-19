@@ -14,16 +14,18 @@
 		4A252CD0273F9751005E4C93 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A252CCF273F9751005E4C93 /* ViewController.swift */; };
 		4A5FE1F827365E0F004AD836 /* LinkExchangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */; };
 		4A7AFE2227393ED4005E0A72 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4A7AFE2127393ED4005E0A72 /* GoogleService-Info.plist */; };
+		4AA9F810276DD68B00D775F0 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA9F80F276DD68B00D775F0 /* Resolver.swift */; };
+		4AA9F812276DD6A200D775F0 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA9F811276DD6A200D775F0 /* BaseViewController.swift */; };
+		4AA9F814276E473800D775F0 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA9F813276E473800D775F0 /* BaseViewModel.swift */; };
 		4ABA209F273BDC5000F66DB9 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABA209E273BDC5000F66DB9 /* AuthViewModel.swift */; };
 		4ABA20A1273BDCB500F66DB9 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABA20A0273BDCB500F66DB9 /* String.swift */; };
+		4AFC6577276E7E3900ADEDA7 /* InputAlertBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFC6576276E7E3900ADEDA7 /* InputAlertBuilder.swift */; };
 		7C21BD24E9DFC3B795B0358B /* Pods_BlablaBlock_BlablaBlockUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD43244C5F0653EAD9217690 /* Pods_BlablaBlock_BlablaBlockUITests.framework */; };
 		A0290E242722F55B00A07224 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0290E232722F55B00A07224 /* Colors.xcassets */; };
 		A0290E272722F6EE00A07224 /* RadioButtonGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0290E262722F6EE00A07224 /* RadioButtonGroup.swift */; };
 		A0290E2927230AAF00A07224 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0290E2827230AAF00A07224 /* RadioButton.swift */; };
 		A0290E2B27230E5800A07224 /* Timber.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0290E2A27230E5800A07224 /* Timber.swift */; };
 		A0290E2F272319DE00A07224 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0290E2E272319DE00A07224 /* ProfileViewController.swift */; };
-		A0838BCC2765FA9A00EEB8E4 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0838BCB2765FA9A00EEB8E4 /* BaseViewController.swift */; };
-		A0838BCE27661F2200EEB8E4 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0838BCD27661F2200EEB8E4 /* Resolver.swift */; };
 		A0859AE5272DBE8100CF936E /* ExchangeListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0859AE4272DBE8100CF936E /* ExchangeListTableView.swift */; };
 		A09D70E3272518F700ACE44A /* LinkCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09D70E2272518F700ACE44A /* LinkCardView.swift */; };
 		A09D70E52725194B00ACE44A /* LinkCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A09D70E42725194B00ACE44A /* LinkCardView.xib */; };
@@ -40,8 +42,8 @@
 		A0C8E57B271FF19000848FCB /* BlablaBlockUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C8E57A271FF19000848FCB /* BlablaBlockUITests.swift */; };
 		A0C8E58B271FFAEE00848FCB /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C8E58A271FFAEE00848FCB /* SignInViewController.swift */; };
 		A0C8E58E271FFCB400848FCB /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C8E58D271FFCB400848FCB /* Extensions.swift */; };
-		A0C8E5922720075A00848FCB /* InputTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0C8E5912720075A00848FCB /* InputTextField.xib */; };
-		A0C8E594272008BA00848FCB /* InputTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C8E593272008BA00848FCB /* InputTextField.swift */; };
+		A0C8E5922720075A00848FCB /* NormalInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0C8E5912720075A00848FCB /* NormalInputView.xib */; };
+		A0C8E594272008BA00848FCB /* NormalInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C8E593272008BA00848FCB /* NormalInputView.swift */; };
 		A0C8E59627200ED300848FCB /* ColorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C8E59527200ED300848FCB /* ColorButton.swift */; };
 		A0C8E5982720125800848FCB /* ColorTextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C8E5972720125800848FCB /* ColorTextButton.swift */; };
 		D62D2B9B7FC84A28A2C1F52C /* Pods_BlablaBlockTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A4F9FA2216368FC2234CB9B /* Pods_BlablaBlockTests.framework */; };
@@ -75,8 +77,12 @@
 		4A252CCF273F9751005E4C93 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkExchangeViewController.swift; sourceTree = "<group>"; };
 		4A7AFE2127393ED4005E0A72 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4AA9F80F276DD68B00D775F0 /* Resolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
+		4AA9F811276DD6A200D775F0 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		4AA9F813276E473800D775F0 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		4ABA209E273BDC5000F66DB9 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		4ABA20A0273BDCB500F66DB9 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		4AFC6576276E7E3900ADEDA7 /* InputAlertBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputAlertBuilder.swift; sourceTree = "<group>"; };
 		8A4F9FA2216368FC2234CB9B /* Pods_BlablaBlockTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlablaBlockTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C7DDF02B8A2C7ED2BA6233A /* Pods_BlablaBlock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlablaBlock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0290E232722F55B00A07224 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
@@ -84,8 +90,6 @@
 		A0290E2827230AAF00A07224 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		A0290E2A27230E5800A07224 /* Timber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timber.swift; sourceTree = "<group>"; };
 		A0290E2E272319DE00A07224 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		A0838BCB2765FA9A00EEB8E4 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BaseViewController.swift; path = ../../../../BlablaBlock/BlablaBlock/View/ViewController/BaseViewController.swift; sourceTree = "<group>"; };
-		A0838BCD27661F2200EEB8E4 /* Resolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Resolver.swift; path = ../../../BlablaBlock/BlablaBlock/Application/Resolver.swift; sourceTree = "<group>"; };
 		A0859AE4272DBE8100CF936E /* ExchangeListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeListTableView.swift; sourceTree = "<group>"; };
 		A09D70E2272518F700ACE44A /* LinkCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkCardView.swift; sourceTree = "<group>"; };
 		A09D70E42725194B00ACE44A /* LinkCardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LinkCardView.xib; sourceTree = "<group>"; };
@@ -108,8 +112,8 @@
 		A0C8E57C271FF19000848FCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A0C8E58A271FFAEE00848FCB /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		A0C8E58D271FFCB400848FCB /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		A0C8E5912720075A00848FCB /* InputTextField.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InputTextField.xib; sourceTree = "<group>"; };
-		A0C8E593272008BA00848FCB /* InputTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextField.swift; sourceTree = "<group>"; };
+		A0C8E5912720075A00848FCB /* NormalInputView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NormalInputView.xib; sourceTree = "<group>"; };
+		A0C8E593272008BA00848FCB /* NormalInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalInputView.swift; sourceTree = "<group>"; };
 		A0C8E59527200ED300848FCB /* ColorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorButton.swift; sourceTree = "<group>"; };
 		A0C8E5972720125800848FCB /* ColorTextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTextButton.swift; sourceTree = "<group>"; };
 		DD43244C5F0653EAD9217690 /* Pods_BlablaBlock_BlablaBlockUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlablaBlock_BlablaBlockUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -158,6 +162,7 @@
 		4A7AFE2027393CE8005E0A72 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				4AA9F813276E473800D775F0 /* BaseViewModel.swift */,
 				4ABA209E273BDC5000F66DB9 /* AuthViewModel.swift */,
 			);
 			path = ViewModel;
@@ -174,6 +179,15 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		4AFC6578276E7E4300ADEDA7 /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				4A252CC9273F9209005E4C93 /* AlertBuilder.swift */,
+				4AFC6576276E7E3900ADEDA7 /* InputAlertBuilder.swift */,
+			);
+			path = Alert;
+			sourceTree = "<group>";
+		};
 		A0290E252722F6D900A07224 /* RadioButton */ = {
 			isa = PBXGroup;
 			children = (
@@ -186,12 +200,12 @@
 		A09D70DF2725180600ACE44A /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				4AA9F811276DD6A200D775F0 /* BaseViewController.swift */,
 				A0C8E58A271FFAEE00848FCB /* SignInViewController.swift */,
 				A0290E2E272319DE00A07224 /* ProfileViewController.swift */,
 				A09D70E627251C3500ACE44A /* SettingViewController.swift */,
 				A0859AE4272DBE8100CF936E /* ExchangeListTableView.swift */,
 				4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */,
-				A0838BCB2765FA9A00EEB8E4 /* BaseViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -320,7 +334,7 @@
 			isa = PBXGroup;
 			children = (
 				A0C8E558271FF18900848FCB /* AppDelegate.swift */,
-				A0838BCD27661F2200EEB8E4 /* Resolver.swift */,
+				4AA9F80F276DD68B00D775F0 /* Resolver.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -338,22 +352,22 @@
 		A0C8E58F272006BB00848FCB /* Widget */ = {
 			isa = PBXGroup;
 			children = (
-				4A252CC9273F9209005E4C93 /* AlertBuilder.swift */,
+				4AFC6578276E7E4300ADEDA7 /* Alert */,
 				A09D70E1272518AD00ACE44A /* LinkCard */,
 				A09D70E02725182B00ACE44A /* ColorButton */,
 				A0290E252722F6D900A07224 /* RadioButton */,
-				A0C8E590272006C300848FCB /* InputTextField */,
+				A0C8E590272006C300848FCB /* NormalInputView */,
 			);
 			path = Widget;
 			sourceTree = "<group>";
 		};
-		A0C8E590272006C300848FCB /* InputTextField */ = {
+		A0C8E590272006C300848FCB /* NormalInputView */ = {
 			isa = PBXGroup;
 			children = (
-				A0C8E5912720075A00848FCB /* InputTextField.xib */,
-				A0C8E593272008BA00848FCB /* InputTextField.swift */,
+				A0C8E5912720075A00848FCB /* NormalInputView.xib */,
+				A0C8E593272008BA00848FCB /* NormalInputView.swift */,
 			);
-			path = InputTextField;
+			path = NormalInputView;
 			sourceTree = "<group>";
 		};
 		B573D06EEBEA52577E0C37AA /* Pods */ = {
@@ -478,7 +492,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A0290E242722F55B00A07224 /* Colors.xcassets in Resources */,
-				A0C8E5922720075A00848FCB /* InputTextField.xib in Resources */,
+				A0C8E5922720075A00848FCB /* NormalInputView.xib in Resources */,
 				A0C8E565271FF19000848FCB /* LaunchScreen.storyboard in Resources */,
 				A09D70E52725194B00ACE44A /* LinkCardView.xib in Resources */,
 				A0C8E562271FF19000848FCB /* Assets.xcassets in Resources */,
@@ -611,21 +625,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A0C8E594272008BA00848FCB /* InputTextField.swift in Sources */,
+				A0C8E594272008BA00848FCB /* NormalInputView.swift in Sources */,
 				A0C1FB722764935300C4201A /* ResponseSuccess.swift in Sources */,
 				A0C1FB7A2764B5B900C4201A /* MoyaLoggerPlugin.swift in Sources */,
 				A0C8E5982720125800848FCB /* ColorTextButton.swift in Sources */,
 				A0290E2F272319DE00A07224 /* ProfileViewController.swift in Sources */,
+				4AFC6577276E7E3900ADEDA7 /* InputAlertBuilder.swift in Sources */,
+				4AA9F814276E473800D775F0 /* BaseViewModel.swift in Sources */,
 				A0C8E58E271FFCB400848FCB /* Extensions.swift in Sources */,
 				A0859AE5272DBE8100CF936E /* ExchangeListTableView.swift in Sources */,
 				4ABA209F273BDC5000F66DB9 /* AuthViewModel.swift in Sources */,
 				4A252CCE273F9737005E4C93 /* View.swift in Sources */,
-				A0838BCE27661F2200EEB8E4 /* Resolver.swift in Sources */,
+				4AA9F810276DD68B00D775F0 /* Resolver.swift in Sources */,
 				A0290E272722F6EE00A07224 /* RadioButtonGroup.swift in Sources */,
 				A0290E2B27230E5800A07224 /* Timber.swift in Sources */,
 				4ABA20A1273BDCB500F66DB9 /* String.swift in Sources */,
+				4AA9F812276DD6A200D775F0 /* BaseViewController.swift in Sources */,
 				4A252CD0273F9751005E4C93 /* ViewController.swift in Sources */,
-				A0838BCC2765FA9A00EEB8E4 /* BaseViewController.swift in Sources */,
 				A0C8E58B271FFAEE00848FCB /* SignInViewController.swift in Sources */,
 				A0C8E59627200ED300848FCB /* ColorButton.swift in Sources */,
 				4A252CCC273F96A4005E4C93 /* Utils.swift in Sources */,
@@ -814,7 +830,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = D995T28HR4;
+				DEVELOPMENT_TEAM = QRN2TFCH8G;
 				INFOPLIST_FILE = BlablaBlock/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -836,7 +852,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = D995T28HR4;
+				DEVELOPMENT_TEAM = QRN2TFCH8G;
 				INFOPLIST_FILE = BlablaBlock/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (

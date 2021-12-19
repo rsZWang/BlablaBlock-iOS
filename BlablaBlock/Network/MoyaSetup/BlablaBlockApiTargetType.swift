@@ -35,13 +35,19 @@ fileprivate final class ApiProvider {
     //  public static let shared = API()
     //  // 隱藏 init，不能讓別人在外面 init API 這個 class
     //  private init() { }
+    #if DEBUG
     private static let provider = MoyaProvider<MultiTarget>(plugins: [MoyaLoggerPlugin()])
     private static let decoder: JSONDecoder = {
         let decoder = JSONDecoder()
+        #if DEBUG
         decoder.keyDecodingStrategy = .convertFromSnakeCase
+        #endif
         return decoder
     }()
-
+    #else
+    private static let provider = MoyaProvider<MultiTarget>()
+    #endif
+    
     // 每當我傳入一個 request 時，我都會檢查他的 response 可不可以被 decode，
     // conform DecodableResponseTargetType 的意義在此，
     // 因為我們已經先定好 ResponseType 是什麼了，

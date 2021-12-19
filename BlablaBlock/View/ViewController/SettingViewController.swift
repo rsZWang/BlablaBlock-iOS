@@ -6,13 +6,15 @@
 //
 
 import UIKit
+import RxSwift
 
-class SettingViewController: UIViewController, LinkCardViewDelegate {
+class SettingViewController: BaseViewController, LinkCardViewDelegate {
     
     private lazy var binanceLinkCard = LinkCardView(self, image: UIImage(named: "ic_setting_binance")!, title: "連結幣安")
     private lazy var ftxLinkCard = LinkCardView(self, image: UIImage(named: "ic_setting_ftx")!, title: "連結FTX")
 
     @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var signOutButton: UIButton!
     @IBOutlet weak var linkCardViewListStackView: UIStackView!
     
     override func viewDidLoad() {
@@ -21,6 +23,13 @@ class SettingViewController: UIViewController, LinkCardViewDelegate {
         linkCardViewListStackView.spacing = 20
         linkCardViewListStackView.addArrangedSubview(binanceLinkCard)
         linkCardViewListStackView.addArrangedSubview(ftxLinkCard)
+        
+        signOutButton.rx
+            .tap
+            .subscribe(onNext: { [weak self] in
+                self?.tabBarController!.navigationController!.popViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {

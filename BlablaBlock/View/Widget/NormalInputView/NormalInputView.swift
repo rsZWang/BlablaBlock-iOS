@@ -1,5 +1,5 @@
 //
-//  InputTextField.swift
+//  NormalInputView.swift
 //  BlablaBlock
 //
 //  Created by yhw on 2021/10/20.
@@ -8,7 +8,7 @@
 import UIKit
 
 @IBDesignable
-class InputTextField: UIView, NibOwnerLoadable {
+class NormalInputView: UIView, NibOwnerLoadable {
     
     @IBInspectable var placeholder: String? {
         didSet { textField.placeholder = placeholder }

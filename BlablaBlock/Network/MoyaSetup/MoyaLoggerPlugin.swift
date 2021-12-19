@@ -37,7 +37,7 @@ struct MoyaLoggerPlugin: PluginType {
         if let data = request.httpBody, let prettyString = data.prettyPrintedJSONString {
             logs.append(("Body", prettyString))
         } else {
-            logs.append(("Body", "empty"))
+            logs.append(("Body", "EMPTY"))
         }
         printLogs(" Request⏩ =", logs: logs)
     }

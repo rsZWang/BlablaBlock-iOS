@@ -156,10 +156,10 @@ class LinkExchangeViewController: UIViewController {
             make.centerY.equalTo(bottomSectionView)
         }
 
-        let apiKeyInputField = InputTextField()
-        apiKeyInputField.placeholder = "API Key"
-        inputSectionView.addSubview(apiKeyInputField)
-        apiKeyInputField.snp.makeConstraints { make in
+        let apiKeyInputView = NormalInputView()
+        apiKeyInputView.placeholder = "API Key"
+        inputSectionView.addSubview(apiKeyInputView)
+        apiKeyInputView.snp.makeConstraints { make in
             make.left.top.right.equalTo(inputSectionView)
         }
         
@@ -168,13 +168,13 @@ class LinkExchangeViewController: UIViewController {
         spearatorView1.snp.makeConstraints { make in
             make.height.equalTo(inputSectionView).multipliedBy(0.15)
             make.left.right.equalTo(inputSectionView)
-            make.top.equalTo(apiKeyInputField.snp.bottom)
+            make.top.equalTo(apiKeyInputView.snp.bottom)
         }
 
-        let secretKeyInputField = InputTextField()
-        secretKeyInputField.placeholder = "Secret Key"
-        inputSectionView.addSubview(secretKeyInputField)
-        secretKeyInputField.snp.makeConstraints { make in
+        let secretKeyInputView = NormalInputView()
+        secretKeyInputView.placeholder = "Secret Key"
+        inputSectionView.addSubview(secretKeyInputView)
+        secretKeyInputView.snp.makeConstraints { make in
             make.left.right.equalTo(inputSectionView)
             make.top.equalTo(spearatorView1.snp.bottom)
         }
@@ -184,7 +184,7 @@ class LinkExchangeViewController: UIViewController {
         separatorView2.snp.makeConstraints { make in
             make.height.equalTo(inputSectionView).multipliedBy(0.2)
             make.left.right.equalTo(inputSectionView)
-            make.top.equalTo(secretKeyInputField.snp.bottom)
+            make.top.equalTo(secretKeyInputView.snp.bottom)
         }
         
         let submitButton = ColorButton()

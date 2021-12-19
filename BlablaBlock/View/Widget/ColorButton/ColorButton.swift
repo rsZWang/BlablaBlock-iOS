@@ -40,7 +40,7 @@ public class ColorButton: RadioButton {
     }
     
     internal func update() {
-        if isSelected {
+        if isSelected || !isEnabled {
             layer.borderColor = selectedBorderColor?.cgColor ?? normalBorderColor?.cgColor
             backgroundColor = selectedBgColor ?? normalBgColor
             setTitleColor(selectedTitleColor ?? normalTitleColor, for: .normal)

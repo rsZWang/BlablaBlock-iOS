@@ -6,33 +6,41 @@
 //
 
 import Resolver
+import RxCocoa
 import RxSwift
 
-class AuthViewModel {
+class AuthViewModel: BaseViewModel {
     
     @Injected private var authService: AuthService
     
-    var emailValid: Observable<Bool>!
-    var passwordValid: Observable<Bool>!
+    var apiReponseObservable = PublishSubject<String>()
     
-    func observe(email: Observable<String>, password: Observable<String>) -> Observable<Bool> {
-        emailValid = email
-            .map { $0.isEmail }
-            .share()
-        passwordValid = password
-            .map { $0.isValidPassword }
-            .share()
-        return Observable.combineLatest(emailValid, passwordValid) { $0 && $1 }
-    }
-    
-    func signIn(email: String, password: String) -> Single<ResponseSuccess> {
+    func signIn(email: String, password: String) {
         AuthService.Login(email: email, password: password)
             .request()
+            .subscribe(
+                onSuccess: { [unowned self] response in
+                    apiReponseObservable.onNext("")
+                },
+                onFailure: { [unowned self] e in
+                    apiReponseObservable.onError(e)
+                }
+            )
+            .disposed(by: disposeBag)
     }
     
-    func signUp(email: String, password: String) -> Single<ResponseSuccess> {
-        AuthService.Registration(email: email, password: password)
+    func signUp(userName: String, email: String, password: String) {
+        AuthService.Registration(userName: userName, email: email, password: password)
             .request()
+            .subscribe(
+                onSuccess: { [unowned self] response in
+                    apiReponseObservable.onNext("")
+                },
+                onFailure: { [unowned self] e in
+                    apiReponseObservable.onError(e)
+                }
+            )
+            .disposed(by: disposeBag)
     }
     
 }

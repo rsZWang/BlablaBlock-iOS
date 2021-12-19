@@ -33,12 +33,14 @@ struct AuthService {
         var headers: [String : String]? { ["Authorization" : "Bearer wrkef63GXqLH9zMypXXK7Qtt"] }
         var task: Task {
             .requestParameters(parameters: [
+                "name" : userName,
                 "email" : email,
                 "password" : password
             ], encoding: JSONEncoding.default)
         }
         typealias ResponseType = ResponseSuccess
         
+        let userName: String
         let email: String
         let password: String
     }
