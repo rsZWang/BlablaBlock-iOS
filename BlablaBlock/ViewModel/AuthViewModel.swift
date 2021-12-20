@@ -48,8 +48,11 @@ class AuthViewModel: BaseViewModel {
     func forgetPassword(email: String) -> Single<ResponseSuccess> {
         AuthService.ForgetPassword(email: email)
             .request()
-            
-            
+    }
+    
+    func signOut() -> Single<ResponseSuccess> {
+        AuthService.Logout()
+            .request()
     }
     
 }

@@ -96,6 +96,8 @@ class SignInViewController: BaseViewController {
                 }
             )
             .disposed(by: disposeBag)
+        
+//        nextBtn.isEnabled = false
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -12,6 +12,11 @@
 		4A252CCC273F96A4005E4C93 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A252CCB273F96A4005E4C93 /* Utils.swift */; };
 		4A252CCE273F9737005E4C93 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A252CCD273F9737005E4C93 /* View.swift */; };
 		4A252CD0273F9751005E4C93 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A252CCF273F9751005E4C93 /* ViewController.swift */; };
+		4A4B4DED2770E0B600075933 /* PagedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4B4DEC2770E0B600075933 /* PagedView.swift */; };
+		4A4B4DEF2770E10E00075933 /* PageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4B4DEE2770E10E00075933 /* PageCollectionViewCell.swift */; };
+		4A4B4DF22770E4B100075933 /* ExchangeStatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4B4DF12770E4B100075933 /* ExchangeStatisticsView.swift */; };
+		4A4B4DF42770E4C600075933 /* ExchangeStatisticsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A4B4DF32770E4C600075933 /* ExchangeStatisticsView.xib */; };
+		4A4B4DF62770E5E300075933 /* ExchangeListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A4B4DF52770E5E300075933 /* ExchangeListTableViewCell.xib */; };
 		4A5FE1F827365E0F004AD836 /* LinkExchangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */; };
 		4A7744B7276F8A350087A447 /* ResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7744B6276F8A350087A447 /* ResponseError.swift */; };
 		4A7744B9276F8E3C0087A447 /* ExchangeApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7744B8276F8E3C0087A447 /* ExchangeApiService.swift */; };
@@ -82,6 +87,11 @@
 		4A252CCB273F96A4005E4C93 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		4A252CCD273F9737005E4C93 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		4A252CCF273F9751005E4C93 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4A4B4DEC2770E0B600075933 /* PagedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedView.swift; sourceTree = "<group>"; };
+		4A4B4DEE2770E10E00075933 /* PageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageCollectionViewCell.swift; sourceTree = "<group>"; };
+		4A4B4DF12770E4B100075933 /* ExchangeStatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeStatisticsView.swift; sourceTree = "<group>"; };
+		4A4B4DF32770E4C600075933 /* ExchangeStatisticsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExchangeStatisticsView.xib; sourceTree = "<group>"; };
+		4A4B4DF52770E5E300075933 /* ExchangeListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExchangeListTableViewCell.xib; sourceTree = "<group>"; };
 		4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkExchangeViewController.swift; sourceTree = "<group>"; };
 		4A7744B6276F8A350087A447 /* ResponseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseError.swift; sourceTree = "<group>"; };
 		4A7744B8276F8E3C0087A447 /* ExchangeApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeApiService.swift; sourceTree = "<group>"; };
@@ -173,11 +183,31 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		4A4B4DEB2770E0AA00075933 /* PagedView */ = {
+			isa = PBXGroup;
+			children = (
+				4A4B4DEC2770E0B600075933 /* PagedView.swift */,
+				4A4B4DEE2770E10E00075933 /* PageCollectionViewCell.swift */,
+			);
+			path = PagedView;
+			sourceTree = "<group>";
+		};
+		4A4B4DF02770E47900075933 /* PagerView */ = {
+			isa = PBXGroup;
+			children = (
+				4A4B4DF12770E4B100075933 /* ExchangeStatisticsView.swift */,
+				4A4B4DF32770E4C600075933 /* ExchangeStatisticsView.xib */,
+				A0859AE4272DBE8100CF936E /* ExchangeListTableView.swift */,
+				4A4B4DF52770E5E300075933 /* ExchangeListTableViewCell.xib */,
+			);
+			path = PagerView;
+			sourceTree = "<group>";
+		};
 		4A7744C0276FA07D0087A447 /* Statistics */ = {
 			isa = PBXGroup;
 			children = (
+				4A4B4DF02770E47900075933 /* PagerView */,
 				A0290E2E272319DE00A07224 /* StatisticsViewController.swift */,
-				A0859AE4272DBE8100CF936E /* ExchangeListTableView.swift */,
 			);
 			path = Statistics;
 			sourceTree = "<group>";
@@ -251,9 +281,9 @@
 		A09D70DF2725180600ACE44A /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				4AA9F811276DD6A200D775F0 /* BaseViewController.swift */,
 				4A7744C1276FA0AA0087A447 /* Auth */,
 				4A7744C3276FA0C30087A447 /* Main */,
-				4AA9F811276DD6A200D775F0 /* BaseViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -405,6 +435,7 @@
 		A0C8E58F272006BB00848FCB /* Widget */ = {
 			isa = PBXGroup;
 			children = (
+				4A4B4DEB2770E0AA00075933 /* PagedView */,
 				4AFC6578276E7E4300ADEDA7 /* Alert */,
 				A09D70E1272518AD00ACE44A /* LinkCard */,
 				A09D70E02725182B00ACE44A /* ColorButton */,
@@ -548,8 +579,10 @@
 				A0C8E5922720075A00848FCB /* NormalInputView.xib in Resources */,
 				A0C8E565271FF19000848FCB /* LaunchScreen.storyboard in Resources */,
 				A09D70E52725194B00ACE44A /* LinkCardView.xib in Resources */,
+				4A4B4DF42770E4C600075933 /* ExchangeStatisticsView.xib in Resources */,
 				A0C8E562271FF19000848FCB /* Assets.xcassets in Resources */,
 				A0C8E560271FF18900848FCB /* Main.storyboard in Resources */,
+				4A4B4DF62770E5E300075933 /* ExchangeListTableViewCell.xib in Resources */,
 				4A7AFE2227393ED4005E0A72 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -692,8 +725,11 @@
 				A0859AE5272DBE8100CF936E /* ExchangeListTableView.swift in Sources */,
 				4ABA209F273BDC5000F66DB9 /* AuthViewModel.swift in Sources */,
 				4A252CCE273F9737005E4C93 /* View.swift in Sources */,
+				4A4B4DED2770E0B600075933 /* PagedView.swift in Sources */,
 				4A7B8AA4276FBEB200756E05 /* ExchangeApiViewModel.swift in Sources */,
+				4A4B4DF22770E4B100075933 /* ExchangeStatisticsView.swift in Sources */,
 				4A7744B9276F8E3C0087A447 /* ExchangeApiService.swift in Sources */,
+				4A4B4DEF2770E10E00075933 /* PageCollectionViewCell.swift in Sources */,
 				4AA9F810276DD68B00D775F0 /* Resolver.swift in Sources */,
 				A0290E272722F6EE00A07224 /* RadioButtonGroup.swift in Sources */,
 				A0290E2B27230E5800A07224 /* Timber.swift in Sources */,

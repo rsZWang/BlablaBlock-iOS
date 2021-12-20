@@ -10,7 +10,6 @@ import Moya
 struct AuthService {
     
     struct Login: BlablaBlockApiTargetType {
-        
         var method: Method { .post }
         var path: String { "login" }
         var headers: [String : String]? { ["Authorization" : "Bearer wrkef63GXqLH9zMypXXK7Qtt"] }
@@ -26,8 +25,17 @@ struct AuthService {
         let password: String
     }
     
+    struct Logout: BlablaBlockApiTargetType {
+        var method: Method { .post }
+        var path: String { "logout" }
+        var headers: [String : String]? { ["Authorization" : "Bearer \(userToken!)"] }
+        var task: Task {
+            .requestPlain
+        }
+        typealias ResponseType = ResponseSuccess
+    }
+    
     struct Registration: BlablaBlockApiTargetType {
-        
         var method: Method { .post }
         var path: String { "registration" }
         var headers: [String : String]? { ["Authorization" : "Bearer wrkef63GXqLH9zMypXXK7Qtt"] }
@@ -46,7 +54,6 @@ struct AuthService {
     }
     
     struct ForgetPassword: BlablaBlockApiTargetType {
-        
         var method: Method { .post }
         var path: String { "forgotpassword" }
         var headers: [String : String]? { ["Authorization" : "Bearer wrkef63GXqLH9zMypXXK7Qtt"] }
@@ -62,7 +69,6 @@ struct AuthService {
     }
     
     struct ResetPassword: BlablaBlockApiTargetType {
-        
         var method: Method { .post }
         var path: String { "resetpassword" }
         var headers: [String : String]? { ["Authorization" : "Bearer \(userToken!)"] }
@@ -74,7 +80,5 @@ struct AuthService {
         typealias ResponseType = ResponseSuccess
         
         let password: String
-        
     }
-    
 }
