@@ -6,15 +6,46 @@
 //
 
 import UIKit
+import RxSwift
+import RxGesture
 
-class ExchangeStatisticsView: UIView {
+protocol ExchangeStatisticsViewDelegate {
+    func filterExchange(callback: (String) -> Void)
+}
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+class ExchangeStatisticsView: UIView, NibOwnerLoadable {
+
+    @IBOutlet weak var exchangeFilterView: UIView!
+    @IBOutlet weak var exchangeFilterLabel: UILabel!
+    @IBOutlet weak var tableView: ExchangeListTableView!
+    
+    private let disposeBag = DisposeBag()
+    var delegate: ExchangeStatisticsViewDelegate?
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        commonInit()
     }
-    */
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+    
+    convenience init(_ delegate: LinkCardViewDelegate, image: UIImage, title: String) {
+        self.init(frame: .zero)
+    }
+    
+    func commonInit() {
+        loadNibContent()
+        exchangeFilterView.rx
+            .tapGesture()
+            .subscribe(onNext: { [weak self] _ in
+                self?.delegate?.filterExchange { text in
+                    self?.exchangeFilterLabel.text = text
+                }
+            })
+            .disposed(by: disposeBag)
+    }
 
 }

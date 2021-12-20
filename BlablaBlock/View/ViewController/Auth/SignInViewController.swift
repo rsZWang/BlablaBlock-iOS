@@ -69,15 +69,18 @@ class SignInViewController: BaseViewController {
         bindNextButton()
         
         forgetPasswordBtn.rx
-            .tap
+            .tapGesture()
+            .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 self?.promptForgetPasswordAlert()
             })
             .disposed(by: disposeBag)
     
         nextBtn.rx
-            .tap
+            .tapGesture()
+            .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
+                self?.nextBtn.isEnabled = false
                 if self?.radioButtonGruop.selectedButton == self?.signInBtn {
                     self?.signIn()
                 } else {
@@ -90,8 +93,10 @@ class SignInViewController: BaseViewController {
             .subscribe(
                 onNext: { [weak self] result in
                     self?.toMainPage()
+                    self?.nextBtn.isEnabled = true
                 },
                 onError: { [weak self] error in
+                    self?.nextBtn.isEnabled = true
                     self?.promptAlert(message: "\(error)")
                 }
             )
@@ -159,15 +164,10 @@ class SignInViewController: BaseViewController {
     }
     
     private func toMainPage() {
-        let mainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainTabBarController") as! UITabBarController
+        let mainTabBarController = UIStoryboard(name: "Main", bundle: nil)
+            .instantiateViewController(withIdentifier: "MainTabBarController") as! UITabBarController
         mainTabBarController.tabBar.barTintColor = UIColor(named: "gray_tab_bar")!
         mainTabBarController.selectedIndex = 2
-//        let navigationViewController = UINavigationController(rootViewController: mainTabBarController)
-//        navigationViewController.modalPresentationStyle = .fullScreen
-//        navigationViewController.modalTransitionStyle = .crossDissolve
-//        navigationViewController.navigationBar.isHidden = true
-//        navigationViewController.navigationBar.barTintColor = .blue
-//        present(navigationViewController, animated: true)
         push(vc: mainTabBarController)
     }
     

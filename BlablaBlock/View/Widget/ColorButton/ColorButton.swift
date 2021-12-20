@@ -32,15 +32,15 @@ public class ColorButton: RadioButton {
     @IBInspectable public var border: Bool = false
     
     override public var isEnabled: Bool {
-        didSet { updateIsEnabled() }
+        didSet { updated() }
     }
     
     override public var isSelected: Bool {
-        didSet { updateIsSelected() }
+        didSet { updated() }
     }
     
     override public var isHighlighted: Bool {
-        didSet { updateIsSelected() }
+        didSet { updated() }
     }
     
     override public var buttonType: UIButton.ButtonType { .custom }
@@ -50,39 +50,34 @@ public class ColorButton: RadioButton {
         layer.cornerRadius = rounded ? 6 : 0
         layer.borderWidth = border ? 1 : 0
         titleLabel?.font = .systemFont(ofSize: titleSize)
-        updateIsSelected()
-        updateIsHighlighted()
+        updated()
     }
     
-    internal func updateIsEnabled() {
+    internal func updated() {
         if isEnabled {
-            layer.borderColor = normalBgColor?.cgColor
-            backgroundColor = normalBgColor
-            setTitleColor(normalTitleColor, for: .normal)
+            if isSelected {
+                if border {
+                    layer.borderColor = selectedBorderColor?.cgColor
+                }
+                backgroundColor = selectedBgColor
+                titleLabel?.textColor = selectedTitleColor
+            } else if isHighlighted {
+                if border {
+                    layer.borderColor = (highlightedBorderColor ?? selectedBorderColor ?? disabledBorderColor)?.cgColor
+                }
+                backgroundColor = highlightedBgColor ?? selectedBgColor ?? disabledBgColor
+                titleLabel?.textColor = highlightedTitleColor ?? selectedTitleColor ?? disabledTitleColor
+            } else {
+                if border {
+                    layer.borderColor = normalBorderColor?.cgColor
+                }
+                backgroundColor = normalBgColor
+                titleLabel?.textColor = normalTitleColor
+            }
         } else {
             layer.borderColor = disabledBorderColor?.cgColor
             backgroundColor = disabledBgColor
             setTitleColor(disabledTitleColor, for: .normal)
-        }
-    }
-    
-    internal func updateIsSelected() {
-        if isEnabled && isSelected {
-            layer.borderColor = selectedBorderColor?.cgColor
-            backgroundColor = selectedBgColor
-            setTitleColor(selectedTitleColor, for: .normal)
-        } else {
-            updateIsEnabled()
-        }
-    }
-    
-    internal func updateIsHighlighted() {
-        if isEnabled && isHighlighted {
-            layer.borderColor = highlightedBorderColor?.cgColor
-            backgroundColor = highlightedBgColor
-            setTitleColor(highlightedTitleColor, for: .normal)
-        } else {
-            updateIsEnabled()
         }
     }
 }

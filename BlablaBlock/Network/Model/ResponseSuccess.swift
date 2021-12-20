@@ -10,7 +10,7 @@ import Foundation
 struct ResponseSuccess: Decodable {
     
     let code: Int                  // HTTP status
-    let data: ResponseSuccessData  // User data
+    let data: ResponseSuccessData?  // User data
     
 }
 

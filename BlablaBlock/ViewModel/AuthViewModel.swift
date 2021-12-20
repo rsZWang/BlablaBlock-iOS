@@ -20,7 +20,7 @@ class AuthViewModel: BaseViewModel {
             .request()
             .subscribe(
                 onSuccess: { [unowned self] response in
-                    userToken = response.data.apiToken
+                    userToken = response.data?.apiToken
                     apiReponseObservable.onNext("")
                 },
                 onFailure: { [unowned self] e in
@@ -35,7 +35,7 @@ class AuthViewModel: BaseViewModel {
             .request()
             .subscribe(
                 onSuccess: { [unowned self] response in
-                    userToken = response.data.apiToken
+                    userToken = response.data?.apiToken
                     apiReponseObservable.onNext("")
                 },
                 onFailure: { [unowned self] e in

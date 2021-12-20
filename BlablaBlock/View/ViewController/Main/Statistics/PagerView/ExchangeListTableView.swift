@@ -15,6 +15,7 @@ class ExchangeListTableView: UITableView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         contentInset = UIEdgeInsets(top: 15, left: 0, bottom: 0, right: 0)
+        register(UINib(nibName: "ExchangeListTableViewCell", bundle: nil), forCellReuseIdentifier: "ExchangeListTableViewCell")
         dataSource = self
     }
     
@@ -34,7 +35,7 @@ extension ExchangeListTableView: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ExchangeListCell", for: indexPath) as! ExchangeListTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ExchangeListTableViewCell", for: indexPath) as! ExchangeListTableViewCell
         cell.bind(dataList[indexPath.row])
         return cell
     }
@@ -47,13 +48,13 @@ class ExchangeListTableViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var percentageLabel: UILabel!
     @IBOutlet weak var amountLabel: UILabel!
-    @IBOutlet weak var usdtLabel: UILabel!
+    @IBOutlet weak var valueLabel: UILabel!
     
     func bind(_ portfolio: PortfolioData) {
         nameLabel.text = portfolio.exchange
         percentageLabel.text = "(?.?%)"
         amountLabel.text = "\(portfolio.balance)"
-        usdtLabel.text = "$\(portfolio.value)"
+        valueLabel.text = "$\(portfolio.value)"
     }
      
 }

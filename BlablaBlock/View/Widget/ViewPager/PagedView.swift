@@ -12,7 +12,7 @@ protocol PagedViewDelegate: AnyObject {
     func didMoveToPage(index: Int)
 }
 
-class `PagedView`: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+class PagedView: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     private let pages: [UIView]
     
@@ -33,7 +33,8 @@ class `PagedView`: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewD
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        let collectionView = UICollectionView(frame: .zero,collectionViewLayout: layout)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(PagedViewCell.self, forCellWithReuseIdentifier: "PagedViewCell")
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.isPagingEnabled = true
         collectionView.delegate = self
@@ -83,7 +84,7 @@ class `PagedView`: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewD
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PageCollectionViewCell", for: indexPath) as! PageCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PagedViewCell", for: indexPath) as! PagedViewCell
         let page = self.pages[indexPath.item]
         cell.view = page
         return cell
