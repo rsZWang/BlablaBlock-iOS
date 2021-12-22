@@ -49,14 +49,10 @@ class PagedView: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewDat
         self.addSubview(collectionView)
         collectionView.backgroundColor = .white
         NSLayoutConstraint.activate([
-            collectionView.widthAnchor
-                .constraint(equalTo: self.widthAnchor),
-            collectionView.heightAnchor
-                .constraint(equalTo: self.heightAnchor),
-            collectionView.centerXAnchor
-                .constraint(equalTo: self.centerXAnchor),
-            collectionView.centerYAnchor
-                .constraint(equalTo: self.centerYAnchor)
+            collectionView.widthAnchor.constraint(equalTo: self.widthAnchor),
+            collectionView.heightAnchor.constraint(equalTo: self.heightAnchor),
+            collectionView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            collectionView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
 //        collectionView.snp.makeConstraints { make in
 //            make.edges.equalTo(self.snp.edges)

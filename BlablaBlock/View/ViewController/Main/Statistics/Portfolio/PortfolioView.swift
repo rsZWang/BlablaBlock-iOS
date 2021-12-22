@@ -1,5 +1,5 @@
 //
-//  ExchangeStatisticsView.swift
+//  PortfolioView.swift
 //  BlablaBlock
 //
 //  Created by Harry on 2021/12/21.
@@ -9,18 +9,18 @@ import UIKit
 import RxSwift
 import RxGesture
 
-protocol ExchangeStatisticsViewDelegate {
+protocol PortfolioViewDelegate {
     func filterExchange(callback: (String) -> Void)
 }
 
-class ExchangeStatisticsView: UIView, NibOwnerLoadable {
+class PortfolioView: UIView, NibOwnerLoadable {
 
     @IBOutlet weak var exchangeFilterView: UIView!
     @IBOutlet weak var exchangeFilterLabel: UILabel!
     @IBOutlet weak var tableView: ExchangeListTableView!
     
     private let disposeBag = DisposeBag()
-    var delegate: ExchangeStatisticsViewDelegate?
+    var delegate: PortfolioViewDelegate?
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)

@@ -102,6 +102,8 @@ class SignInViewController: BaseViewController {
             )
             .disposed(by: disposeBag)
         
+        signIn()
+        
 //        nextBtn.isEnabled = false
     }
     

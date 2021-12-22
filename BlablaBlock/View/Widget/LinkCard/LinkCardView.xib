@@ -110,7 +110,7 @@
     </objects>
     <designables>
         <designable name="oec-Wo-Pfj">
-            <size key="intrinsicContentSize" width="56" height="34"/>
+            <size key="intrinsicContentSize" width="34" height="26"/>
         </designable>
     </designables>
     <resources>
