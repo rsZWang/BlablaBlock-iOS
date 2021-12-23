@@ -59,23 +59,23 @@ class StatisticsViewController: BaseViewController, RadioButtonGroupDelegate {
         avatarImageView.makeCircle()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        pnlView.drawChart()
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         statisticsViewModel.getPortfolio()
             .subscribe(
                 onSuccess: { [unowned self] portfolio in
                     tableView.setData(portfolio.data)
+                    pnlView.drawChart()
                 },
                 onFailure: { [unowned self] error in
                     promptAlert(message: "\(error)")
                 }
             )
             .disposed(by: disposeBag)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
     
     func onClicked(radioButton: RadioButton) {
