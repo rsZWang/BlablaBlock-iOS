@@ -35,11 +35,12 @@ class PagedView: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewDat
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(PagedViewCell.self, forCellWithReuseIdentifier: "PagedViewCell")
+        collectionView.isScrollEnabled = false
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.isPagingEnabled = true
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.translatesAutoresizingMaskIntoConstraints =  false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     

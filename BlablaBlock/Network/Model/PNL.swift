@@ -15,7 +15,7 @@ struct PNL: Decodable {
 
 struct PNLData: Decodable {
     
-    let code: String
+    let code: Int
     let chartData: [PNLCharData]
     let roi: Double
     let roiAnnual: Double

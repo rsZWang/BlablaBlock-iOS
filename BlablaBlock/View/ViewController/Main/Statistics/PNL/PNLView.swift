@@ -7,12 +7,25 @@
 
 import UIKit
 import SwiftCharts
+import SnapKit
 
 class PNLView: UIView, NibOwnerLoadable {
     
     @IBOutlet weak var chartSectionView: UIView!
     
-    var chart: Chart? // arc
+    private lazy var readFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy"
+        return formatter
+    }()
+    private lazy var displayFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd"
+        return formatter
+    }()
+    private lazy var xAxisLabelSettings = ChartLabelSettings(font: .systemFont(ofSize: 8))
+    private lazy var yAxisLabelSettings = ChartLabelSettings(font: .systemFont(ofSize: 8))
+    private var chart: Chart!
         
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -34,46 +47,42 @@ class PNLView: UIView, NibOwnerLoadable {
     
     func drawChart() {
         
-        let fontSize: CGFloat = 11
-        let labelSettings = ChartLabelSettings(font: UIFont(name: "Helvetica", size: fontSize) ?? UIFont.systemFont(ofSize: fontSize))
+        let chartPoints = [
+            createChartPoint(dateStr: "01.10.2015", percent: 5),
+            createChartPoint(dateStr: "04.10.2015", percent: 10),
+            createChartPoint(dateStr: "05.10.2015", percent: 30),
+            createChartPoint(dateStr: "06.10.2015", percent: 70),
+            createChartPoint(dateStr: "08.10.2015", percent: 79),
+            createChartPoint(dateStr: "10.10.2015", percent: 90),
+            createChartPoint(dateStr: "12.10.2015", percent: 47),
+            createChartPoint(dateStr: "14.10.2015", percent: 60),
+            createChartPoint(dateStr: "15.10.2015", percent: 70),
+            createChartPoint(dateStr: "16.10.2015", percent: 80),
+            createChartPoint(dateStr: "19.10.2015", percent: 90),
+            createChartPoint(dateStr: "21.10.2015", percent: 100)
+        ]
 
-        let chartPoints = [(2, 2), (4, 4), (7, 1), (8, 11), (12, 3)].map {
-            ChartPoint(
-                x: ChartAxisValueDouble($0.0, labelSettings: labelSettings),
-                y: ChartAxisValueDouble($0.1)
-            )
-        }
+        let xValues = [
+            createDateAxisValue("01.10.2015"),
+            createDateAxisValue("03.10.2015"),
+            createDateAxisValue("05.10.2015"),
+            createDateAxisValue("07.10.2015"),
+            createDateAxisValue("09.10.2015"),
+            createDateAxisValue("11.10.2015"),
+            createDateAxisValue("13.10.2015"),
+            createDateAxisValue("15.10.2015"),
+            createDateAxisValue("17.10.2015"),
+            createDateAxisValue("19.10.2015"),
+            createDateAxisValue("21.10.2015")
+        ]
+        let xModel = ChartAxisModel(axisValues: xValues)
         
-        let chartPoints2 = [(2, 3), (3, 1), (5, 6), (7, 2), (8, 14), (12, 6)].map {
-            ChartPoint(
-                x: ChartAxisValueDouble($0.0, labelSettings: labelSettings),
-                y: ChartAxisValueDouble($0.1)
-            )
-        }
+        let yValues = stride(from: 0, through: 100, by: 10).map { ChartAxisValuePercent($0, labelSettings: yAxisLabelSettings) }
+        let yModel = ChartAxisModel(axisValues: yValues)
         
-        let xValues = chartPoints.map { $0.x }
-        let yValues = ChartAxisValuesStaticGenerator.generateYAxisValuesWithChartPoints(
-            chartPoints,
-            minSegmentCount: 10,
-            maxSegmentCount: 20,
-            multiple: 2,
-            axisValueGenerator: {
-                ChartAxisValueDouble($0, labelSettings: labelSettings)
-            },
-            addPaddingSegmentIfEdge: false
-        )
-        
-        let xModel = ChartAxisModel(
-            axisValues: xValues,
-            axisTitleLabel: ChartAxisLabel(text: "Axis title", settings: labelSettings)
-        )
-        let yModel = ChartAxisModel(
-            axisValues: yValues,
-            axisTitleLabel: ChartAxisLabel(text: "Axis title", settings: labelSettings.defaultVertical())
-        )
-        let chartFrame = ExamplesDefaults.chartFrame(chartSectionView.bounds)
-        
-        let chartSettings = ExamplesDefaults.chartSettingsWithPanZoom
+        let bounds = chartSectionView.bounds
+        let chartFrame = CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height)
+        let chartSettings = createChartSettings()
 
         let coordsSpace = ChartCoordsSpaceLeftBottomSingleAxis(
             chartSettings: chartSettings,
@@ -81,46 +90,30 @@ class PNLView: UIView, NibOwnerLoadable {
             xModel: xModel,
             yModel: yModel
         )
-        let (xAxisLayer, yAxisLayer, innerFrame) = (coordsSpace.xAxisLayer, coordsSpace.yAxisLayer, coordsSpace.chartInnerFrame)
         
-        let lineModel = ChartLineModel(chartPoints: chartPoints, lineColor: UIColor.red, animDuration: 1, animDelay: 0)
-        let lineModel2 = ChartLineModel(chartPoints: chartPoints2, lineColor: UIColor.blue, animDuration: 1, animDelay: 0)
+        let lineModel = ChartLineModel(
+            chartPoints: chartPoints,
+            lineColor: UIColor.red,
+            lineWidth: 2,
+            animDuration: 1,
+            animDelay: 0
+        )
+        
+        let (xAxisLayer, yAxisLayer, innerFrame) = (coordsSpace.xAxisLayer, coordsSpace.yAxisLayer, coordsSpace.chartInnerFrame)
+        // delayInit parameter is needed by some layers for initial zoom level to work correctly. Setting it to true allows to trigger drawing of layer manually (in this case, after the chart is initialized). This obviously needs improvement. For now it's necessary.
         let chartPointsLineLayer = ChartPointsLineLayer(
             xAxis: xAxisLayer.axis,
             yAxis: yAxisLayer.axis,
-            lineModels: [lineModel, lineModel2],
-            useView: false
+            lineModels: [lineModel],
+            delayInit: true
         )
         
-        let thumbSettings = ChartPointsLineTrackerLayerThumbSettings(thumbSize: Env.iPad ? 20 : 10, thumbBorderWidth: Env.iPad ? 4 : 2)
-        let trackerLayerSettings = ChartPointsLineTrackerLayerSettings(thumbSettings: thumbSettings)
-        
-        var currentPositionLabels: [UILabel] = []
-        
-        let chartPointsTrackerLayer = ChartPointsLineTrackerLayer<ChartPoint, Any>(
-            xAxis: xAxisLayer.axis,
-            yAxis: yAxisLayer.axis,
-            lines: [chartPoints, chartPoints2],
-            lineColor: UIColor.black, animDuration: 1, animDelay: 2, settings: trackerLayerSettings
-        ) { chartPointsWithScreenLoc in
-            
-            currentPositionLabels.forEach { $0.removeFromSuperview() }
-            for (index, chartPointWithScreenLoc) in chartPointsWithScreenLoc.enumerated() {
-                let label = UILabel()
-                label.text = chartPointWithScreenLoc.chartPoint.description
-                label.sizeToFit()
-                label.center = CGPoint(x: chartPointWithScreenLoc.screenLoc.x + label.frame.width / 2, y: chartPointWithScreenLoc.screenLoc.y + chartFrame.minY - label.frame.height / 2)
-                
-                label.backgroundColor = index == 0 ? UIColor.red : UIColor.blue
-                label.textColor = UIColor.white
-                
-                currentPositionLabels.append(label)
-                self.chartSectionView.addSubview(label)
-            }
-        }
-        
-        let settings = ChartGuideLinesDottedLayerSettings(linesColor: UIColor.black, linesWidth: ExamplesDefaults.guidelinesWidth)
-        let guidelinesLayer = ChartGuideLinesDottedLayer(xAxisLayer: xAxisLayer, yAxisLayer: yAxisLayer, settings: settings)
+        let guidelinesLayerSettings = ChartGuideLinesLayerSettings(linesColor: UIColor.black, linesWidth: 0.3)
+        let guidelinesLayer = ChartGuideLinesLayer(
+            xAxisLayer: xAxisLayer,
+            yAxisLayer: yAxisLayer,
+            settings: guidelinesLayerSettings
+        )
         
         let chart = Chart(
             frame: chartFrame,
@@ -130,37 +123,53 @@ class PNLView: UIView, NibOwnerLoadable {
                 xAxisLayer,
                 yAxisLayer,
                 guidelinesLayer,
-                chartPointsLineLayer,
-                chartPointsTrackerLayer
+                chartPointsLineLayer
             ]
         )
         
         chartSectionView.addSubview(chart.view)
+        chartPointsLineLayer.initScreenLines(chart)
         self.chart = chart
     }
     
-//    private func createChartPoint(
-//        dateStr: String,
-//        percent: Double,
-//        readFormatter: DateFormatter,
-//        displayFormatter: DateFormatter
-//    ) -> ChartPoint {
-//        ChartPoint(
-//            x: createDateAxisValue(dateStr, readFormatter: readFormatter, displayFormatter: displayFormatter),
-//            y: ChartAxisValuePercent(percent)
-//        )
-//    }
-//
-//    private func createDateAxisValue(_ dateStr: String, readFormatter: DateFormatter, displayFormatter: DateFormatter) -> ChartAxisValue {
-//        let date = readFormatter.date(from: dateStr)!
-//        let labelSettings = ChartLabelSettings()
-//        return ChartAxisValueDate(date: date, formatter: displayFormatter, labelSettings: labelSettings)
-//    }
-//
-//    class ChartAxisValuePercent: ChartAxisValueDouble {
-//        override var description: String {
-//            return "\(formatter.string(from: NSNumber(value: scalar))!)%"
-//        }
-//    }
+    private func createChartSettings() -> ChartSettings {
+        var chartSettings = ChartSettings()
+        chartSettings.leading = 10
+        chartSettings.top = 15
+        chartSettings.trailing = 30
+        chartSettings.bottom = 10
+        chartSettings.labelsToAxisSpacingX = 5
+        chartSettings.labelsToAxisSpacingY = 3
+        chartSettings.axisTitleLabelsToLabelsSpacing = 0
+        chartSettings.axisStrokeWidth = 0.2
+        chartSettings.spacingBetweenAxesX = 8
+        chartSettings.spacingBetweenAxesY = 8
+        chartSettings.labelsSpacing = 1
+        chartSettings.zoomPan.panEnabled = true
+        chartSettings.zoomPan.zoomEnabled = true
+        chartSettings.zoomPan.maxZoomX = 3
+        chartSettings.zoomPan.minZoomX = 3
+        chartSettings.zoomPan.minZoomY = 1
+        chartSettings.zoomPan.maxZoomY = 1
+        return chartSettings
+    }
+    
+    private func createChartPoint(dateStr: String, percent: Double) -> ChartPoint {
+        ChartPoint(
+            x: createDateAxisValue(dateStr),
+            y: ChartAxisValuePercent(percent)
+        )
+    }
+    
+    private func createDateAxisValue(_ dateStr: String) -> ChartAxisValue {
+        let date = readFormatter.date(from: dateStr)!
+        return ChartAxisValueDate(date: date, formatter: displayFormatter, labelSettings: xAxisLabelSettings)
+    }
+    
+    class ChartAxisValuePercent: ChartAxisValueDouble {
+        override var description: String {
+            return "\(formatter.string(from: NSNumber(value: scalar))!)%"
+        }
+    }
     
 }

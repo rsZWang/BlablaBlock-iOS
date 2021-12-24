@@ -80,7 +80,7 @@
 //    }
 //    
 //    static func chartFrame(_ containerBounds: CGRect) -> CGRect {
-//        return CGRect(x: 0, y: 70, width: containerBounds.size.width, height: containerBounds.size.height - 70)
+//        return CGRect(x: 0, y: 0, width: containerBounds.size.width, height: containerBounds.size.height)
 //    }
 //    
 //    static var labelSettings: ChartLabelSettings {

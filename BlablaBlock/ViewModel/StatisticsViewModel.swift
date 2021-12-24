@@ -18,4 +18,9 @@ class StatisticsViewModel: BaseViewModel {
             .request()
     }
     
+    func getPNL() -> Single<PNL> {
+        StatisticsService.getPNL(exchange: "all", period: "1y")
+            .request()
+    }
+    
 }

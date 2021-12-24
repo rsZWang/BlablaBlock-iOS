@@ -65,9 +65,20 @@ class StatisticsViewController: BaseViewController, RadioButtonGroupDelegate {
             .subscribe(
                 onSuccess: { [unowned self] portfolio in
                     tableView.setData(portfolio.data)
+                },
+                onFailure: { [unowned self] error in
+                    promptAlert(message: "\(error)")
+                }
+            )
+            .disposed(by: disposeBag)
+        
+        statisticsViewModel.getPNL()
+            .subscribe(
+                onSuccess: { [unowned self] pnl in
                     pnlView.drawChart()
                 },
                 onFailure: { [unowned self] error in
+                    pnlView.drawChart()
                     promptAlert(message: "\(error)")
                 }
             )
