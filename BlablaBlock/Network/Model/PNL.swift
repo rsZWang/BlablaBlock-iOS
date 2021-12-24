@@ -10,6 +10,7 @@ import Foundation
 struct PNL: Decodable {
     
     let code: String
+    let data: PNLData
     
 }
 
