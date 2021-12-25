@@ -30,7 +30,7 @@ class AlertBuilder {
         return self
     }
     
-    func setOkButton(title: String = "好的") -> AlertBuilder {
+    func setOkButton(title: String = "OK") -> AlertBuilder {
         self.action = UIAlertAction(title: title, style: .default)
         return self
     }

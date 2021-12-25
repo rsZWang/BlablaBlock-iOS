@@ -9,42 +9,56 @@ import Foundation
 
 struct PNL: Decodable {
     
-    let code: String
-    let data: PNLData
+    let code: Int
+    let data: [PNLData]
     
 }
 
 struct PNLData: Decodable {
     
-    let code: Int
-    let chartData: [PNLCharData]
+    let chartData: [PNLCharRawData]
     let roi: Double
     let roiAnnual: Double
-    let mod: Double
+    let mdd: Double
     let dailyWinRate: Double
     let sharpeRatio: Double
     
-//    "chart_data": [
-//        {
-//            "value": 100,
-//            "timestamp": 1637901093,
-//        },
-//        {
-//            "value": 120,
-//            "timestamp": 1637902093,
-//        },
-//    ],
-//    "roi": 0.4820,
-//    "roi_annual": 0.4741,
-//    "mdd": 0.1287,
-//    "daily_win_rate": 0.6125,
-//    "sharpe_ratio": 2.09,
+    func getChartDataList() -> [PNLCharData] {
+        var list = [PNLCharData]()
+        for data in chartData {
+            list.append(PNLCharData(value: Double(data.value)!, timestamp: Int(data.timestamp)!))
+        }
+        return list
+    }
+    
+    func getChartMaxY() -> Double {
+        chartData.map { Double($0.value)! }.max()!
+    }
+    
+    func getChartMinY() -> Double {
+        chartData.map { Double($0.value)! }.min()!
+    }
+    
+    func getYAxisLabel() -> [Int] {
+        var list = chartData.map { Int(Double($0.value)!) }
+//        list.insert(Int(getChartMinY() * 0.9), at: 0)
+//        list.append(Int(getChartMaxY() * 0.9))
+        return list
+    }
     
 }
 
-struct PNLCharData: Decodable {
+struct PNLCharRawData: Decodable {
     
-    let value: Int
+    let value: String
+    let timestamp: String
+    
+}
+
+
+struct PNLCharData {
+    
+    let value: Double
     let timestamp: Int
     
 }

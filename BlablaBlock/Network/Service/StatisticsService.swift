@@ -9,7 +9,7 @@ import Moya
 
 struct StatisticsService {
     
-    struct getPortfolio: BlablaBlockApiTargetType {
+    struct getPortfolio: HttpResponseTargetType {
         
         var method: Method { .get }
         var path: String { "portfolio" }
@@ -19,12 +19,13 @@ struct StatisticsService {
                 "exchange" : exchange
             ], encoding: URLEncoding.queryString)
         }
-        typealias ResponseType = Portfolio
+        typealias SuccessType = Portfolio
+        typealias FailureType = ResponseFailureModel
         
         let exchange: String
     }
     
-    struct getPNL: BlablaBlockApiTargetType {
+    struct getPNL: HttpResponseTargetType {
         
         var method: Method { .get }
         var path: String { "pnl" }
@@ -35,7 +36,8 @@ struct StatisticsService {
                 "period" : period
             ], encoding: URLEncoding.queryString)
         }
-        typealias ResponseType = PNL
+        typealias SuccessType = PNL
+        typealias FailureType = ResponseFailureModel
         
         let exchange: String
         let period: String

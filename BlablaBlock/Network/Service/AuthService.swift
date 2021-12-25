@@ -9,7 +9,7 @@ import Moya
 
 struct AuthService {
     
-    struct Login: BlablaBlockApiTargetType {
+    struct Login: HttpResponseTargetType {
         var method: Method { .post }
         var path: String { "login" }
         var headers: [String : String]? { ["Authorization" : "Bearer wrkef63GXqLH9zMypXXK7Qtt"] }
@@ -19,23 +19,25 @@ struct AuthService {
                 "password" : password
             ], encoding: JSONEncoding.default)
         }
-        typealias ResponseType = ResponseSuccess
+        typealias SuccessType = LogInSuccessModel
+        typealias FailureType = ResponseFailureModel
         
         let email: String
         let password: String
     }
     
-    struct Logout: BlablaBlockApiTargetType {
+    struct Logout: HttpResponseTargetType {
         var method: Method { .post }
         var path: String { "logout" }
         var headers: [String : String]? { ["Authorization" : "Bearer \(userToken!)"] }
         var task: Task {
             .requestPlain
         }
-        typealias ResponseType = ResponseSuccess
+        typealias SuccessType = ResponseSuccess
+        typealias FailureType = ResponseFailureModel
     }
     
-    struct Registration: BlablaBlockApiTargetType {
+    struct Registration: HttpResponseTargetType {
         var method: Method { .post }
         var path: String { "registration" }
         var headers: [String : String]? { ["Authorization" : "Bearer wrkef63GXqLH9zMypXXK7Qtt"] }
@@ -46,14 +48,15 @@ struct AuthService {
                 "password" : password
             ], encoding: JSONEncoding.default)
         }
-        typealias ResponseType = ResponseSuccess
+        typealias SuccessType = LogInSuccessModel
+        typealias FailureType = ResponseFailureModel
         
         let userName: String
         let email: String
         let password: String
     }
     
-    struct ForgetPassword: BlablaBlockApiTargetType {
+    struct ForgetPassword: HttpResponseTargetType {
         var method: Method { .post }
         var path: String { "forgotpassword" }
         var headers: [String : String]? { ["Authorization" : "Bearer wrkef63GXqLH9zMypXXK7Qtt"] }
@@ -62,13 +65,13 @@ struct AuthService {
                 "email" : email
             ], encoding: JSONEncoding.default)
         }
-        typealias ResponseType = ResponseSuccess
+        typealias SuccessType = ResponseSuccess
+        typealias FailureType = ResponseFailureModel
         
         let email: String
-        
     }
     
-    struct ResetPassword: BlablaBlockApiTargetType {
+    struct ResetPassword: HttpResponseTargetType {
         var method: Method { .post }
         var path: String { "resetpassword" }
         var headers: [String : String]? { ["Authorization" : "Bearer \(userToken!)"] }
@@ -77,7 +80,8 @@ struct AuthService {
                 "password" : password
             ], encoding: JSONEncoding.default)
         }
-        typealias ResponseType = ResponseSuccess
+        typealias SuccessType = ResponseSuccess
+        typealias FailureType = ResponseFailureModel
         
         let password: String
     }

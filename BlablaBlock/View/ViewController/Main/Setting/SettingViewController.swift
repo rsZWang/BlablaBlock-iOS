@@ -11,7 +11,7 @@ import Resolver
 
 class SettingViewController: BaseViewController, LinkCardViewDelegate {
     
-    @Injected var statisticsViewModel: StatisticsViewModel
+//    @Injected var statisticsViewModel: StatisticsViewModel
     @Injected var authViewModel: AuthViewModel
     
     private lazy var binanceLinkCard = LinkCardView(self, image: UIImage(named: "ic_setting_binance")!, title: "連結幣安")

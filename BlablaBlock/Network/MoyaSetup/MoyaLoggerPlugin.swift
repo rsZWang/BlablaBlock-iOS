@@ -11,6 +11,7 @@ import Moya
 struct MoyaLoggerPlugin: PluginType {
     
     typealias Log = (String, Any)
+    private let shouldPrint = true
 
     func willSend(_ request: RequestType, target: TargetType) {
         debugRequest(request.request as URLRequest?, target: target)
@@ -57,12 +58,14 @@ struct MoyaLoggerPlugin: PluginType {
     }
 
     func printLogs(_ title: String, logs: [Log]) {
-        let title = "==============\(title)======================="
-        print(title)
-        for log in logs {
-            print("\(log.0): \(log.1)")
+        if shouldPrint {
+            let title = "==============\(title)======================="
+            print(title)
+            for log in logs {
+                print("\(log.0): \(log.1)")
+            }
+            let separator = title.map { _ in "=" }.joined()
+            print("\(separator)=")
         }
-        let separator = title.map { _ in "=" }.joined()
-        print("\(separator)=")
     }
 }

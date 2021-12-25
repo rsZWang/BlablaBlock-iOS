@@ -19,10 +19,10 @@ class ExchangeListTableView: UITableView {
         dataSource = self
     }
     
-    func setData(_ dataList: [PortfolioData]) {
+    func bind(data: [PortfolioData]) {
         let oldData = [PortfolioData](self.dataList)
         self.dataList.removeAll()
-        self.dataList.append(contentsOf: dataList)
+        self.dataList.append(contentsOf: data)
         animateRowChanges(oldData: oldData, newData: self.dataList)
     }
 

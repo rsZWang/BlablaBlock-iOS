@@ -20,8 +20,13 @@ class AuthViewModel: BaseViewModel {
             .request()
             .subscribe(
                 onSuccess: { [unowned self] response in
-                    userToken = response.data?.apiToken
-                    apiReponseObservable.onNext("")
+                    switch response {
+                    case let .Success(logInSuccessModel):
+                        userToken = logInSuccessModel.data.apiToken
+                        apiReponseObservable.onNext("")
+                    case let .Failure(responseFailureModel):
+                        apiReponseObservable.onNext("\(responseFailureModel)")
+                    }
                 },
                 onFailure: { [unowned self] e in
                     apiReponseObservable.onError(e)
@@ -35,8 +40,13 @@ class AuthViewModel: BaseViewModel {
             .request()
             .subscribe(
                 onSuccess: { [unowned self] response in
-                    userToken = response.data?.apiToken
-                    apiReponseObservable.onNext("")
+                    switch response {
+                    case let .Success(logInSuccessModel):
+                        userToken = logInSuccessModel.data.apiToken
+                        apiReponseObservable.onNext("")
+                    case let .Failure(responseFailureModel):
+                        apiReponseObservable.onNext("\(responseFailureModel)")
+                    }
                 },
                 onFailure: { [unowned self] e in
                     apiReponseObservable.onError(e)
@@ -45,14 +55,23 @@ class AuthViewModel: BaseViewModel {
             .disposed(by: disposeBag)
     }
     
-    func forgetPassword(email: String) -> Single<ResponseSuccess> {
+    func forgetPassword(email: String) -> Single<HttpResponse<AuthService.ForgetPassword.SuccessType, AuthService.ForgetPassword.FailureType>> {
         AuthService.ForgetPassword(email: email)
             .request()
     }
     
-    func signOut() -> Single<ResponseSuccess> {
+    func signOut() {
         AuthService.Logout()
             .request()
+            .subscribe(
+                onSuccess: { [unowned self] response in
+                    
+                },
+                onFailure: { [unowned self] e in
+                    
+                }
+            )
+            .disposed(by: disposeBag)
     }
     
 }

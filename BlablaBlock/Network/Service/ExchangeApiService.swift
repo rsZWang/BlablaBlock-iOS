@@ -9,7 +9,7 @@ import Moya
 
 struct ExchangeApiService {
     
-    struct getAllApis: BlablaBlockApiTargetType {
+    struct getAllApis: HttpResponseTargetType {
         
         var method: Method { .get }
         var path: String { "api_settings" }
@@ -17,10 +17,11 @@ struct ExchangeApiService {
         var task: Task {
             .requestPlain
         }
-        typealias ResponseType = ResponseSuccess
+        typealias SuccessType = ResponseSuccess
+        typealias FailureType = ResponseFailureModel
     }
     
-    struct createApi: BlablaBlockApiTargetType {
+    struct createApi: HttpResponseTargetType {
         
         var method: Method { .post }
         var path: String { "api_settings/new" }
@@ -33,7 +34,8 @@ struct ExchangeApiService {
                 "subaccount" : subAccount
             ], encoding: JSONEncoding.default)
         }
-        typealias ResponseType = ResponseSuccess
+        typealias SuccessType = ResponseSuccess
+        typealias FailureType = ResponseFailureModel
         
         let exchange: String
         let apiKey: String
@@ -41,7 +43,7 @@ struct ExchangeApiService {
         let subAccount: String
     }
     
-    struct editApi: BlablaBlockApiTargetType {
+    struct editApi: HttpResponseTargetType {
         
         var method: Method { .patch }
         var path: String { "api_settings/\(id)" }
@@ -54,7 +56,8 @@ struct ExchangeApiService {
                 "subaccount" : subAccount
             ], encoding: JSONEncoding.default)
         }
-        typealias ResponseType = ResponseSuccess
+        typealias SuccessType = ResponseSuccess
+        typealias FailureType = ResponseFailureModel
         
         let id: String
         let exchange: String
@@ -63,7 +66,7 @@ struct ExchangeApiService {
         let subAccount: String
     }
     
-    struct deleteApi: BlablaBlockApiTargetType {
+    struct deleteApi: HttpResponseTargetType {
         
         var method: Method { .delete }
         var path: String { "api_settings/\(id)" }
@@ -71,7 +74,8 @@ struct ExchangeApiService {
         var task: Task {
             .requestPlain
         }
-        typealias ResponseType = ResponseSuccess
+        typealias SuccessType = ResponseSuccess
+        typealias FailureType = ResponseFailureModel
         
         let id: String
     }

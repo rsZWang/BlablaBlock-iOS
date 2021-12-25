@@ -12,12 +12,17 @@ import SnapKit
 class PNLView: UIView, NibOwnerLoadable {
     
     @IBOutlet weak var chartSectionView: UIView!
+    @IBOutlet weak var roiLabel: UILabel!
+    @IBOutlet weak var roiAnnualLabel: UILabel!
+    @IBOutlet weak var mddLabel: UILabel!
+    @IBOutlet weak var dailyWinRateLabel: UILabel!
+    @IBOutlet weak var sharpeRatio: UILabel!
     
-    private lazy var readFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd.MM.yyyy"
-        return formatter
-    }()
+//    private lazy var readFormatter: DateFormatter = {
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "dd.MM.yyyy"
+//        return formatter
+//    }()
     private lazy var displayFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy/MM/dd"
@@ -45,39 +50,35 @@ class PNLView: UIView, NibOwnerLoadable {
         loadNibContent()
     }
     
-    func drawChart() {
-        
-        let chartPoints = [
-            createChartPoint(dateStr: "01.10.2015", percent: 5),
-            createChartPoint(dateStr: "04.10.2015", percent: 10),
-            createChartPoint(dateStr: "05.10.2015", percent: 30),
-            createChartPoint(dateStr: "06.10.2015", percent: 70),
-            createChartPoint(dateStr: "08.10.2015", percent: 79),
-            createChartPoint(dateStr: "10.10.2015", percent: 90),
-            createChartPoint(dateStr: "12.10.2015", percent: 47),
-            createChartPoint(dateStr: "14.10.2015", percent: 60),
-            createChartPoint(dateStr: "15.10.2015", percent: 70),
-            createChartPoint(dateStr: "16.10.2015", percent: 80),
-            createChartPoint(dateStr: "19.10.2015", percent: 90),
-            createChartPoint(dateStr: "21.10.2015", percent: 100)
-        ]
+    func bind(data: PNLData) {
+        drawChart(data: data)
+        roiLabel.text = "\(data.roi.to2PrecisionString())"
+        roiAnnualLabel.text = "\(data.roiAnnual.to2PrecisionString())"
+        mddLabel.text = "\(data.mdd.to2PrecisionString())"
+        dailyWinRateLabel.text = "\(data.dailyWinRate.to2PrecisionString())"
+        sharpeRatio.text = "\(data.sharpeRatio.to2PrecisionString())"
+    }
+    
+}
 
-        let xValues = [
-            createDateAxisValue("01.10.2015"),
-            createDateAxisValue("03.10.2015"),
-            createDateAxisValue("05.10.2015"),
-            createDateAxisValue("07.10.2015"),
-            createDateAxisValue("09.10.2015"),
-            createDateAxisValue("11.10.2015"),
-            createDateAxisValue("13.10.2015"),
-            createDateAxisValue("15.10.2015"),
-            createDateAxisValue("17.10.2015"),
-            createDateAxisValue("19.10.2015"),
-            createDateAxisValue("21.10.2015")
-        ]
+extension PNLView {
+    
+    func drawChart(data: PNLData) {
+        
+        if let chart = chart {
+            chart.view.removeFromSuperview()
+            self.chart = nil
+        }
+        
+        var chartPoints = [ChartPoint]()
+        var xValues = [ChartAxisValue]()
+        for entry in data.getChartDataList() {
+            chartPoints.append(createChartPoint(timestamp: entry.timestamp, value: entry.value))
+            xValues.append(createDateAxisValue(timestamp: entry.timestamp))
+        }
         let xModel = ChartAxisModel(axisValues: xValues)
         
-        let yValues = stride(from: 0, through: 100, by: 10).map { ChartAxisValuePercent($0, labelSettings: yAxisLabelSettings) }
+        let yValues = stride(from: 29000, through: 33000, by: 1000).map { ChartAxisValueDouble($0) }
         let yModel = ChartAxisModel(axisValues: yValues)
         
         let bounds = chartSectionView.bounds
@@ -108,7 +109,10 @@ class PNLView: UIView, NibOwnerLoadable {
             delayInit: true
         )
         
-        let guidelinesLayerSettings = ChartGuideLinesLayerSettings(linesColor: UIColor.black, linesWidth: 0.3)
+        let guidelinesLayerSettings = ChartGuideLinesLayerSettings(
+            linesColor: UIColor.black,
+            linesWidth: 0.3
+        )
         let guidelinesLayer = ChartGuideLinesLayer(
             xAxisLayer: xAxisLayer,
             yAxisLayer: yAxisLayer,
@@ -130,6 +134,10 @@ class PNLView: UIView, NibOwnerLoadable {
         chartSectionView.addSubview(chart.view)
         chartPointsLineLayer.initScreenLines(chart)
         self.chart = chart
+        chart.view.sizeToFit()
+        chart.view.layoutIfNeeded()
+        chartSectionView.sizeToFit()
+        chartSectionView.layoutIfNeeded()
     }
     
     private func createChartSettings() -> ChartSettings {
@@ -147,29 +155,31 @@ class PNLView: UIView, NibOwnerLoadable {
         chartSettings.labelsSpacing = 1
         chartSettings.zoomPan.panEnabled = true
         chartSettings.zoomPan.zoomEnabled = true
-        chartSettings.zoomPan.maxZoomX = 3
-        chartSettings.zoomPan.minZoomX = 3
+        chartSettings.zoomPan.maxZoomX = 1.5
+        chartSettings.zoomPan.minZoomX = 1.5
         chartSettings.zoomPan.minZoomY = 1
         chartSettings.zoomPan.maxZoomY = 1
         return chartSettings
     }
     
-    private func createChartPoint(dateStr: String, percent: Double) -> ChartPoint {
+    private func createChartPoint(timestamp: Int, value: Double) -> ChartPoint {
         ChartPoint(
-            x: createDateAxisValue(dateStr),
-            y: ChartAxisValuePercent(percent)
+            x: createDateAxisValue(timestamp: timestamp),
+            y: ChartAxisValueDouble(value)
         )
     }
     
-    private func createDateAxisValue(_ dateStr: String) -> ChartAxisValue {
-        let date = readFormatter.date(from: dateStr)!
+    private func createDateAxisValue(timestamp: Int) -> ChartAxisValue {
+        let date = Date(timeIntervalSince1970: TimeInterval(timestamp))
         return ChartAxisValueDate(date: date, formatter: displayFormatter, labelSettings: xAxisLabelSettings)
     }
     
-    class ChartAxisValuePercent: ChartAxisValueDouble {
-        override var description: String {
-            return "\(formatter.string(from: NSNumber(value: scalar))!)%"
-        }
+}
+
+extension Double {
+    
+    func to2PrecisionString() -> String {
+        String(format: "%.2f%", self)
     }
     
 }

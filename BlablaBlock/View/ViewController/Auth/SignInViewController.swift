@@ -62,9 +62,13 @@ class SignInViewController: BaseViewController {
         passwordTextField.tag = 2
         passwordTextField.isSecureTextEntry = true
         passwordTextField.returnKeyType = .done
+        passwordConfirmTextField.delegate = self
+        passwordConfirmTextField.tag = 3
+        passwordConfirmTextField.isSecureTextEntry = true
+        passwordConfirmTextField.returnKeyType = .done
 
         emailTextField.text = "rex@huijun.org"
-        passwordTextField.text = "123456"
+        passwordTextField.text = "1234567"
         
         bindNextButton()
         
@@ -102,9 +106,7 @@ class SignInViewController: BaseViewController {
             )
             .disposed(by: disposeBag)
         
-        signIn()
-        
-//        nextBtn.isEnabled = false
+//        signIn()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -220,6 +222,8 @@ extension SignInViewController: RadioButtonGroupDelegate {
     func onClicked(radioButton: RadioButton) {
         let shouldHidden = radioButton == signInBtn
         if shouldHidden {
+            passwordTextField.returnKeyType = .done
+            passwordConfirmTextField.tag = -1
             userNameInputView.fadeIn { [weak self] in
                 self?.userNameInputView.isHidden = true
             }
@@ -237,6 +241,8 @@ extension SignInViewController: RadioButtonGroupDelegate {
         } else {
             userNameInputView.isHidden = false
             passwordConfirmInputView.isHidden = false
+            passwordTextField.returnKeyType = .next
+            passwordConfirmTextField.tag = 3
             UIView.animate(
                 withDuration: 0.2,
                 animations: { [weak self] in
@@ -258,7 +264,6 @@ extension SignInViewController: RadioButtonGroupDelegate {
 extension SignInViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        Timber.i("textFieldShouldReturn: \(textField.tag)")
         let nextTag = textField.tag + 1
         if let nextResponder = view?.viewWithTag(nextTag) {
             nextResponder.becomeFirstResponder()
@@ -267,4 +272,5 @@ extension SignInViewController: UITextFieldDelegate {
         }
         return true
     }
+    
 }

@@ -17,15 +17,12 @@ struct Portfolio: Decodable {
 struct PortfolioData: Decodable, Equatable {
     
     let exchange: String
-    let currency: String
+    let entryPrice: String?
+    let currentPrice: String?
+    let unrealizedProfit: String?
+    let value: String
     let type: String
-    let balance: Double
-    let value: Double
-    
-//    "exchange": "binance",
-//    "currency": "USDT",
-//    "type": "spot",
-//    "balance": 27.3094816,
-//    "value": 27.3094816,
+    let currency: String
+    let balance: String
     
 }

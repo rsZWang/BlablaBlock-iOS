@@ -7,7 +7,7 @@
 
 import UIKit
 import Resolver
-import SwiftCharts
+import RxSwift
 
 class StatisticsViewController: BaseViewController, RadioButtonGroupDelegate {
     
@@ -21,22 +21,21 @@ class StatisticsViewController: BaseViewController, RadioButtonGroupDelegate {
     @IBOutlet weak var listBtn: ColorButton!
     @IBOutlet weak var historyBtn: ColorButton!
     @IBOutlet weak var pagerSectionView: UIView!
-    private let portfolioView = PortfolioView()
+    private lazy var portfolioView = PortfolioView()
     private var tableView: ExchangeListTableView { portfolioView.tableView }
     private lazy var portfolioViewCell: PagedViewCell = {
         let cell = PagedViewCell()
-        cell.view = portfolioView
+        cell.setView(view: portfolioView)
         return cell
     }()
-    private let pnlView = PNLView()
+    private lazy var pnlView = PNLView()
     private lazy var pnlViewCell: PagedViewCell = {
         let cell = PagedViewCell()
-        cell.view = pnlView
+        cell.setView(view: pnlView)
         return cell
     }()
     private lazy var pagedView: PagedView = {
-//        let pagedView = PagedView(pages: [statisticsCell])
-        let pagedView = PagedView(pages: [pnlView, portfolioViewCell])
+        let pagedView = PagedView(pages: [portfolioViewCell, pnlViewCell])
         pagedView.translatesAutoresizingMaskIntoConstraints = false
         return pagedView
     }()
@@ -61,27 +60,21 @@ class StatisticsViewController: BaseViewController, RadioButtonGroupDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        statisticsViewModel.getPortfolio()
-            .subscribe(
-                onSuccess: { [unowned self] portfolio in
-                    tableView.setData(portfolio.data)
-                },
-                onFailure: { [unowned self] error in
-                    promptAlert(message: "\(error)")
+        statisticsViewModel.portfolioObservable
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] portfolioData in
+                if let data = portfolioData {
+                    tableView.bind(data: data)
                 }
-            )
+            })
             .disposed(by: disposeBag)
-        
-        statisticsViewModel.getPNL()
-            .subscribe(
-                onSuccess: { [unowned self] pnl in
-                    pnlView.drawChart()
-                },
-                onFailure: { [unowned self] error in
-                    pnlView.drawChart()
-                    promptAlert(message: "\(error)")
+        statisticsViewModel.pnlObservable
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] pnlData in
+                if let data = pnlData {
+                    pnlView.bind(data: data)
                 }
-            )
+            })
             .disposed(by: disposeBag)
     }
     

@@ -25,13 +25,19 @@ class PagedViewCell: UICollectionViewCell {
     }
     
     // 1
-    public var view: UIView? {
+    var view: UIView? {
         didSet {
             self.setupUI()
         }
     }
     
-    func setView(left: CGFloat, top: CGFloat, right: CGFloat, bottom: CGFloat, view: UIView) {
+    func setView(
+        left: CGFloat = 0,
+        top: CGFloat = 0,
+        right: CGFloat = 0,
+        bottom: CGFloat = 0,
+        view: UIView
+    ) {
         leftOffSet = left
         topOffSet = top
         rightOffSet = right

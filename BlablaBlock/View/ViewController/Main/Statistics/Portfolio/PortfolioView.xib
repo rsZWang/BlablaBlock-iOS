@@ -27,8 +27,8 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LLk-cG-sgT" userLabel="Border View">
                             <rect key="frame" x="0.0" y="0.0" width="354" height="818"/>
                             <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eyI-MR-1nz">
-                                    <rect key="frame" x="15" y="5" width="324" height="803"/>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eyI-MR-1nz" userLabel="Content View">
+                                    <rect key="frame" x="15" y="5" width="324" height="813"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xMH-sv-3Hm" userLabel="Unit Section">
                                             <rect key="frame" x="0.0" y="0.0" width="324" height="40"/>
@@ -116,7 +116,7 @@
                                             </constraints>
                                         </view>
                                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3QM-8f-vj7" customClass="ExchangeListTableView" customModule="BlablaBlock" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="41" width="314" height="752"/>
+                                            <rect key="frame" x="0.0" y="41" width="314" height="772"/>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         </tableView>
                                     </subviews>
@@ -126,7 +126,7 @@
                                         <constraint firstAttribute="trailing" secondItem="3QM-8f-vj7" secondAttribute="trailing" constant="10" id="8C5-HC-6QC"/>
                                         <constraint firstItem="xMH-sv-3Hm" firstAttribute="leading" secondItem="eyI-MR-1nz" secondAttribute="leading" id="D6V-yJ-3kU"/>
                                         <constraint firstItem="3QM-8f-vj7" firstAttribute="top" secondItem="nvd-Gw-1Ve" secondAttribute="bottom" id="O1H-uC-JGr"/>
-                                        <constraint firstAttribute="bottom" secondItem="3QM-8f-vj7" secondAttribute="bottom" constant="10" id="XZK-fU-xn5"/>
+                                        <constraint firstAttribute="bottom" secondItem="3QM-8f-vj7" secondAttribute="bottom" id="XZK-fU-xn5"/>
                                         <constraint firstAttribute="trailing" secondItem="nvd-Gw-1Ve" secondAttribute="trailing" id="cij-4z-bQT"/>
                                         <constraint firstItem="nvd-Gw-1Ve" firstAttribute="leading" secondItem="eyI-MR-1nz" secondAttribute="leading" id="iPI-sj-XOA"/>
                                         <constraint firstItem="nvd-Gw-1Ve" firstAttribute="top" secondItem="xMH-sv-3Hm" secondAttribute="bottom" id="jt7-i8-pZQ"/>
@@ -139,7 +139,7 @@
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="eyI-MR-1nz" secondAttribute="trailing" constant="15" id="4LX-jD-Olj"/>
                                 <constraint firstItem="eyI-MR-1nz" firstAttribute="top" secondItem="LLk-cG-sgT" secondAttribute="top" constant="5" id="7C8-1v-MOO"/>
-                                <constraint firstAttribute="bottom" secondItem="eyI-MR-1nz" secondAttribute="bottom" constant="10" id="BWt-c5-ESf"/>
+                                <constraint firstAttribute="bottom" secondItem="eyI-MR-1nz" secondAttribute="bottom" id="BWt-c5-ESf"/>
                                 <constraint firstItem="eyI-MR-1nz" firstAttribute="leading" secondItem="LLk-cG-sgT" secondAttribute="leading" constant="15" id="kHw-68-6xz"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
