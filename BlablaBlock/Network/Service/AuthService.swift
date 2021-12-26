@@ -6,6 +6,9 @@
 //
 
 import Moya
+import Defaults
+
+typealias Method = Moya.Method
 
 struct AuthService {
     
@@ -19,22 +22,11 @@ struct AuthService {
                 "password" : password
             ], encoding: JSONEncoding.default)
         }
-        typealias SuccessType = LogInSuccessModel
-        typealias FailureType = ResponseFailureModel
+        typealias SuccessType = LogInSuccess
+        typealias FailureType = ResponseFailure
         
         let email: String
         let password: String
-    }
-    
-    struct Logout: HttpResponseTargetType {
-        var method: Method { .post }
-        var path: String { "logout" }
-        var headers: [String : String]? { ["Authorization" : "Bearer \(userToken!)"] }
-        var task: Task {
-            .requestPlain
-        }
-        typealias SuccessType = ResponseSuccess
-        typealias FailureType = ResponseFailureModel
     }
     
     struct Registration: HttpResponseTargetType {
@@ -48,8 +40,8 @@ struct AuthService {
                 "password" : password
             ], encoding: JSONEncoding.default)
         }
-        typealias SuccessType = LogInSuccessModel
-        typealias FailureType = ResponseFailureModel
+        typealias SuccessType = LogInSuccess
+        typealias FailureType = ResponseFailure
         
         let userName: String
         let email: String
@@ -65,8 +57,8 @@ struct AuthService {
                 "email" : email
             ], encoding: JSONEncoding.default)
         }
-        typealias SuccessType = ResponseSuccess
-        typealias FailureType = ResponseFailureModel
+        typealias SuccessType = LogInSuccess
+        typealias FailureType = ResponseFailure
         
         let email: String
     }
@@ -74,15 +66,26 @@ struct AuthService {
     struct ResetPassword: HttpResponseTargetType {
         var method: Method { .post }
         var path: String { "resetpassword" }
-        var headers: [String : String]? { ["Authorization" : "Bearer \(userToken!)"] }
+        var headers: [String : String]? { ["Authorization" : "Bearer \(Defaults[.userToken]!)"] }
         var task: Task {
             .requestParameters(parameters: [
                 "password" : password
             ], encoding: JSONEncoding.default)
         }
         typealias SuccessType = ResponseSuccess
-        typealias FailureType = ResponseFailureModel
+        typealias FailureType = ResponseFailure
         
         let password: String
+    }
+    
+    struct Logout: HttpResponseTargetType {
+        var method: Method { .post }
+        var path: String { "logout" }
+        var headers: [String : String]? { ["Authorization" : "Bearer \(Defaults[.userToken]!)"] }
+        var task: Task {
+            .requestPlain
+        }
+        typealias SuccessType = ResponseSuccess
+        typealias FailureType = ResponseFailure
     }
 }

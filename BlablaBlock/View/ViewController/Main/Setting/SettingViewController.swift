@@ -11,11 +11,19 @@ import Resolver
 
 class SettingViewController: BaseViewController, LinkCardViewDelegate {
     
-//    @Injected var statisticsViewModel: StatisticsViewModel
+    @Injected var mainCoordinator: MainCoordinator
     @Injected var authViewModel: AuthViewModel
     
-    private lazy var binanceLinkCard = LinkCardView(self, image: UIImage(named: "ic_setting_binance")!, title: "連結幣安")
-    private lazy var ftxLinkCard = LinkCardView(self, image: UIImage(named: "ic_setting_ftx")!, title: "連結FTX")
+    private lazy var binanceLinkCard = LinkCardView(
+        self,
+        image: UIImage(named: "ic_setting_binance")!,
+        title: "連結幣安"
+    )
+    private lazy var ftxLinkCard = LinkCardView(
+        self,
+        image: UIImage(named: "ic_setting_ftx")!,
+        title: "連結FTX"
+    )
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var signOutButton: UIButton!
@@ -32,7 +40,22 @@ class SettingViewController: BaseViewController, LinkCardViewDelegate {
             .tap
             .subscribe(onNext: { [weak self] in
                 self?.signOutButton.isEnabled = false
-                self?.signOut()
+                self?.authViewModel.signOut()
+            })
+            .disposed(by: disposeBag)
+        
+        authViewModel.successObservable
+            .subscribe(onNext: { [weak self] success in
+                if success {
+                    self?.mainCoordinator.popToSignIn()
+                }
+                self?.signOutButton.isEnabled = true
+            })
+            .disposed(by: disposeBag)
+        
+        authViewModel.errorMessageObservable
+            .subscribe(onNext: { [weak self] msg in
+                self?.signOutButton.isEnabled = true
             })
             .disposed(by: disposeBag)
     }
@@ -45,26 +68,6 @@ class SettingViewController: BaseViewController, LinkCardViewDelegate {
     func onTap() {
         let vc = LinkExchangeViewController()
         present(vc, animated: true)
-    }
-    
-    private func signOut() {
-        authViewModel.signOut()
-            .subscribe(
-                onSuccess: { [weak self] response in
-                    self?.toSignIn()
-                },
-                onFailure: { [weak self] error in
-                    self?.promptAlert(message: "\(error)")
-                },
-                onDisposed: { [weak self] in
-                    self?.signOutButton.isEnabled = true
-                }
-            )
-            .disposed(by: disposeBag)
-    }
-    
-    private func toSignIn() {
-        tabBarController!.navigationController!.popViewController(animated: true)
     }
 
 }

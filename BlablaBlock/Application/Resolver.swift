@@ -11,17 +11,16 @@ extension Resolver: ResolverRegistering {
     
     public static func registerAllServices() {
         
+        register { MainCoordinator() }.scope(.application)
+        
         // Auth
-        register { AuthService() }.scope(.shared)
         register { AuthViewModel() }.scope(.shared)
         
         // Statistics
-        register { StatisticsService() }
-        register { StatisticsViewModel() }
+        register { StatisticsViewModel() }.scope(.shared)
         
         // Exchange Setting
-        register { ExchangeApiService() }
-        register {  }
+        register { ExchangeApiViewModel() }.scope(.shared)
     }
     
 }

@@ -715,16 +715,25 @@
                                             <userDefinedRuntimeAttribute type="color" keyPath="normalBgColor">
                                                 <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="selectedBgColor">
-                                                <color key="value" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="color" keyPath="normalTitleColor">
                                                 <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="selectedTitleColor">
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="rounded" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="disabledTitleColor">
                                                 <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="rounded" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="highlightedTitleColor">
+                                                <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="disabledBgColor">
+                                                <color key="value" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="highlightedBgColor">
+                                                <color key="value" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="titleSize">
+                                                <real key="value" value="16"/>
+                                            </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </button>
                                 </subviews>
@@ -801,25 +810,25 @@
     </scenes>
     <designables>
         <designable name="0hi-Ip-Qri">
-            <size key="intrinsicContentSize" width="43" height="29"/>
+            <size key="intrinsicContentSize" width="56" height="34"/>
         </designable>
         <designable name="1o4-Vr-QUA">
             <size key="intrinsicContentSize" width="53" height="44"/>
         </designable>
         <designable name="4CV-sV-43g">
-            <size key="intrinsicContentSize" width="82" height="36"/>
+            <size key="intrinsicContentSize" width="74" height="34"/>
         </designable>
         <designable name="Ark-2r-ftG">
-            <size key="intrinsicContentSize" width="82" height="36"/>
+            <size key="intrinsicContentSize" width="74" height="34"/>
         </designable>
         <designable name="BA0-F6-eLq">
-            <size key="intrinsicContentSize" width="30" height="29"/>
+            <size key="intrinsicContentSize" width="37" height="34"/>
         </designable>
         <designable name="Cbm-ds-leR">
             <size key="intrinsicContentSize" width="53" height="44"/>
         </designable>
         <designable name="VXG-1j-OdW">
-            <size key="intrinsicContentSize" width="62" height="36"/>
+            <size key="intrinsicContentSize" width="80" height="44"/>
         </designable>
     </designables>
     <resources>

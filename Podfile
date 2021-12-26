@@ -8,6 +8,8 @@ target 'BlablaBlock' do
 
   # App
   pod 'Resolver'
+#  pod 'KeychainAccess'
+  pod 'Defaults'
   pod 'Firebase/Analytics'
 
   # UI

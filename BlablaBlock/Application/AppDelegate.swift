@@ -9,24 +9,27 @@ import UIKit
 import Firebase
 import Resolver
 
-var userToken: String!
-
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UISceneDelegate {
 
     var window: UIWindow?
+    @Injected var mainCoordinator: MainCoordinator
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        if #available(iOS 13, *) {
+            
+        } else {
+            mainCoordinator.start()
+            let window = UIWindow(frame: UIScreen.main.bounds)
+            window.rootViewController = mainCoordinator.navigationController
+            window.makeKeyAndVisible()
+            self.window = window
+        }
         
         FirebaseApp.configure()
         Resolver.registerAllServices()
         
         return true
-    }
-
-    // MARK: UISceneSession Lifecycle
-    @available(iOS 13.0, *)
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        window?.overrideUserInterfaceStyle = .light
     }
 }

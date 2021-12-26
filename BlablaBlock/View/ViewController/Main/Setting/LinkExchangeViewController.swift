@@ -6,13 +6,15 @@
 //
 
 import UIKit
+import Resolver
 import SnapKit
 import RxSwift
 import RxGesture
 
-class LinkExchangeViewController: UIViewController {
+class LinkExchangeViewController: BaseViewController {
     
-    private let disposeBag = DisposeBag()
+    @Injected var statisticsViewModel: StatisticsViewModel
+    @Injected var exchangeApiViewMode: ExchangeApiViewModel
     
     private let containerHeight = UIScreen.main.bounds.height * 0.4
     private let containerView = UIView()

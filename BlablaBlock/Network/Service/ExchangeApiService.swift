@@ -6,48 +6,47 @@
 //
 
 import Moya
+import Defaults
 
 struct ExchangeApiService {
     
-    struct getAllApis: HttpResponseTargetType {
+    struct getLinked: HttpResponseTargetType {
         
         var method: Method { .get }
         var path: String { "api_settings" }
-        var headers: [String : String]? { ["Authorization" : "Bearer \(userToken!)"] }
+        var headers: [String : String]? { ["Authorization" : "Bearer \(Defaults[.userToken]!)"] }
         var task: Task {
             .requestPlain
         }
-        typealias SuccessType = ResponseSuccess
-        typealias FailureType = ResponseFailureModel
+        typealias SuccessType = Exchange
+        typealias FailureType = ResponseFailure
     }
     
-    struct createApi: HttpResponseTargetType {
+    struct create: HttpResponseTargetType {
         
         var method: Method { .post }
-        var path: String { "api_settings/new" }
-        var headers: [String : String]? { ["Authorization" : "Bearer \(userToken!)"] }
+        var path: String { "api_settings" }
+        var headers: [String : String]? { ["Authorization" : "Bearer \(Defaults[.userToken]!)"] }
         var task: Task {
             .requestParameters(parameters: [
                 "exchange" : exchange,
                 "api_key" : apiKey,
-                "api_secret" : apiSecret,
-                "subaccount" : subAccount
+                "api_secret" : apiSecret
             ], encoding: JSONEncoding.default)
         }
         typealias SuccessType = ResponseSuccess
-        typealias FailureType = ResponseFailureModel
+        typealias FailureType = ResponseFailure
         
         let exchange: String
         let apiKey: String
         let apiSecret: String
-        let subAccount: String
     }
     
-    struct editApi: HttpResponseTargetType {
+    struct edit: HttpResponseTargetType {
         
         var method: Method { .patch }
         var path: String { "api_settings/\(id)" }
-        var headers: [String : String]? { ["Authorization" : "Bearer \(userToken!)"] }
+        var headers: [String : String]? { ["Authorization" : "Bearer \(Defaults[.userToken]!)"] }
         var task: Task {
             .requestParameters(parameters: [
                 "exchange" : exchange,
@@ -57,7 +56,7 @@ struct ExchangeApiService {
             ], encoding: JSONEncoding.default)
         }
         typealias SuccessType = ResponseSuccess
-        typealias FailureType = ResponseFailureModel
+        typealias FailureType = ResponseFailure
         
         let id: String
         let exchange: String
@@ -66,16 +65,16 @@ struct ExchangeApiService {
         let subAccount: String
     }
     
-    struct deleteApi: HttpResponseTargetType {
+    struct delete: HttpResponseTargetType {
         
         var method: Method { .delete }
         var path: String { "api_settings/\(id)" }
-        var headers: [String : String]? { ["Authorization" : "Bearer \(userToken!)"] }
+        var headers: [String : String]? { ["Authorization" : "Bearer \(Defaults[.userToken]!)"] }
         var task: Task {
             .requestPlain
         }
         typealias SuccessType = ResponseSuccess
-        typealias FailureType = ResponseFailureModel
+        typealias FailureType = ResponseFailure
         
         let id: String
     }

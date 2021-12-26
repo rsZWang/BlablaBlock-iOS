@@ -1,5 +1,5 @@
 //
-//  BlablaBlockApi.swift
+//  HttpResponseTargetType.swift
 //  BlablaBlock
 //
 //  Created by YINGHAO WANG on 2021/12/11.
@@ -53,10 +53,11 @@ fileprivate final class ApiProvider {
                         let body = try decoder.decode(SuccessType.self, from: moyaResponse.data)
                         single(.success(.Success(body)))
                     } catch {
-                        if let body = try? decoder.decode(FailureType.self, from: moyaResponse.data) {
+                        do {
+                            let body = try decoder.decode(FailureType.self, from: moyaResponse.data)
                             single(.success(.Failure(body)))
-                        } else {
-                            Timber.e("Parse error: \(moyaResponse)")
+                        } catch {
+                            single(.failure(error))
                         }
                     }
                 case let .failure(moyaError):

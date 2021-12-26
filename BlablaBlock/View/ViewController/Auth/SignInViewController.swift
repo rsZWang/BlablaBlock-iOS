@@ -6,15 +6,15 @@
 //
 
 import UIKit
-import RxSwift
-import RxCocoa
-import RxGesture
 import Resolver
+import RxCocoa
+import RxSwift
+import RxGesture
 
-class SignInViewController: BaseViewController {
+class SignInViewController: BaseViewController, Storyboarded {
     
-    @Injected
-    private var authViewModel: AuthViewModel
+    @Injected private var mainCoordinator: MainCoordinator
+    @Injected private var authViewModel: AuthViewModel
     private let signInValid = ReplayRelay<Bool>.create(bufferSize: 1)
        
     private let radioButtonGruop = RadioButtonGroup()
@@ -67,8 +67,8 @@ class SignInViewController: BaseViewController {
         passwordConfirmTextField.isSecureTextEntry = true
         passwordConfirmTextField.returnKeyType = .done
 
-        emailTextField.text = "rex@huijun.org"
-        passwordTextField.text = "1234567"
+        emailTextField.text = "cool890104@gmail.com"
+        passwordTextField.text = "123456"
         
         bindNextButton()
         
@@ -93,42 +93,35 @@ class SignInViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
         
-        authViewModel.apiReponseObservable
-            .subscribe(
-                onNext: { [weak self] result in
-                    self?.toMainPage()
-                    self?.nextBtn.isEnabled = true
-                },
-                onError: { [weak self] error in
-                    self?.nextBtn.isEnabled = true
-                    self?.promptAlert(message: "\(error)")
-                }
-            )
+        authViewModel.successObservable
+            .subscribe(onNext: { [weak self] result in
+                self?.nextBtn.isEnabled = true
+                self?.toMainPage()
+            })
+            .disposed(by: disposeBag)
+        
+        authViewModel.errorMessageObservable
+            .subscribe(onNext: { [weak self] msg in
+                self?.nextBtn.isEnabled = true
+                self?.promptAlert(message: msg)
+            })
             .disposed(by: disposeBag)
         
 //        signIn()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
-    
     func signIn() {
         authViewModel.signIn(
-            email: emailTextField.text ?? "",
-            password: passwordTextField.text ?? ""
+            email: emailTextField.text!,
+            password: passwordTextField.text!
         )
     }
     
     func signUp() {
         authViewModel.signUp(
-            userName: userNameTextField.text ?? "",
-            email: emailTextField.text ?? "",
-            password: passwordTextField.text ?? ""
+            userName: userNameTextField.text!,
+            email: emailTextField.text!,
+            password: passwordTextField.text!
         )
     }
     
@@ -168,11 +161,12 @@ class SignInViewController: BaseViewController {
     }
     
     private func toMainPage() {
-        let mainTabBarController = UIStoryboard(name: "Main", bundle: nil)
-            .instantiateViewController(withIdentifier: "MainTabBarController") as! UITabBarController
-        mainTabBarController.tabBar.barTintColor = UIColor(named: "gray_tab_bar")!
-        mainTabBarController.selectedIndex = 2
-        push(vc: mainTabBarController)
+        userNameTextField.text = ""
+        emailTextField.text = ""
+        passwordTextField.text = ""
+        passwordConfirmTextField.text = ""
+        signInBtn.sendActions(for: .touchUpInside)
+        mainCoordinator.main(isSignIn: true)
     }
     
 }

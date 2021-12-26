@@ -9,15 +9,6 @@ import Foundation
 
 struct ResponseSuccess: Decodable {
     
-    let code: Int                  // HTTP status
-    let data: ResponseSuccessData?  // User data
-    
-}
-
-struct ResponseSuccessData: Decodable {
-    
-    let apiToken: String
-    let userId: Int
-    let email: String
+    let code: Int  // API status
     
 }

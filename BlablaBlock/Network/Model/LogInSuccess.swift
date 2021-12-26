@@ -1,18 +1,18 @@
 //
-//  LogInSuccessModel.swift
+//  LogInSuccess.swift
 //  BlablaBlock
 //
 //  Created by YINGHAO WANG on 2021/12/25.
 //
 
-struct LogInSuccessModel: Decodable {
+struct LogInSuccess: Decodable {
     
     let code: Int
-    let data: LogInSuccessDataModel
+    let data: LogInSuccessData
     
 }
 
-struct LogInSuccessDataModel: Decodable {
+struct LogInSuccessData: Decodable {
     
     let apiToken: String
     let userId: Int

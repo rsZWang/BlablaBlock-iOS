@@ -8,28 +8,23 @@
 import Resolver
 import RxCocoa
 import RxSwift
+import Defaults
 
 class AuthViewModel: BaseViewModel {
     
     @Injected private var authService: AuthService
     
-    var apiReponseObservable = PublishSubject<String>()
+    let successObservable = PublishRelay<Bool>()
     
     func signIn(email: String, password: String) {
         AuthService.Login(email: email, password: password)
             .request()
             .subscribe(
                 onSuccess: { [unowned self] response in
-                    switch response {
-                    case let .Success(logInSuccessModel):
-                        userToken = logInSuccessModel.data.apiToken
-                        apiReponseObservable.onNext("")
-                    case let .Failure(responseFailureModel):
-                        apiReponseObservable.onNext("\(responseFailureModel)")
-                    }
+                    signInHandler(response: response)
                 },
-                onFailure: { [unowned self] e in
-                    apiReponseObservable.onError(e)
+                onFailure: { [unowned self] error in
+                    errorHandler(error: error)
                 }
             )
             .disposed(by: disposeBag)
@@ -40,22 +35,16 @@ class AuthViewModel: BaseViewModel {
             .request()
             .subscribe(
                 onSuccess: { [unowned self] response in
-                    switch response {
-                    case let .Success(logInSuccessModel):
-                        userToken = logInSuccessModel.data.apiToken
-                        apiReponseObservable.onNext("")
-                    case let .Failure(responseFailureModel):
-                        apiReponseObservable.onNext("\(responseFailureModel)")
-                    }
+                    signInHandler(response: response)
                 },
-                onFailure: { [unowned self] e in
-                    apiReponseObservable.onError(e)
+                onFailure: { [unowned self] error in
+                    errorHandler(error: error)
                 }
             )
             .disposed(by: disposeBag)
     }
     
-    func forgetPassword(email: String) -> Single<HttpResponse<AuthService.ForgetPassword.SuccessType, AuthService.ForgetPassword.FailureType>> {
+    func forgetPassword(email: String) -> Single<HttpResponse<LogInSuccess, ResponseFailure>> {
         AuthService.ForgetPassword(email: email)
             .request()
     }
@@ -65,13 +54,28 @@ class AuthViewModel: BaseViewModel {
             .request()
             .subscribe(
                 onSuccess: { [unowned self] response in
-                    
+                    switch response {
+                    case let .Success(responseStatus):
+                        successObservable.accept(responseStatus.code == 200)
+                    case let .Failure(responseFailure):
+                        errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
+                    }
                 },
-                onFailure: { [unowned self] e in
-                    
+                onFailure: { [unowned self] error in
+                    errorHandler(error: error)
                 }
             )
             .disposed(by: disposeBag)
+    }
+    
+    private func signInHandler(response: HttpResponse<LogInSuccess, ResponseFailure>) {
+        switch response {
+        case let .Success(loginSuccess):
+            Defaults[.userToken] = loginSuccess.data.apiToken
+            successObservable.accept(true)
+        case let .Failure(responseFailure):
+            errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
+        }
     }
     
 }

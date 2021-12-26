@@ -11,10 +11,10 @@ import RxSwift
 
 class StatisticsViewModel: BaseViewModel {
     
-    @Injected private var statisticsService: StatisticsService
-    
     let portfolioObservable = BehaviorRelay<[PortfolioData]?>(value: nil)
     let pnlObservable = BehaviorRelay<PNLData?>(value: nil)
+    private var isNotAutoSwitch = true
+    var isLinked = true
     
     override init() {
         super.init()
@@ -28,8 +28,10 @@ class StatisticsViewModel: BaseViewModel {
             scheduler: ConcurrentDispatchQueueScheduler(qos: .background)
         )
         .subscribe(onNext: { [unowned self] _ in
-            getPortfolio()
-            getPNL()
+            if isLinked {
+                getPortfolio()
+                getPNL()
+            }
         })
         .disposed(by: disposeBag)
     }
@@ -38,13 +40,23 @@ class StatisticsViewModel: BaseViewModel {
         StatisticsService.getPortfolio(exchange: "all")
             .request()
             .subscribe(
-                onSuccess: { [unowned self] portfolio in
-                    if portfolio.code == 200 {
+                onSuccess: { [unowned self] response in
+                    switch response {
+                    case let .Success(portfolio):
                         portfolioObservable.accept(portfolio.data)
+                    case let .Failure(responseFailure):
+                        if responseFailure.code == 1006 {
+                            isLinked = false
+                            if isNotAutoSwitch {
+                                isNotAutoSwitch = false
+                            }
+                        } else {
+                            errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
+                        }
                     }
                 },
                 onFailure: { error in
-                    Timber.i("\(error)")
+                    Timber.e("\(error)")
                 }
             )
             .disposed(by: disposeBag)
@@ -54,13 +66,20 @@ class StatisticsViewModel: BaseViewModel {
         StatisticsService.getPNL(exchange: "all", period: "all")
             .request()
             .subscribe(
-                onSuccess: { [unowned self] pnl in
-                    if pnl.code == 200 {
+                onSuccess: { [unowned self] response in
+                    switch response {
+                    case let .Success(pnl):
                         pnlObservable.accept(pnl.data.first)
+                    case let .Failure(responseFailure):
+                        if responseFailure.code == 1007 {
+                            
+                        } else {
+                            errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
+                        }
                     }
                 },
                 onFailure: { error in
-                    Timber.i("\(error)")
+                    Timber.e("\(error)")
                 }
             )
             .disposed(by: disposeBag)

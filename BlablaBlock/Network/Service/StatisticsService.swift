@@ -6,6 +6,7 @@
 //
 
 import Moya
+import Defaults
 
 struct StatisticsService {
     
@@ -13,14 +14,14 @@ struct StatisticsService {
         
         var method: Method { .get }
         var path: String { "portfolio" }
-        var headers: [String : String]? { ["Authorization" : "Bearer \(userToken!)"] }
+        var headers: [String : String]? { ["Authorization" : "Bearer \(Defaults[.userToken]!)"] }
         var task: Task {
             .requestParameters(parameters: [
                 "exchange" : exchange
             ], encoding: URLEncoding.queryString)
         }
         typealias SuccessType = Portfolio
-        typealias FailureType = ResponseFailureModel
+        typealias FailureType = ResponseFailure
         
         let exchange: String
     }
@@ -29,7 +30,7 @@ struct StatisticsService {
         
         var method: Method { .get }
         var path: String { "pnl" }
-        var headers: [String : String]? { ["Authorization" : "Bearer \(userToken!)"] }
+        var headers: [String : String]? { ["Authorization" : "Bearer \(Defaults[.userToken]!)"] }
         var task: Task {
             .requestParameters(parameters: [
                 "exchange" : exchange,
@@ -37,7 +38,7 @@ struct StatisticsService {
             ], encoding: URLEncoding.queryString)
         }
         typealias SuccessType = PNL
-        typealias FailureType = ResponseFailureModel
+        typealias FailureType = ResponseFailure
         
         let exchange: String
         let period: String

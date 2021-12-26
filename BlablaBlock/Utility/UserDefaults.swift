@@ -1,0 +1,15 @@
+//
+//  UserDefaults.swift
+//  BlablaBlock
+//
+//  Created by YINGHAO WANG on 2021/12/26.
+//
+
+//import Cocoa
+import Defaults
+
+extension Defaults.Keys {
+    
+    static let userToken = Key<String?>("token", default: nil)
+    
+}

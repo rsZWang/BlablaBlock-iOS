@@ -51,15 +51,13 @@ class StatisticsViewController: BaseViewController, RadioButtonGroupDelegate {
         pagerSectionView.snp.makeConstraints { make in
             make.edges.equalTo(pagedView)
         }
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        avatarImageView.makeCircle()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        
+        statisticsViewModel.errorMessageObservable
+            .subscribe(onNext: { [weak self] msg in
+                self?.promptAlert(message: msg)
+            })
+            .disposed(by: disposeBag)
+        
         statisticsViewModel.portfolioObservable
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [unowned self] portfolioData in
@@ -68,6 +66,7 @@ class StatisticsViewController: BaseViewController, RadioButtonGroupDelegate {
                 }
             })
             .disposed(by: disposeBag)
+        
         statisticsViewModel.pnlObservable
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [unowned self] pnlData in
@@ -78,8 +77,9 @@ class StatisticsViewController: BaseViewController, RadioButtonGroupDelegate {
             .disposed(by: disposeBag)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        avatarImageView.makeCircle()
     }
     
     func onClicked(radioButton: RadioButton) {
