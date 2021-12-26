@@ -11,5 +11,6 @@ import Defaults
 extension Defaults.Keys {
     
     static let userToken = Key<String?>("token", default: nil)
+    static let userName = Key<String?>("userName", default: nil)
     
 }

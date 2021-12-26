@@ -7,7 +7,7 @@
 
 import UIKit
 
-public protocol RadioButtonGroupDelegate {
+public protocol RadioButtonGroupDelegate: NSObject {
     func onClicked(radioButton: RadioButton)
 }
 
@@ -24,7 +24,7 @@ public class RadioButtonGroup: RadioButtonDelegate {
             return nil
         }
     }
-    public var delegate: RadioButtonGroupDelegate?
+    public weak var delegate: RadioButtonGroupDelegate?
     
     public func add(_ button: RadioButton) {
         button.delegate = self

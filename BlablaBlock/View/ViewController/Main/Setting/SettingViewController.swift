@@ -13,20 +13,14 @@ class SettingViewController: BaseViewController, LinkCardViewDelegate {
     
     @Injected var mainCoordinator: MainCoordinator
     @Injected var authViewModel: AuthViewModel
+    @Injected var statisticsViewModel: StatisticsViewModel
+    @Injected var exchangeApiViewModel: ExchangeApiViewModel
     
-    private lazy var binanceLinkCard = LinkCardView(
-        self,
-        image: UIImage(named: "ic_setting_binance")!,
-        title: "連結幣安"
-    )
-    private lazy var ftxLinkCard = LinkCardView(
-        self,
-        image: UIImage(named: "ic_setting_ftx")!,
-        title: "連結FTX"
-    )
+    private lazy var binanceLinkCard = LinkCardView(self, type: .Binance)
+    private lazy var ftxLinkCard = LinkCardView(self, type: .FTX)
 
     @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var signOutButton: UIButton!
+    @IBOutlet weak var signOutButton: ColorButton!
     @IBOutlet weak var linkCardViewListStackView: UIStackView!
     
     override func viewDidLoad() {
@@ -35,6 +29,9 @@ class SettingViewController: BaseViewController, LinkCardViewDelegate {
         linkCardViewListStackView.spacing = 20
         linkCardViewListStackView.addArrangedSubview(binanceLinkCard)
         linkCardViewListStackView.addArrangedSubview(ftxLinkCard)
+
+        let exchangeList = statisticsViewModel.exhangesObservable.value!
+        refreshList(exchangeList: exchangeList)
         
         signOutButton.rx
             .tap
@@ -45,6 +42,7 @@ class SettingViewController: BaseViewController, LinkCardViewDelegate {
             .disposed(by: disposeBag)
         
         authViewModel.successObservable
+            .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] success in
                 if success {
                     self?.mainCoordinator.popToSignIn()
@@ -58,6 +56,22 @@ class SettingViewController: BaseViewController, LinkCardViewDelegate {
                 self?.signOutButton.isEnabled = true
             })
             .disposed(by: disposeBag)
+
+        exchangeApiViewModel.exhangeListObservable
+            .subscribe(onNext: { [weak self] exchangeList in
+                self?.refreshList(exchangeList: exchangeList)
+            })
+            .disposed(by: disposeBag)
+
+        exchangeApiViewModel.errorMessageObservable
+            .subscribe(onNext: { [weak self] msg in
+                self?.promptAlert(message: msg)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     override func viewDidLayoutSubviews() {
@@ -65,9 +79,56 @@ class SettingViewController: BaseViewController, LinkCardViewDelegate {
         avatarImageView.makeCircle()
     }
     
-    func onTap() {
+    private func refreshList(exchangeList: [ExchangeData]) {
+        if exchangeList.isEmpty {
+            binanceLinkCard.exchange = nil
+            ftxLinkCard.exchange = nil
+        } else {
+            if let binance = exchangeList.first(where: { $0.exchange == "binance" }) {
+                binanceLinkCard.exchange = binance
+            }
+            if let ftx = exchangeList.first(where: { $0.exchange == "ftx" }) {
+                ftxLinkCard.exchange = ftx
+            }
+        }
+    }
+    
+    func onTap(type: ExchangeType, exchange: ExchangeData?) {
+        if let exchange = exchange {
+            promptActionSheetAlert(type: type, exchange: exchange)
+        } else {
+            promptLinkViewController(type: type, exchange: exchange)
+        }
+    }
+    
+    private func promptLinkViewController(type: ExchangeType, exchange: ExchangeData?) {
         let vc = LinkExchangeViewController()
+        vc.exchangeType = type
+        vc.exchange = exchange
         present(vc, animated: true)
+    }
+    
+    private func promptActionSheetAlert(type: ExchangeType, exchange: ExchangeData) {
+        AlertBuilder()
+            .setStyle(.actionSheet)
+            .setButton(title: "修改") { [weak self] in
+                self?.promptLinkViewController(type: type, exchange: exchange)
+            }
+            .setButton(title: "刪除") { [weak self] in
+                self?.promptDeleteAlert(exchange: exchange)
+            }
+            .setButton(title: "取消", style: .cancel)
+            .show(self)
+    }
+    
+    private func promptDeleteAlert(exchange: ExchangeData) {
+        AlertBuilder()
+            .setTitle("確定要刪除嗎？")
+            .setButton(title: "確定") { [weak self] in
+                self?.exchangeApiViewModel.delete(id: exchange.id)
+            }
+            .setButton(title: "取消", style: .cancel)
+            .show(self)
     }
 
 }

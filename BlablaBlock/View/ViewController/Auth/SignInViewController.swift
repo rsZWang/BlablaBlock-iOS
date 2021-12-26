@@ -15,12 +15,14 @@ class SignInViewController: BaseViewController, Storyboarded {
     
     @Injected private var mainCoordinator: MainCoordinator
     @Injected private var authViewModel: AuthViewModel
-    private let signInValid = ReplayRelay<Bool>.create(bufferSize: 1)
+    @Injected private var statisticsViewModel: StatisticsViewModel
+    private let signInMode = ReplayRelay<Bool>.create(bufferSize: 1)
+    private var hasLinkedDisposable: Disposable?
        
     private let radioButtonGruop = RadioButtonGroup()
     @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var signUpBtn: ColorTextButton!
     @IBOutlet weak var signInBtn: ColorTextButton!
+    @IBOutlet weak var signUpBtn: ColorTextButton!
     @IBOutlet weak var textFieldsStackView: UIStackView!
     @IBOutlet weak var userNameInputView: NormalInputView!
     @IBOutlet weak var emailInputView: NormalInputView!
@@ -66,11 +68,6 @@ class SignInViewController: BaseViewController, Storyboarded {
         passwordConfirmTextField.tag = 3
         passwordConfirmTextField.isSecureTextEntry = true
         passwordConfirmTextField.returnKeyType = .done
-
-        emailTextField.text = "cool890104@gmail.com"
-        passwordTextField.text = "123456"
-        
-        bindNextButton()
         
         forgetPasswordBtn.rx
             .tapGesture()
@@ -92,22 +89,37 @@ class SignInViewController: BaseViewController, Storyboarded {
                 }
             })
             .disposed(by: disposeBag)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    
+        clearPage()
+        
+//        emailTextField.text = "rex@huijun.org"
+        emailTextField.text = "cool890104@gmail.com"
+        passwordTextField.text = "123456"
+        
+        bindNextButton()
         
         authViewModel.successObservable
             .subscribe(onNext: { [weak self] result in
-                self?.nextBtn.isEnabled = true
-                self?.toMainPage()
+                self?.preload()
             })
-            .disposed(by: disposeBag)
+            .disposed(by: shortLifeCycleOwner)
         
         authViewModel.errorMessageObservable
             .subscribe(onNext: { [weak self] msg in
                 self?.nextBtn.isEnabled = true
                 self?.promptAlert(message: msg)
             })
-            .disposed(by: disposeBag)
-        
-//        signIn()
+            .disposed(by: shortLifeCycleOwner)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        hasLinkedDisposable?.dispose()
+        hasLinkedDisposable = nil
     }
     
     func signIn() {
@@ -160,13 +172,21 @@ class SignInViewController: BaseViewController, Storyboarded {
             .disposed(by: disposeBag)
     }
     
-    private func toMainPage() {
-        userNameTextField.text = ""
-        emailTextField.text = ""
-        passwordTextField.text = ""
-        passwordConfirmTextField.text = ""
+    private func clearPage() {
+        userNameTextField.text = nil
+        emailTextField.text = nil
+        passwordTextField.text = nil
+        passwordConfirmTextField.text = nil
         signInBtn.sendActions(for: .touchUpInside)
-        mainCoordinator.main(isSignIn: true)
+    }
+    
+    private func preload() {
+        hasLinkedDisposable = statisticsViewModel.getExchangesStatus()
+            .subscribe(onNext: { [weak self] hasLinked in
+                if let hasLinked = hasLinked {
+                    self?.mainCoordinator.main(isSignIn: true, hasLinked: hasLinked)
+                }
+            })
     }
     
 }
@@ -174,7 +194,8 @@ class SignInViewController: BaseViewController, Storyboarded {
 extension SignInViewController {
     
     func bindNextButton() {
-        signInValid.accept(true)
+        
+        signInMode.accept(true)
         
         let userNameValid = userNameTextField.rx
             .text.orEmpty
@@ -197,7 +218,7 @@ extension SignInViewController {
             .share(replay: 1)
 
         Observable.combineLatest(
-            signInValid,
+            signInMode,
             userNameValid,
             emailValid,
             passwordValid,
@@ -206,7 +227,7 @@ extension SignInViewController {
         )
         .share(replay: 1)
         .bind(to: nextBtn.rx.isEnabled)
-        .disposed(by: disposeBag)
+        .disposed(by: shortLifeCycleOwner)
     }
     
 }
@@ -231,7 +252,7 @@ extension SignInViewController: RadioButtonGroupDelegate {
                     }
                 )
             }
-            signInValid.accept(true)
+            signInMode.accept(true)
         } else {
             userNameInputView.isHidden = false
             passwordConfirmInputView.isHidden = false
@@ -250,7 +271,7 @@ extension SignInViewController: RadioButtonGroupDelegate {
                     }
                 }
             )
-            signInValid.accept(false)
+            signInMode.accept(false)
         }
     }
 }

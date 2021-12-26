@@ -30,9 +30,10 @@ class MainCoordinator: Coordinator {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func main(isSignIn: Bool) {
+    func main(isSignIn: Bool, hasLinked: Bool) {
         let tabBarController = mainSB.instantiateViewController(withIdentifier: "MainTabBarController") as! UITabBarController
         tabBarController.tabBar.barTintColor = UIColor(named: "gray_tab_bar")!
+        tabBarController.selectedIndex = hasLinked ? 0 : 1
         navigationController.pushViewController(tabBarController, animated: true)
         if !isSignIn {
             let signInViewController = SignInViewController.instantiate()

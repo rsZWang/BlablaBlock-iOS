@@ -12,9 +12,7 @@ import Defaults
 
 class AuthViewModel: BaseViewModel {
     
-    @Injected private var authService: AuthService
-    
-    let successObservable = PublishRelay<Bool>()
+    let successObservable = PublishSubject<Bool>()
     
     func signIn(email: String, password: String) {
         AuthService.Login(email: email, password: password)
@@ -35,7 +33,12 @@ class AuthViewModel: BaseViewModel {
             .request()
             .subscribe(
                 onSuccess: { [unowned self] response in
-                    signInHandler(response: response)
+                    switch response {
+                    case let .Success(registration):
+                        signIn(userToken: registration.data.apiToken, userName: registration.data.name)
+                    case let .Failure(responseFailure):
+                        errorCodeHandler(responseFailure)
+                    }
                 },
                 onFailure: { [unowned self] error in
                     errorHandler(error: error)
@@ -44,7 +47,7 @@ class AuthViewModel: BaseViewModel {
             .disposed(by: disposeBag)
     }
     
-    func forgetPassword(email: String) -> Single<HttpResponse<LogInSuccess, ResponseFailure>> {
+    func forgetPassword(email: String) -> Single<HttpResponse<LogIn, ResponseFailure>> {
         AuthService.ForgetPassword(email: email)
             .request()
     }
@@ -55,8 +58,8 @@ class AuthViewModel: BaseViewModel {
             .subscribe(
                 onSuccess: { [unowned self] response in
                     switch response {
-                    case let .Success(responseStatus):
-                        successObservable.accept(responseStatus.code == 200)
+                    case .Success:
+                        doSignOut()
                     case let .Failure(responseFailure):
                         errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
                     }
@@ -68,14 +71,25 @@ class AuthViewModel: BaseViewModel {
             .disposed(by: disposeBag)
     }
     
-    private func signInHandler(response: HttpResponse<LogInSuccess, ResponseFailure>) {
+    private func signInHandler(response: HttpResponse<LogIn, ResponseFailure>) {
         switch response {
         case let .Success(loginSuccess):
-            Defaults[.userToken] = loginSuccess.data.apiToken
-            successObservable.accept(true)
+            signIn(userToken: loginSuccess.data.apiToken, userName: loginSuccess.data.email)
         case let .Failure(responseFailure):
             errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
         }
+    }
+    
+    private func signIn(userToken: String, userName: String) {
+        Defaults[.userToken] = userToken
+        Defaults[.userName] = userName
+        successObservable.onNext(true)
+    }
+    
+    private func doSignOut() {
+        Defaults[.userToken] = nil
+        Defaults[.userName] = nil
+        successObservable.onNext(true)
     }
     
 }

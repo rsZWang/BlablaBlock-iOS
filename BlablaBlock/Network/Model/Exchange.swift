@@ -8,6 +8,17 @@
 struct Exchange: Decodable {
     let code: Int
     let data: [ExchangeData]
+    
+    func hasLinked() -> Bool {
+        var hasLinked = false
+        for exchange in data {
+            if exchange.isLinked() {
+                hasLinked = true
+                break
+            }
+        }
+        return hasLinked
+    }
 }
 
 struct ExchangeData: Decodable {
@@ -19,4 +30,8 @@ struct ExchangeData: Decodable {
     let userId: Int
     let createdAt: String
     let updatedAt: String
+    
+    func isLinked() -> Bool {
+        !apiKey.isEmpty && !apiSecret.isEmpty
+    }
 }

@@ -734,6 +734,7 @@
                                             <userDefinedRuntimeAttribute type="number" keyPath="titleSize">
                                                 <real key="value" value="16"/>
                                             </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="border" value="NO"/>
                                         </userDefinedRuntimeAttributes>
                                     </button>
                                 </subviews>
@@ -800,7 +801,7 @@
                     <connections>
                         <outlet property="avatarImageView" destination="Pna-9u-WT3" id="rGQ-dz-lz2"/>
                         <outlet property="linkCardViewListStackView" destination="4Kg-yW-Gj9" id="z0o-rn-aJN"/>
-                        <outlet property="signOutButton" destination="BA0-F6-eLq" id="UQ7-hm-Tnq"/>
+                        <outlet property="signOutButton" destination="BA0-F6-eLq" id="uCa-fh-RbZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LHM-Lc-TKH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

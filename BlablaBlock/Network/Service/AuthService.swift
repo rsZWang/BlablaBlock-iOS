@@ -22,7 +22,7 @@ struct AuthService {
                 "password" : password
             ], encoding: JSONEncoding.default)
         }
-        typealias SuccessType = LogInSuccess
+        typealias SuccessType = LogIn
         typealias FailureType = ResponseFailure
         
         let email: String
@@ -40,7 +40,7 @@ struct AuthService {
                 "password" : password
             ], encoding: JSONEncoding.default)
         }
-        typealias SuccessType = LogInSuccess
+        typealias SuccessType = RegistrationModel
         typealias FailureType = ResponseFailure
         
         let userName: String
@@ -57,7 +57,7 @@ struct AuthService {
                 "email" : email
             ], encoding: JSONEncoding.default)
         }
-        typealias SuccessType = LogInSuccess
+        typealias SuccessType = LogIn
         typealias FailureType = ResponseFailure
         
         let email: String

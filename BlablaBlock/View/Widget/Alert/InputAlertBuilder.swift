@@ -9,11 +9,11 @@ import UIKit
 
 class InputAlert {
     
-    private lazy var alertController = UIAlertController(title: "標題", message: "訊息", preferredStyle: .alert)
-    
-    deinit {
-        Timber.i("FUCKFUCKFUCK")
-    }
+    private lazy var alertController = UIAlertController(
+        title: "標題",
+        message: "訊息",
+        preferredStyle: .alert
+    )
     
     func setTitle(_ title: String) -> InputAlert {
         alertController.title = title

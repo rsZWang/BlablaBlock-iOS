@@ -10,7 +10,7 @@ import Defaults
 
 struct ExchangeApiService {
     
-    struct getLinked: HttpResponseTargetType {
+    struct getStatus: HttpResponseTargetType {
         
         var method: Method { .get }
         var path: String { "api_settings" }
@@ -34,7 +34,7 @@ struct ExchangeApiService {
                 "api_secret" : apiSecret
             ], encoding: JSONEncoding.default)
         }
-        typealias SuccessType = ResponseSuccess
+        typealias SuccessType = Exchange
         typealias FailureType = ResponseFailure
         
         let exchange: String
@@ -55,10 +55,10 @@ struct ExchangeApiService {
                 "subaccount" : subAccount
             ], encoding: JSONEncoding.default)
         }
-        typealias SuccessType = ResponseSuccess
+        typealias SuccessType = Exchange
         typealias FailureType = ResponseFailure
         
-        let id: String
+        let id: Int
         let exchange: String
         let apiKey: String
         let apiSecret: String
@@ -73,10 +73,10 @@ struct ExchangeApiService {
         var task: Task {
             .requestPlain
         }
-        typealias SuccessType = ResponseSuccess
+        typealias SuccessType = Exchange
         typealias FailureType = ResponseFailure
         
-        let id: String
+        let id: Int
     }
     
 }

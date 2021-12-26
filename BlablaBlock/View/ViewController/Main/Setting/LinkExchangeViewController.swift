@@ -13,8 +13,11 @@ import RxGesture
 
 class LinkExchangeViewController: BaseViewController {
     
-    @Injected var statisticsViewModel: StatisticsViewModel
-    @Injected var exchangeApiViewMode: ExchangeApiViewModel
+//    @Injected var statisticsViewModel: StatisticsViewModel
+    @Injected var exchangeApiViewModel: ExchangeApiViewModel
+    
+    var exchangeType: ExchangeType!
+    var exchange: ExchangeData?
     
     private let containerHeight = UIScreen.main.bounds.height * 0.4
     private let containerView = UIView()
@@ -48,6 +51,14 @@ class LinkExchangeViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        exchangeApiViewModel.completeObservable
+            .subscribe(onNext: { [weak self] completed in
+                if completed {
+                    self?.dismiss()
+                }
+            })
+            .disposed(by: disposeBag)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -70,6 +81,18 @@ class LinkExchangeViewController: BaseViewController {
     }
     
     private func setTopSection() -> UIView {
+        
+        let exchangeIcon: String
+        let exchangeName: String
+        switch exchangeType! {
+        case .Binance:
+            exchangeIcon = "ic_setting_binance"
+            exchangeName = "連結幣安"
+        case .FTX:
+            exchangeIcon = "ic_setting_ftx"
+            exchangeName = "連結FTX"
+        }
+        
         let topSectionHeight = containerHeight*0.2
         let topSectionView = UIView()
         topSectionView.backgroundColor = UIColor(named: "gray_tab_bar")
@@ -80,7 +103,7 @@ class LinkExchangeViewController: BaseViewController {
         }
         
         let imageViewHeight = topSectionHeight*0.5
-        imageView.image = UIImage(named: "ic_setting_binance")
+        imageView.image = UIImage(named: exchangeIcon)
         imageView.backgroundColor = .white
         topSectionView.addSubview(imageView)
         imageView.snp.makeConstraints { make in
@@ -110,7 +133,7 @@ class LinkExchangeViewController: BaseViewController {
         }
         
         let exchangeNameLabel = UILabel()
-        exchangeNameLabel.text = "連結XX帳戶"
+        exchangeNameLabel.text = exchangeName
         exchangeNameLabel.autoResize(font: .boldSystemFont(ofSize: 16))
         textSectionView.addSubview(exchangeNameLabel)
         exchangeNameLabel.snp.makeConstraints { make in
@@ -173,10 +196,10 @@ class LinkExchangeViewController: BaseViewController {
             make.top.equalTo(apiKeyInputView.snp.bottom)
         }
 
-        let secretKeyInputView = NormalInputView()
-        secretKeyInputView.placeholder = "Secret Key"
-        inputSectionView.addSubview(secretKeyInputView)
-        secretKeyInputView.snp.makeConstraints { make in
+        let apiSecretInputView = NormalInputView()
+        apiSecretInputView.placeholder = "Secret Key"
+        inputSectionView.addSubview(apiSecretInputView)
+        apiSecretInputView.snp.makeConstraints { make in
             make.left.right.equalTo(inputSectionView)
             make.top.equalTo(spearatorView1.snp.bottom)
         }
@@ -186,12 +209,17 @@ class LinkExchangeViewController: BaseViewController {
         separatorView2.snp.makeConstraints { make in
             make.height.equalTo(inputSectionView).multipliedBy(0.2)
             make.left.right.equalTo(inputSectionView)
-            make.top.equalTo(secretKeyInputView.snp.bottom)
+            make.top.equalTo(apiSecretInputView.snp.bottom)
         }
         
         let submitButton = ColorButton()
         submitButton.rounded = true
         submitButton.normalBgColor = .black
+        submitButton.disabledBgColor = .darkGray
+        submitButton.highlightedBgColor = .darkGray
+        submitButton.normalTitleColor = .white
+        submitButton.disabledTitleColor = .white
+        submitButton.highlightedTitleColor = .white
         submitButton.setTitle("提交", for: .normal)
         inputSectionView.addSubview(submitButton)
         submitButton.snp.makeConstraints { make in
@@ -199,6 +227,29 @@ class LinkExchangeViewController: BaseViewController {
             make.top.equalTo(separatorView2.snp.bottom)
             make.height.equalTo(40)
         }
+        
+        submitButton.rx
+            .tap
+            .subscribe(onNext: { [unowned self] in
+                let apiKey = apiKeyInputView.textField.text ?? ""
+                let apiSecret = apiSecretInputView.textField.text ?? ""
+                if let exchange = exchange {
+                    exchangeApiViewModel.edit(
+                        id: exchange.id,
+                        exchange: exchangeType!.rawValue,
+                        apiKey: apiKey,
+                        apiSecret: apiSecret,
+                        subaccount: ""
+                    )
+                } else {
+                    exchangeApiViewModel.create(
+                        exchange: exchangeType!.rawValue,
+                        apiKey: apiKey,
+                        apiSecret: apiSecret
+                    )
+                }
+            })
+            .disposed(by: disposeBag)
     }
     
     private func slide(up: Bool) {

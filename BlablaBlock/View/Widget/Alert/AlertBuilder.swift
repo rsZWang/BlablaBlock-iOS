@@ -9,9 +9,15 @@ import UIKit
 
 class AlertBuilder {
     
+    private var style: UIAlertController.Style = .alert
     private var title: String!
     private var message: String!
-    private var action: UIAlertAction!
+    private var actionList = [UIAlertAction]()
+    
+    func setStyle(_ style: UIAlertController.Style) -> AlertBuilder{
+        self.style = style
+        return self
+    }
     
     func setTitle(_ title: String) -> AlertBuilder {
         self.title = title
@@ -23,23 +29,27 @@ class AlertBuilder {
         return self
     }
     
-    func setButton(title: String, action: (() -> Void)? = nil) -> AlertBuilder {
-        self.action = UIAlertAction(title: title, style: .default) { alertAction in
+    func setButton(title: String, style: UIAlertAction.Style = .default, action: (() -> Void)? = nil) -> AlertBuilder {
+        self.actionList.append(UIAlertAction(title: title, style: style) { alertAction in
             action?()
-        }
+        })
         return self
     }
     
     func setOkButton(title: String = "OK") -> AlertBuilder {
-        self.action = UIAlertAction(title: title, style: .default)
+        self.actionList.append(UIAlertAction(title: title, style: .default))
         return self
     }
     
     @discardableResult
     func show(_ parent: UIViewController? = Utils.findMostTopViewController()) -> UIAlertController {
-        let alertController = UIAlertController(title: title ?? "訊息", message: message, preferredStyle: .alert)
-        if let buttonAction = action {
-            alertController.addAction(buttonAction)
+        let alertController = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: style
+        )
+        for action in actionList {
+            alertController.addAction(action)
         }
         parent?.present(alertController, animated: true, completion: nil)
         return alertController

@@ -7,12 +7,15 @@
 
 import UIKit
 import Resolver
-import SnapKit
 import Defaults
+import SnapKit
+import RxSwift
 
 class LauncherViewController: BaseViewController {
     
     @Injected var mainCoordinator: MainCoordinator
+    @Injected var statisticsViewModel: StatisticsViewModel
+    private var hasLinkedDisposable: Disposable?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,12 +26,19 @@ class LauncherViewController: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         DispatchQueue.main.asyncAfter(deadline: .now()+3) { [unowned self] in
-            if let userToken = Defaults[.userToken] {
-                mainCoordinator.main(isSignIn: false)
+            Timber.i("Defaults[.userToken]: \(Defaults[.userToken])")
+            if let _ = Defaults[.userToken] {
+                preload()
             } else {
                 mainCoordinator.signIn()
             }
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        hasLinkedDisposable?.dispose()
+        hasLinkedDisposable = nil
     }
     
     private func addLogo() {
@@ -56,6 +66,7 @@ class LauncherViewController: BaseViewController {
         sloganLabel.text = "Connect Everything about\nCrypto Trading"
         sloganLabel.font = .systemFont(ofSize: 17)
         sloganLabel.textColor = .white
+        sloganLabel.textAlignment = .center
         sloganLabel.numberOfLines = 2
         
         containerView.addSubview(sloganLabel)
@@ -63,6 +74,20 @@ class LauncherViewController: BaseViewController {
             make.leading.trailing.bottom.equalTo(containerView)
             make.top.equalTo(appNameLabel.snp.bottom).offset(20)
         }
+    }
+    
+    private func preload() {
+        hasLinkedDisposable = statisticsViewModel.getExchangesStatus()
+            .subscribe(
+                onNext: { [weak self] hasLinked in
+                    if let hasLinked = hasLinked {
+                        self?.mainCoordinator.main(isSignIn: false, hasLinked: hasLinked)
+                    }
+                },
+                onError: { [weak self] error in
+                    self?.mainCoordinator.signIn()
+                }
+            )
     }
     
 }

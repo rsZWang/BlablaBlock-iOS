@@ -7,13 +7,24 @@
 
 import UIKit
 
-protocol LinkCardViewDelegate {
-    func onTap()
+enum ExchangeType: String {
+    case Binance = "binance"
+    case FTX = "ftx"
+}
+
+protocol LinkCardViewDelegate: NSObject {
+    func onTap(type: ExchangeType, exchange: ExchangeData?)
 }
 
 class LinkCardView: UIView, NibOwnerLoadable {
     
-    private var delegate: LinkCardViewDelegate?
+    weak var delegate: LinkCardViewDelegate?
+    var type: ExchangeType!
+    var exchange: ExchangeData? = nil {
+        didSet {
+            setData(exchange: exchange)
+        }
+    }
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -29,11 +40,18 @@ class LinkCardView: UIView, NibOwnerLoadable {
         commonInit()
     }
     
-    convenience init(_ delegate: LinkCardViewDelegate, image: UIImage, title: String) {
+    convenience init(_ delegate: LinkCardViewDelegate, type: ExchangeType) {
         self.init(frame: .zero)
         self.delegate = delegate
-        imageView.image = image
-        titleLabel.text = title
+        self.type = type
+        switch type {
+        case .Binance:
+            imageView.image = UIImage(named: "ic_setting_binance")!
+            titleLabel.text = "連結幣安"
+        case .FTX:
+            imageView.image = UIImage(named: "ic_setting_ftx")!
+            titleLabel.text = "連結FTX"
+        }
     }
     
     func commonInit() {
@@ -46,14 +64,19 @@ class LinkCardView: UIView, NibOwnerLoadable {
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTap)))
     }
     
-    func setConnection(state: Bool) {
-        connectionStateBtn.isSelected = state
-        connectionStateBtn.setTitle("已連結", for: .normal)
+    private func setData(exchange: ExchangeData?) {
+        if exchange?.isLinked() ?? false {
+            connectionStateBtn.isSelected = true
+            connectionStateBtn.setTitle("已連結", for: .normal)
+        } else {
+            connectionStateBtn.isSelected = false
+            connectionStateBtn.setTitle("未連結", for: .normal)
+        }
     }
     
     @objc
     private func onTap() {
-        delegate?.onTap()
+        delegate?.onTap(type: type, exchange: exchange)
     }
     
 }
