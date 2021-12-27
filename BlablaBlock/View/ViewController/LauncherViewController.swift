@@ -26,7 +26,6 @@ class LauncherViewController: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         DispatchQueue.main.asyncAfter(deadline: .now()+3) { [unowned self] in
-            Timber.i("Defaults[.userToken]: \(Defaults[.userToken])")
             if let _ = Defaults[.userToken] {
                 preload()
             } else {

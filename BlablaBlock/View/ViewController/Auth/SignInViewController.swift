@@ -96,8 +96,8 @@ class SignInViewController: BaseViewController, Storyboarded {
     
         clearPage()
         
-//        emailTextField.text = "rex@huijun.org"
-        emailTextField.text = "cool890104@gmail.com"
+        emailTextField.text = "rex@huijun.org"
+//        emailTextField.text = "cool890104@gmail.com"
         passwordTextField.text = "123456"
         
         bindNextButton()

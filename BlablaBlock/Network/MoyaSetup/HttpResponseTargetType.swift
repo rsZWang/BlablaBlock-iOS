@@ -53,10 +53,10 @@ fileprivate final class ApiProvider {
                         let body = try decoder.decode(SuccessType.self, from: moyaResponse.data)
                         single(.success(.Success(body)))
                     } catch {
-                        do {
-                            let body = try decoder.decode(FailureType.self, from: moyaResponse.data)
-                            single(.success(.Failure(body)))
-                        } catch {
+                        let errorBody = try? decoder.decode(FailureType.self, from: moyaResponse.data)
+                        if let errorBody = errorBody {
+                            single(.success(.Failure(errorBody)))
+                        } else {
                             single(.failure(error))
                         }
                     }

@@ -16,8 +16,8 @@ class LinkExchangeViewController: BaseViewController {
 //    @Injected var statisticsViewModel: StatisticsViewModel
     @Injected var exchangeApiViewModel: ExchangeApiViewModel
     
-    var exchangeType: ExchangeType!
-    var exchange: ExchangeData?
+    var exchangeType: Exchange.ExchangeType!
+    var exchange: ExchangeApiData?
     
     private let containerHeight = UIScreen.main.bounds.height * 0.4
     private let containerView = UIView()
@@ -210,6 +210,11 @@ class LinkExchangeViewController: BaseViewController {
             make.height.equalTo(inputSectionView).multipliedBy(0.2)
             make.left.right.equalTo(inputSectionView)
             make.top.equalTo(apiSecretInputView.snp.bottom)
+        }
+        
+        if let exchange = exchange {
+            apiKeyInputView.textField.text = exchange.apiKey
+            apiSecretInputView.textField.text = exchange.apiSecret
         }
         
         let submitButton = ColorButton()

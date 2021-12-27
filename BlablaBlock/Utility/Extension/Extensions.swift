@@ -112,3 +112,15 @@ extension Data {
         return prettyPrintedString
     }
 }
+
+extension Double {
+    
+//    func toPrecisionString() -> String {
+//        String(format: "%.2f%%", self)
+//    }
+    
+    func toPrecisionString(percision: Int = 2) -> String {
+        String(format: "%.\(percision)f", self)
+    }
+    
+}

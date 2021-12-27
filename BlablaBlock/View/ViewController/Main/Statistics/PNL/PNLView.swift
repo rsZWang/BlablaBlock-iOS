@@ -9,20 +9,27 @@ import UIKit
 import SwiftCharts
 import SnapKit
 
+protocol PNLViewDelegate: NSObject {
+    func onPeriodFiltered(period: String)
+}
+
 class PNLView: UIView, NibOwnerLoadable {
     
+    @IBOutlet weak var exchangePickerTextField: UITextField!
     @IBOutlet weak var chartSectionView: UIView!
     @IBOutlet weak var roiLabel: UILabel!
     @IBOutlet weak var roiAnnualLabel: UILabel!
     @IBOutlet weak var mddLabel: UILabel!
     @IBOutlet weak var dailyWinRateLabel: UILabel!
     @IBOutlet weak var sharpeRatio: UILabel!
+    private lazy var pickerView: PickerView = {
+        let pickerView = PickerView()
+        pickerView.itemList = PNLPeriod.periodTitleList
+        pickerView.pickerViewDelegate = self
+        return pickerView
+    }()
     
-//    private lazy var readFormatter: DateFormatter = {
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "dd.MM.yyyy"
-//        return formatter
-//    }()
+    weak var delegate: PNLViewDelegate?
     private lazy var displayFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy/MM/dd"
@@ -31,6 +38,12 @@ class PNLView: UIView, NibOwnerLoadable {
     private lazy var xAxisLabelSettings = ChartLabelSettings(font: .systemFont(ofSize: 8))
     private lazy var yAxisLabelSettings = ChartLabelSettings(font: .systemFont(ofSize: 8))
     private var chart: Chart!
+    private let semaphore = DispatchSemaphore(value: 1)
+    override var bounds: CGRect {
+        didSet {
+            semaphore.signal()
+        }
+    }
         
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -47,18 +60,32 @@ class PNLView: UIView, NibOwnerLoadable {
     }
     
     private func commonInit() {
+        semaphore.wait()
         loadNibContent()
+        pickerView.bind(textField: exchangePickerTextField)
     }
     
     func bind(data: PNLData) {
-        drawChart(data: data)
-        roiLabel.text = "\(data.roi.to2PrecisionString())"
-        roiAnnualLabel.text = "\(data.roiAnnual.to2PrecisionString())"
-        mddLabel.text = "\(data.mdd.to2PrecisionString())"
-        dailyWinRateLabel.text = "\(data.dailyWinRate.to2PrecisionString())"
-        sharpeRatio.text = "\(data.sharpeRatio.to2PrecisionString())"
+        DispatchQueue.global().async { [unowned self] in
+            semaphore.wait()
+            DispatchQueue.main.async {
+                drawChart(data: data)
+            }
+            semaphore.signal()
+        }
+        roiLabel.text = "\(data.roi.toPrecisionString())%"
+        roiAnnualLabel.text = "\(data.roiAnnual.toPrecisionString())%"
+        mddLabel.text = "\(data.mdd.toPrecisionString())%"
+        dailyWinRateLabel.text = "\(data.dailyWinRate.toPrecisionString())%"
+        sharpeRatio.text = "\(data.sharpeRatio.toPrecisionString())%"
     }
     
+}
+
+extension PNLView: PickerViewDelegate {
+    func onSelected(index: Int, item: String) {
+        delegate?.onPeriodFiltered(period: PNLPeriod.periodList[index])
+    }
 }
 
 extension PNLView {
@@ -76,9 +103,15 @@ extension PNLView {
             chartPoints.append(createChartPoint(timestamp: entry.timestamp, value: entry.value))
             xValues.append(createDateAxisValue(timestamp: entry.timestamp))
         }
+        
+//        for timestamp in data.getXAxisPoint() {
+//            xValues.append(createDateAxisValue(timestamp: timestamp))
+//        }
         let xModel = ChartAxisModel(axisValues: xValues)
         
-        let yValues = stride(from: 29000, through: 33000, by: 1000).map { ChartAxisValueDouble($0) }
+        let minY = Int(ceil(data.getChartMinY()) - 1)
+        let maxY = Int(ceil(data.getChartMaxY()) + 1)
+        let yValues = stride(from: minY, through: maxY, by: 1).map { ChartYAxisValue($0, labelSettings: yAxisLabelSettings) }
         let yModel = ChartAxisModel(axisValues: yValues)
         
         let bounds = chartSectionView.bounds
@@ -94,7 +127,7 @@ extension PNLView {
         
         let lineModel = ChartLineModel(
             chartPoints: chartPoints,
-            lineColor: UIColor.red,
+            lineColor: .red,
             lineWidth: 2,
             animDuration: 1,
             animDelay: 0
@@ -134,10 +167,6 @@ extension PNLView {
         chartSectionView.addSubview(chart.view)
         chartPointsLineLayer.initScreenLines(chart)
         self.chart = chart
-        chart.view.sizeToFit()
-        chart.view.layoutIfNeeded()
-        chartSectionView.sizeToFit()
-        chartSectionView.layoutIfNeeded()
     }
     
     private func createChartSettings() -> ChartSettings {
@@ -155,8 +184,8 @@ extension PNLView {
         chartSettings.labelsSpacing = 1
         chartSettings.zoomPan.panEnabled = true
         chartSettings.zoomPan.zoomEnabled = true
-        chartSettings.zoomPan.maxZoomX = 1.5
-        chartSettings.zoomPan.minZoomX = 1.5
+        chartSettings.zoomPan.maxZoomX = 1.2
+        chartSettings.zoomPan.minZoomX = 1.2
         chartSettings.zoomPan.minZoomY = 1
         chartSettings.zoomPan.maxZoomY = 1
         return chartSettings
@@ -174,12 +203,10 @@ extension PNLView {
         return ChartAxisValueDate(date: date, formatter: displayFormatter, labelSettings: xAxisLabelSettings)
     }
     
-}
-
-extension Double {
-    
-    func to2PrecisionString() -> String {
-        String(format: "%.2f%", self)
+    private class ChartYAxisValue: ChartAxisValueDouble {
+        override var description: String {
+            "\(NSNumber(value: scalar))%"
+        }
     }
     
 }

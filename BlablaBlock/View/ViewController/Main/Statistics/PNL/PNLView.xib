@@ -13,6 +13,7 @@
             <connections>
                 <outlet property="chartSectionView" destination="TvF-7J-stI" id="vS0-gO-39E"/>
                 <outlet property="dailyWinRateLabel" destination="Y7X-ud-neS" id="a7M-1N-MCJ"/>
+                <outlet property="exchangePickerTextField" destination="cR2-Ep-5Ab" id="Ddm-tU-n4e"/>
                 <outlet property="mddLabel" destination="Yvw-Zj-YIT" id="8Db-aS-58j"/>
                 <outlet property="roiAnnualLabel" destination="xWG-jv-gmD" id="4lt-WE-8Gl"/>
                 <outlet property="roiLabel" destination="Nn4-rv-Wtz" id="rXf-fA-kZ8"/>
@@ -34,30 +35,28 @@
                                     <rect key="frame" x="20" y="5" width="314" height="803"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iMn-ma-apW" userLabel="Unit Section">
-                                            <rect key="frame" x="0.0" y="0.0" width="314" height="40"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="314" height="37.5"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6cf-vy-Puy" userLabel="Exchange Selector Section">
-                                                    <rect key="frame" x="0.0" y="10" width="111" height="20"/>
+                                                    <rect key="frame" x="0.0" y="10" width="111" height="17.5"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="所有交易所" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Dz-Q2-xlW">
-                                                            <rect key="frame" x="0.0" y="0.0" width="90" height="20"/>
+                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="全部" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cR2-Ep-5Ab">
+                                                            <rect key="frame" x="0.0" y="0.0" width="90" height="17.5"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="height" constant="20" id="WIN-cx-3I8"/>
-                                                                <constraint firstAttribute="width" constant="90" id="cfS-ab-euL"/>
+                                                                <constraint firstAttribute="width" constant="90" id="k8F-ZQ-zJy"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fLc-FY-eFX">
-                                                            <rect key="frame" x="90" y="0.0" width="1" height="20"/>
+                                                            <textInputTraits key="textInputTraits"/>
+                                                        </textField>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fLc-FY-eFX" userLabel="Separator View">
+                                                            <rect key="frame" x="90" y="0.0" width="1" height="17.5"/>
                                                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="1" id="CA5-YL-DGt"/>
                                                             </constraints>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="V" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cv6-Ua-n0l">
-                                                            <rect key="frame" x="91" y="0.0" width="20" height="20"/>
+                                                            <rect key="frame" x="91" y="1" width="20" height="16"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="20" id="7Aj-k9-eag"/>
                                                             </constraints>
@@ -69,15 +68,14 @@
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                     <constraints>
                                                         <constraint firstItem="fLc-FY-eFX" firstAttribute="top" secondItem="6cf-vy-Puy" secondAttribute="top" id="2rK-If-QkS"/>
-                                                        <constraint firstItem="fLc-FY-eFX" firstAttribute="leading" secondItem="4Dz-Q2-xlW" secondAttribute="trailing" id="A87-GP-cKC"/>
-                                                        <constraint firstAttribute="bottom" secondItem="4Dz-Q2-xlW" secondAttribute="bottom" id="RSo-yn-rja"/>
-                                                        <constraint firstItem="cv6-Ua-n0l" firstAttribute="height" secondItem="4Dz-Q2-xlW" secondAttribute="height" id="UM8-7V-zG7"/>
+                                                        <constraint firstItem="fLc-FY-eFX" firstAttribute="leading" secondItem="cR2-Ep-5Ab" secondAttribute="trailing" id="Lyg-g7-bjw"/>
+                                                        <constraint firstItem="cR2-Ep-5Ab" firstAttribute="top" secondItem="6cf-vy-Puy" secondAttribute="top" id="MS4-qg-4q0"/>
                                                         <constraint firstItem="cv6-Ua-n0l" firstAttribute="leading" secondItem="fLc-FY-eFX" secondAttribute="trailing" id="ZrX-Fh-IMi"/>
                                                         <constraint firstAttribute="bottom" secondItem="fLc-FY-eFX" secondAttribute="bottom" id="b6y-Ct-jao"/>
-                                                        <constraint firstItem="4Dz-Q2-xlW" firstAttribute="top" secondItem="6cf-vy-Puy" secondAttribute="top" id="bdh-rV-r3H"/>
+                                                        <constraint firstItem="cR2-Ep-5Ab" firstAttribute="leading" secondItem="6cf-vy-Puy" secondAttribute="leading" id="hbu-Wn-bAo"/>
                                                         <constraint firstAttribute="trailing" secondItem="cv6-Ua-n0l" secondAttribute="trailing" id="lYc-jR-WPZ"/>
                                                         <constraint firstItem="cv6-Ua-n0l" firstAttribute="centerY" secondItem="6cf-vy-Puy" secondAttribute="centerY" id="n3e-LQ-b3J"/>
-                                                        <constraint firstItem="4Dz-Q2-xlW" firstAttribute="leading" secondItem="6cf-vy-Puy" secondAttribute="leading" id="rVG-vE-FBk"/>
+                                                        <constraint firstAttribute="bottom" secondItem="cR2-Ep-5Ab" secondAttribute="bottom" id="otH-WX-zUS"/>
                                                     </constraints>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
@@ -92,7 +90,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="In USDT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bIY-sZ-UUt">
-                                                    <rect key="frame" x="121" y="10" width="60" height="20"/>
+                                                    <rect key="frame" x="121" y="10" width="60" height="17.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="60" id="qYs-iB-Yze"/>
                                                     </constraints>
@@ -112,7 +110,7 @@
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GGb-pu-2eU" userLabel="Separator">
-                                            <rect key="frame" x="0.0" y="40" width="314" height="1"/>
+                                            <rect key="frame" x="0.0" y="37.5" width="314" height="1"/>
                                             <viewLayoutGuide key="safeArea" id="Oln-uK-drR"/>
                                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
@@ -120,7 +118,7 @@
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TvF-7J-stI" userLabel="Chart Section View">
-                                            <rect key="frame" x="0.0" y="51" width="314" height="587"/>
+                                            <rect key="frame" x="0.0" y="48.5" width="314" height="589.5"/>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">

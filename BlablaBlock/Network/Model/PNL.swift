@@ -10,7 +10,7 @@ import Foundation
 struct PNL: Decodable {
     
     let code: Int
-    let data: [PNLData]
+    let data: PNLData
     
 }
 
@@ -26,31 +26,53 @@ struct PNLData: Decodable {
     func getChartDataList() -> [PNLCharData] {
         var list = [PNLCharData]()
         for data in chartData {
-            list.append(PNLCharData(value: Double(data.value)!, timestamp: Int(data.timestamp)!))
+            list.append(PNLCharData(value: data.value, timestamp: Int(data.timestamp)!))
         }
         return list
     }
     
-    func getChartMaxY() -> Double {
-        chartData.map { Double($0.value)! }.max()!
+    func getMinX() -> Int {
+        Int(chartData.map { $0.timestamp }.min()!)!
     }
     
+    func getMaxX() -> Int {
+        Int(chartData.map { $0.timestamp }.max()!)!
+    }
+    
+//    func getXAxisPoint() -> [Int] {
+//        let min = getMinX()
+//        var max = getMaxX()
+//        let totalPeriod = max - min
+//        let period = totalPeriod / 4
+//        if totalPeriod % 4 != 0 {
+//            max += period
+//        }
+//        var list = [Int]()
+//        Timber.i("period: \(period)")
+//        for timestamp in stride(from: min, through: max, by: totalPeriod) {
+//            Timber.i("timestamp: \(timestamp)")
+//            list.append(timestamp)
+//        }
+//        return list
+//    }
+    
     func getChartMinY() -> Double {
-        chartData.map { Double($0.value)! }.min()!
+        chartData.map { $0.value }.min()!
+    }
+    
+    func getChartMaxY() -> Double {
+        chartData.map { $0.value }.max()!
     }
     
     func getYAxisLabel() -> [Int] {
-        var list = chartData.map { Int(Double($0.value)!) }
-//        list.insert(Int(getChartMinY() * 0.9), at: 0)
-//        list.append(Int(getChartMaxY() * 0.9))
-        return list
+        chartData.map { Int($0.value) }
     }
     
 }
 
 struct PNLCharRawData: Decodable {
     
-    let value: String
+    let value: Double
     let timestamp: String
     
 }

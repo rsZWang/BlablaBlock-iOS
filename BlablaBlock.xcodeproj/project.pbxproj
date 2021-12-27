@@ -17,6 +17,9 @@
 		4A4B4DF22770E4B100075933 /* PortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4B4DF12770E4B100075933 /* PortfolioView.swift */; };
 		4A4B4DF42770E4C600075933 /* PortfolioView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A4B4DF32770E4C600075933 /* PortfolioView.xib */; };
 		4A4B4DF62770E5E300075933 /* ExchangeListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A4B4DF52770E5E300075933 /* ExchangeListTableViewCell.xib */; };
+		4A543A462779B59400662B12 /* ExchangeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A543A452779B59400662B12 /* ExchangeType.swift */; };
+		4A543A482779CF1700662B12 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A543A472779CF1700662B12 /* PickerView.swift */; };
+		4A543A4A2779DE2100662B12 /* PNLPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A543A492779DE2100662B12 /* PNLPeriod.swift */; };
 		4A5FE1F827365E0F004AD836 /* LinkExchangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */; };
 		4A7744B7276F8A350087A447 /* ResponseFailure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7744B6276F8A350087A447 /* ResponseFailure.swift */; };
 		4A7744B9276F8E3C0087A447 /* ExchangeApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7744B8276F8E3C0087A447 /* ExchangeApiService.swift */; };
@@ -68,7 +71,7 @@
 		A0DAD5B8277861D600CD8760 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DAD5B7277861D600CD8760 /* MainCoordinator.swift */; };
 		A0DAD5BA277861FD00CD8760 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DAD5B9277861FD00CD8760 /* Coordinator.swift */; };
 		A0DAD5BC2778627000CD8760 /* Storyboarded.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DAD5BB2778627000CD8760 /* Storyboarded.swift */; };
-		A0DAD5C027787A1800CD8760 /* Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DAD5BF27787A1800CD8760 /* Exchange.swift */; };
+		A0DAD5C027787A1800CD8760 /* ExchangeApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DAD5BF27787A1800CD8760 /* ExchangeApi.swift */; };
 		D62D2B9B7FC84A28A2C1F52C /* Pods_BlablaBlockTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A4F9FA2216368FC2234CB9B /* Pods_BlablaBlockTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -103,6 +106,9 @@
 		4A4B4DF12770E4B100075933 /* PortfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioView.swift; sourceTree = "<group>"; };
 		4A4B4DF32770E4C600075933 /* PortfolioView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PortfolioView.xib; sourceTree = "<group>"; };
 		4A4B4DF52770E5E300075933 /* ExchangeListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExchangeListTableViewCell.xib; sourceTree = "<group>"; };
+		4A543A452779B59400662B12 /* ExchangeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeType.swift; sourceTree = "<group>"; };
+		4A543A472779CF1700662B12 /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
+		4A543A492779DE2100662B12 /* PNLPeriod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PNLPeriod.swift; sourceTree = "<group>"; };
 		4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkExchangeViewController.swift; sourceTree = "<group>"; };
 		4A7744B6276F8A350087A447 /* ResponseFailure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseFailure.swift; sourceTree = "<group>"; };
 		4A7744B8276F8E3C0087A447 /* ExchangeApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeApiService.swift; sourceTree = "<group>"; };
@@ -161,7 +167,7 @@
 		A0DAD5B7277861D600CD8760 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		A0DAD5B9277861FD00CD8760 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		A0DAD5BB2778627000CD8760 /* Storyboarded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storyboarded.swift; sourceTree = "<group>"; };
-		A0DAD5BF27787A1800CD8760 /* Exchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exchange.swift; sourceTree = "<group>"; };
+		A0DAD5BF27787A1800CD8760 /* ExchangeApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeApi.swift; sourceTree = "<group>"; };
 		DD43244C5F0653EAD9217690 /* Pods_BlablaBlock_BlablaBlockUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlablaBlock_BlablaBlockUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5F2F973E03C0928B571E800 /* Pods-BlablaBlock-BlablaBlockUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlablaBlock-BlablaBlockUITests.release.xcconfig"; path = "Target Support Files/Pods-BlablaBlock-BlablaBlockUITests/Pods-BlablaBlock-BlablaBlockUITests.release.xcconfig"; sourceTree = "<group>"; };
 		F17D6CA0BC7D3564BF36EDDA /* Pods-BlablaBlock.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlablaBlock.release.xcconfig"; path = "Target Support Files/Pods-BlablaBlock/Pods-BlablaBlock.release.xcconfig"; sourceTree = "<group>"; };
@@ -358,7 +364,9 @@
 				A08E8E642778E25E0041AC61 /* Registration.swift */,
 				4A7744BC276F96170087A447 /* Portfolio.swift */,
 				4A7744BE276F97520087A447 /* PNL.swift */,
-				A0DAD5BF27787A1800CD8760 /* Exchange.swift */,
+				A0DAD5BF27787A1800CD8760 /* ExchangeApi.swift */,
+				4A543A452779B59400662B12 /* ExchangeType.swift */,
+				4A543A492779DE2100662B12 /* PNLPeriod.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -480,6 +488,7 @@
 				4A4B4DEB2770E0AA00075933 /* ViewPager */,
 				A0290E252722F6D900A07224 /* RadioButton */,
 				A0C8E590272006C300848FCB /* NormalInputView */,
+				4A543A472779CF1700662B12 /* PickerView.swift */,
 			);
 			path = Widget;
 			sourceTree = "<group>";
@@ -762,7 +771,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A0C8E594272008BA00848FCB /* NormalInputView.swift in Sources */,
-				A0DAD5C027787A1800CD8760 /* Exchange.swift in Sources */,
+				A0DAD5C027787A1800CD8760 /* ExchangeApi.swift in Sources */,
 				A0DAD5B32778510100CD8760 /* UserDefaults.swift in Sources */,
 				A0C1FB722764935300C4201A /* ResponseSuccess.swift in Sources */,
 				A0C1FB7A2764B5B900C4201A /* MoyaLoggerPlugin.swift in Sources */,
@@ -772,9 +781,11 @@
 				A0290E2F272319DE00A07224 /* StatisticsViewController.swift in Sources */,
 				4AFC6577276E7E3900ADEDA7 /* InputAlertBuilder.swift in Sources */,
 				4A7744C5276FA1B50087A447 /* StatisticsViewModel.swift in Sources */,
+				4A543A462779B59400662B12 /* ExchangeType.swift in Sources */,
 				4AA9F814276E473800D775F0 /* BaseViewModel.swift in Sources */,
 				A0C8E58E271FFCB400848FCB /* Extensions.swift in Sources */,
 				4A7744BD276F96170087A447 /* Portfolio.swift in Sources */,
+				4A543A4A2779DE2100662B12 /* PNLPeriod.swift in Sources */,
 				A0859AE5272DBE8100CF936E /* ExchangeListTableView.swift in Sources */,
 				4ABA209F273BDC5000F66DB9 /* AuthViewModel.swift in Sources */,
 				A092DEB027738BEC00E98A2B /* PNLView.swift in Sources */,
@@ -808,6 +819,7 @@
 				A0C1FB7427649B0F00C4201A /* AuthService.swift in Sources */,
 				A0290E2927230AAF00A07224 /* RadioButton.swift in Sources */,
 				A0DAD5B8277861D600CD8760 /* MainCoordinator.swift in Sources */,
+				4A543A482779CF1700662B12 /* PickerView.swift in Sources */,
 				A09D70E727251C3500ACE44A /* SettingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -986,7 +998,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = D995T28HR4;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = QRN2TFCH8G;
 				INFOPLIST_FILE = BlablaBlock/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1008,7 +1021,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = D995T28HR4;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = QRN2TFCH8G;
 				INFOPLIST_FILE = BlablaBlock/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (

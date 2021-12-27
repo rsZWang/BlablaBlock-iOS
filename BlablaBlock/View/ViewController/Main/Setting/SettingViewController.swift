@@ -79,7 +79,7 @@ class SettingViewController: BaseViewController, LinkCardViewDelegate {
         avatarImageView.makeCircle()
     }
     
-    private func refreshList(exchangeList: [ExchangeData]) {
+    private func refreshList(exchangeList: [ExchangeApiData]) {
         if exchangeList.isEmpty {
             binanceLinkCard.exchange = nil
             ftxLinkCard.exchange = nil
@@ -93,7 +93,7 @@ class SettingViewController: BaseViewController, LinkCardViewDelegate {
         }
     }
     
-    func onTap(type: ExchangeType, exchange: ExchangeData?) {
+    func onTap(type: Exchange.ExchangeType, exchange: ExchangeApiData?) {
         if let exchange = exchange {
             promptActionSheetAlert(type: type, exchange: exchange)
         } else {
@@ -101,14 +101,14 @@ class SettingViewController: BaseViewController, LinkCardViewDelegate {
         }
     }
     
-    private func promptLinkViewController(type: ExchangeType, exchange: ExchangeData?) {
+    private func promptLinkViewController(type: Exchange.ExchangeType, exchange: ExchangeApiData?) {
         let vc = LinkExchangeViewController()
         vc.exchangeType = type
         vc.exchange = exchange
         present(vc, animated: true)
     }
     
-    private func promptActionSheetAlert(type: ExchangeType, exchange: ExchangeData) {
+    private func promptActionSheetAlert(type: Exchange.ExchangeType, exchange: ExchangeApiData) {
         AlertBuilder()
             .setStyle(.actionSheet)
             .setButton(title: "修改") { [weak self] in
@@ -121,7 +121,7 @@ class SettingViewController: BaseViewController, LinkCardViewDelegate {
             .show(self)
     }
     
-    private func promptDeleteAlert(exchange: ExchangeData) {
+    private func promptDeleteAlert(exchange: ExchangeApiData) {
         AlertBuilder()
             .setTitle("確定要刪除嗎？")
             .setButton(title: "確定") { [weak self] in

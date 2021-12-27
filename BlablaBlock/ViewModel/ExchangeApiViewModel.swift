@@ -11,8 +11,8 @@ import RxSwift
 
 class ExchangeApiViewModel: BaseViewModel {
     
-    let exhangeListObservable = PublishSubject<[ExchangeData]>()
-    let exchangeUpdatedObservable = PublishSubject<ExchangeData>()
+    let exhangeListObservable = PublishSubject<[ExchangeApiData]>()
+    let exchangeUpdatedObservable = PublishSubject<ExchangeApiData>()
     let completeObservable = PublishSubject<Bool>()
     
     func getStatus() {
@@ -71,7 +71,7 @@ class ExchangeApiViewModel: BaseViewModel {
             .disposed(by: disposeBag)
     }
     
-    private func newExchangeHandler(response: HttpResponse<Exchange, ResponseFailure>) {
+    private func newExchangeHandler(response: HttpResponse<ExchangeApi, ResponseFailure>) {
         switch response {
         case let .Success(exchange):
             exhangeListObservable.onNext(exchange.data)

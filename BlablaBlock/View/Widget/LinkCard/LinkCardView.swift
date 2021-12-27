@@ -7,20 +7,15 @@
 
 import UIKit
 
-enum ExchangeType: String {
-    case Binance = "binance"
-    case FTX = "ftx"
-}
-
 protocol LinkCardViewDelegate: NSObject {
-    func onTap(type: ExchangeType, exchange: ExchangeData?)
+    func onTap(type: Exchange.ExchangeType, exchange: ExchangeApiData?)
 }
 
 class LinkCardView: UIView, NibOwnerLoadable {
     
     weak var delegate: LinkCardViewDelegate?
-    var type: ExchangeType!
-    var exchange: ExchangeData? = nil {
+    var type: Exchange.ExchangeType!
+    var exchange: ExchangeApiData? = nil {
         didSet {
             setData(exchange: exchange)
         }
@@ -40,7 +35,7 @@ class LinkCardView: UIView, NibOwnerLoadable {
         commonInit()
     }
     
-    convenience init(_ delegate: LinkCardViewDelegate, type: ExchangeType) {
+    convenience init(_ delegate: LinkCardViewDelegate, type: Exchange.ExchangeType) {
         self.init(frame: .zero)
         self.delegate = delegate
         self.type = type
@@ -64,7 +59,7 @@ class LinkCardView: UIView, NibOwnerLoadable {
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTap)))
     }
     
-    private func setData(exchange: ExchangeData?) {
+    private func setData(exchange: ExchangeApiData?) {
         if exchange?.isLinked() ?? false {
             connectionStateBtn.isSelected = true
             connectionStateBtn.setTitle("已連結", for: .normal)

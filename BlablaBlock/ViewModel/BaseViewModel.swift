@@ -27,6 +27,7 @@ public class BaseViewModel {
     }
     
     internal func errorCodeHandler(code: Int, msg: String) {
+        Timber.w("Error: \(code) \(msg)")
         var string: String
         switch code {
         case 1001:
@@ -47,6 +48,7 @@ public class BaseViewModel {
     }
     
     internal func errorHandler(error: Error) {
+        Timber.e("\(error)")
         errorMessageObservable.accept(error.localizedDescription)
     }
     

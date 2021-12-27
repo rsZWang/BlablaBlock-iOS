@@ -9,18 +9,25 @@ import UIKit
 import RxSwift
 import RxGesture
 
-protocol PortfolioViewDelegate {
-    func filterExchange(callback: (String) -> Void)
+protocol PortfolioViewDelegate: NSObject {
+    func onExchangeFiltered(exchange: String)
 }
 
 class PortfolioView: UIView, NibOwnerLoadable {
 
     @IBOutlet weak var exchangeFilterView: UIView!
-    @IBOutlet weak var exchangeFilterLabel: UILabel!
+    @IBOutlet weak var exchangeFilterTextField: UITextField!
+    @IBOutlet weak var counterLabel: UILabel!
     @IBOutlet weak var tableView: ExchangeListTableView!
+    private lazy var pickerView: PickerView = {
+        let pickerView = PickerView()
+        pickerView.itemList = Exchange.exchangeTitleList
+        pickerView.pickerViewDelegate = self
+        return pickerView
+    }()
+    let refreshControl = UIRefreshControl()
     
-    private let disposeBag = DisposeBag()
-    var delegate: PortfolioViewDelegate?
+    weak var delegate: PortfolioViewDelegate?
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -38,14 +45,14 @@ class PortfolioView: UIView, NibOwnerLoadable {
     
     func commonInit() {
         loadNibContent()
-        exchangeFilterView.rx
-            .tapGesture()
-            .subscribe(onNext: { [weak self] _ in
-                self?.delegate?.filterExchange { text in
-                    self?.exchangeFilterLabel.text = text
-                }
-            })
-            .disposed(by: disposeBag)
+        pickerView.bind(textField: exchangeFilterTextField)
+        tableView.addSubview(refreshControl)
     }
 
+}
+
+extension PortfolioView: PickerViewDelegate {
+    func onSelected(index: Int, item: String) {
+        delegate?.onExchangeFiltered(exchange: Exchange.exchangeTypeList[index])
+    }
 }

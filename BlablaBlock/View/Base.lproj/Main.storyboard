@@ -189,6 +189,7 @@
                                                             <constraint firstItem="uhc-zW-AwV" firstAttribute="leading" secondItem="tA0-np-QcE" secondAttribute="leading" id="lKa-qO-2O5"/>
                                                             <constraint firstItem="VXG-1j-OdW" firstAttribute="top" secondItem="P3q-yz-SuZ" secondAttribute="bottom" constant="30" id="lVo-aj-13X"/>
                                                             <constraint firstItem="P3q-yz-SuZ" firstAttribute="top" secondItem="uhc-zW-AwV" secondAttribute="bottom" id="rco-2K-jpt"/>
+                                                            <constraint firstItem="P3q-yz-SuZ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="tA0-np-QcE" secondAttribute="leading" symbolic="YES" id="tsz-wx-3KX"/>
                                                         </constraints>
                                                     </view>
                                                 </subviews>
@@ -281,10 +282,10 @@
             </objects>
             <point key="canvasLocation" x="929" y="119"/>
         </scene>
-        <!--Profile View Controller-->
+        <!--Statistics View Controller-->
         <scene sceneID="EAZ-vw-ubg">
             <objects>
-                <viewController storyboardIdentifier="StatisticsViewController" title="Profile View Controller" id="Csa-qC-qwM" customClass="StatisticsViewController" customModule="BlablaBlock" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="StatisticsViewController" title="Statistics View Controller" id="Csa-qC-qwM" customClass="StatisticsViewController" customModule="BlablaBlock" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="x2y-ff-1rG">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -383,7 +384,7 @@
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="999" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="3i7-fs-Lsb" userLabel="Fans Label">
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="3i7-fs-Lsb" userLabel="Fans Label">
                                                                         <rect key="frame" x="0.0" y="19.333333333333314" width="50.666666666666664" height="29"/>
                                                                         <fontDescription key="fontDescription" type="system" weight="black" pointSize="22"/>
                                                                         <nil key="textColor"/>
@@ -414,7 +415,7 @@
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="999" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="lLM-2e-1sg" userLabel="Followers Label">
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="lLM-2e-1sg" userLabel="Followers Label">
                                                                         <rect key="frame" x="0.0" y="19.333333333333314" width="50.666666666666664" height="29"/>
                                                                         <fontDescription key="fontDescription" type="system" weight="black" pointSize="22"/>
                                                                         <nil key="textColor"/>
@@ -436,9 +437,9 @@
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7s4-ls-y9G">
                                                                 <rect key="frame" x="121.66666666666666" y="0.0" width="20" height="48.333333333333336"/>
                                                             </view>
-                                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="749" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0hi-Ip-Qri" customClass="ColorButton" customModule="BlablaBlock" customModuleProvider="target">
+                                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0hi-Ip-Qri" customClass="ColorButton" customModule="BlablaBlock" customModuleProvider="target">
                                                                 <rect key="frame" x="141.66666666666666" y="5" width="61" height="38.666666666666664"/>
-                                                                <state key="normal" title="分享中"/>
+                                                                <state key="normal" title="分享"/>
                                                                 <userDefinedRuntimeAttributes>
                                                                     <userDefinedRuntimeAttribute type="color" keyPath="normalBgColor">
                                                                         <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -563,8 +564,8 @@
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="border" value="YES"/>
                                                 </userDefinedRuntimeAttributes>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ark-2r-ftG" customClass="ColorButton" customModule="BlablaBlock" customModuleProvider="target">
-                                                <rect key="frame" x="-8" y="0.0" width="167" height="50.333333333333336"/>
+                                            <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ark-2r-ftG" customClass="ColorButton" customModule="BlablaBlock" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="167" height="50.333333333333336"/>
                                                 <state key="normal" title="投資組合"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="normalBgColor">
@@ -707,7 +708,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BA0-F6-eLq" customClass="ColorButton" customModule="BlablaBlock" customModuleProvider="target">
                                         <rect key="frame" x="304" y="118.66666666666666" width="50" height="35"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="5Br-M4-YSr"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="QlN-Zb-bUk"/>
                                             <constraint firstAttribute="height" constant="35" id="mj7-fR-R5C"/>
                                         </constraints>
                                         <state key="normal" title="登出"/>
@@ -742,6 +743,7 @@
                                     <constraint firstItem="WL0-xc-o6t" firstAttribute="leading" secondItem="Pna-9u-WT3" secondAttribute="trailing" constant="25" id="4Zp-eS-0Ng"/>
                                     <constraint firstItem="JXb-cy-e7U" firstAttribute="leading" secondItem="Oks-Ua-63M" secondAttribute="leading" id="5pt-Cj-3Xw"/>
                                     <constraint firstItem="JXb-cy-e7U" firstAttribute="top" secondItem="Oks-Ua-63M" secondAttribute="top" id="CNd-sW-a6Q"/>
+                                    <constraint firstItem="BA0-F6-eLq" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Pna-9u-WT3" secondAttribute="trailing" symbolic="YES" id="IiA-t3-n3e"/>
                                     <constraint firstAttribute="bottom" secondItem="Pna-9u-WT3" secondAttribute="bottom" id="Kbt-Kq-UBA"/>
                                     <constraint firstItem="WL0-xc-o6t" firstAttribute="bottom" secondItem="Pna-9u-WT3" secondAttribute="bottom" id="PTO-li-mbV"/>
                                     <constraint firstItem="Pna-9u-WT3" firstAttribute="width" secondItem="Oks-Ua-63M" secondAttribute="width" multiplier="0.3" id="WPc-Hk-QR4"/>
@@ -811,7 +813,7 @@
     </scenes>
     <designables>
         <designable name="0hi-Ip-Qri">
-            <size key="intrinsicContentSize" width="56" height="34"/>
+            <size key="intrinsicContentSize" width="37" height="34"/>
         </designable>
         <designable name="1o4-Vr-QUA">
             <size key="intrinsicContentSize" width="53" height="44"/>

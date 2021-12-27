@@ -12,10 +12,13 @@ import RxSwift
 class StatisticsViewModel: BaseViewModel {
     
     let hasLinkedObservable = BehaviorSubject<Bool?>(value: nil)
-    let exhangesObservable = BehaviorRelay<[ExchangeData]?>(value: nil)
-    let portfolioObservable = BehaviorRelay<[PortfolioData]?>(value: nil)
+    let exhangesObservable = BehaviorRelay<[ExchangeApiData]?>(value: nil)
+    let portfolioObservable = BehaviorRelay<Portfolio?>(value: nil)
     let pnlObservable = BehaviorRelay<PNLData?>(value: nil)
+    let timerObservable = PublishRelay<Int>()
     private var timerDisposable: Disposable?
+    private var portfolioFilter = "all"
+    private var pnlPeriodFilter = "all"
     
     func getExchangesStatus() -> Observable<Bool?> {
         ExchangeApiService.getStatus()
@@ -24,20 +27,14 @@ class StatisticsViewModel: BaseViewModel {
                 onSuccess: { [unowned self] response in
                     switch response {
                     case let .Success(exchange):
-                        if exchange.code == 200 {
-                            let hasLinked = exchange.hasLinked()
-                            if hasLinked && timerDisposable == nil {
-                                startFetchData()
-                            }
-                            exhangesObservable.accept(exchange.data)
-                            hasLinkedObservable.onNext(hasLinked)
+                        let hasLinked = exchange.hasLinked()
+                        if hasLinked && timerDisposable == nil {
+                            startFetchData()
                         }
+                        exhangesObservable.accept(exchange.data)
+                        hasLinkedObservable.onNext(hasLinked)
                     case let .Failure(responseFailure):
-                        hasLinkedObservable.onError(NSError(
-                            domain: responseFailure.msg,
-                            code: responseFailure.code,
-                            userInfo: nil
-                        ))
+                        errorCodeHandler(responseFailure)
                     }
                 },
                 onFailure: { [unowned self] error in
@@ -48,37 +45,43 @@ class StatisticsViewModel: BaseViewModel {
         return hasLinkedObservable
     }
     
-    private func getPortfolio() {
-        StatisticsService.getPortfolio(exchange: "all")
+    func getPortfolio(exchange: String) {
+        if !exchange.isEmpty {
+            portfolioFilter = exchange
+        }
+        StatisticsService.getPortfolio(exchange: portfolioFilter)
             .request()
             .subscribe(
                 onSuccess: { [unowned self] response in
                     switch response {
                     case let .Success(portfolio):
-                        portfolioObservable.accept(portfolio.data)
+                        portfolioObservable.accept(portfolio)
                     case let .Failure(responseFailure):
                         if responseFailure.code == 1006 {
                             
                         } else {
-                            errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
+                            errorCodeHandler(responseFailure)
                         }
                     }
                 },
-                onFailure: { error in
-                    Timber.e("\(error)")
+                onFailure: { [unowned self] error in
+                    errorHandler(error: error)
                 }
             )
             .disposed(by: disposeBag)
     }
     
-    private func getPNL() {
-        StatisticsService.getPNL(exchange: "all", period: "all")
+    func getPNL(period: String) {
+        if !period.isEmpty {
+            pnlPeriodFilter = period
+        }
+        StatisticsService.getPNL(exchange: "all", period: period)
             .request()
             .subscribe(
                 onSuccess: { [unowned self] response in
                     switch response {
                     case let .Success(pnl):
-                        pnlObservable.accept(pnl.data.first)
+                        pnlObservable.accept(pnl.data)
                     case let .Failure(responseFailure):
                         if responseFailure.code == 1007 {
                             
@@ -95,16 +98,16 @@ class StatisticsViewModel: BaseViewModel {
     }
     
     private func startFetchData() {
-        timerDisposable?.dispose()
-        timerDisposable = Observable<Int>.timer(
-            RxTimeInterval.seconds(0),
-            period: RxTimeInterval.seconds(30),
-            scheduler: ConcurrentDispatchQueueScheduler(qos: .background)
-        )
-        .subscribe(onNext: { [unowned self] _ in
-            getPortfolio()
-            getPNL()
-        })
+//        timerDisposable?.dispose()
+//        timerDisposable = Observable<Int>.timer(
+//            RxTimeInterval.seconds(0),
+//            period: RxTimeInterval.seconds(30),
+//            scheduler: ConcurrentDispatchQueueScheduler(qos: .background)
+//        )
+//        .subscribe(onNext: { [unowned self] secs in
+//            timerObservable.accept(secs)
+//            getPortfolio()
+//        })
     }
     
 }

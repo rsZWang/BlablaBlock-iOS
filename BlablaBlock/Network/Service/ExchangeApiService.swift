@@ -18,7 +18,7 @@ struct ExchangeApiService {
         var task: Task {
             .requestPlain
         }
-        typealias SuccessType = Exchange
+        typealias SuccessType = ExchangeApi
         typealias FailureType = ResponseFailure
     }
     
@@ -34,7 +34,7 @@ struct ExchangeApiService {
                 "api_secret" : apiSecret
             ], encoding: JSONEncoding.default)
         }
-        typealias SuccessType = Exchange
+        typealias SuccessType = ExchangeApi
         typealias FailureType = ResponseFailure
         
         let exchange: String
@@ -55,7 +55,7 @@ struct ExchangeApiService {
                 "subaccount" : subAccount
             ], encoding: JSONEncoding.default)
         }
-        typealias SuccessType = Exchange
+        typealias SuccessType = ExchangeApi
         typealias FailureType = ResponseFailure
         
         let id: Int
@@ -73,7 +73,7 @@ struct ExchangeApiService {
         var task: Task {
             .requestPlain
         }
-        typealias SuccessType = Exchange
+        typealias SuccessType = ExchangeApi
         typealias FailureType = ResponseFailure
         
         let id: Int
