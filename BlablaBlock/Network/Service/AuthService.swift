@@ -12,7 +12,7 @@ typealias Method = Moya.Method
 
 struct AuthService {
     
-    struct Login: HttpResponseTargetType {
+    struct login: HttpResponseTargetType {
         var method: Method { .post }
         var path: String { "login" }
         var headers: [String : String]? { ["Authorization" : "Bearer wrkef63GXqLH9zMypXXK7Qtt"] }
@@ -22,14 +22,14 @@ struct AuthService {
                 "password" : password
             ], encoding: JSONEncoding.default)
         }
-        typealias SuccessType = LogIn
+        typealias SuccessType = Login
         typealias FailureType = ResponseFailure
         
         let email: String
         let password: String
     }
     
-    struct Registration: HttpResponseTargetType {
+    struct register: HttpResponseTargetType {
         var method: Method { .post }
         var path: String { "registration" }
         var headers: [String : String]? { ["Authorization" : "Bearer wrkef63GXqLH9zMypXXK7Qtt"] }
@@ -48,7 +48,7 @@ struct AuthService {
         let password: String
     }
     
-    struct ForgetPassword: HttpResponseTargetType {
+    struct forgetPassword: HttpResponseTargetType {
         var method: Method { .post }
         var path: String { "forgotpassword" }
         var headers: [String : String]? { ["Authorization" : "Bearer wrkef63GXqLH9zMypXXK7Qtt"] }
@@ -57,13 +57,13 @@ struct AuthService {
                 "email" : email
             ], encoding: JSONEncoding.default)
         }
-        typealias SuccessType = LogIn
+        typealias SuccessType = Login
         typealias FailureType = ResponseFailure
         
         let email: String
     }
     
-    struct ResetPassword: HttpResponseTargetType {
+    struct resetPassword: HttpResponseTargetType {
         var method: Method { .post }
         var path: String { "resetpassword" }
         var headers: [String : String]? { ["Authorization" : "Bearer \(Defaults[.userToken]!)"] }
@@ -78,7 +78,7 @@ struct AuthService {
         let password: String
     }
     
-    struct Logout: HttpResponseTargetType {
+    struct logout: HttpResponseTargetType {
         var method: Method { .post }
         var path: String { "logout" }
         var headers: [String : String]? { ["Authorization" : "Bearer \(Defaults[.userToken]!)"] }

@@ -15,11 +15,11 @@ class AuthViewModel: BaseViewModel {
     let successObservable = PublishSubject<Bool>()
     
     func signIn(email: String, password: String) {
-        AuthService.Login(email: email, password: password)
+        AuthService.login(email: email, password: password)
             .request()
             .subscribe(
-                onSuccess: { [weak self] response in
-                    self?.signInHandler(response: response)
+                onSuccess: { [weak self] login in
+                    self?.signInHandler(login: login)
                 },
                 onFailure: { [weak self] error in
                     self?.errorHandler(error: error)
@@ -29,13 +29,16 @@ class AuthViewModel: BaseViewModel {
     }
     
     func signUp(userName: String, email: String, password: String) {
-        AuthService.Registration(userName: userName, email: email, password: password)
+        AuthService.register(userName: userName, email: email, password: password)
             .request()
             .subscribe(
                 onSuccess: { [weak self] response in
                     switch response {
-                    case let .Success(registration):
-                        self?.signIn(userToken: registration.data.apiToken, userName: registration.data.name)
+                    case let .Success(registrationModel):
+                        self?.signIn(
+                            userToken: registrationModel.data.apiToken,
+                            userName: registrationModel.data.name
+                        )
                     case let .Failure(responseFailure):
                         self?.errorCodeHandler(responseFailure)
                     }
@@ -47,13 +50,13 @@ class AuthViewModel: BaseViewModel {
             .disposed(by: disposeBag)
     }
     
-    func forgetPassword(email: String) -> Single<HttpResponse<LogIn, ResponseFailure>> {
-        AuthService.ForgetPassword(email: email)
+    func forgetPassword(email: String) -> Single<HttpResponse<Login, ResponseFailure>> {
+        AuthService.forgetPassword(email: email)
             .request()
     }
     
     func signOut() {
-        AuthService.Logout()
+        AuthService.logout()
             .request()
             .subscribe(
                 onSuccess: { [weak self] response in
@@ -71,10 +74,10 @@ class AuthViewModel: BaseViewModel {
             .disposed(by: disposeBag)
     }
     
-    private func signInHandler(response: HttpResponse<LogIn, ResponseFailure>) {
-        switch response {
-        case let .Success(loginSuccess):
-            signIn(userToken: loginSuccess.data.apiToken, userName: loginSuccess.data.email)
+    private func signInHandler(login: HttpResponse<Login, ResponseFailure>) {
+        switch login {
+        case let .Success(login):
+            signIn(userToken: login.data.apiToken, userName: login.data.name)
         case let .Failure(responseFailure):
             errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
         }

@@ -34,7 +34,7 @@
 		4ABA20A1273BDCB500F66DB9 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABA20A0273BDCB500F66DB9 /* String.swift */; };
 		4AFC6577276E7E3900ADEDA7 /* InputAlertBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFC6576276E7E3900ADEDA7 /* InputAlertBuilder.swift */; };
 		7C21BD24E9DFC3B795B0358B /* Pods_BlablaBlock_BlablaBlockUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD43244C5F0653EAD9217690 /* Pods_BlablaBlock_BlablaBlockUITests.framework */; };
-		A01B78E2277711880061E86A /* LogInSuccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01B78E1277711880061E86A /* LogInSuccess.swift */; };
+		A01B78E2277711880061E86A /* LogIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01B78E1277711880061E86A /* LogIn.swift */; };
 		A0290E242722F55B00A07224 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0290E232722F55B00A07224 /* Colors.xcassets */; };
 		A0290E272722F6EE00A07224 /* RadioButtonGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0290E262722F6EE00A07224 /* RadioButtonGroup.swift */; };
 		A0290E2927230AAF00A07224 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0290E2827230AAF00A07224 /* RadioButton.swift */; };
@@ -122,7 +122,7 @@
 		4AFC6576276E7E3900ADEDA7 /* InputAlertBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputAlertBuilder.swift; sourceTree = "<group>"; };
 		8A4F9FA2216368FC2234CB9B /* Pods_BlablaBlockTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlablaBlockTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C7DDF02B8A2C7ED2BA6233A /* Pods_BlablaBlock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlablaBlock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A01B78E1277711880061E86A /* LogInSuccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInSuccess.swift; sourceTree = "<group>"; };
+		A01B78E1277711880061E86A /* LogIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogIn.swift; sourceTree = "<group>"; };
 		A0290E232722F55B00A07224 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		A0290E262722F6EE00A07224 /* RadioButtonGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButtonGroup.swift; sourceTree = "<group>"; };
 		A0290E2827230AAF00A07224 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
@@ -356,7 +356,7 @@
 			children = (
 				A0C1FB712764935300C4201A /* ResponseSuccess.swift */,
 				4A7744B6276F8A350087A447 /* ResponseFailure.swift */,
-				A01B78E1277711880061E86A /* LogInSuccess.swift */,
+				A01B78E1277711880061E86A /* LogIn.swift */,
 				A08E8E642778E25E0041AC61 /* Registration.swift */,
 				4A7744BC276F96170087A447 /* Portfolio.swift */,
 				4A7744BE276F97520087A447 /* PNL.swift */,
@@ -771,7 +771,7 @@
 				A0C1FB7A2764B5B900C4201A /* MoyaLoggerPlugin.swift in Sources */,
 				A0C8E5982720125800848FCB /* ColorTextButton.swift in Sources */,
 				4A7744BF276F97520087A447 /* PNL.swift in Sources */,
-				A01B78E2277711880061E86A /* LogInSuccess.swift in Sources */,
+				A01B78E2277711880061E86A /* LogIn.swift in Sources */,
 				A0290E2F272319DE00A07224 /* StatisticsViewController.swift in Sources */,
 				4AFC6577276E7E3900ADEDA7 /* InputAlertBuilder.swift in Sources */,
 				4A7744C5276FA1B50087A447 /* StatisticsViewModel.swift in Sources */,
