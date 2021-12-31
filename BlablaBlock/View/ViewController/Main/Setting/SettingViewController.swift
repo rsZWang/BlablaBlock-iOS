@@ -23,6 +23,10 @@ class SettingViewController: BaseViewController, LinkCardViewDelegate {
     @IBOutlet weak var signOutButton: ColorButton!
     @IBOutlet weak var linkCardViewListStackView: UIStackView!
     
+    deinit {
+        Timber.i("SettingViewController")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     

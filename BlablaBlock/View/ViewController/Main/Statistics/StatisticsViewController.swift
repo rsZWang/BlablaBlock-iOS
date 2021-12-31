@@ -16,10 +16,11 @@ class StatisticsViewController: BaseViewController {
     private let radioGroup = RadioButtonGroup()
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var assetTitleLabel: UILabel!
-    @IBOutlet weak var assetLabel: UILabel!
-    @IBOutlet weak var listBtn: ColorButton!
-    @IBOutlet weak var historyBtn: ColorButton!
+    @IBOutlet weak var assetProfitLabel: UILabel!
+    @IBOutlet weak var assetSumLabel: UILabel!
+    @IBOutlet weak var protfolioButton: ColorButton!
+    @IBOutlet weak var pnlButton: ColorButton!
+    @IBOutlet weak var followingButton: ColorButton!
     @IBOutlet weak var pagerSectionView: UIView!
     private lazy var portfolioView = PortfolioView()
     private var tableView: ExchangeListTableView { portfolioView.tableView }
@@ -41,12 +42,17 @@ class StatisticsViewController: BaseViewController {
         return pagedView
     }()
     
+    deinit {
+        Timber.i("StatisticsViewController")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         radioGroup.delegate = self
-        radioGroup.add(listBtn)
-        radioGroup.add(historyBtn)
+        radioGroup.add(protfolioButton)
+        radioGroup.add(pnlButton)
+        radioGroup.add(followingButton)
         
         portfolioView.delegate = self
         portfolioView.counterLabel.isHidden = true
@@ -73,9 +79,10 @@ class StatisticsViewController: BaseViewController {
         statisticsViewModel.portfolioObservable
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] portfolio in
+                self?.portfolioView.refreshControl.endRefreshing()
                 if let portfolio = portfolio {
-                    self?.portfolioView.refreshControl.endRefreshing()
-                    self?.assetLabel.text = portfolio.data.totalValue
+                    self?.assetProfitLabel.attributedText = portfolio.data.getProfitString()
+                    self?.assetSumLabel.attributedText = portfolio.data.getTotalValueString()
                     self?.tableView.bind(data: portfolio.getViewData())
                 }
             })
@@ -108,10 +115,18 @@ class StatisticsViewController: BaseViewController {
 
 extension StatisticsViewController: RadioButtonGroupDelegate {
     func onClicked(radioButton: RadioButton) {
-        if radioButton == listBtn {
+        if radioButton == protfolioButton {
             pagedView.moveToPage(at: 0)
-        } else {
+        } else if radioButton == pnlButton {
             pagedView.moveToPage(at: 1)
+        } else {
+//            let index: Int
+//            if radioGroup.lastButton == protfolioButton {
+//                index = 0
+//            } else {
+//                index = 1
+//            }
+            radioGroup.lastButton.sendActions(for: .touchUpInside)
         }
     }
 }

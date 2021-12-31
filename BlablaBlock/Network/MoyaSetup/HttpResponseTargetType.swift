@@ -35,14 +35,15 @@ fileprivate final class ApiProvider {
     
     #if DEBUG
     private static let provider = MoyaProvider<MultiTarget>(plugins: [MoyaLoggerPlugin()])
+    #else
+    private static let provider = MoyaProvider<MultiTarget>()
+    #endif
+    
     private static let decoder: JSONDecoder = {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         return decoder
     }()
-    #else
-    private static let provider = MoyaProvider<MultiTarget>()
-    #endif
     
     static func request<Request: HttpResponseTargetType, SuccessType, FailureType>(_ request: Request) -> Single<HttpResponse<SuccessType, FailureType>> {
         Single<HttpResponse<SuccessType, FailureType>>.create { single in

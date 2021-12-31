@@ -37,7 +37,12 @@ public extension NibOwnerLoadable where Self: UIView {
     }
 }
 
+public protocol Formattable {
+    func withCommas() -> String
+}
+
 public extension Int {
+    
     var formattedNumeric: String {
         String(self).formattedNumeric
     }
@@ -45,8 +50,9 @@ public extension Int {
     func withCommas() -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
-        return numberFormatter.string(from: NSNumber(value:self))!
+        return numberFormatter.string(from: NSNumber(value:self)) ?? ""
     }
+    
 }
 
 public extension Array {
@@ -115,12 +121,22 @@ extension Data {
 
 extension Double {
     
-//    func toPrecisionString() -> String {
-//        String(format: "%.2f%%", self)
-//    }
+    var string: String {
+        String(self)
+    }
     
-    func toPrecisionString(percision: Int = 2) -> String {
+    func toPrecisedString(percision: Int = 2) -> String {
         String(format: "%.\(percision)f", self)
+    }
+    
+    func toPrettyPrecisedString(precision: Int = 2) -> String {
+        string.toPrettyPrecisedString(precision: precision).formattedNumeric
+    }
+    
+    func withCommas() -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        return numberFormatter.string(from: NSNumber(value:self)) ?? ""
     }
     
 }

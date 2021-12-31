@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct Portfolio: Decodable {
 
@@ -13,33 +14,29 @@ struct Portfolio: Decodable {
     let data: PortfolioData
     
     func getAssetSum() -> Double {
-        let sum = data.assets.map { Double($0.value)! }.reduce(0, +)
+        let sum = data.assets.map { $0.value.double }.reduce(0, +)
         return sum
     }
     
-    func getAssetSumString() -> String {
-        "\(getAssetSum().toPrecisionString(percision: 4))"
-    }
-    
     func getViewData() -> [PortfolioViewData] {
-        let valueSum = getAssetSum()
         var viewDataList = [PortfolioViewData]()
-        for data in data.assets {
-            let valueWeight = (Double(data.value)!/valueSum).toPrecisionString()
+        var sortedAssets = data.assets
+        sortedAssets.sort { $0.balance.double > $1.balance.double }
+        for data in sortedAssets {
             let unrealizedProfit: String
             if let profit = data.unrealizedProfit {
-                let doubleValue = Double(profit)!
+                let doubleValue = profit.double
                 let roundedValue = round(100 * doubleValue) / 100
-                unrealizedProfit = roundedValue.toPrecisionString()
+                unrealizedProfit = roundedValue.toPrecisedString()
             } else {
                 unrealizedProfit = "NA"
             }
             viewDataList.append(
                 PortfolioViewData(
                     currency: data.currency,
-                    valueWeight: valueWeight,
-                    balance: Double(data.balance)!.toPrecisionString(),
-                    value: Double(data.value)!.toPrecisionString(),
+                    valueWeight: data.percentage.toPrettyPrecisedString(),
+                    balance: data.balance.toPrettyPrecisedString(),
+                    value: data.value.toPrettyPrecisedString(),
                     unrealizedProfit: unrealizedProfit
                 )
             )
@@ -52,7 +49,61 @@ struct Portfolio: Decodable {
 struct PortfolioData: Decodable {
     
     let totalValue: String
+    let percentage: Double
     let assets: [PortfolioAsset]
+    
+    func getTotalValueString() -> NSAttributedString {
+        let amount = "$\(totalValue.toPrettyPrecisedString())"
+        let unit = " USDT"
+        let attribuedString = NSMutableAttributedString()
+        attribuedString.append(NSAttributedString(
+            string: amount,
+            attributes: [
+                NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 24)
+            ]
+        ))
+        attribuedString.append(NSAttributedString(
+            string: unit,
+            attributes: [
+                NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 12)
+            ]
+        ))
+        return attribuedString
+    }
+    
+    func getProfitString() -> NSAttributedString {
+        let sign: String
+        let color: UIColor
+        if percentage < 0 {
+            sign = "-"
+            color = #colorLiteral(red: 0.8666666667, green: 0.3921568627, blue: 0.3921568627, alpha: 1)
+        } else {
+            sign = "+"
+            color = #colorLiteral(red: 0.2352941176, green: 0.831372549, blue: 0.5568627451, alpha: 1)
+        }
+        let rate = "\(sign)\(percentage.toPrettyPrecisedString())%"
+        let attribuedString = NSMutableAttributedString()
+        attribuedString.append(NSAttributedString(
+            string: "總資產(",
+            attributes: [
+                NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 12)
+            ]
+        ))
+        attribuedString.append(NSAttributedString(
+            string: rate,
+            attributes: [
+                NSAttributedString.Key.foregroundColor : color,
+                NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 12)
+            ]
+        ))
+        attribuedString.append(NSAttributedString(
+            string: ")",
+            attributes: [
+                NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 12)
+            ]
+        ))
+        return attribuedString
+    }
     
 }
 
@@ -66,6 +117,7 @@ struct PortfolioAsset: Decodable, Equatable {
     let value: String
     let type: String
     let balance: String
+    let percentage: String
     
 }
 

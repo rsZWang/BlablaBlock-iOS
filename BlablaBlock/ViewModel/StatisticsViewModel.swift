@@ -58,7 +58,7 @@ class StatisticsViewModel: BaseViewModel {
                         portfolioObservable.accept(portfolio)
                     case let .Failure(responseFailure):
                         if responseFailure.code == 1006 {
-                            
+                            portfolioObservable.accept(nil)
                         } else {
                             errorCodeHandler(responseFailure)
                         }

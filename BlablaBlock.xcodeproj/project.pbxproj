@@ -536,7 +536,7 @@
 				A0C8E551271FF18900848FCB /* Sources */,
 				A0C8E552271FF18900848FCB /* Frameworks */,
 				A0C8E553271FF18900848FCB /* Resources */,
-				206E705DD7A61BC3D1C3134A /* [CP] Embed Pods Frameworks */,
+				85A4A81A398C4CB5C7B86FC9 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -574,7 +574,7 @@
 				A0C8E572271FF19000848FCB /* Sources */,
 				A0C8E573271FF19000848FCB /* Frameworks */,
 				A0C8E574271FF19000848FCB /* Resources */,
-				1C77C93F1425258E06BD2FE3 /* [CP] Embed Pods Frameworks */,
+				4272012A023A4E68E580DC15 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -663,7 +663,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1C77C93F1425258E06BD2FE3 /* [CP] Embed Pods Frameworks */ = {
+		4272012A023A4E68E580DC15 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -678,23 +678,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BlablaBlock-BlablaBlockUITests/Pods-BlablaBlock-BlablaBlockUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		206E705DD7A61BC3D1C3134A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BlablaBlock/Pods-BlablaBlock-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BlablaBlock/Pods-BlablaBlock-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BlablaBlock/Pods-BlablaBlock-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5EE7A06763B534A1CD5DDFE4 /* [CP] Check Pods Manifest.lock */ = {
@@ -717,6 +700,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		85A4A81A398C4CB5C7B86FC9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BlablaBlock/Pods-BlablaBlock-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BlablaBlock/Pods-BlablaBlock-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BlablaBlock/Pods-BlablaBlock-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A01BABE4AEBD3FCD6ECC4FBC /* [CP] Check Pods Manifest.lock */ = {
@@ -998,7 +998,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = QRN2TFCH8G;
 				INFOPLIST_FILE = BlablaBlock/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1007,7 +1007,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.wuchi.ios.BlablaBlock;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wuchi.blablablock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1021,7 +1021,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = QRN2TFCH8G;
 				INFOPLIST_FILE = BlablaBlock/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1030,7 +1030,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.wuchi.ios.BlablaBlock;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wuchi.blablablock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

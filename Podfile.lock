@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (5.4.4)
+  - Alamofire (5.5.0)
   - Defaults (4.2.2)
   - Differ (1.4.5)
   - Firebase/Analytics (8.10.0):
@@ -148,7 +148,7 @@ SPEC REPOS:
     - SwiftCharts
 
 SPEC CHECKSUMS:
-  Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
+  Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
   Defaults: d785e56c0fb8890dc40351603f05c8e1df1bdd45
   Differ: 3b6bd78e2b20cc795d9a86f7641d087524e4273e
   Firebase: 44213362f1dcc52555b935dc925ed35ac55f1b20

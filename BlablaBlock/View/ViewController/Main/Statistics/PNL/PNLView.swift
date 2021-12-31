@@ -73,11 +73,11 @@ class PNLView: UIView, NibOwnerLoadable {
             }
             semaphore.signal()
         }
-        roiLabel.text = "\(data.roi.toPrecisionString())%"
-        roiAnnualLabel.text = "\(data.roiAnnual.toPrecisionString())%"
-        mddLabel.text = "\(data.mdd.toPrecisionString())%"
-        dailyWinRateLabel.text = "\(data.dailyWinRate.toPrecisionString())%"
-        sharpeRatio.text = "\(data.sharpeRatio.toPrecisionString())%"
+        roiLabel.text = "\(data.roi.toPrettyPrecisedString())%"
+        roiAnnualLabel.text = "\(data.roiAnnual.toPrettyPrecisedString())%"
+        mddLabel.text = "\(data.mdd.toPrettyPrecisedString())%"
+        dailyWinRateLabel.text = "\(data.dailyWinRate.toPrettyPrecisedString())%"
+        sharpeRatio.text = "\(data.sharpeRatio.toPrettyPrecisedString())%"
     }
     
 }
@@ -109,8 +109,8 @@ extension PNLView {
 //        }
         let xModel = ChartAxisModel(axisValues: xValues)
         
-        let minY = Int(ceil(data.getChartMinY()) - 1)
-        let maxY = Int(ceil(data.getChartMaxY()) + 1)
+        let minY = Int(ceil(data.getMinY()) - 1)
+        let maxY = Int(ceil(data.getMaxY()) + 1)
         let yValues = stride(from: minY, through: maxY, by: 1).map { ChartYAxisValue($0, labelSettings: yAxisLabelSettings) }
         let yModel = ChartAxisModel(axisValues: yValues)
         

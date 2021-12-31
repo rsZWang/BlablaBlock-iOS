@@ -9,6 +9,22 @@ import Foundation
 
 public extension String {
     
+    var int: Int {
+        Int(self) ?? 0
+    }
+    
+    var double: Double {
+        Double(self) ?? 0
+    }
+
+    func toPrecisedString(precision: Int = 2) -> String {
+        double.toPrecisedString(percision: precision)
+    }
+    
+    func toPrettyPrecisedString(precision: Int = 2) -> String {
+        double.toPrecisedString(percision: precision).formattedNumeric
+    }
+    
     var isNotEmpty: Bool { !isEmpty }
     
     var isNumeric: Bool {
@@ -34,6 +50,8 @@ public extension String {
     var formattedNumeric: String {
         get {
             if let numericString = Int(self) {
+                return numericString.withCommas()
+            } else if let numericString = Double(self) {
                 return numericString.withCommas()
             } else {
                 Timber.w("This is not a numeric string! (\(self))")

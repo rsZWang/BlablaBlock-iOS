@@ -24,6 +24,10 @@ public class RadioButtonGroup: RadioButtonDelegate {
             return nil
         }
     }
+    private var _lastButton: RadioButton!
+    public var lastButton: RadioButton! {
+        _lastButton ?? selectedButton
+    }
     public weak var delegate: RadioButtonGroupDelegate?
     
     public func add(_ button: RadioButton) {
@@ -32,6 +36,12 @@ public class RadioButtonGroup: RadioButtonDelegate {
     }
 
     public func onClicked(radioButton: RadioButton) {
+        for button in buttons {
+            if button.isSelected {
+                _lastButton = button
+                break
+            }
+        }
         for button in buttons {
             let isThis = button == radioButton
             button.isSelected = isThis

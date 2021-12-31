@@ -26,17 +26,17 @@ struct PNLData: Decodable {
     func getChartDataList() -> [PNLCharData] {
         var list = [PNLCharData]()
         for data in chartData {
-            list.append(PNLCharData(value: data.value, timestamp: Int(data.timestamp)!))
+            list.append(PNLCharData(value: data.value, timestamp: data.timestamp.int))
         }
         return list
     }
     
     func getMinX() -> Int {
-        Int(chartData.map { $0.timestamp }.min()!)!
+        chartData.map { $0.timestamp.int }.min() ?? 0
     }
     
     func getMaxX() -> Int {
-        Int(chartData.map { $0.timestamp }.max()!)!
+        chartData.map { $0.timestamp.int }.max() ?? 0
     }
     
 //    func getXAxisPoint() -> [Int] {
@@ -56,12 +56,12 @@ struct PNLData: Decodable {
 //        return list
 //    }
     
-    func getChartMinY() -> Double {
-        chartData.map { $0.value }.min()!
+    func getMinY() -> Double {
+        chartData.map { $0.value }.min() ?? 0
     }
     
-    func getChartMaxY() -> Double {
-        chartData.map { $0.value }.max()!
+    func getMaxY() -> Double {
+        chartData.map { $0.value }.max() ?? 0
     }
     
     func getYAxisLabel() -> [Int] {
