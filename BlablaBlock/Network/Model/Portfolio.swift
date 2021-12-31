@@ -13,15 +13,15 @@ struct Portfolio: Decodable {
     let code: Int
     let data: PortfolioData
     
-    func getAssetSum() -> Double {
-        let sum = data.assets.map { $0.value.double }.reduce(0, +)
-        return sum
-    }
+//    func getAssetSum() -> Double {
+//        let sum = data.assets.map { $0.value.double }.reduce(0, +)
+//        return sum
+//    }
     
     func getViewData() -> [PortfolioViewData] {
         var viewDataList = [PortfolioViewData]()
         var sortedAssets = data.assets
-        sortedAssets.sort { $0.balance.double > $1.balance.double }
+        sortedAssets.sort { $0.value.double > $1.value.double }
         for data in sortedAssets {
             let unrealizedProfit: String
             if let profit = data.unrealizedProfit {
@@ -75,7 +75,7 @@ struct PortfolioData: Decodable {
         let sign: String
         let color: UIColor
         if percentage < 0 {
-            sign = "-"
+            sign = ""
             color = #colorLiteral(red: 0.8666666667, green: 0.3921568627, blue: 0.3921568627, alpha: 1)
         } else {
             sign = "+"

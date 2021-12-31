@@ -77,7 +77,7 @@ class PNLView: UIView, NibOwnerLoadable {
         roiAnnualLabel.text = "\(data.roiAnnual.toPrettyPrecisedString())%"
         mddLabel.text = "\(data.mdd.toPrettyPrecisedString())%"
         dailyWinRateLabel.text = "\(data.dailyWinRate.toPrettyPrecisedString())%"
-        sharpeRatio.text = "\(data.sharpeRatio.toPrettyPrecisedString())%"
+        sharpeRatio.text = "\(data.sharpeRatio.toPrettyPrecisedString())"
     }
     
 }
@@ -97,20 +97,32 @@ extension PNLView {
             self.chart = nil
         }
         
+        let dataList = data.getChartDataList()
+        
         var chartPoints = [ChartPoint]()
-        var xValues = [ChartAxisValue]()
-        for entry in data.getChartDataList() {
+        
+        for entry in dataList {
             chartPoints.append(createChartPoint(timestamp: entry.timestamp, value: entry.value))
-            xValues.append(createDateAxisValue(timestamp: entry.timestamp))
         }
         
-//        for timestamp in data.getXAxisPoint() {
-//            xValues.append(createDateAxisValue(timestamp: timestamp))
-//        }
+        let minX = data.getMinX()
+        let maxX = data.getMaxX()
+        let diff = maxX - minX
+        let distance = Int(Double(diff)/5)
+        
+        var xValues = [ChartAxisValue]()
+        for i in stride(from: minX, through: maxX, by: distance) {
+            xValues.append(createDateAxisValue(timestamp: i))
+        }
+        if xValues.count == 5 {
+            xValues.append(createDateAxisValue(timestamp: maxX + distance))
+        }
         let xModel = ChartAxisModel(axisValues: xValues)
         
-        let minY = Int(ceil(data.getMinY()) - 1)
-        let maxY = Int(ceil(data.getMaxY()) + 1)
+        let minY = Int(ceil(data.getMinY()))
+        let maxY = Int(ceil(data.getMaxY()))
+        
+        
         let yValues = stride(from: minY, through: maxY, by: 1).map { ChartYAxisValue($0, labelSettings: yAxisLabelSettings) }
         let yModel = ChartAxisModel(axisValues: yValues)
         
@@ -146,6 +158,7 @@ extension PNLView {
             linesColor: UIColor.black,
             linesWidth: 0.3
         )
+        
         let guidelinesLayer = ChartGuideLinesLayer(
             xAxisLayer: xAxisLayer,
             yAxisLayer: yAxisLayer,
@@ -184,8 +197,8 @@ extension PNLView {
         chartSettings.labelsSpacing = 1
         chartSettings.zoomPan.panEnabled = true
         chartSettings.zoomPan.zoomEnabled = true
-        chartSettings.zoomPan.maxZoomX = 1.2
-        chartSettings.zoomPan.minZoomX = 1.2
+        chartSettings.zoomPan.maxZoomX = 1
+        chartSettings.zoomPan.minZoomX = 1
         chartSettings.zoomPan.minZoomY = 1
         chartSettings.zoomPan.maxZoomY = 1
         return chartSettings
