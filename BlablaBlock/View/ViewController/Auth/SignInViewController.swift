@@ -15,7 +15,7 @@ class SignInViewController: BaseViewController, Storyboarded {
     
     @Injected private var mainCoordinator: MainCoordinator
     @Injected private var authViewModel: AuthViewModel
-    @Injected private var statisticsViewModel: StatisticsViewModel
+    @Injected private var exchangeApiViewModel: ExchangeApiViewModel
     private let signInMode = ReplayRelay<Bool>.create(bufferSize: 1)
     private var hasLinkedDisposable: Disposable?
        
@@ -96,8 +96,8 @@ class SignInViewController: BaseViewController, Storyboarded {
     
         clearPage()
         
-        emailTextField.text = "rex@huijun.org"
-//        emailTextField.text = "cool890104@gmail.com"
+//        emailTextField.text = "rex@huijun.org"
+        emailTextField.text = "cool890104@gmail.com"
         passwordTextField.text = "123456"
         
         bindNextButton()
@@ -158,15 +158,15 @@ class SignInViewController: BaseViewController, Storyboarded {
     private func sendForgetPasswordMail(_ email: String) {
         authViewModel.forgetPassword(email: email)
             .subscribe(
-                onSuccess: { [unowned self] response in
+                onSuccess: { [unowned self] _ in
                     AlertBuilder()
                         .setTitle("重設密碼的信件已寄出")
                         .setMessage("快去信箱收信喔！")
                         .setOkButton()
                         .show(self)
                 },
-                onFailure: { [unowned self] error in
-                    promptAlert(message: "\(error)")
+                onFailure: { [weak self] error in
+                    self?.promptAlert(message: "\(error)")
                 }
             )
             .disposed(by: disposeBag)
@@ -181,11 +181,9 @@ class SignInViewController: BaseViewController, Storyboarded {
     }
     
     private func preload() {
-        hasLinkedDisposable = statisticsViewModel.getExchangesStatus()
+        hasLinkedDisposable = exchangeApiViewModel.getExchangesStatus()
             .subscribe(onNext: { [weak self] hasLinked in
-                if let hasLinked = hasLinked {
-                    self?.mainCoordinator.main(isSignIn: true, hasLinked: hasLinked)
-                }
+                self?.mainCoordinator.main(isSignIn: true, hasLinked: hasLinked)
             })
     }
     

@@ -34,3 +34,13 @@ struct ExchangeApiData: Decodable {
         !apiKey.isEmpty && !apiSecret.isEmpty
     }
 }
+
+enum ExchangeType: String {
+    
+    case all = "all"
+    case binance = "binance"
+    case ftx = "ftx"
+    
+    static let titleList = ["所有交易所", "Binance", "FTX"]
+    static let typeList = ["all", "binance", "ftx"]
+}

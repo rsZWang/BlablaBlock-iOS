@@ -13,57 +13,49 @@ struct Portfolio: Decodable {
     let code: Int
     let data: PortfolioData
     
-//    func getAssetSum() -> Double {
-//        let sum = data.assets.map { $0.value.double }.reduce(0, +)
-//        return sum
-//    }
-    
-    func getViewData() -> [PortfolioViewData] {
-        var viewDataList = [PortfolioViewData]()
-        var sortedAssets = data.assets
-        sortedAssets.sort { $0.value.double > $1.value.double }
-        for data in sortedAssets {
-            let unrealizedProfit: String
-            if let profit = data.unrealizedProfit {
-                let doubleValue = profit.double
-                let roundedValue = round(100 * doubleValue) / 100
-                unrealizedProfit = roundedValue.toPrecisedString()
-            } else {
-                unrealizedProfit = "NA"
-            }
-            viewDataList.append(
-                PortfolioViewData(
-                    currency: data.currency,
-                    valueWeight: data.percentage.toPrettyPrecisedString(),
-                    balance: data.balance.toPrettyPrecisedString(),
-                    value: data.value.toPrettyPrecisedString(),
-                    unrealizedProfit: unrealizedProfit
-                )
-            )
-        }
-        return viewDataList
-    }
-    
 }
 
 struct PortfolioData: Decodable {
     
-    let totalValue: String
     let percentage: Double
+    let totalValue: String
     let assets: [PortfolioAsset]
     
-    func getTotalValueString() -> NSAttributedString {
-        let amount = "$\(totalValue.toPrettyPrecisedString())"
-        let unit = " USDT"
+    static var defaultProfitString: NSAttributedString {
+        let rate = "+0%"
         let attribuedString = NSMutableAttributedString()
         attribuedString.append(NSAttributedString(
-            string: amount,
+            string: "總資產(",
+            attributes: [
+                NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 12)
+            ]
+        ))
+        attribuedString.append(NSAttributedString(
+            string: rate,
+            attributes: [
+                NSAttributedString.Key.foregroundColor : #colorLiteral(red: 0.2352941176, green: 0.831372549, blue: 0.5568627451, alpha: 1),
+                NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 12)
+            ]
+        ))
+        attribuedString.append(NSAttributedString(
+            string: ")",
+            attributes: [
+                NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 12)
+            ]
+        ))
+        return attribuedString
+    }
+    
+    static var defaultAssetSumString: NSAttributedString {
+        let attribuedString = NSMutableAttributedString()
+        attribuedString.append(NSAttributedString(
+            string: "$0",
             attributes: [
                 NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 24)
             ]
         ))
         attribuedString.append(NSAttributedString(
-            string: unit,
+            string: " USDT",
             attributes: [
                 NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 12)
             ]
@@ -105,6 +97,53 @@ struct PortfolioData: Decodable {
         return attribuedString
     }
     
+    func getAssetSumString() -> NSAttributedString {
+        let amount = "$\(totalValue.toPrettyPrecisedString())"
+        let unit = " USDT"
+        let attribuedString = NSMutableAttributedString()
+        attribuedString.append(NSAttributedString(
+            string: amount,
+            attributes: [
+                NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 24)
+            ]
+        ))
+        attribuedString.append(NSAttributedString(
+            string: unit,
+            attributes: [
+                NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 12)
+            ]
+        ))
+        return attribuedString
+    }
+    
+    func getViewData() -> [PortfolioViewData] {
+        var viewDataList = [PortfolioViewData]()
+        var sortedAssets = assets
+        sortedAssets.sort { $0.value.double > $1.value.double }
+        for data in sortedAssets {
+            let unrealizedProfit: String
+            if let profit = data.unrealizedProfit {
+                let doubleValue = profit.double
+                let roundedValue = round(100 * doubleValue) / 100
+                unrealizedProfit = roundedValue.toPrecisedString()
+            } else {
+                unrealizedProfit = "N/A"
+            }
+            viewDataList.append(
+                PortfolioViewData(
+                    exchange: ExchangeType.init(rawValue: data.exchange)!,
+                    type: PortfolioType.init(rawValue: data.type)!,
+                    currency: data.currency,
+                    valueWeight: data.percentage.toPrettyPrecisedString(),
+                    balance: data.balance.toPrettyPrecisedString(),
+                    value: data.value.toPrettyPrecisedString(),
+                    unrealizedProfit: unrealizedProfit
+                )
+            )
+        }
+        return viewDataList
+    }
+    
 }
 
 struct PortfolioAsset: Decodable, Equatable {
@@ -121,12 +160,27 @@ struct PortfolioAsset: Decodable, Equatable {
     
 }
 
-struct PortfolioViewData: Decodable, Equatable {
+struct PortfolioViewData: Equatable {
     
+    let exchange: ExchangeType
+    let type: PortfolioType
     let currency: String
     let valueWeight: String
     let balance: String
     let value: String
     let unrealizedProfit: String
     
+}
+
+enum PortfolioType: String {
+    
+    case all = "all"
+    case spot = "spot"              // 現貨
+    case margin = "margin"          // 現貨槓桿
+    case lending = "lending"        // 借貸
+    case futures = "futures"        // 合約裡的現貨
+    case positions = "positions"    // 合約的持倉
+    
+    static let titleList = ["所有類別", "現貨", "現貨槓桿", "借貸", "合約裡的現貨", "合約的持倉"]
+    static let typeList = ["all", "spot", "margin", "lending", "futures", "positions"]
 }

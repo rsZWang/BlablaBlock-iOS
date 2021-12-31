@@ -86,13 +86,6 @@ struct PNLData: Decodable {
             values.append(maxY + distance)
         }
         return values.map { round($0*100)/100 }
-//        return values.map { value in
-//            if value < 0 {
-//                return -(ceil(abs(value)))
-//            } else {
-//                return ceil(value)
-//            }
-//        }
     }
     
     func getYAxisLabel() -> [Int] {
@@ -115,3 +108,14 @@ struct PNLCharData {
     let timestamp: Int
     
 }
+
+enum PNLPeriod: String {
+    
+    case all = "all"
+    case _1y = "1y"
+    case _1m = "1m"
+    case ytd = "ytd"
+    
+    static let titleList = ["全部", "1Y", "1M", "YTD"]
+    static let periodList = ["all", "1y", "1m", "ytd"]
+    }

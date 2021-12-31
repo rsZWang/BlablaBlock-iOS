@@ -34,9 +34,9 @@ class InputAlert {
     }
     
     func setConfirmButton(title: String, action: @escaping ([Int : String]) -> Void) -> InputAlert {
-        alertController.addAction(UIAlertAction(title: title, style: .default) { [unowned self] _ in
+        alertController.addAction(UIAlertAction(title: title, style: .default) { [weak self] _ in
             var result = [Int : String]()
-            if let textFields = alertController.textFields {
+            if let textFields = self?.alertController.textFields {
                 for textField in textFields {
                     result[textField.tag] = textField.text
                 }

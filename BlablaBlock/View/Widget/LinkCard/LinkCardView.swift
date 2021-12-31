@@ -8,13 +8,13 @@
 import UIKit
 
 protocol LinkCardViewDelegate: NSObject {
-    func onTap(type: Exchange.ExchangeType, exchange: ExchangeApiData?)
+    func onTap(type: ExchangeType, exchange: ExchangeApiData?)
 }
 
 class LinkCardView: UIView, NibOwnerLoadable {
     
     weak var delegate: LinkCardViewDelegate?
-    var type: Exchange.ExchangeType!
+    var type: ExchangeType!
     var exchange: ExchangeApiData? = nil {
         didSet {
             setData(exchange: exchange)
@@ -35,17 +35,20 @@ class LinkCardView: UIView, NibOwnerLoadable {
         commonInit()
     }
     
-    convenience init(_ delegate: LinkCardViewDelegate, type: Exchange.ExchangeType) {
+    convenience init(_ delegate: LinkCardViewDelegate, type: ExchangeType) {
         self.init(frame: .zero)
         self.delegate = delegate
         self.type = type
         switch type {
-        case .Binance:
+        case .binance:
             imageView.image = UIImage(named: "ic_setting_binance")!
             titleLabel.text = "連結幣安"
-        case .FTX:
+        case .ftx:
             imageView.image = UIImage(named: "ic_setting_ftx")!
             titleLabel.text = "連結FTX"
+        default:
+            imageView.image = nil
+            titleLabel.text = "UNKNOWN"
         }
     }
     

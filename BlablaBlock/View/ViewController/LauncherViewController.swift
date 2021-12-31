@@ -14,7 +14,7 @@ import RxSwift
 class LauncherViewController: BaseViewController {
     
     @Injected var mainCoordinator: MainCoordinator
-    @Injected var statisticsViewModel: StatisticsViewModel
+    @Injected var exchangeApiViewModel: ExchangeApiViewModel
     private var hasLinkedDisposable: Disposable?
 
     override func viewDidLoad() {
@@ -25,12 +25,10 @@ class LauncherViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        DispatchQueue.main.asyncAfter(deadline: .now()+3) { [unowned self] in
-            if let _ = Defaults[.userToken] {
-                preload()
-            } else {
-                mainCoordinator.signIn()
-            }
+        if let _ = Defaults[.userToken] {
+            preload()
+        } else {
+            mainCoordinator.signIn()
         }
     }
     
@@ -76,12 +74,10 @@ class LauncherViewController: BaseViewController {
     }
     
     private func preload() {
-        hasLinkedDisposable = statisticsViewModel.getExchangesStatus()
+        hasLinkedDisposable = exchangeApiViewModel.getExchangesStatus()
             .subscribe(
                 onNext: { [weak self] hasLinked in
-                    if let hasLinked = hasLinked {
-                        self?.mainCoordinator.main(isSignIn: false, hasLinked: hasLinked)
-                    }
+                    self?.mainCoordinator.main(isSignIn: false, hasLinked: hasLinked)
                 },
                 onError: { [weak self] error in
                     self?.mainCoordinator.signIn()

@@ -18,11 +18,11 @@ class AuthViewModel: BaseViewModel {
         AuthService.Login(email: email, password: password)
             .request()
             .subscribe(
-                onSuccess: { [unowned self] response in
-                    signInHandler(response: response)
+                onSuccess: { [weak self] response in
+                    self?.signInHandler(response: response)
                 },
-                onFailure: { [unowned self] error in
-                    errorHandler(error: error)
+                onFailure: { [weak self] error in
+                    self?.errorHandler(error: error)
                 }
             )
             .disposed(by: disposeBag)
@@ -32,16 +32,16 @@ class AuthViewModel: BaseViewModel {
         AuthService.Registration(userName: userName, email: email, password: password)
             .request()
             .subscribe(
-                onSuccess: { [unowned self] response in
+                onSuccess: { [weak self] response in
                     switch response {
                     case let .Success(registration):
-                        signIn(userToken: registration.data.apiToken, userName: registration.data.name)
+                        self?.signIn(userToken: registration.data.apiToken, userName: registration.data.name)
                     case let .Failure(responseFailure):
-                        errorCodeHandler(responseFailure)
+                        self?.errorCodeHandler(responseFailure)
                     }
                 },
-                onFailure: { [unowned self] error in
-                    errorHandler(error: error)
+                onFailure: { [weak self] error in
+                    self?.errorHandler(error: error)
                 }
             )
             .disposed(by: disposeBag)
@@ -56,16 +56,16 @@ class AuthViewModel: BaseViewModel {
         AuthService.Logout()
             .request()
             .subscribe(
-                onSuccess: { [unowned self] response in
+                onSuccess: { [weak self] response in
                     switch response {
                     case .Success:
-                        doSignOut()
+                        self?.doSignOut()
                     case let .Failure(responseFailure):
-                        errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
+                        self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
                     }
                 },
-                onFailure: { [unowned self] error in
-                    errorHandler(error: error)
+                onFailure: { [weak self] error in
+                    self?.errorHandler(error: error)
                 }
             )
             .disposed(by: disposeBag)

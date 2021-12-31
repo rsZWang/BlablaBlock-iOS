@@ -8,12 +8,13 @@
 import RxCocoa
 import RxSwift
 
-public class BaseViewModel {
+public class BaseViewModel: NSObject {
     
     internal var disposeBag: DisposeBag!
     let errorMessageObservable = PublishRelay<String>()
     
-    init() {
+    override init() {
+        super.init()
         disposeBag = DisposeBag()
     }
     
@@ -40,6 +41,10 @@ public class BaseViewModel {
             string = "重設密碼失敗，使用者不存在"
         case 1005:
             string = "重設密碼失敗"
+        case 1008:
+            string = "此信箱尚未註冊"
+        case 501:
+            string = "綁定失敗"
         default:
             string = "未知錯誤(\(msg))"
         }

@@ -759,7 +759,7 @@
                                     <constraint firstItem="WL0-xc-o6t" firstAttribute="leading" secondItem="Pna-9u-WT3" secondAttribute="trailing" constant="25" id="4Zp-eS-0Ng"/>
                                     <constraint firstItem="JXb-cy-e7U" firstAttribute="leading" secondItem="Oks-Ua-63M" secondAttribute="leading" id="5pt-Cj-3Xw"/>
                                     <constraint firstItem="JXb-cy-e7U" firstAttribute="top" secondItem="Oks-Ua-63M" secondAttribute="top" id="CNd-sW-a6Q"/>
-                                    <constraint firstItem="BA0-F6-eLq" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Pna-9u-WT3" secondAttribute="trailing" symbolic="YES" id="IiA-t3-n3e"/>
+                                    <constraint firstItem="BA0-F6-eLq" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Pna-9u-WT3" secondAttribute="trailing" constant="8" symbolic="YES" id="IiA-t3-n3e"/>
                                     <constraint firstAttribute="bottom" secondItem="Pna-9u-WT3" secondAttribute="bottom" id="Kbt-Kq-UBA"/>
                                     <constraint firstItem="WL0-xc-o6t" firstAttribute="bottom" secondItem="Pna-9u-WT3" secondAttribute="bottom" id="PTO-li-mbV"/>
                                     <constraint firstItem="Pna-9u-WT3" firstAttribute="width" secondItem="Oks-Ua-63M" secondAttribute="width" multiplier="0.3" id="WPc-Hk-QR4"/>
@@ -819,6 +819,7 @@
                     <connections>
                         <outlet property="avatarImageView" destination="Pna-9u-WT3" id="rGQ-dz-lz2"/>
                         <outlet property="linkCardViewListStackView" destination="4Kg-yW-Gj9" id="z0o-rn-aJN"/>
+                        <outlet property="nameLabel" destination="zTE-fn-g9y" id="5Js-VO-WA3"/>
                         <outlet property="signOutButton" destination="BA0-F6-eLq" id="uCa-fh-RbZ"/>
                     </connections>
                 </viewController>
@@ -829,28 +830,28 @@
     </scenes>
     <designables>
         <designable name="0hi-Ip-Qri">
-            <size key="intrinsicContentSize" width="33" height="32"/>
+            <size key="intrinsicContentSize" width="30" height="29"/>
         </designable>
         <designable name="1o4-Vr-QUA">
             <size key="intrinsicContentSize" width="53" height="44"/>
         </designable>
         <designable name="4CV-sV-43g">
-            <size key="intrinsicContentSize" width="66" height="32"/>
+            <size key="intrinsicContentSize" width="82" height="36"/>
         </designable>
         <designable name="Ark-2r-ftG">
-            <size key="intrinsicContentSize" width="66" height="32"/>
+            <size key="intrinsicContentSize" width="82" height="36"/>
         </designable>
         <designable name="BA0-F6-eLq">
-            <size key="intrinsicContentSize" width="37" height="34"/>
+            <size key="intrinsicContentSize" width="33" height="32"/>
         </designable>
         <designable name="Cbm-ds-leR">
             <size key="intrinsicContentSize" width="53" height="44"/>
         </designable>
         <designable name="VXG-1j-OdW">
-            <size key="intrinsicContentSize" width="80" height="44"/>
+            <size key="intrinsicContentSize" width="62" height="36"/>
         </designable>
         <designable name="k4r-84-K8l">
-            <size key="intrinsicContentSize" width="82" height="32"/>
+            <size key="intrinsicContentSize" width="102" height="36"/>
         </designable>
     </designables>
     <resources>

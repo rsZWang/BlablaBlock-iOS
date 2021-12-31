@@ -8,18 +8,19 @@
 import UIKit
 import RxSwift
 import Resolver
+import Defaults
 
 class SettingViewController: BaseViewController, LinkCardViewDelegate {
     
     @Injected var mainCoordinator: MainCoordinator
     @Injected var authViewModel: AuthViewModel
-    @Injected var statisticsViewModel: StatisticsViewModel
     @Injected var exchangeApiViewModel: ExchangeApiViewModel
     
-    private lazy var binanceLinkCard = LinkCardView(self, type: .Binance)
-    private lazy var ftxLinkCard = LinkCardView(self, type: .FTX)
+    private lazy var binanceLinkCard = LinkCardView(self, type: .binance)
+    private lazy var ftxLinkCard = LinkCardView(self, type: .ftx)
 
     @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var signOutButton: ColorButton!
     @IBOutlet weak var linkCardViewListStackView: UIStackView!
     
@@ -33,9 +34,8 @@ class SettingViewController: BaseViewController, LinkCardViewDelegate {
         linkCardViewListStackView.spacing = 20
         linkCardViewListStackView.addArrangedSubview(binanceLinkCard)
         linkCardViewListStackView.addArrangedSubview(ftxLinkCard)
-
-        let exchangeList = statisticsViewModel.exhangesObservable.value!
-        refreshList(exchangeList: exchangeList)
+        
+        nameLabel.text = Defaults[.userName]
         
         signOutButton.rx
             .tap
@@ -97,7 +97,7 @@ class SettingViewController: BaseViewController, LinkCardViewDelegate {
         }
     }
     
-    func onTap(type: Exchange.ExchangeType, exchange: ExchangeApiData?) {
+    func onTap(type: ExchangeType, exchange: ExchangeApiData?) {
         if let exchange = exchange {
             promptActionSheetAlert(type: type, exchange: exchange)
         } else {
@@ -105,14 +105,14 @@ class SettingViewController: BaseViewController, LinkCardViewDelegate {
         }
     }
     
-    private func promptLinkViewController(type: Exchange.ExchangeType, exchange: ExchangeApiData?) {
+    private func promptLinkViewController(type: ExchangeType, exchange: ExchangeApiData?) {
         let vc = LinkExchangeViewController()
         vc.exchangeType = type
         vc.exchange = exchange
         present(vc, animated: true)
     }
     
-    private func promptActionSheetAlert(type: Exchange.ExchangeType, exchange: ExchangeApiData) {
+    private func promptActionSheetAlert(type: ExchangeType, exchange: ExchangeApiData) {
         AlertBuilder()
             .setStyle(.actionSheet)
             .setButton(title: "修改") { [weak self] in

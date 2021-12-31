@@ -10,88 +10,100 @@ import RxCocoa
 import RxSwift
 
 class StatisticsViewModel: BaseViewModel {
-    
-    let hasLinkedObservable = BehaviorSubject<Bool?>(value: nil)
-    let exhangesObservable = BehaviorRelay<[ExchangeApiData]?>(value: nil)
-    let portfolioObservable = BehaviorRelay<Portfolio?>(value: nil)
+        
+    let assetProfitObservable = BehaviorRelay<NSAttributedString>(value: PortfolioData.defaultProfitString)
+    let assetSumObservable = BehaviorRelay<NSAttributedString>(value: PortfolioData.defaultAssetSumString)
+    let portfolioViewDataListObservable = BehaviorRelay<[PortfolioViewData]?>(value: nil)
     let pnlObservable = BehaviorRelay<PNLData?>(value: nil)
-    let timerObservable = PublishRelay<Int>()
-    private var timerDisposable: Disposable?
-    private var portfolioFilter = "all"
-    private var pnlPeriodFilter = "all"
+//    let timerObservable = PublishRelay<Int>()
+//    private var timerDisposable: Disposable?
     
-    func getExchangesStatus() -> Observable<Bool?> {
-        ExchangeApiService.getStatus()
-            .request()
-            .subscribe(
-                onSuccess: { [unowned self] response in
-                    switch response {
-                    case let .Success(exchange):
-                        let hasLinked = exchange.hasLinked()
-                        if hasLinked && timerDisposable == nil {
-                            startFetchData()
-                        }
-                        exhangesObservable.accept(exchange.data)
-                        hasLinkedObservable.onNext(hasLinked)
-                    case let .Failure(responseFailure):
-                        errorCodeHandler(responseFailure)
-                    }
-                },
-                onFailure: { [unowned self] error in
-                    errorHandler(error: error)
-                }
-            )
-            .disposed(by: disposeBag)
-        return hasLinkedObservable
+    private let portfolioDataObservable = BehaviorRelay<PortfolioData?>(value: nil)
+    private let exchangeFilterObservable = BehaviorRelay<ExchangeType>(value: .all)
+    private let portfolioTypeFilterObservable = BehaviorRelay<PortfolioType>(value: .all)
+    private var pnlPeriodFilterObservable = BehaviorRelay<PNLPeriod>(value: .all)
+    
+    deinit {
+        Timber.i("StatisticsViewModel")
     }
     
-    func getPortfolio(exchange: String) {
-        if !exchange.isEmpty {
-            portfolioFilter = exchange
-        }
-        StatisticsService.getPortfolio(exchange: portfolioFilter)
+    override init() {
+        super.init()
+        
+        getPortfolio()
+        
+        Observable.combineLatest(
+            portfolioDataObservable,
+            exchangeFilterObservable,
+            portfolioTypeFilterObservable,
+            resultSelector: { (portfolioData: PortfolioData?, exchangeFilter: ExchangeType, portfolioFilter: PortfolioType) -> [PortfolioViewData]? in
+                if let portfolioData = portfolioData {
+                    var viewDataList: [PortfolioViewData] = portfolioData.getViewData()
+                    if exchangeFilter != .all {
+                        viewDataList = viewDataList.filter { $0.exchange == exchangeFilter }
+                    }
+                    if portfolioFilter != .all {
+                        viewDataList = viewDataList.filter { $0.type == portfolioFilter }
+                    }
+                    return viewDataList
+                } else {
+                    return nil
+                }
+            }
+        )
+            .bind(to: portfolioViewDataListObservable)
+            .disposed(by: disposeBag)
+        
+        pnlPeriodFilterObservable
+            .subscribe(onNext: { [weak self] period in
+                self?.getPNL(period: period)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func getPortfolio() {
+        StatisticsService.getPortfolio(exchange: "all")
             .request()
             .subscribe(
-                onSuccess: { [unowned self] response in
+                onSuccess: { [weak self] response in
                     switch response {
                     case let .Success(portfolio):
-                        portfolioObservable.accept(portfolio)
+                        self?.assetProfitObservable.accept(portfolio.data.getProfitString())
+                        self?.assetSumObservable.accept(portfolio.data.getAssetSumString())
+                        self?.portfolioDataObservable.accept(portfolio.data)
                     case let .Failure(responseFailure):
                         if responseFailure.code == 1006 {
-                            portfolioObservable.accept(nil)
+                            self?.portfolioViewDataListObservable.accept(nil)
                         } else {
-                            errorCodeHandler(responseFailure)
+                            self?.errorCodeHandler(responseFailure)
                         }
                     }
                 },
-                onFailure: { [unowned self] error in
-                    errorHandler(error: error)
+                onFailure: { [weak self] error in
+                    self?.errorHandler(error: error)
                 }
             )
             .disposed(by: disposeBag)
     }
     
-    func getPNL(period: String) {
-        if !period.isEmpty {
-            pnlPeriodFilter = period
-        }
-        StatisticsService.getPNL(exchange: "all", period: period)
+    func getPNL(period: PNLPeriod) {
+        StatisticsService.getPNL(exchange: "all", period: period.rawValue)
             .request()
             .subscribe(
-                onSuccess: { [unowned self] response in
+                onSuccess: { [weak self] response in
                     switch response {
                     case let .Success(pnl):
-                        pnlObservable.accept(pnl.data)
+                        self?.pnlObservable.accept(pnl.data)
                     case let .Failure(responseFailure):
                         if responseFailure.code == 1007 {
                             
                         } else {
-                            errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
+                            self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
                         }
                     }
                 },
-                onFailure: { error in
-                    Timber.e("\(error)")
+                onFailure: { [weak self] error in
+                    self?.errorHandler(error: error)
                 }
             )
             .disposed(by: disposeBag)
@@ -111,3 +123,20 @@ class StatisticsViewModel: BaseViewModel {
     }
     
 }
+
+extension StatisticsViewModel: PortfolioViewDelegate {
+    func onExchangeFiltered(exchange: String) {
+        exchangeFilterObservable.accept(ExchangeType.init(rawValue: exchange)!)
+    }
+    
+    func onPortfolioTypeFiltered(type: String) {
+        portfolioTypeFilterObservable.accept(PortfolioType.init(rawValue: type)!)
+    }
+}
+
+extension StatisticsViewModel: PNLViewDelegate {
+    func onPeriodFiltered(period: String) {
+        pnlPeriodFilterObservable.accept(PNLPeriod.init(rawValue: period)!)
+    }
+}
+

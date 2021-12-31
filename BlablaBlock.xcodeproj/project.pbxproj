@@ -17,9 +17,7 @@
 		4A4B4DF22770E4B100075933 /* PortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4B4DF12770E4B100075933 /* PortfolioView.swift */; };
 		4A4B4DF42770E4C600075933 /* PortfolioView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A4B4DF32770E4C600075933 /* PortfolioView.xib */; };
 		4A4B4DF62770E5E300075933 /* ExchangeListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A4B4DF52770E5E300075933 /* ExchangeListTableViewCell.xib */; };
-		4A543A462779B59400662B12 /* ExchangeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A543A452779B59400662B12 /* ExchangeType.swift */; };
 		4A543A482779CF1700662B12 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A543A472779CF1700662B12 /* PickerView.swift */; };
-		4A543A4A2779DE2100662B12 /* PNLPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A543A492779DE2100662B12 /* PNLPeriod.swift */; };
 		4A5FE1F827365E0F004AD836 /* LinkExchangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */; };
 		4A7744B7276F8A350087A447 /* ResponseFailure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7744B6276F8A350087A447 /* ResponseFailure.swift */; };
 		4A7744B9276F8E3C0087A447 /* ExchangeApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7744B8276F8E3C0087A447 /* ExchangeApiService.swift */; };
@@ -106,9 +104,7 @@
 		4A4B4DF12770E4B100075933 /* PortfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioView.swift; sourceTree = "<group>"; };
 		4A4B4DF32770E4C600075933 /* PortfolioView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PortfolioView.xib; sourceTree = "<group>"; };
 		4A4B4DF52770E5E300075933 /* ExchangeListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExchangeListTableViewCell.xib; sourceTree = "<group>"; };
-		4A543A452779B59400662B12 /* ExchangeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeType.swift; sourceTree = "<group>"; };
 		4A543A472779CF1700662B12 /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
-		4A543A492779DE2100662B12 /* PNLPeriod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PNLPeriod.swift; sourceTree = "<group>"; };
 		4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkExchangeViewController.swift; sourceTree = "<group>"; };
 		4A7744B6276F8A350087A447 /* ResponseFailure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseFailure.swift; sourceTree = "<group>"; };
 		4A7744B8276F8E3C0087A447 /* ExchangeApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeApiService.swift; sourceTree = "<group>"; };
@@ -365,8 +361,6 @@
 				4A7744BC276F96170087A447 /* Portfolio.swift */,
 				4A7744BE276F97520087A447 /* PNL.swift */,
 				A0DAD5BF27787A1800CD8760 /* ExchangeApi.swift */,
-				4A543A452779B59400662B12 /* ExchangeType.swift */,
-				4A543A492779DE2100662B12 /* PNLPeriod.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -781,11 +775,9 @@
 				A0290E2F272319DE00A07224 /* StatisticsViewController.swift in Sources */,
 				4AFC6577276E7E3900ADEDA7 /* InputAlertBuilder.swift in Sources */,
 				4A7744C5276FA1B50087A447 /* StatisticsViewModel.swift in Sources */,
-				4A543A462779B59400662B12 /* ExchangeType.swift in Sources */,
 				4AA9F814276E473800D775F0 /* BaseViewModel.swift in Sources */,
 				A0C8E58E271FFCB400848FCB /* Extensions.swift in Sources */,
 				4A7744BD276F96170087A447 /* Portfolio.swift in Sources */,
-				4A543A4A2779DE2100662B12 /* PNLPeriod.swift in Sources */,
 				A0859AE5272DBE8100CF936E /* ExchangeListTableView.swift in Sources */,
 				4ABA209F273BDC5000F66DB9 /* AuthViewModel.swift in Sources */,
 				A092DEB027738BEC00E98A2B /* PNLView.swift in Sources */,

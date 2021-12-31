@@ -11,33 +11,46 @@ import RxSwift
 
 class ExchangeApiViewModel: BaseViewModel {
     
-    let exhangeListObservable = PublishSubject<[ExchangeApiData]>()
+    let exhangeListObservable = BehaviorRelay<[ExchangeApiData]>(value: [])
     let exchangeUpdatedObservable = PublishSubject<ExchangeApiData>()
     let completeObservable = PublishSubject<Bool>()
     
-    func getStatus() {
+    func getExchangesStatus() -> Observable<Bool> {
+        let hasLinkedObservable = PublishSubject<Bool>()
         ExchangeApiService.getStatus()
             .request()
             .subscribe(
-                onSuccess: { [unowned self] response in
-                    newExchangeHandler(response: response)
+                onSuccess: { [weak self] response in
+                    switch response {
+                    case let .Success(exchange):
+                        let hasLinked = exchange.hasLinked()
+//                        if hasLinked && timerDisposable == nil {
+//                            startFetchData()
+//                        }
+                        self?.exhangeListObservable.accept(exchange.data)
+                        hasLinkedObservable.onNext(hasLinked)
+                    case let .Failure(responseFailure):
+                        self?.errorCodeHandler(responseFailure)
+                    }
                 },
-                onFailure: { [unowned self] error in
-                    errorHandler(error: error)
+                onFailure: { [weak self] error in
+                    self?.errorHandler(error: error)
+                    hasLinkedObservable.onError(error)
                 }
             )
             .disposed(by: disposeBag)
+        return hasLinkedObservable
     }
     
     func create(exchange: String, apiKey: String, apiSecret: String) {
         ExchangeApiService.create(exchange: exchange, apiKey: apiKey, apiSecret: apiSecret)
             .request()
             .subscribe(
-                onSuccess: { [unowned self] response in
-                    newExchangeHandler(response: response)
+                onSuccess: { [weak self] response in
+                    self?.newExchangeHandler(response: response)
                 },
-                onFailure: { [unowned self] error in
-                    errorHandler(error: error)
+                onFailure: { [weak self] error in
+                    self?.errorHandler(error: error)
                 }
             )
             .disposed(by: disposeBag)
@@ -47,11 +60,11 @@ class ExchangeApiViewModel: BaseViewModel {
         ExchangeApiService.edit(id: id, exchange: exchange, apiKey: apiKey, apiSecret: apiKey, subAccount: subaccount)
             .request()
             .subscribe(
-                onSuccess: { [unowned self] response in
-                    newExchangeHandler(response: response)
+                onSuccess: { [weak self] response in
+                    self?.newExchangeHandler(response: response)
                 },
-                onFailure: { [unowned self] error in
-                    errorHandler(error: error)
+                onFailure: { [weak self] error in
+                    self?.errorHandler(error: error)
                 }
             )
             .disposed(by: disposeBag)
@@ -61,11 +74,11 @@ class ExchangeApiViewModel: BaseViewModel {
         ExchangeApiService.delete(id: id)
             .request()
             .subscribe(
-                onSuccess: { [unowned self] response in
-                    newExchangeHandler(response: response)
+                onSuccess: { [weak self] response in
+                    self?.newExchangeHandler(response: response)
                 },
-                onFailure: { [unowned self] error in
-                    errorHandler(error: error)
+                onFailure: { [weak self] error in
+                    self?.errorHandler(error: error)
                 }
             )
             .disposed(by: disposeBag)
@@ -74,7 +87,7 @@ class ExchangeApiViewModel: BaseViewModel {
     private func newExchangeHandler(response: HttpResponse<ExchangeApi, ResponseFailure>) {
         switch response {
         case let .Success(exchange):
-            exhangeListObservable.onNext(exchange.data)
+            exhangeListObservable.accept(exchange.data)
             completeObservable.onNext(true)
         case let .Failure(responseFailure):
             errorCodeHandler(responseFailure)

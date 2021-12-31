@@ -23,27 +23,28 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lvy-OZ-MCT" userLabel="Content Section">
                                 <rect key="frame" x="0.0" y="0.0" width="484" height="40"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="252" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="749" image="ic_setting_binance" translatesAutoresizingMaskIntoConstraints="NO" id="0Ck-Ne-FH1">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="252" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="749" image="info" translatesAutoresizingMaskIntoConstraints="NO" id="0Ck-Ne-FH1">
                                         <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="b3z-8p-1dd"/>
                                             <constraint firstAttribute="width" secondItem="0Ck-Ne-FH1" secondAttribute="height" multiplier="1:1" id="jKt-AY-Vqw"/>
                                         </constraints>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="small"/>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DHI-04-x1U" userLabel="Text Section">
                                         <rect key="frame" x="40" y="0.0" width="444" height="40"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gec-Yx-zXo" userLabel="Type Section">
-                                                <rect key="frame" x="0.0" y="0.0" width="111" height="40"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="155.5" height="40"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="BNB" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="eEq-uf-06V" userLabel="Name">
-                                                        <rect key="frame" x="0.0" y="0.0" width="111" height="21.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="155.5" height="21.5"/>
                                                         <fontDescription key="fontDescription" type="system" weight="black" pointSize="18"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weight" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="L2I-Po-fpW" userLabel="Percentage">
-                                                        <rect key="frame" x="0.0" y="21.5" width="111" height="18.5"/>
+                                                        <rect key="frame" x="0.0" y="21.5" width="155.5" height="18.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
@@ -60,16 +61,16 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IKq-AR-dPA" userLabel="Exposure Section">
-                                                <rect key="frame" x="111" y="0.0" width="222" height="40"/>
+                                                <rect key="frame" x="155.5" y="0.0" width="177.5" height="40"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Balance" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xEm-4t-9tW" userLabel="Amount">
-                                                        <rect key="frame" x="0.0" y="0.0" width="222" height="21.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="177.5" height="21.5"/>
                                                         <fontDescription key="fontDescription" type="system" weight="black" pointSize="18"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Value" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E6B-ou-WG4" userLabel="Value">
-                                                        <rect key="frame" x="0.0" y="21.5" width="222" height="18.5"/>
+                                                        <rect key="frame" x="0.0" y="21.5" width="177.5" height="18.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
@@ -106,14 +107,14 @@
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstItem="gec-Yx-zXo" firstAttribute="leading" secondItem="DHI-04-x1U" secondAttribute="leading" id="1AF-5n-ypo"/>
-                                            <constraint firstItem="IKq-AR-dPA" firstAttribute="width" secondItem="DHI-04-x1U" secondAttribute="width" multiplier="0.5" id="6hE-cP-zVH"/>
+                                            <constraint firstItem="IKq-AR-dPA" firstAttribute="width" secondItem="DHI-04-x1U" secondAttribute="width" multiplier="0.4" id="6hE-cP-zVH"/>
                                             <constraint firstItem="gec-Yx-zXo" firstAttribute="top" secondItem="DHI-04-x1U" secondAttribute="top" id="A0o-pD-rWb"/>
                                             <constraint firstAttribute="bottom" secondItem="IKq-AR-dPA" secondAttribute="bottom" id="EX6-LU-6Dd"/>
                                             <constraint firstAttribute="bottom" secondItem="izo-0x-QFh" secondAttribute="bottom" id="OSc-pu-1Ip"/>
                                             <constraint firstAttribute="bottom" secondItem="gec-Yx-zXo" secondAttribute="bottom" id="VD4-1L-xtz"/>
                                             <constraint firstItem="IKq-AR-dPA" firstAttribute="leading" secondItem="gec-Yx-zXo" secondAttribute="trailing" id="YJA-up-akz"/>
                                             <constraint firstItem="izo-0x-QFh" firstAttribute="leading" secondItem="IKq-AR-dPA" secondAttribute="trailing" id="dfK-Qk-6fG"/>
-                                            <constraint firstItem="gec-Yx-zXo" firstAttribute="width" secondItem="DHI-04-x1U" secondAttribute="width" multiplier="0.25" id="rb6-8A-9xo"/>
+                                            <constraint firstItem="gec-Yx-zXo" firstAttribute="width" secondItem="DHI-04-x1U" secondAttribute="width" multiplier="0.35" id="rb6-8A-9xo"/>
                                             <constraint firstAttribute="trailing" secondItem="izo-0x-QFh" secondAttribute="trailing" id="txx-L2-CTQ"/>
                                             <constraint firstItem="izo-0x-QFh" firstAttribute="top" secondItem="DHI-04-x1U" secondAttribute="top" id="vcp-x9-9TZ"/>
                                             <constraint firstItem="IKq-AR-dPA" firstAttribute="top" secondItem="DHI-04-x1U" secondAttribute="top" id="ydd-vu-oOE"/>
@@ -169,7 +170,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="ic_setting_binance" width="30" height="30"/>
+        <image name="info" width="32" height="32"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

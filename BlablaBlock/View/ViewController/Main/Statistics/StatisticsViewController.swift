@@ -8,6 +8,7 @@
 import UIKit
 import Resolver
 import RxSwift
+import Defaults
 
 class StatisticsViewController: BaseViewController {
     
@@ -54,36 +55,36 @@ class StatisticsViewController: BaseViewController {
         radioGroup.add(pnlButton)
         radioGroup.add(followingButton)
         
-        portfolioView.delegate = self
-        portfolioView.counterLabel.isHidden = true
-        pnlView.delegate = self
+        portfolioView.delegate = statisticsViewModel
+        pnlView.delegate = statisticsViewModel
         
         pagerSectionView.addSubview(pagedView)
         pagerSectionView.snp.makeConstraints { make in
             make.edges.equalTo(pagedView)
         }
         
-        statisticsViewModel.errorMessageObservable
-            .subscribe(onNext: { [weak self] msg in
-                self?.portfolioView.refreshControl.endRefreshing()
-                self?.promptAlert(message: msg)
-            })
-            .disposed(by: disposeBag)
+        nameLabel.text = Defaults[.userName]
         
         portfolioView.refreshControl.rx.controlEvent(.valueChanged)
             .subscribe(onNext: { [weak self] in
-                self?.statisticsViewModel.getPortfolio(exchange: "")
+                self?.statisticsViewModel.getPortfolio()
             })
             .disposed(by: disposeBag)
         
-        statisticsViewModel.portfolioObservable
+        statisticsViewModel.assetProfitObservable
+            .bind(to: assetProfitLabel.rx.attributedText)
+            .disposed(by: disposeBag)
+        
+        statisticsViewModel.assetSumObservable
+            .bind(to: assetSumLabel.rx.attributedText)
+            .disposed(by: disposeBag)
+        
+        statisticsViewModel.portfolioViewDataListObservable
             .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] portfolio in
+            .subscribe(onNext: { [weak self] viewDataList in
                 self?.portfolioView.refreshControl.endRefreshing()
-                if let portfolio = portfolio {
-                    self?.assetProfitLabel.attributedText = portfolio.data.getProfitString()
-                    self?.assetSumLabel.attributedText = portfolio.data.getTotalValueString()
-                    self?.tableView.bind(data: portfolio.getViewData())
+                if let viewDataList = viewDataList {
+                    self?.tableView.bind(data: viewDataList)
                 }
             })
             .disposed(by: disposeBag)
@@ -97,8 +98,12 @@ class StatisticsViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
         
-        statisticsViewModel.getPortfolio(exchange: "")
-        statisticsViewModel.getPNL(period: "")
+        statisticsViewModel.errorMessageObservable
+            .subscribe(onNext: { [weak self] msg in
+                self?.portfolioView.refreshControl.endRefreshing()
+                self?.promptAlert(message: msg)
+            })
+            .disposed(by: disposeBag)
     }
     
     override func viewDidLayoutSubviews() {
@@ -128,17 +133,5 @@ extension StatisticsViewController: RadioButtonGroupDelegate {
 //            }
             radioGroup.lastButton.sendActions(for: .touchUpInside)
         }
-    }
-}
-
-extension StatisticsViewController: PortfolioViewDelegate {
-    func onExchangeFiltered(exchange: String) {
-        statisticsViewModel.getPortfolio(exchange: exchange)
-    }
-}
-
-extension StatisticsViewController: PNLViewDelegate {
-    func onPeriodFiltered(period: String) {
-        statisticsViewModel.getPNL(period: period)
     }
 }

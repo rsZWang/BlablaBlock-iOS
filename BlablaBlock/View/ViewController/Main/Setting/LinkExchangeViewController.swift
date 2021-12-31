@@ -13,10 +13,9 @@ import RxGesture
 
 class LinkExchangeViewController: BaseViewController {
     
-//    @Injected var statisticsViewModel: StatisticsViewModel
     @Injected var exchangeApiViewModel: ExchangeApiViewModel
     
-    var exchangeType: Exchange.ExchangeType!
+    var exchangeType: ExchangeType!
     var exchange: ExchangeApiData?
     
     private let containerHeight = UIScreen.main.bounds.height * 0.4
@@ -85,12 +84,15 @@ class LinkExchangeViewController: BaseViewController {
         let exchangeIcon: String
         let exchangeName: String
         switch exchangeType! {
-        case .Binance:
+        case .binance:
             exchangeIcon = "ic_setting_binance"
             exchangeName = "連結幣安"
-        case .FTX:
+        case .ftx:
             exchangeIcon = "ic_setting_ftx"
             exchangeName = "連結FTX"
+        default:
+            exchangeIcon = ""
+            exchangeName = "UNKNOWN"
         }
         
         let topSectionHeight = containerHeight*0.2
@@ -263,8 +265,8 @@ class LinkExchangeViewController: BaseViewController {
         }
         UIView.animate(
             withDuration: 0.1,
-            animations: { [unowned self] in
-                view.layoutIfNeeded()
+            animations: { [weak self] in
+                self?.view.layoutIfNeeded()
             },
             completion: { [weak self] completed in
                 if completed && !up {

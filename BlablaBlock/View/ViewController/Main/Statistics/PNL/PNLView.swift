@@ -24,7 +24,7 @@ class PNLView: UIView, NibOwnerLoadable {
     @IBOutlet weak var sharpeRatio: UILabel!
     private lazy var pickerView: PickerView = {
         let pickerView = PickerView()
-        pickerView.itemList = PNLPeriod.periodTitleList
+        pickerView.itemList = PNLPeriod.titleList
         pickerView.pickerViewDelegate = self
         return pickerView
     }()
@@ -59,6 +59,10 @@ class PNLView: UIView, NibOwnerLoadable {
         self.init(frame: .zero)
     }
     
+    deinit {
+        semaphore.signal()
+    }
+    
     private func commonInit() {
         semaphore.wait()
         loadNibContent()
@@ -66,12 +70,12 @@ class PNLView: UIView, NibOwnerLoadable {
     }
     
     func bind(data: PNLData) {
-        DispatchQueue.global().async { [unowned self] in
-            semaphore.wait()
+        DispatchQueue.global().async { [weak self] in
+            self?.semaphore.wait()
             DispatchQueue.main.async {
-                drawChart(data: data)
+                self?.drawChart(data: data)
             }
-            semaphore.signal()
+            self?.semaphore.signal()
         }
         roiLabel.text = "\(data.roi.toPrettyPrecisedString())%"
         roiAnnualLabel.text = "\(data.roiAnnual.toPrettyPrecisedString())%"
@@ -108,7 +112,6 @@ extension PNLView {
         let xModel = ChartAxisModel(axisValues: xValues)
         
         let yValues = data.getYAxis().map { ChartYAxisValue($0, labelSettings: yAxisLabelSettings) }
-        Timber.i("yValues: \(yValues)")
         let yModel = ChartAxisModel(axisValues: yValues)
         
         let bounds = chartSectionView.bounds
