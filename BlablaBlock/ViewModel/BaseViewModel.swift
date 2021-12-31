@@ -31,6 +31,8 @@ public class BaseViewModel: NSObject {
         Timber.w("Error: \(code) \(msg)")
         var string: String
         switch code {
+        case 1000:
+            string = "Token expired"
         case 1001:
             string = "登入失敗"
         case 1002:

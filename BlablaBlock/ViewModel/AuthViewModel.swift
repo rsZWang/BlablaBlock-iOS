@@ -8,6 +8,7 @@
 import Resolver
 import RxCocoa
 import RxSwift
+import KeychainAccess
 import Defaults
 
 class AuthViewModel: BaseViewModel {
@@ -19,7 +20,11 @@ class AuthViewModel: BaseViewModel {
             .request()
             .subscribe(
                 onSuccess: { [weak self] login in
-                    self?.signInHandler(login: login)
+                    self?.signInHandler(
+                        userEmail: email,
+                        userPassword: password,
+                        login: login
+                    )
                 },
                 onFailure: { [weak self] error in
                     self?.errorHandler(error: error)
@@ -36,6 +41,8 @@ class AuthViewModel: BaseViewModel {
                     switch response {
                     case let .Success(registrationModel):
                         self?.signIn(
+                            userEmail: email,
+                            userPassword: password,
                             userToken: registrationModel.data.apiToken,
                             userName: registrationModel.data.name
                         )
@@ -74,24 +81,47 @@ class AuthViewModel: BaseViewModel {
             .disposed(by: disposeBag)
     }
     
-    private func signInHandler(login: HttpResponse<Login, ResponseFailure>) {
+    private func signInHandler(
+        userEmail: String,
+        userPassword: String,
+        login: HttpResponse<Login, ResponseFailure>
+    ) {
         switch login {
         case let .Success(login):
-            signIn(userToken: login.data.apiToken, userName: login.data.name)
+            signIn(
+                userEmail: userEmail,
+                userPassword: userPassword,
+                userToken: login.data.apiToken,
+                userName: login.data.name
+            )
         case let .Failure(responseFailure):
             errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
         }
     }
     
-    private func signIn(userToken: String, userName: String) {
-        Defaults[.userToken] = userToken
+    private func signIn(
+        userEmail: String,
+        userPassword: String,
+        userToken: String,
+        userName: String
+    ) {
+        Defaults[.userToken] = "userToken"
         Defaults[.userName] = userName
+        keychainUser[.userEmail] = userEmail
+        keychainUser[.userPassword] = userPassword
+        keychainUser[.userToken] = userToken
+        keychainUser[.userName] = userName
         successObservable.onNext(true)
     }
     
     private func doSignOut() {
         Defaults[.userToken] = nil
         Defaults[.userName] = nil
+        do {
+            try keychainUser.removeAll()
+        } catch {
+            Timber.e("Sign out error: \(error)")
+        }
         successObservable.onNext(true)
     }
     

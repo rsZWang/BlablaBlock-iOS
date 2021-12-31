@@ -42,6 +42,7 @@
 		A0290E2F272319DE00A07224 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0290E2E272319DE00A07224 /* StatisticsViewController.swift */; };
 		A0859AE5272DBE8100CF936E /* ExchangeListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0859AE4272DBE8100CF936E /* ExchangeListTableView.swift */; };
 		A08E8E652778E25E0041AC61 /* Registration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E8E642778E25E0041AC61 /* Registration.swift */; };
+		A0921267277F56B40083BBBF /* KeychainAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0921266277F56B40083BBBF /* KeychainAccess.swift */; };
 		A092DEB027738BEC00E98A2B /* PNLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A092DEAF27738BEC00E98A2B /* PNLView.swift */; };
 		A092DEB227738BFE00E98A2B /* PNLView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A092DEB127738BFE00E98A2B /* PNLView.xib */; };
 		A09D70E3272518F700ACE44A /* LinkCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09D70E2272518F700ACE44A /* LinkCardView.swift */; };
@@ -130,6 +131,7 @@
 		A0290E2E272319DE00A07224 /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
 		A0859AE4272DBE8100CF936E /* ExchangeListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeListTableView.swift; sourceTree = "<group>"; };
 		A08E8E642778E25E0041AC61 /* Registration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registration.swift; sourceTree = "<group>"; };
+		A0921266277F56B40083BBBF /* KeychainAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainAccess.swift; sourceTree = "<group>"; };
 		A092DEAF27738BEC00E98A2B /* PNLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PNLView.swift; sourceTree = "<group>"; };
 		A092DEB127738BFE00E98A2B /* PNLView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PNLView.xib; sourceTree = "<group>"; };
 		A09D70E2272518F700ACE44A /* LinkCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkCardView.swift; sourceTree = "<group>"; };
@@ -458,6 +460,7 @@
 				A0C8E558271FF18900848FCB /* AppDelegate.swift */,
 				A0DAD5B027784BEA00CD8760 /* SceneDelegate.swift */,
 				4AA9F80F276DD68B00D775F0 /* Resolver.swift */,
+				A0921266277F56B40083BBBF /* KeychainAccess.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -787,6 +790,7 @@
 				4A4B4DF22770E4B100075933 /* PortfolioView.swift in Sources */,
 				4A7744B9276F8E3C0087A447 /* ExchangeApiService.swift in Sources */,
 				4A4B4DEF2770E10E00075933 /* PagedViewCell.swift in Sources */,
+				A0921267277F56B40083BBBF /* KeychainAccess.swift in Sources */,
 				A0DAD58F2778441C00CD8760 /* LauncherViewController.swift in Sources */,
 				A0DAD5BC2778627000CD8760 /* Storyboarded.swift in Sources */,
 				4AA9F810276DD68B00D775F0 /* Resolver.swift in Sources */,

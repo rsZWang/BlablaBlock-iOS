@@ -181,10 +181,15 @@ class SignInViewController: BaseViewController, Storyboarded {
     }
     
     private func preload() {
-        hasLinkedDisposable = exchangeApiViewModel.getExchangesStatus()
-            .subscribe(onNext: { [weak self] hasLinked in
-                self?.mainCoordinator.main(isSignIn: true, hasLinked: hasLinked)
-            })
+        hasLinkedDisposable = exchangeApiViewModel.getApiStatus()
+            .subscribe(
+                onNext: { [weak self] hasLinked in
+                    self?.mainCoordinator.main(isSignIn: false, hasLinked: hasLinked)
+                },
+                onError: { [weak self] error in
+                    self?.mainCoordinator.signIn()
+                }
+            )
     }
     
 }

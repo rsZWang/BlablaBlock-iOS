@@ -74,7 +74,7 @@ class LauncherViewController: BaseViewController {
     }
     
     private func preload() {
-        hasLinkedDisposable = exchangeApiViewModel.getExchangesStatus()
+        hasLinkedDisposable = exchangeApiViewModel.getApiStatus()
             .subscribe(
                 onNext: { [weak self] hasLinked in
                     self?.mainCoordinator.main(isSignIn: false, hasLinked: hasLinked)

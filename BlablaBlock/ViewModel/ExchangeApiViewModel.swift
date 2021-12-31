@@ -15,7 +15,7 @@ class ExchangeApiViewModel: BaseViewModel {
     let exchangeUpdatedObservable = PublishSubject<ExchangeApiData>()
     let completeObservable = PublishSubject<Bool>()
     
-    func getExchangesStatus() -> Observable<Bool> {
+    func getApiStatus() -> Observable<Bool> {
         let hasLinkedObservable = PublishSubject<Bool>()
         ExchangeApiService.getStatus()
             .request()
