@@ -100,30 +100,15 @@ extension PNLView {
         let dataList = data.getChartDataList()
         
         var chartPoints = [ChartPoint]()
-        
         for entry in dataList {
             chartPoints.append(createChartPoint(timestamp: entry.timestamp, value: entry.value))
         }
         
-        let minX = data.getMinX()
-        let maxX = data.getMaxX()
-        let diff = maxX - minX
-        let distance = Int(Double(diff)/5)
-        
-        var xValues = [ChartAxisValue]()
-        for i in stride(from: minX, through: maxX, by: distance) {
-            xValues.append(createDateAxisValue(timestamp: i))
-        }
-        if xValues.count == 5 {
-            xValues.append(createDateAxisValue(timestamp: maxX + distance))
-        }
+        let xValues = data.getXAxis().map { createDateAxisValue(timestamp: $0) }
         let xModel = ChartAxisModel(axisValues: xValues)
         
-        let minY = Int(ceil(data.getMinY()))
-        let maxY = Int(ceil(data.getMaxY()))
-        
-        
-        let yValues = stride(from: minY, through: maxY, by: 1).map { ChartYAxisValue($0, labelSettings: yAxisLabelSettings) }
+        let yValues = data.getYAxis().map { ChartYAxisValue($0, labelSettings: yAxisLabelSettings) }
+        Timber.i("yValues: \(yValues)")
         let yModel = ChartAxisModel(axisValues: yValues)
         
         let bounds = chartSectionView.bounds

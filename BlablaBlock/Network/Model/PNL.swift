@@ -39,22 +39,21 @@ struct PNLData: Decodable {
         chartData.map { $0.timestamp.int }.max() ?? 0
     }
     
-//    func getXAxisPoint() -> [Int] {
-//        let min = getMinX()
-//        var max = getMaxX()
-//        let totalPeriod = max - min
-//        let period = totalPeriod / 4
-//        if totalPeriod % 4 != 0 {
-//            max += period
-//        }
-//        var list = [Int]()
-//        Timber.i("period: \(period)")
-//        for timestamp in stride(from: min, through: max, by: totalPeriod) {
-//            Timber.i("timestamp: \(timestamp)")
-//            list.append(timestamp)
-//        }
-//        return list
-//    }
+    func getXAxis() -> [Int] {
+        let minX = getMinX()
+        let maxX = getMaxX()
+        let diff = maxX - minX
+        let distance = Int(Double(diff)/5)
+        
+        var values = [Int]()
+        for i in stride(from: minX, through: maxX, by: distance) {
+            values.append(i)
+        }
+        if values.count == 5 {
+            values.append(maxX + distance)
+        }
+        return values
+    }
     
     func getMinY() -> Double {
         chartData.map { $0.value }.min() ?? 0
@@ -62,6 +61,38 @@ struct PNLData: Decodable {
     
     func getMaxY() -> Double {
         chartData.map { $0.value }.max() ?? 0
+    }
+    
+    func getYAxis() -> [Double] {
+        
+        func roundUp(_ value: Double) -> Double {
+            if value < 0 {
+                return -ceil(-value)
+            } else {
+                return ceil(value)
+            }
+        }
+        
+        let minY = roundUp(getMinY())
+        let maxY = roundUp(getMaxY())
+        let diff = minY - maxY
+        let distance = abs(diff/10)
+        
+        var values = [Double]()
+        for i in stride(from: minY, through: maxY, by: distance) {
+            values.append(i)
+        }
+        if values.count == 10 {
+            values.append(maxY + distance)
+        }
+        return values.map { round($0*100)/100 }
+//        return values.map { value in
+//            if value < 0 {
+//                return -(ceil(abs(value)))
+//            } else {
+//                return ceil(value)
+//            }
+//        }
     }
     
     func getYAxisLabel() -> [Int] {
