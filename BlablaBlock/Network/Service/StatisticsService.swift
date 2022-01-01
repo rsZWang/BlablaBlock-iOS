@@ -10,10 +10,9 @@ import Moya
 struct StatisticsService {
     
     struct getPortfolio: HttpResponseTargetType {
-        
         var method: Method { .get }
+        var tokenType: TokenType { .user }
         var path: String { "portfolio" }
-        var headers: [String : String]? { ["Authorization" : "Bearer \(keychainUser[.userToken]!)"] }
         var task: Task {
             .requestParameters(parameters: [
                 "exchange" : exchange
@@ -26,10 +25,9 @@ struct StatisticsService {
     }
     
     struct getPNL: HttpResponseTargetType {
-        
         var method: Method { .get }
+        var tokenType: TokenType { .user }
         var path: String { "pnl" }
-        var headers: [String : String]? { ["Authorization" : "Bearer \(keychainUser[.userToken]!)"] }
         var task: Task {
             .requestParameters(parameters: [
                 "exchange" : exchange,

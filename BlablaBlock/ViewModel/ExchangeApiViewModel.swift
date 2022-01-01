@@ -22,14 +22,14 @@ class ExchangeApiViewModel: BaseViewModel {
             .subscribe(
                 onSuccess: { [weak self] response in
                     switch response {
-                    case let .Success(exchange):
+                    case let .success(exchange):
                         let hasLinked = exchange.hasLinked()
 //                        if hasLinked && timerDisposable == nil {
 //                            startFetchData()
 //                        }
                         self?.exhangeListObservable.accept(exchange.data)
                         hasLinkedObservable.onNext(hasLinked)
-                    case let .Failure(responseFailure):
+                    case let .failure(responseFailure):
                         self?.errorCodeHandler(responseFailure)
                     }
                 },
@@ -86,10 +86,10 @@ class ExchangeApiViewModel: BaseViewModel {
     
     private func newExchangeHandler(response: HttpResponse<ExchangeApi, ResponseFailure>) {
         switch response {
-        case let .Success(exchange):
+        case let .success(exchange):
             exhangeListObservable.accept(exchange.data)
             completeObservable.onNext(true)
-        case let .Failure(responseFailure):
+        case let .failure(responseFailure):
             errorCodeHandler(responseFailure)
         }
     }

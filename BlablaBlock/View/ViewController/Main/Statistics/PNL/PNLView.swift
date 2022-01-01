@@ -102,36 +102,31 @@ extension PNLView {
             self.chart = nil
         }
         
-        let dataList = data.getChartDataList()
-        
-        var chartPoints = [ChartPoint]()
-        for entry in dataList {
-            chartPoints.append(createChartPoint(timestamp: entry.timestamp, value: entry.value))
-        }
-        
-        let xValues = data.getXAxis().map { createDateAxisValue(timestamp: $0) }
-        let xModel = ChartAxisModel(axisValues: xValues)
-        
-        let yValues = data.getYAxis().map { ChartYAxisValue($0, labelSettings: yAxisLabelSettings) }
-        let yModel = ChartAxisModel(axisValues: yValues)
-        
+        let chartSettings = createChartSettings()
         let bounds = chartSectionView.bounds
         let chartFrame = CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height)
-        let chartSettings = createChartSettings()
-
-        let coordsSpace = ChartCoordsSpaceLeftBottomSingleAxis(
-            chartSettings: chartSettings,
-            chartFrame: chartFrame,
-            xModel: xModel,
-            yModel: yModel
-        )
         
+        // Chart points line layer
+        let chartPoints = data.getChartDataList().map { createChartPoint(point: $0) }
         let lineModel = ChartLineModel(
             chartPoints: chartPoints,
             lineColor: .red,
             lineWidth: 2,
             animDuration: 1,
             animDelay: 0
+        )
+        
+        let xValues = data.getXAxis().map { createDateAxisValue(timestamp: $0) }
+        let xModel = ChartAxisModel(axisValues: xValues)
+        
+        let yValues = data.getYAxis().map { ChartYAxisValue($0, labelSettings: yAxisLabelSettings) }
+        let yModel = ChartAxisModel(axisValues: yValues)
+
+        let coordsSpace = ChartCoordsSpaceLeftBottomSingleAxis(
+            chartSettings: chartSettings,
+            chartFrame: chartFrame,
+            xModel: xModel,
+            yModel: yModel
         )
         
         let (xAxisLayer, yAxisLayer, innerFrame) = (coordsSpace.xAxisLayer, coordsSpace.yAxisLayer, coordsSpace.chartInnerFrame)
@@ -143,6 +138,7 @@ extension PNLView {
             delayInit: true
         )
         
+        // Guidelines layer
         let guidelinesLayerSettings = ChartGuideLinesLayerSettings(
             linesColor: UIColor.black,
             linesWidth: 0.3
@@ -154,6 +150,51 @@ extension PNLView {
             settings: guidelinesLayerSettings
         )
         
+        // Touch tracker layer
+        let thumbSettings = ChartPointsLineTrackerLayerThumbSettings(thumbSize: 10, thumbBorderWidth: 1)
+        let trackerLayerSettings = ChartPointsLineTrackerLayerSettings(thumbSettings: thumbSettings)
+        var currentPositionLabels: [UIView] = []
+        let chartPointsTrackerLayer = ChartPointsLineTrackerLayer<ChartPoint, Any>(
+            xAxis: xAxisLayer.axis,
+            yAxis: yAxisLayer.axis,
+            lines: [chartPoints],
+            lineColor: UIColor.black,
+            animDuration: 1,
+            animDelay: 2,
+            settings: trackerLayerSettings
+        ) { [weak self] chartPointsWithScreenLoc in
+            currentPositionLabels.forEach { $0.removeFromSuperview() }
+            for (_, chartPointWithScreenLoc) in chartPointsWithScreenLoc.enumerated() {
+                let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 69, height: 30))
+                stackView.sizeToFit()
+                stackView.layer.borderWidth = 1
+                stackView.layer.borderColor = UIColor.systemBlue.cgColor
+                stackView.layer.cornerRadius = 4
+                stackView.axis = .vertical
+                stackView.center = CGPoint(
+                    x: chartPointWithScreenLoc.screenLoc.x + stackView.frame.width / 2,
+                    y: chartPointWithScreenLoc.screenLoc.y + chartFrame.minY - stackView.frame.height / 2
+                )
+                
+                let dateLabel = UILabel()
+                dateLabel.sizeToFit()
+                dateLabel.text = " \(chartPointWithScreenLoc.chartPoint.x.description)"
+                dateLabel.font = .systemFont(ofSize: 12)
+                dateLabel.textColor = .systemBlue
+                stackView.addArrangedSubview(dateLabel)
+                
+                let profitLabel = UILabel()
+                profitLabel.sizeToFit()
+                profitLabel.text = " \(chartPointWithScreenLoc.chartPoint.y.description)%"
+                profitLabel.font = .systemFont(ofSize: 12)
+                profitLabel.textColor = .systemBlue
+                stackView.addArrangedSubview(profitLabel)
+                
+                currentPositionLabels.append(stackView)
+                self?.chartSectionView.addSubview(stackView)
+            }
+        }
+        
         let chart = Chart(
             frame: chartFrame,
             innerFrame: innerFrame,
@@ -162,7 +203,8 @@ extension PNLView {
                 xAxisLayer,
                 yAxisLayer,
                 guidelinesLayer,
-                chartPointsLineLayer
+                chartPointsLineLayer,
+                chartPointsTrackerLayer
             ]
         )
         
@@ -193,10 +235,10 @@ extension PNLView {
         return chartSettings
     }
     
-    private func createChartPoint(timestamp: Int, value: Double) -> ChartPoint {
+    private func createChartPoint(point: PNLCharData) -> ChartPoint {
         ChartPoint(
-            x: createDateAxisValue(timestamp: timestamp),
-            y: ChartAxisValueDouble(value)
+            x: createDateAxisValue(timestamp: point.timestamp),
+            y: ChartAxisValueDouble(point.value)
         )
     }
     

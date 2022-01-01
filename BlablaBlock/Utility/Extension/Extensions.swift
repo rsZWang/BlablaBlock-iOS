@@ -140,3 +140,15 @@ extension Double {
     }
     
 }
+
+extension NSError {
+    
+    static func create(domain: String, code: Int) -> NSError {
+        NSError(domain: domain, code: code, userInfo: nil)
+    }
+    
+    static func create(_ failure: ResponseFailure) -> NSError {
+        NSError(domain: failure.msg, code: failure.code, userInfo: nil)
+    }
+    
+}

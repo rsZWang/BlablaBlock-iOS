@@ -10,10 +10,9 @@ import Moya
 struct ExchangeApiService {
     
     struct getStatus: HttpResponseTargetType {
-        
         var method: Method { .get }
+        var tokenType: TokenType { .user }
         var path: String { "api_settings" }
-        var headers: [String : String]? { ["Authorization" : "Bearer \(keychainUser[.userToken]!)"] }
         var task: Task {
             .requestPlain
         }
@@ -22,10 +21,9 @@ struct ExchangeApiService {
     }
     
     struct create: HttpResponseTargetType {
-        
         var method: Method { .post }
+        var tokenType: TokenType { .user }
         var path: String { "api_settings" }
-        var headers: [String : String]? { ["Authorization" : "Bearer \(keychainUser[.userToken]!)"] }
         var task: Task {
             .requestParameters(parameters: [
                 "exchange" : exchange,
@@ -42,10 +40,9 @@ struct ExchangeApiService {
     }
     
     struct edit: HttpResponseTargetType {
-        
         var method: Method { .patch }
+        var tokenType: TokenType { .user }
         var path: String { "api_settings/\(id)" }
-        var headers: [String : String]? { ["Authorization" : "Bearer \(keychainUser[.userToken]!)"] }
         var task: Task {
             .requestParameters(parameters: [
                 "exchange" : exchange,
@@ -65,10 +62,9 @@ struct ExchangeApiService {
     }
     
     struct delete: HttpResponseTargetType {
-        
         var method: Method { .delete }
+        var tokenType: TokenType { .user }
         var path: String { "api_settings/\(id)" }
-        var headers: [String : String]? { ["Authorization" : "Bearer \(keychainUser[.userToken]!)"] }
         var task: Task {
             .requestPlain
         }

@@ -13,8 +13,8 @@ struct AuthService {
     
     struct login: HttpResponseTargetType {
         var method: Method { .post }
+        var tokenType: TokenType { .normal }
         var path: String { "login" }
-        var headers: [String : String]? { ["Authorization" : HttpApiConfig.normalToken] }
         var task: Task {
             .requestParameters(parameters: [
                 "email" : email,
@@ -30,8 +30,8 @@ struct AuthService {
     
     struct register: HttpResponseTargetType {
         var method: Method { .post }
+        var tokenType: TokenType { .normal }
         var path: String { "registration" }
-        var headers: [String : String]? { ["Authorization" : HttpApiConfig.normalToken] }
         var task: Task {
             .requestParameters(parameters: [
                 "name" : userName,
@@ -49,8 +49,8 @@ struct AuthService {
     
     struct forgetPassword: HttpResponseTargetType {
         var method: Method { .post }
+        var tokenType: TokenType { .normal }
         var path: String { "forgotpassword" }
-        var headers: [String : String]? { ["Authorization" : HttpApiConfig.normalToken] }
         var task: Task {
             .requestParameters(parameters: [
                 "email" : email
@@ -64,6 +64,7 @@ struct AuthService {
     
     struct resetPassword: HttpResponseTargetType {
         var method: Method { .post }
+        var tokenType: TokenType { .user }
         var path: String { "resetpassword" }
         var headers: [String : String]? { ["Authorization" : "Bearer \(keychainUser[.userToken]!)"] }
         var task: Task {
@@ -79,8 +80,8 @@ struct AuthService {
     
     struct logout: HttpResponseTargetType {
         var method: Method { .post }
+        var tokenType: TokenType { .user }
         var path: String { "logout" }
-        var headers: [String : String]? { ["Authorization" : "Bearer \(keychainUser[.userToken]!)"] }
         var task: Task {
             .requestPlain
         }

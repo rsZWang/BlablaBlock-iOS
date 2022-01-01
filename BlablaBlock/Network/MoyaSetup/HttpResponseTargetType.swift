@@ -14,14 +14,21 @@ enum HttpApiError: Error {
     case timeout
 }
 
-enum HttpResponse<Body: Decodable, FailureBody: Decodable> {
-    case Success(Body)
-    case Failure(FailureBody)
+enum HttpResponse<SuccessBody: Decodable, FailureBody: Decodable> {
+    case success(SuccessBody)
+    case failure(FailureBody)
 }
 
-protocol HttpResponseTargetType: Moya.TargetType {
+enum TokenType {
+    case normal
+    case user
+}
+
+protocol HttpResponseTargetType: Moya.TargetType, AccessTokenAuthorizable {
     associatedtype SuccessType: Decodable
     associatedtype FailureType: Decodable
+    
+    var tokenType: TokenType { get }
 }
 
 extension HttpResponseTargetType {
@@ -29,28 +36,108 @@ extension HttpResponseTargetType {
     var baseURL: URL { URL(string: "\(HttpApiConfig.domain)/\(HttpApiConfig.apiVersion)")! }
     var headers: [String : String]? { nil }
     var sampleData: Data { Data() }
+    var authorizationType: AuthorizationType? { .bearer }
     
-    func request(onQueue: DispatchQueue = ApiProvider.requestQueue) -> Single<HttpResponse<SuccessType, FailureType>> {
-        ApiProvider.request(self, onQueue: onQueue)
-            .retry(2)
+    var decoder: JSONDecoder {
+        ApiProvider.decoder
     }
     
+    func request() -> Single<HttpResponse<SuccessType, FailureType>> {
+        Single<HttpResponse<SuccessType, FailureType>>.create { single in
+            perform {
+                single($0)
+            }
+            return Disposables.create {  }
+        }
+    }
+    
+    private func perform(completion: @escaping (Result<HttpResponse<SuccessType, FailureType>, Error>) -> Void) {
+        ApiProvider.createProvider(tokenType: tokenType).request(self) { reuslt in
+            switch reuslt {
+            case let .success(response):
+                if response.statusCode == 401 {
+                    ApiProvider.requestQueue.suspend()
+                    refreshToken { error in
+                        ApiProvider.requestQueue.resume()
+                        if let error = error {
+                            completion(.failure(error))
+                        } else {
+                            perform(completion: completion)
+                        }
+                    }
+                } else {
+                    completion(parseHttpResponse(response.data))
+                }
+            case let .failure(moyaError):
+                completion(.failure(moyaError))
+            }
+        }
+    }
+    
+    private func parseHttpResponse<S: Decodable, F: Decodable>(_ data: Data) -> Result<HttpResponse<S, F>, Error> {
+        do {
+            let successBody = try decoder.decode(S.self, from: data)
+            return Result.success(HttpResponse.success(successBody))
+        } catch {
+            let failureBody = try? decoder.decode(F.self, from: data)
+            if let failureBody = failureBody {
+                return Result.success(HttpResponse.failure(failureBody))
+            } else {
+                return Result.failure(error)
+            }
+        }
+    }
+    
+    private func refreshToken(_ completion: @escaping (Error?) -> Void) {
+        if let email = keychainUser[.userEmail] {
+            if let password = keychainUser[.userPassword] {
+                ApiProvider.createProvider(
+                    tokenType: .normal,
+                    callbackQueue: ApiProvider.refreshTokenQueue
+                ).request(AuthService.login(email: email, password: password)) { moyaResult in
+                    let error: Error?
+                    switch moyaResult {
+                        case let .success(response):
+                            let httpReponseResult: Result<HttpResponse<Login, ResponseFailure>, Error> = parseHttpResponse(response.data)
+                            switch httpReponseResult {
+                                case let .success(httpReponse):
+                                    switch httpReponse {
+                                    case let .success(login):
+                                        if login.code == 200 {
+                                            keychainUser[.userToken] = login.data.apiToken
+                                            error = nil
+                                        } else {
+                                            error = NSError.create(domain: "Unknown code", code: login.code)
+                                        }
+                                    case let .failure(responseFailure):
+                                        error = NSError.create(responseFailure)
+                                    }
+                                case let .failure(parseError):
+                                    error = parseError
+                            }
+                        case let .failure(moyaError):
+                            error = moyaError
+                    }
+                    completion(error)
+                }
+            } else {
+                completion(NSError(domain: "lack of password", code: 20001, userInfo: nil))
+            }
+        } else {
+            completion(NSError(domain: "lack of email", code: 20002, userInfo: nil))
+        }
+    }
 }
 
 fileprivate final class ApiProvider {
-    
-    #if DEBUG
-    private static let provider = MoyaProvider<MultiTarget>(plugins: [MoyaLoggerPlugin()])
-    #else
-    private static let provider = MoyaProvider<MultiTarget>()
-    #endif
     
     static let requestQueue = DispatchQueue(
         label: "com.wuchi.request_queue",
         qos: .background,
         attributes: .concurrent
     )
-    private static let refreshTokenQueue = DispatchQueue(
+    
+    static let refreshTokenQueue = DispatchQueue(
         label: "com.wuchi.refresh_token_queue",
         qos: .background
     )
@@ -61,90 +148,18 @@ fileprivate final class ApiProvider {
         return decoder
     }()
     
-    private static var disposeBag: DisposeBag! = DisposeBag()
-
-    static func request<Request: HttpResponseTargetType, SuccessType, FailureType>(
-        _ request: Request,
-        onQueue: DispatchQueue
-    ) -> Single<HttpResponse<SuccessType, FailureType>> {
-        Single<HttpResponse<SuccessType, FailureType>>.create { single in
-            provider.request(MultiTarget.init(request), callbackQueue: onQueue, completion: { result in
-                switch result {
-                case let .success(moyaResponse):
-                    if moyaResponse.response?.statusCode == 401 {
-                        requestQueue.suspend()
-                        single(.failure(HttpApiError.toeknExpired))
-                        refreshToken { error in
-                            requestQueue.resume()
-                            if let error = error {
-                                single(.failure(error))
-                            } else {
-                                provider.request(
-                                    MultiTarget.init(request),
-                                    callbackQueue: onQueue,
-                                    completion: { _ in }
-                                )
-//                                single(.failure(NSError(domain: "Testing", code: -1, userInfo: nil)))
-                            }
-                            disposeBag = nil
-                        }
-                    } else {
-                        do {
-                            let body = try decoder.decode(SuccessType.self, from: moyaResponse.data)
-                            single(.success(.Success(body)))
-                        } catch {
-                            let errorBody = try? decoder.decode(FailureType.self, from: moyaResponse.data)
-                            if let errorBody = errorBody {
-                                single(.success(.Failure(errorBody)))
-                            } else {
-                                single(.failure(error))
-                            }
-                        }
-                    }
-                case let .failure(moyaError):
-                    single(.failure(moyaError))
-                }
-            })
-            return Disposables.create()
-        }
-        .subscribe(on: ConcurrentDispatchQueueScheduler(queue: onQueue))
-    }
-}
-
-fileprivate extension ApiProvider {
-    
-    private static func refreshToken(_ onComplete: @escaping (Error?) -> Void) {
-        if let email = keychainUser[.userEmail] {
-            if let password = keychainUser[.userPassword] {
-                disposeBag = DisposeBag()
-                AuthService.login(email: email, password: password)
-                    .request(onQueue: refreshTokenQueue)
-                    .subscribe(
-                        onSuccess: { response in
-                            switch response {
-                            case let .Success(login):
-                                keychainUser[.userToken] = login.data.apiToken
-                                onComplete(nil)
-                            case let .Failure(responseFailure):
-                                do {
-                                    try keychainUser.removeAll()
-                                } catch {
-                                    Timber.e("Sign out error: \(error)")
-                                }
-                                onComplete(NSError(domain: "\(responseFailure)", code: 20003, userInfo: nil))
-                            }
-                        },
-                        onFailure: { error in
-                            onComplete(error)
-                        }
-                    )
-                    .disposed(by: disposeBag)
-            } else {
-                onComplete(NSError(domain: "lack of password", code: 20001, userInfo: nil))
-            }
-        } else {
-            onComplete(NSError(domain: "lack of email", code: 20002, userInfo: nil))
-        }
+    static func createProvider<MultiTarget>(
+        tokenType: TokenType,
+        callbackQueue: DispatchQueue = ApiProvider.requestQueue
+    ) -> MoyaProvider<MultiTarget> {
+        var pluginList = [PluginType]()
+        #if DEBUG
+        pluginList.append(MoyaLoggerPlugin())
+        #endif
+        pluginList.append(AccessTokenPlugin { _ in
+            tokenType == .normal ? HttpApiConfig.normalToken : keychainUser[.userToken] ?? ""
+        })
+        return MoyaProvider<MultiTarget>(callbackQueue: callbackQueue, plugins: pluginList)
     }
 }
 

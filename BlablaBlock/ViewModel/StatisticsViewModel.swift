@@ -70,11 +70,11 @@ class StatisticsViewModel: BaseViewModel {
             .subscribe(
                 onSuccess: { [weak self] response in
                     switch response {
-                    case let .Success(portfolio):
+                    case let .success(portfolio):
                         self?.assetProfitObservable.accept(portfolio.data.getProfitString())
                         self?.assetSumObservable.accept(portfolio.data.getAssetSumString())
                         self?.portfolioDataObservable.accept(portfolio.data)
-                    case let .Failure(responseFailure):
+                    case let .failure(responseFailure):
                         if responseFailure.code == 1006 {
                             self?.portfolioViewDataListObservable.accept(nil)
                         } else {
@@ -96,9 +96,9 @@ class StatisticsViewModel: BaseViewModel {
             .subscribe(
                 onSuccess: { [weak self] response in
                     switch response {
-                    case let .Success(pnl):
+                    case let .success(pnl):
                         self?.pnlObservable.accept(pnl.data)
-                    case let .Failure(responseFailure):
+                    case let .failure(responseFailure):
                         if responseFailure.code == 1007 {
                             
                         } else {

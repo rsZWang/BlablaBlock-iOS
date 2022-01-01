@@ -39,14 +39,14 @@ class AuthViewModel: BaseViewModel {
             .subscribe(
                 onSuccess: { [weak self] response in
                     switch response {
-                    case let .Success(registrationModel):
+                    case let .success(registrationModel):
                         self?.signIn(
                             userEmail: email,
                             userPassword: password,
                             userToken: registrationModel.data.apiToken,
                             userName: registrationModel.data.name
                         )
-                    case let .Failure(responseFailure):
+                    case let .failure(responseFailure):
                         self?.errorCodeHandler(responseFailure)
                     }
                 },
@@ -67,15 +67,17 @@ class AuthViewModel: BaseViewModel {
             .request()
             .subscribe(
                 onSuccess: { [weak self] response in
-                    switch response {
-                    case .Success:
-                        self?.doSignOut()
-                    case let .Failure(responseFailure):
-                        self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
-                    }
+//                    switch response {
+//                    case .success:
+//                        self?.doSignOut()
+//                    case let .failure(responseFailure):
+//                        self?.errorCodeHandler(responseFailure)
+//                    }
+                    self?.doSignOut()
                 },
                 onFailure: { [weak self] error in
-                    self?.errorHandler(error: error)
+//                    self?.errorHandler(error: error)
+                    self?.doSignOut()
                 }
             )
             .disposed(by: disposeBag)
@@ -87,15 +89,15 @@ class AuthViewModel: BaseViewModel {
         login: HttpResponse<Login, ResponseFailure>
     ) {
         switch login {
-        case let .Success(login):
+        case let .success(login):
             signIn(
                 userEmail: userEmail,
                 userPassword: userPassword,
                 userToken: login.data.apiToken,
                 userName: login.data.name ?? login.data.email
             )
-        case let .Failure(responseFailure):
-            errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
+        case let .failure(responseFailure):
+            errorCodeHandler(responseFailure)
         }
     }
     

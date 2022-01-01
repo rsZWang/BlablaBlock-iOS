@@ -11,5 +11,5 @@ struct HttpApiConfig {
     static let apiVersion = "v1"
     static let domain = "https://api.blablablock.com"
     static let baseURL = URL(string: "\(domain)/\(apiVersion)")
-    static let normalToken = "Bearer wrkef63GXqLH9zMypXXK7Qtt"
+    static let normalToken = "wrkef63GXqLH9zMypXXK7Qtt"
 }
