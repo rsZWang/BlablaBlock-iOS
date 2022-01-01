@@ -467,14 +467,14 @@
                                                                     <userDefinedRuntimeAttribute type="color" keyPath="normalTitleColor">
                                                                         <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     </userDefinedRuntimeAttribute>
-                                                                    <userDefinedRuntimeAttribute type="color" keyPath="selectedTitleColor">
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="highlightedBgColor">
+                                                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="highlightedBorderColor">
+                                                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="highlightedTitleColor">
                                                                         <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                    </userDefinedRuntimeAttribute>
-                                                                    <userDefinedRuntimeAttribute type="color" keyPath="selectedBgColor">
-                                                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                    </userDefinedRuntimeAttribute>
-                                                                    <userDefinedRuntimeAttribute type="color" keyPath="selectedBorderColor">
-                                                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     </userDefinedRuntimeAttribute>
                                                                 </userDefinedRuntimeAttributes>
                                                             </button>
@@ -662,11 +662,13 @@
                         <outlet property="assetProfitLabel" destination="IId-Eo-acG" id="YxZ-or-DqP"/>
                         <outlet property="assetSumLabel" destination="POX-Ni-j7e" id="vEj-Zz-zCy"/>
                         <outlet property="avatarImageView" destination="fhr-V5-5pR" id="T6O-AR-RVI"/>
+                        <outlet property="followerSection" destination="i3I-pa-rQL" id="Rzs-cN-mf8"/>
                         <outlet property="followingButton" destination="k4r-84-K8l" id="xxx-Qu-eV6"/>
                         <outlet property="nameLabel" destination="6o3-tU-T16" id="1cT-Mx-One"/>
                         <outlet property="pagerSectionView" destination="EUP-KZ-Khr" id="723-Sw-UpU"/>
                         <outlet property="pnlButton" destination="4CV-sV-43g" id="efs-M0-Ubw"/>
                         <outlet property="protfolioButton" destination="Ark-2r-ftG" id="J1W-Ao-Gzc"/>
+                        <outlet property="shareButton" destination="0hi-Ip-Qri" id="Gxn-Pq-ycG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r4f-L9-3rU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

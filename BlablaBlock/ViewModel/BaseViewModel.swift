@@ -11,6 +11,11 @@ import RxSwift
 public class BaseViewModel: NSObject {
     
     internal var disposeBag: DisposeBag!
+    internal let backgroundScheduler = ConcurrentDispatchQueueScheduler(queue: DispatchQueue(
+        label: "com.wuchi.result_handler_queue",
+        qos: .background,
+        attributes: .concurrent
+    ))
     let errorMessageObservable = PublishRelay<String>()
     
     override init() {
@@ -51,7 +56,8 @@ public class BaseViewModel: NSObject {
             string = "未知錯誤(\(msg))"
         }
         string += "(\(code))"
-        errorMessageObservable.accept(string)
+        errorMessageObservable
+            .accept(string)
     }
     
     internal func errorHandler(error: Error) {

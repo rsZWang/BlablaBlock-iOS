@@ -38,10 +38,12 @@ class PNLView: UIView, NibOwnerLoadable {
     private lazy var xAxisLabelSettings = ChartLabelSettings(font: .systemFont(ofSize: 8))
     private lazy var yAxisLabelSettings = ChartLabelSettings(font: .systemFont(ofSize: 8))
     private var chart: Chart!
-    private let semaphore = DispatchSemaphore(value: 1)
+    private var semaphore:  DispatchSemaphore!
     override var bounds: CGRect {
         didSet {
-            semaphore.signal()
+            DispatchQueue.global().async { [unowned self] in
+                semaphore.signal()
+            }
         }
     }
         
@@ -59,12 +61,11 @@ class PNLView: UIView, NibOwnerLoadable {
         self.init(frame: .zero)
     }
     
-    deinit {
-        semaphore.signal()
-    }
-    
     private func commonInit() {
-        semaphore.wait()
+        DispatchQueue.global().async { [unowned self] in
+            semaphore = DispatchSemaphore(value: 1)
+            semaphore.wait()
+        }
         loadNibContent()
         pickerView.bind(textField: exchangePickerTextField)
     }

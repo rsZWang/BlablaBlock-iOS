@@ -14,7 +14,7 @@ enum KeychainKey: String {
     case userName = "userName"
 }
 
-let keychainUser = Keychain(server: ApiConfig.domain, protocolType: .https)
+let keychainUser = Keychain(server: HttpApiConfig.domain, protocolType: .https)
 
 extension Keychain {
     

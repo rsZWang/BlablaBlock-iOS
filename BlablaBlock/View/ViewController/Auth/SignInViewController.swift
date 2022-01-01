@@ -17,7 +17,6 @@ class SignInViewController: BaseViewController, Storyboarded {
     @Injected private var authViewModel: AuthViewModel
     @Injected private var exchangeApiViewModel: ExchangeApiViewModel
     private let signInMode = ReplayRelay<Bool>.create(bufferSize: 1)
-    private var hasLinkedDisposable: Disposable?
        
     private let radioButtonGruop = RadioButtonGroup()
     @IBOutlet weak var containerView: UIView!
@@ -96,9 +95,11 @@ class SignInViewController: BaseViewController, Storyboarded {
     
         clearPage()
         
-//        emailTextField.text = "rex@huijun.org"
-        emailTextField.text = "cool890104@gmail.com"
+        #if DEBUG
+        emailTextField.text = "rex@huijun.org"
+//        emailTextField.text = "cool890104@gmail.com"
         passwordTextField.text = "123456"
+        #endif
         
         bindNextButton()
         
@@ -106,20 +107,15 @@ class SignInViewController: BaseViewController, Storyboarded {
             .subscribe(onNext: { [weak self] result in
                 self?.preload()
             })
-            .disposed(by: shortLifeCycleOwner)
+            .disposed(by: shortLifecycleOwner)
         
         authViewModel.errorMessageObservable
+            .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] msg in
                 self?.nextBtn.isEnabled = true
                 self?.promptAlert(message: msg)
             })
-            .disposed(by: shortLifeCycleOwner)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        hasLinkedDisposable?.dispose()
-        hasLinkedDisposable = nil
+            .disposed(by: shortLifecycleOwner)
     }
     
     func signIn() {
@@ -181,15 +177,18 @@ class SignInViewController: BaseViewController, Storyboarded {
     }
     
     private func preload() {
-        hasLinkedDisposable = exchangeApiViewModel.getApiStatus()
+        exchangeApiViewModel.getApiStatus()
             .subscribe(
                 onNext: { [weak self] hasLinked in
                     self?.mainCoordinator.main(isSignIn: false, hasLinked: hasLinked)
                 },
                 onError: { [weak self] error in
-                    self?.mainCoordinator.signIn()
+                    self?.promptAlert(error: error) { [weak self] in
+                        self?.mainCoordinator.main(isSignIn: false, hasLinked: false)
+                    }
                 }
             )
+            .disposed(by: shortLifecycleOwner)
     }
     
 }
@@ -230,7 +229,7 @@ extension SignInViewController {
         )
         .share(replay: 1)
         .bind(to: nextBtn.rx.isEnabled)
-        .disposed(by: shortLifeCycleOwner)
+        .disposed(by: shortLifecycleOwner)
     }
     
 }

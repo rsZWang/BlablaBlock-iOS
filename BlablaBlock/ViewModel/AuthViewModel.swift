@@ -9,7 +9,6 @@ import Resolver
 import RxCocoa
 import RxSwift
 import KeychainAccess
-import Defaults
 
 class AuthViewModel: BaseViewModel {
     
@@ -18,6 +17,7 @@ class AuthViewModel: BaseViewModel {
     func signIn(email: String, password: String) {
         AuthService.login(email: email, password: password)
             .request()
+            .observe(on: MainScheduler.instance)
             .subscribe(
                 onSuccess: { [weak self] login in
                     self?.signInHandler(
@@ -92,7 +92,7 @@ class AuthViewModel: BaseViewModel {
                 userEmail: userEmail,
                 userPassword: userPassword,
                 userToken: login.data.apiToken,
-                userName: login.data.name
+                userName: login.data.name ?? login.data.email
             )
         case let .Failure(responseFailure):
             errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
@@ -105,8 +105,6 @@ class AuthViewModel: BaseViewModel {
         userToken: String,
         userName: String
     ) {
-        Defaults[.userToken] = "userToken"
-        Defaults[.userName] = userName
         keychainUser[.userEmail] = userEmail
         keychainUser[.userPassword] = userPassword
         keychainUser[.userToken] = userToken
@@ -115,8 +113,6 @@ class AuthViewModel: BaseViewModel {
     }
     
     private func doSignOut() {
-        Defaults[.userToken] = nil
-        Defaults[.userName] = nil
         do {
             try keychainUser.removeAll()
         } catch {

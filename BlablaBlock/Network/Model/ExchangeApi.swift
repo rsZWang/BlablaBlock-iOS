@@ -35,7 +35,7 @@ struct ExchangeApiData: Decodable {
     }
 }
 
-enum ExchangeType: String {
+enum ExchangeType: String, Equatable {
     
     case all = "all"
     case binance = "binance"

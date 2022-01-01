@@ -8,7 +8,6 @@
 import UIKit
 import RxSwift
 import Resolver
-import Defaults
 
 class SettingViewController: BaseViewController, LinkCardViewDelegate {
     
@@ -35,7 +34,7 @@ class SettingViewController: BaseViewController, LinkCardViewDelegate {
         linkCardViewListStackView.addArrangedSubview(binanceLinkCard)
         linkCardViewListStackView.addArrangedSubview(ftxLinkCard)
         
-        nameLabel.text = Defaults[.userName]
+        nameLabel.text = keychainUser[.userName]
         
         signOutButton.rx
             .tap
@@ -56,6 +55,7 @@ class SettingViewController: BaseViewController, LinkCardViewDelegate {
             .disposed(by: disposeBag)
         
         authViewModel.errorMessageObservable
+            .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] msg in
                 self?.signOutButton.isEnabled = true
             })
@@ -68,6 +68,7 @@ class SettingViewController: BaseViewController, LinkCardViewDelegate {
             .disposed(by: disposeBag)
 
         exchangeApiViewModel.errorMessageObservable
+            .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] msg in
                 self?.promptAlert(message: msg)
             })

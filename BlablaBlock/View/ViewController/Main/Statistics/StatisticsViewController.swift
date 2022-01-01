@@ -7,8 +7,8 @@
 
 import UIKit
 import Resolver
+import RxCocoa
 import RxSwift
-import Defaults
 
 class StatisticsViewController: BaseViewController {
     
@@ -19,6 +19,8 @@ class StatisticsViewController: BaseViewController {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var assetProfitLabel: UILabel!
     @IBOutlet weak var assetSumLabel: UILabel!
+    @IBOutlet weak var followerSection: UIView!
+    @IBOutlet weak var shareButton: ColorButton!
     @IBOutlet weak var protfolioButton: ColorButton!
     @IBOutlet weak var pnlButton: ColorButton!
     @IBOutlet weak var followingButton: ColorButton!
@@ -63,7 +65,7 @@ class StatisticsViewController: BaseViewController {
             make.edges.equalTo(pagedView)
         }
         
-        nameLabel.text = Defaults[.userName]
+        nameLabel.text = keychainUser[.userName]
         
         portfolioView.refreshControl.rx.controlEvent(.valueChanged)
             .subscribe(onNext: { [weak self] in
@@ -79,8 +81,21 @@ class StatisticsViewController: BaseViewController {
             .bind(to: assetSumLabel.rx.attributedText)
             .disposed(by: disposeBag)
         
+        Observable.merge(
+            followerSection.rx.tapGesture().when(.recognized),
+            shareButton.rx.tapGesture().when(.recognized),
+            followingButton.rx.tapGesture().when(.recognized)
+        ).subscribe(onNext: { [weak self] _ in
+            self?.promptAlert(message: "此功能尚未開放")
+        }).disposed(by: disposeBag)
+        
+        shareButton.rx
+            .tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.promptAlert(message: "此功能尚未開放")
+            }).disposed(by: disposeBag)
+        
         statisticsViewModel.portfolioViewDataListObservable
-            .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] viewDataList in
                 self?.portfolioView.refreshControl.endRefreshing()
                 if let viewDataList = viewDataList {
@@ -90,7 +105,6 @@ class StatisticsViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         statisticsViewModel.pnlObservable
-            .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] pnlData in
                 if let data = pnlData {
                     self?.pnlView.bind(data: data)
@@ -99,6 +113,7 @@ class StatisticsViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         statisticsViewModel.errorMessageObservable
+            .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] msg in
                 self?.portfolioView.refreshControl.endRefreshing()
                 self?.promptAlert(message: msg)
@@ -114,8 +129,6 @@ class StatisticsViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
-    
-   
 }
 
 extension StatisticsViewController: RadioButtonGroupDelegate {

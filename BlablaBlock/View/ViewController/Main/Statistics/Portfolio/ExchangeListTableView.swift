@@ -23,7 +23,10 @@ class ExchangeListTableView: UITableView {
         let oldData = [PortfolioViewData](self.dataList)
         self.dataList.removeAll()
         self.dataList.append(contentsOf: data)
-        animateRowChanges(oldData: oldData, newData: self.dataList)
+        animateRowChanges(
+            oldData: oldData,
+            newData: self.dataList
+        )
     }
 
 }

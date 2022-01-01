@@ -39,7 +39,7 @@ class ExchangeApiViewModel: BaseViewModel {
                 }
             )
             .disposed(by: disposeBag)
-        return hasLinkedObservable
+        return hasLinkedObservable.observe(on: MainScheduler.instance)
     }
     
     func create(exchange: String, apiKey: String, apiSecret: String) {

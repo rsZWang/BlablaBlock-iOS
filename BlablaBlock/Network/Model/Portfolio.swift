@@ -172,7 +172,7 @@ struct PortfolioViewData: Equatable {
     
 }
 
-enum PortfolioType: String {
+enum PortfolioType: String, Equatable {
     
     case all = "all"
     case spot = "spot"              // 現貨

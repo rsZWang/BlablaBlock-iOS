@@ -11,7 +11,7 @@ import RxSwift
 class BaseViewController: UIViewController {
     
     internal let disposeBag = DisposeBag()
-    internal var shortLifeCycleOwner: DisposeBag!
+    internal var shortLifecycleOwner: DisposeBag!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,18 +19,22 @@ class BaseViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        shortLifeCycleOwner = DisposeBag()
+        shortLifecycleOwner = DisposeBag()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        shortLifeCycleOwner = nil
+        shortLifecycleOwner = nil
     }
     
-    func promptAlert(message: String) {
+    internal func promptAlert(error: Error, action: (() -> Void)? = nil) {
+        promptAlert(message: "\(error)", action: action)
+    }
+    
+    internal func promptAlert(message: String, action: (() -> Void)? = nil) {
         AlertBuilder()
             .setMessage(message)
-            .setOkButton()
+            .setOkButton(action: action)
             .show(self)
     }
     

@@ -6,7 +6,6 @@
 //
 
 import Moya
-import Defaults
 
 struct StatisticsService {
     
@@ -14,7 +13,7 @@ struct StatisticsService {
         
         var method: Method { .get }
         var path: String { "portfolio" }
-        var headers: [String : String]? { ["Authorization" : "Bearer \(Defaults[.userToken]!)"] }
+        var headers: [String : String]? { ["Authorization" : "Bearer \(keychainUser[.userToken]!)"] }
         var task: Task {
             .requestParameters(parameters: [
                 "exchange" : exchange
@@ -30,7 +29,7 @@ struct StatisticsService {
         
         var method: Method { .get }
         var path: String { "pnl" }
-        var headers: [String : String]? { ["Authorization" : "Bearer \(Defaults[.userToken]!)"] }
+        var headers: [String : String]? { ["Authorization" : "Bearer \(keychainUser[.userToken]!)"] }
         var task: Task {
             .requestParameters(parameters: [
                 "exchange" : exchange,
@@ -43,6 +42,4 @@ struct StatisticsService {
         let exchange: String
         let period: String
     }
-    
-    
 }

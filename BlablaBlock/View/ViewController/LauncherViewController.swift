@@ -15,7 +15,6 @@ class LauncherViewController: BaseViewController {
     
     @Injected var mainCoordinator: MainCoordinator
     @Injected var exchangeApiViewModel: ExchangeApiViewModel
-    private var hasLinkedDisposable: Disposable?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,17 +24,11 @@ class LauncherViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let _ = Defaults[.userToken] {
+        if let _ = keychainUser[.userToken] {
             preload()
         } else {
             mainCoordinator.signIn()
         }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        hasLinkedDisposable?.dispose()
-        hasLinkedDisposable = nil
     }
     
     private func addLogo() {
@@ -74,7 +67,7 @@ class LauncherViewController: BaseViewController {
     }
     
     private func preload() {
-        hasLinkedDisposable = exchangeApiViewModel.getApiStatus()
+        exchangeApiViewModel.getApiStatus()
             .subscribe(
                 onNext: { [weak self] hasLinked in
                     self?.mainCoordinator.main(isSignIn: false, hasLinked: hasLinked)
@@ -83,6 +76,7 @@ class LauncherViewController: BaseViewController {
                     self?.mainCoordinator.signIn()
                 }
             )
+            .disposed(by: shortLifecycleOwner)
     }
     
 }

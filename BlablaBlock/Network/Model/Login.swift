@@ -17,7 +17,7 @@ struct LoginData: Decodable {
     let apiToken: String
     let userId: Int
     let email: String
-    let name: String
+    let name: String?
     
 }
 

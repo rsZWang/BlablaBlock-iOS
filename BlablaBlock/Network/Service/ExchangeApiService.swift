@@ -6,7 +6,6 @@
 //
 
 import Moya
-import Defaults
 
 struct ExchangeApiService {
     
@@ -14,7 +13,7 @@ struct ExchangeApiService {
         
         var method: Method { .get }
         var path: String { "api_settings" }
-        var headers: [String : String]? { ["Authorization" : "Bearer \(Defaults[.userToken]!)"] }
+        var headers: [String : String]? { ["Authorization" : "Bearer \(keychainUser[.userToken]!)"] }
         var task: Task {
             .requestPlain
         }
@@ -26,7 +25,7 @@ struct ExchangeApiService {
         
         var method: Method { .post }
         var path: String { "api_settings" }
-        var headers: [String : String]? { ["Authorization" : "Bearer \(Defaults[.userToken]!)"] }
+        var headers: [String : String]? { ["Authorization" : "Bearer \(keychainUser[.userToken]!)"] }
         var task: Task {
             .requestParameters(parameters: [
                 "exchange" : exchange,
@@ -46,7 +45,7 @@ struct ExchangeApiService {
         
         var method: Method { .patch }
         var path: String { "api_settings/\(id)" }
-        var headers: [String : String]? { ["Authorization" : "Bearer \(Defaults[.userToken]!)"] }
+        var headers: [String : String]? { ["Authorization" : "Bearer \(keychainUser[.userToken]!)"] }
         var task: Task {
             .requestParameters(parameters: [
                 "exchange" : exchange,
@@ -69,7 +68,7 @@ struct ExchangeApiService {
         
         var method: Method { .delete }
         var path: String { "api_settings/\(id)" }
-        var headers: [String : String]? { ["Authorization" : "Bearer \(Defaults[.userToken]!)"] }
+        var headers: [String : String]? { ["Authorization" : "Bearer \(keychainUser[.userToken]!)"] }
         var task: Task {
             .requestPlain
         }
@@ -78,5 +77,4 @@ struct ExchangeApiService {
         
         let id: Int
     }
-    
 }

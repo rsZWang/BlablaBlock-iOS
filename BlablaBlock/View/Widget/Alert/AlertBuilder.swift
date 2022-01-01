@@ -30,14 +30,16 @@ class AlertBuilder {
     }
     
     func setButton(title: String, style: UIAlertAction.Style = .default, action: (() -> Void)? = nil) -> AlertBuilder {
-        self.actionList.append(UIAlertAction(title: title, style: style) { alertAction in
+        self.actionList.append(UIAlertAction(title: title, style: style) { _ in
             action?()
         })
         return self
     }
     
-    func setOkButton(title: String = "OK") -> AlertBuilder {
-        self.actionList.append(UIAlertAction(title: title, style: .default))
+    func setOkButton(title: String = "OK", action: (() -> Void)? = nil) -> AlertBuilder {
+        self.actionList.append(UIAlertAction(title: title, style: .default) { _ in
+            action?()
+        })
         return self
     }
     
