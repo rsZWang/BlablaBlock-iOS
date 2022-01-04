@@ -40,16 +40,17 @@ struct PNLData: Decodable {
     }
     
     func getXAxis() -> [Int] {
+        let chunk = 4
         let minX = getMinX()
         let maxX = getMaxX()
         let diff = maxX - minX
-        let distance = Int(Double(diff)/5)
+        let distance = Int(Double(diff)/Double(chunk))
         
         var values = [Int]()
         for i in stride(from: minX, through: maxX, by: distance) {
             values.append(i)
         }
-        if values.count == 5 {
+        if values.count == chunk {
             values.append(maxX + distance)
         }
         return values
