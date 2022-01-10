@@ -25,7 +25,9 @@ class ExchangeListTableView: UITableView {
         self.dataList.append(contentsOf: data)
         animateRowChanges(
             oldData: oldData,
-            newData: self.dataList
+            newData: self.dataList, 
+            deletionAnimation: .bottom,
+            insertionAnimation: .top
         )
     }
 
