@@ -110,7 +110,7 @@ class SignInViewController: BaseViewController, Storyboarded {
             .disposed(by: shortLifecycleOwner)
         
         authViewModel.errorMessageObservable
-            .observe(on: MainScheduler.instance)
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] msg in
                 self?.nextBtn.isEnabled = true
                 self?.promptAlert(message: msg)

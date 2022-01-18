@@ -17,7 +17,7 @@ class AuthViewModel: BaseViewModel {
     func signIn(email: String, password: String) {
         AuthService.login(email: email, password: password)
             .request()
-            .observe(on: MainScheduler.instance)
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(
                 onSuccess: { [weak self] login in
                     self?.signInHandler(

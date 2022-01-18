@@ -39,7 +39,7 @@ class ExchangeApiViewModel: BaseViewModel {
                 }
             )
             .disposed(by: disposeBag)
-        return hasLinkedObservable.observe(on: MainScheduler.instance)
+        return hasLinkedObservable.observe(on: MainScheduler.asyncInstance)
     }
     
     func create(exchange: String, apiKey: String, apiSecret: String) {
@@ -87,6 +87,7 @@ class ExchangeApiViewModel: BaseViewModel {
     private func newExchangeHandler(response: HttpResponse<ExchangeApi, ResponseFailure>) {
         switch response {
         case let .success(exchange):
+            
             exhangeListObservable.accept(exchange.data)
             completeObservable.onNext(true)
         case let .failure(responseFailure):

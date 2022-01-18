@@ -48,7 +48,6 @@ class PagedViewCell: UICollectionViewCell {
     private func setupUI() {
         guard let view = view else { return }
         self.contentView.addSubview(view)
-        view.translatesAutoresizingMaskIntoConstraints = false
         view.snp.makeConstraints { make in
             make.left.equalTo(self.contentView).offset(leftOffSet)
             make.top.equalTo(self.contentView).offset(topOffSet)

@@ -38,12 +38,7 @@ class StatisticsViewController: BaseViewController {
         cell.setView(view: pnlView)
         return cell
     }()
-    private lazy var pagedView: PagedView = {
-        let pagedView = PagedView(pages: [portfolioViewCell, pnlViewCell])
-//        let pagedView = PagedView(pages: [pnlViewCell, portfolioViewCell])
-        pagedView.translatesAutoresizingMaskIntoConstraints = false
-        return pagedView
-    }()
+    private lazy var pagedView = PagedView(pages: [portfolioViewCell, pnlViewCell])
     
     deinit {
         Timber.i("StatisticsViewController")
@@ -113,7 +108,7 @@ class StatisticsViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         statisticsViewModel.errorMessageObservable
-            .observe(on: MainScheduler.instance)
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] msg in
                 self?.portfolioView.refreshControl.endRefreshing()
                 self?.promptAlert(message: msg)

@@ -52,7 +52,7 @@ class StatisticsViewModel: BaseViewModel {
             }
         )
             .subscribe(on: backgroundScheduler)
-            .observe(on: MainScheduler.instance)
+            .observe(on: MainScheduler.asyncInstance)
             .bind(to: portfolioViewDataListObservable)
             .disposed(by: disposeBag)
         
@@ -66,7 +66,7 @@ class StatisticsViewModel: BaseViewModel {
     func getPortfolio() {
         StatisticsService.getPortfolio(exchange: "all")
             .request()
-            .observe(on: MainScheduler.instance)
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(
                 onSuccess: { [weak self] response in
                     switch response {
@@ -92,7 +92,7 @@ class StatisticsViewModel: BaseViewModel {
     func getPNL(period: PNLPeriod) {
         StatisticsService.getPNL(exchange: "all", period: period.rawValue)
             .request()
-            .observe(on: MainScheduler.instance)
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(
                 onSuccess: { [weak self] response in
                     switch response {

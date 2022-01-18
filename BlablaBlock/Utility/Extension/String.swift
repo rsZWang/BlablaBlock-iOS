@@ -50,9 +50,9 @@ public extension String {
     var formattedNumeric: String {
         get {
             if let numericString = Int(self) {
-                return numericString.withCommas()
+                return numericString.withCommas().appendTo2Precision()
             } else if let numericString = Double(self) {
-                return numericString.withCommas()
+                return numericString.withCommas().appendTo2Precision()
             } else {
                 Timber.w("This is not a numeric string! (\(self))")
                 return self
@@ -151,6 +151,17 @@ public extension String {
             }
         }
         return list
+    }
+    
+    func appendTo2Precision() -> String {
+        var string = self
+        let chunk = string.split(separator: ".")
+        if chunk.count == 1 {
+            string.append(contentsOf: ".00")
+        } else if chunk[1].count == 1 {
+            string.append(contentsOf: "0")
+        }
+        return string
     }
     
 }

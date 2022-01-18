@@ -54,7 +54,6 @@ class LinkCardView: UIView, NibOwnerLoadable {
     
     func commonInit() {
         loadNibContent()
-        translatesAutoresizingMaskIntoConstraints = false
         heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height/12).isActive = true
         layer.cornerRadius = 6
         layer.borderWidth = 1

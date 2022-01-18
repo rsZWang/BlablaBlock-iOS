@@ -15,8 +15,13 @@ class SettingViewController: BaseViewController, LinkCardViewDelegate {
     @Injected var authViewModel: AuthViewModel
     @Injected var exchangeApiViewModel: ExchangeApiViewModel
     
-    private lazy var binanceLinkCard = LinkCardView(self, type: .binance)
-    private lazy var ftxLinkCard = LinkCardView(self, type: .ftx)
+//    private lazy var binanceLinkCard = LinkCardView(self, type: .binance)
+//    private lazy var ftxLinkCard = LinkCardView(self, type: .ftx)
+    
+    private lazy var linkCardList = [
+        LinkCardView(self, type: .binance),
+        LinkCardView(self, type: .ftx)
+    ]
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -31,8 +36,9 @@ class SettingViewController: BaseViewController, LinkCardViewDelegate {
         super.viewDidLoad()
     
         linkCardViewListStackView.spacing = 20
-        linkCardViewListStackView.addArrangedSubview(binanceLinkCard)
-        linkCardViewListStackView.addArrangedSubview(ftxLinkCard)
+        for card in linkCardList {
+            linkCardViewListStackView.addArrangedSubview(card)
+        }
         
         nameLabel.text = keychainUser[.userName]
         
@@ -45,7 +51,7 @@ class SettingViewController: BaseViewController, LinkCardViewDelegate {
             .disposed(by: disposeBag)
         
         authViewModel.successObservable
-            .observe(on: MainScheduler.instance)
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] success in
                 if success {
                     self?.mainCoordinator.popToSignIn()
@@ -55,28 +61,25 @@ class SettingViewController: BaseViewController, LinkCardViewDelegate {
             .disposed(by: disposeBag)
         
         authViewModel.errorMessageObservable
-            .observe(on: MainScheduler.instance)
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] msg in
                 self?.signOutButton.isEnabled = true
             })
             .disposed(by: disposeBag)
 
         exchangeApiViewModel.exhangeListObservable
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] exchangeList in
                 self?.refreshList(exchangeList: exchangeList)
             })
             .disposed(by: disposeBag)
 
         exchangeApiViewModel.errorMessageObservable
-            .observe(on: MainScheduler.instance)
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] msg in
                 self?.promptAlert(message: msg)
             })
             .disposed(by: disposeBag)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
     }
     
     override func viewDidLayoutSubviews() {
@@ -85,16 +88,8 @@ class SettingViewController: BaseViewController, LinkCardViewDelegate {
     }
     
     private func refreshList(exchangeList: [ExchangeApiData]) {
-        if exchangeList.isEmpty {
-            binanceLinkCard.exchange = nil
-            ftxLinkCard.exchange = nil
-        } else {
-            if let binance = exchangeList.first(where: { $0.exchange == "binance" }) {
-                binanceLinkCard.exchange = binance
-            }
-            if let ftx = exchangeList.first(where: { $0.exchange == "ftx" }) {
-                ftxLinkCard.exchange = ftx
-            }
+        for card in linkCardList {
+            card.exchange = exchangeList.first { $0.exchange == card.type.rawValue }
         }
     }
     

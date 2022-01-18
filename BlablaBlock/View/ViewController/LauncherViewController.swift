@@ -32,14 +32,12 @@ class LauncherViewController: BaseViewController {
     
     private func addLogo() {
         let containerView = UIView()
-        containerView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(containerView)
         containerView.snp.makeConstraints { make in
             make.centerX.centerY.equalTo(view)
         }
         
         let appNameLabel = UILabel()
-        appNameLabel.translatesAutoresizingMaskIntoConstraints = false
         appNameLabel.text = "BlablaBlock"
         appNameLabel.font = .boldSystemFont(ofSize: 32)
         appNameLabel.textColor = .white
@@ -51,7 +49,6 @@ class LauncherViewController: BaseViewController {
         }
         
         let sloganLabel = UILabel()
-        sloganLabel.translatesAutoresizingMaskIntoConstraints = false
         sloganLabel.text = "Connect Everything about\nCrypto Trading"
         sloganLabel.font = .systemFont(ofSize: 17)
         sloganLabel.textColor = .white

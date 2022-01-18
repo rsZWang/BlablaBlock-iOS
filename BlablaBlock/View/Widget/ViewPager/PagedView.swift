@@ -40,7 +40,7 @@ class PagedView: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewDat
         collectionView.isPagingEnabled = true
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .white
         return collectionView
     }()
     
@@ -48,17 +48,9 @@ class PagedView: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewDat
     func setupUI() {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(collectionView)
-        collectionView.backgroundColor = .white
-        NSLayoutConstraint.activate([
-            collectionView.widthAnchor.constraint(equalTo: self.widthAnchor),
-            collectionView.heightAnchor.constraint(equalTo: self.heightAnchor),
-            collectionView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            collectionView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
-        ])
-//        collectionView.snp.makeConstraints { make in
-//            make.edges.equalTo(self.snp.edges)
-//            make.center.equalTo(self.snp.center)
-//        }
+        collectionView.snp.makeConstraints { make in
+            make.width.height.centerX.centerY.equalTo(self)
+        }
     }
     
     public func moveToPage(at index: Int) {

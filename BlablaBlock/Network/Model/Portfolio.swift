@@ -180,7 +180,8 @@ enum PortfolioType: String, Equatable {
     case lending = "lending"        // 借貸
     case futures = "futures"        // 合約裡的現貨
     case positions = "positions"    // 合約的持倉
+    case liquidity = "liquidity"
     
-    static let titleList = ["所有類別", "現貨", "現貨槓桿", "借貸", "合約裡的現貨", "合約的持倉"]
-    static let typeList = ["all", "spot", "margin", "lending", "futures", "positions"]
+    static let titleList = ["所有類別", "現貨", "現貨槓桿", "借貸", "合約裡的現貨", "合約的持倉", "流動性資產"]
+    static let typeList = ["all", "spot", "margin", "lending", "futures", "positions", "liquidity"]
 }
