@@ -119,4 +119,4 @@ enum PNLPeriod: String {
     
     static let titleList = ["全部", "1Y", "1M", "YTD"]
     static let periodList = ["all", "1y", "1m", "ytd"]
-    }
+}

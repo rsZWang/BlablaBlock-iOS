@@ -107,6 +107,10 @@ class StatisticsViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
         
+        statisticsViewModel.pnlRefreshObservable
+            .bind(to: pnlView.refreshControl.rx.isRefreshing)
+            .disposed(by: disposeBag)
+        
         statisticsViewModel.errorMessageObservable
             .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] msg in

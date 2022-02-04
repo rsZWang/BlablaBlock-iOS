@@ -11,11 +11,15 @@ import SnapKit
 
 protocol PNLViewDelegate: NSObject {
     func onPeriodFiltered(period: String)
+    func onRefresh()
 }
 
 class PNLView: UIView, NibOwnerLoadable {
     
+    @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var exchangePickerTextField: UITextField!
+    @IBOutlet weak var separatorView: UIView!
+    @IBOutlet weak var graphSectionView: UIView!
     @IBOutlet weak var chartSectionView: UIView!
     @IBOutlet weak var roiLabel: UILabel!
     @IBOutlet weak var roiAnnualLabel: UILabel!
@@ -27,6 +31,12 @@ class PNLView: UIView, NibOwnerLoadable {
         pickerView.itemList = PNLPeriod.titleList
         pickerView.pickerViewDelegate = self
         return pickerView
+    }()
+    private var scrollView: UIScrollView!
+    let refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(onRefresh), for: .valueChanged)
+        return refreshControl
     }()
     
     weak var delegate: PNLViewDelegate?
@@ -74,6 +84,9 @@ class PNLView: UIView, NibOwnerLoadable {
         DispatchQueue.global().async { [weak self] in
             self?.semaphore.wait()
             DispatchQueue.main.async {
+                if self?.scrollView == nil {
+                    self?.makeRefreshable()
+                }
                 self?.drawChart(data: data)
             }
             self?.semaphore.signal()
@@ -83,6 +96,42 @@ class PNLView: UIView, NibOwnerLoadable {
         mddLabel.text = "\(data.mdd.toPrettyPrecisedString())%"
         dailyWinRateLabel.text = "\(data.dailyWinRate.toPrettyPrecisedString())%"
         sharpeRatio.text = "\(data.sharpeRatio.toPrettyPrecisedString())"
+    }
+    
+    private func makeRefreshable() {
+        scrollView = UIScrollView()
+        scrollView.alwaysBounceVertical = true
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.alwaysBounceHorizontal = false
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.refreshControl = refreshControl
+        containerView.addSubview(scrollView)
+        scrollView.snp.makeConstraints { make in
+            make.top.equalTo(separatorView.snp.bottom)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        let contentView = UIView()
+        contentView.backgroundColor = .red
+        scrollView.addSubview(contentView)
+        contentView.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(containerView)
+            make.top.bottom.equalToSuperview()
+        }
+        
+        let height = graphSectionView.bounds.height
+        graphSectionView.removeFromSuperview()
+        contentView.addSubview(graphSectionView)
+        graphSectionView.snp.makeConstraints { make in
+            make.height.equalTo(height)
+            make.leading.trailing.equalToSuperview()
+            make.top.bottom.equalToSuperview()
+        }
+    }
+    
+    @objc
+    private func onRefresh() {
+        delegate?.onRefresh()
     }
     
 }
@@ -249,7 +298,7 @@ extension PNLView {
     
     private class ChartYAxisValue: ChartAxisValueDouble {
         override var description: String {
-            "\(NSNumber(value: scalar))%"
+            "\(scalar)%"
         }
     }
     

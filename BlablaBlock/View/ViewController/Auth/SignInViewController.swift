@@ -118,14 +118,14 @@ class SignInViewController: BaseViewController, Storyboarded {
             .disposed(by: shortLifecycleOwner)
     }
     
-    func signIn() {
+    private func signIn() {
         authViewModel.signIn(
             email: emailTextField.text!,
             password: passwordTextField.text!
         )
     }
     
-    func signUp() {
+    private func signUp() {
         authViewModel.signUp(
             userName: userNameTextField.text!,
             email: emailTextField.text!,

@@ -16,15 +16,13 @@ public extension String {
     var double: Double {
         Double(self) ?? 0
     }
+    
+    func substring(from: Int, to: Int) -> String {
+        guard (from>=0) && (from<to) && (to<=count) else { return "" }
+        let range: Range = index(startIndex, offsetBy: from) ..< index(startIndex, offsetBy: to)
+        return String(self[range])
+    }
 
-    func toPrecisedString(precision: Int = 2) -> String {
-        double.toPrecisedString(percision: precision)
-    }
-    
-    func toPrettyPrecisedString(precision: Int = 2) -> String {
-        double.toPrecisedString(percision: precision).formattedNumeric
-    }
-    
     var isNotEmpty: Bool { !isEmpty }
     
     var isNumeric: Bool {
@@ -39,26 +37,7 @@ public extension String {
         }
     }
     
-    func substring(from: Int, to: Int) -> String {
-        guard (from>=0) && (from<to) && (to<=count) else { return "" }
-        let range: Range = index(startIndex, offsetBy: from) ..< index(startIndex, offsetBy: to)
-        return String(self[range])
-    }
-    
     var isNotEmail: Bool { !isEmail }
-    
-    var formattedNumeric: String {
-        get {
-            if let numericString = Int(self) {
-                return numericString.withCommas().appendTo2Precision()
-            } else if let numericString = Double(self) {
-                return numericString.withCommas().appendTo2Precision()
-            } else {
-                Timber.w("This is not a numeric string! (\(self))")
-                return self
-            }
-        }
-    }
     
     var isValidPassword: Bool { count >= 6 && count <= 16 }
     

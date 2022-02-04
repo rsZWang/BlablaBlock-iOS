@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="mnb-Zf-WhD">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="mnb-Zf-WhD">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -832,28 +832,28 @@
     </scenes>
     <designables>
         <designable name="0hi-Ip-Qri">
-            <size key="intrinsicContentSize" width="30" height="29"/>
+            <size key="intrinsicContentSize" width="33" height="32"/>
         </designable>
         <designable name="1o4-Vr-QUA">
             <size key="intrinsicContentSize" width="53" height="44"/>
         </designable>
         <designable name="4CV-sV-43g">
-            <size key="intrinsicContentSize" width="82" height="36"/>
+            <size key="intrinsicContentSize" width="66" height="32"/>
         </designable>
         <designable name="Ark-2r-ftG">
-            <size key="intrinsicContentSize" width="82" height="36"/>
+            <size key="intrinsicContentSize" width="66" height="32"/>
         </designable>
         <designable name="BA0-F6-eLq">
-            <size key="intrinsicContentSize" width="33" height="32"/>
+            <size key="intrinsicContentSize" width="37" height="34"/>
         </designable>
         <designable name="Cbm-ds-leR">
             <size key="intrinsicContentSize" width="53" height="44"/>
         </designable>
         <designable name="VXG-1j-OdW">
-            <size key="intrinsicContentSize" width="62" height="36"/>
+            <size key="intrinsicContentSize" width="80" height="44"/>
         </designable>
         <designable name="k4r-84-K8l">
-            <size key="intrinsicContentSize" width="102" height="36"/>
+            <size key="intrinsicContentSize" width="82" height="32"/>
         </designable>
     </designables>
     <resources>

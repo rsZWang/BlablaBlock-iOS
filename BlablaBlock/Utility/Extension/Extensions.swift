@@ -41,20 +41,6 @@ public protocol Formattable {
     func withCommas() -> String
 }
 
-public extension Int {
-    
-    var formattedNumeric: String {
-        String(self).formattedNumeric
-    }
-    
-    func withCommas() -> String {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        return numberFormatter.string(from: NSNumber(value:self)) ?? ""
-    }
-    
-}
-
 public extension Array {
     var isNotEmpty: Bool {
         get { !isEmpty }
@@ -119,10 +105,28 @@ extension Data {
     }
 }
 
+extension Int {
+    
+    var formattedNumeric: String {
+        withCommas()
+    }
+    
+    func withCommas() -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        return numberFormatter.string(from: NSNumber(value: self)) ?? ""
+    }
+    
+}
+
 extension Double {
     
     var string: String {
         String(self)
+    }
+    
+    var formatted: String {
+        withCommas()
     }
     
     func toPrecisedString(percision: Int = 2) -> String {
@@ -130,7 +134,7 @@ extension Double {
     }
     
     func toPrettyPrecisedString(precision: Int = 2) -> String {
-        string.toPrettyPrecisedString(precision: precision).formattedNumeric
+        toPrecisedString(percision: precision).double.withCommas()
     }
     
     func withCommas() -> String {

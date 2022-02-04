@@ -15,8 +15,7 @@ class StatisticsViewModel: BaseViewModel {
     let assetSumObservable = BehaviorRelay<NSAttributedString>(value: PortfolioData.defaultAssetSumString)
     let portfolioViewDataListObservable = BehaviorRelay<[PortfolioViewData]?>(value: nil)
     let pnlObservable = BehaviorRelay<PNLData?>(value: nil)
-//    let timerObservable = PublishRelay<Int>()
-//    private var timerDisposable: Disposable?
+    let pnlRefreshObservable = PublishRelay<Bool>()
     
     private let portfolioDataObservable = BehaviorRelay<PortfolioData?>(value: nil)
     private let exchangeFilterObservable = BehaviorRelay<ExchangeType>(value: .all)
@@ -95,6 +94,7 @@ class StatisticsViewModel: BaseViewModel {
             .observe(on: MainScheduler.asyncInstance)
             .subscribe(
                 onSuccess: { [weak self] response in
+                    self?.pnlRefreshObservable.accept(false)
                     switch response {
                     case let .success(pnl):
                         self?.pnlObservable.accept(pnl.data)
@@ -107,23 +107,11 @@ class StatisticsViewModel: BaseViewModel {
                     }
                 },
                 onFailure: { [weak self] error in
+                    self?.pnlRefreshObservable.accept(false)
                     self?.errorHandler(error: error)
                 }
             )
             .disposed(by: disposeBag)
-    }
-    
-    private func startFetchData() {
-//        timerDisposable?.dispose()
-//        timerDisposable = Observable<Int>.timer(
-//            RxTimeInterval.seconds(0),
-//            period: RxTimeInterval.seconds(30),
-//            scheduler: ConcurrentDispatchQueueScheduler(qos: .background)
-//        )
-//        .subscribe(onNext: { [unowned self] secs in
-//            timerObservable.accept(secs)
-//            getPortfolio()
-//        })
     }
     
 }
@@ -141,6 +129,11 @@ extension StatisticsViewModel: PortfolioViewDelegate {
 extension StatisticsViewModel: PNLViewDelegate {
     func onPeriodFiltered(period: String) {
         pnlPeriodFilterObservable.accept(PNLPeriod.init(rawValue: period)!)
+    }
+    
+    func onRefresh() {
+        let value = pnlPeriodFilterObservable.value
+        pnlPeriodFilterObservable.accept(value)
     }
 }
 

@@ -73,7 +73,7 @@ struct PortfolioData: Decodable {
             sign = "+"
             color = #colorLiteral(red: 0.2352941176, green: 0.831372549, blue: 0.5568627451, alpha: 1)
         }
-        let rate = "\(sign)\(percentage.toPrettyPrecisedString())%"
+        let rate = "\(sign)\(percentage.toPrettyPrecisedString().appendTo2Precision())%"
         let attribuedString = NSMutableAttributedString()
         attribuedString.append(NSAttributedString(
             string: "總資產(",
@@ -98,7 +98,7 @@ struct PortfolioData: Decodable {
     }
     
     func getAssetSumString() -> NSAttributedString {
-        let amount = "$\(totalValue.toPrettyPrecisedString())"
+        let amount = "$\(totalValue.double.toPrettyPrecisedString())"
         let unit = " USDT"
         let attribuedString = NSMutableAttributedString()
         attribuedString.append(NSAttributedString(
@@ -134,9 +134,9 @@ struct PortfolioData: Decodable {
                     exchange: ExchangeType.init(rawValue: data.exchange)!,
                     type: PortfolioType.init(rawValue: data.type)!,
                     currency: data.currency,
-                    valueWeight: data.percentage.toPrettyPrecisedString(),
-                    balance: data.balance.toPrettyPrecisedString(),
-                    value: data.value.toPrettyPrecisedString(),
+                    valueWeight: data.percentage.double.toPrettyPrecisedString().appendTo2Precision(),
+                    balance: data.balance.double.toPrettyPrecisedString().appendTo2Precision(),
+                    value: data.value.double.toPrettyPrecisedString().appendTo2Precision(),
                     unrealizedProfit: unrealizedProfit
                 )
             )
