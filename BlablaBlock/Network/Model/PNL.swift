@@ -84,7 +84,7 @@ struct PNLData: Decodable {
             values.append(i)
         }
         if values.count == 10 {
-            values.append(maxY + distance)
+            values.append((values.last ?? 0) + distance)
         }
         return values.map { round($0*100)/100 }
     }

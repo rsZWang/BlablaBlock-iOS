@@ -48,6 +48,7 @@ class PNLView: UIView, NibOwnerLoadable {
     private lazy var xAxisLabelSettings = ChartLabelSettings(font: .systemFont(ofSize: 8))
     private lazy var yAxisLabelSettings = ChartLabelSettings(font: .systemFont(ofSize: 8))
     private var chart: Chart!
+    private var currentPositionLabels: [UIView] = []
     private var semaphore:  DispatchSemaphore!
     override var bounds: CGRect {
         didSet {
@@ -147,6 +148,7 @@ extension PNLView {
     func drawChart(data: PNLData) {
         
         if let chart = chart {
+            currentPositionLabels.forEach { $0.removeFromSuperview() }
             chart.view.removeFromSuperview()
             self.chart = nil
         }
@@ -202,7 +204,6 @@ extension PNLView {
         // Touch tracker layer
         let thumbSettings = ChartPointsLineTrackerLayerThumbSettings(thumbSize: 10, thumbBorderWidth: 1)
         let trackerLayerSettings = ChartPointsLineTrackerLayerSettings(thumbSettings: thumbSettings)
-        var currentPositionLabels: [UIView] = []
         let chartPointsTrackerLayer = ChartPointsLineTrackerLayer<ChartPoint, Any>(
             xAxis: xAxisLayer.axis,
             yAxis: yAxisLayer.axis,
@@ -212,7 +213,7 @@ extension PNLView {
             animDelay: 2,
             settings: trackerLayerSettings
         ) { [weak self] chartPointsWithScreenLoc in
-            currentPositionLabels.forEach { $0.removeFromSuperview() }
+            self?.currentPositionLabels.forEach { $0.removeFromSuperview() }
             for (_, chartPointWithScreenLoc) in chartPointsWithScreenLoc.enumerated() {
                 let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 69, height: 30))
                 stackView.sizeToFit()
@@ -238,8 +239,7 @@ extension PNLView {
                 profitLabel.font = .systemFont(ofSize: 12)
                 profitLabel.textColor = .systemBlue
                 stackView.addArrangedSubview(profitLabel)
-                
-                currentPositionLabels.append(stackView)
+                self?.currentPositionLabels.append(stackView)
                 self?.chartSectionView.addSubview(stackView)
             }
         }
