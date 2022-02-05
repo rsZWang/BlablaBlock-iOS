@@ -1,0 +1,8 @@
+app_identifier("com.wuchi.blablablock") # The bundle identifier of your app
+apple_id("jedi19931106@icloud.com") # Your Apple email address
+
+itc_team_id("123689541") # App Store Connect Team ID
+team_id("QRN2TFCH8G") # Developer Portal Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile
