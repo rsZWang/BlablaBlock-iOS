@@ -20,11 +20,20 @@ open class RadioButton: UIButton {
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
+        commonInit()
     }
     
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         addTarget(self, action: #selector(selected), for: .touchUpInside)
+        commonInit()
+    }
+    
+    private func commonInit() {
+        contentEdgeInsets = UIEdgeInsets(top: 6, left: 6, bottom: 6, right: 6)
+        titleLabel?.numberOfLines = 1
+        titleLabel?.adjustsFontSizeToFitWidth = true
+        titleLabel?.lineBreakMode = .byClipping
     }
     
     @objc

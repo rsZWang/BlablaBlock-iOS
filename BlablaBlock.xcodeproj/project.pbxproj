@@ -18,6 +18,10 @@
 		4A4B4DF42770E4C600075933 /* PortfolioView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A4B4DF32770E4C600075933 /* PortfolioView.xib */; };
 		4A4B4DF62770E5E300075933 /* ExchangeListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A4B4DF52770E5E300075933 /* ExchangeListTableViewCell.xib */; };
 		4A543A482779CF1700662B12 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A543A472779CF1700662B12 /* PickerView.swift */; };
+		4A581C9627CBC94C00276BA9 /* SearchUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A581C9527CBC94C00276BA9 /* SearchUserViewController.swift */; };
+		4A581C9827CBCFB200276BA9 /* PaddingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A581C9727CBCFB200276BA9 /* PaddingTextField.swift */; };
+		4A581C9A27CBD25F00276BA9 /* SearchUserCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A581C9927CBD25F00276BA9 /* SearchUserCollectionView.swift */; };
+		4A581C9C27CBD28200276BA9 /* SearchUserCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A581C9B27CBD28200276BA9 /* SearchUserCollectionViewCell.swift */; };
 		4A5FE1F827365E0F004AD836 /* LinkExchangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */; };
 		4A741C0A27CB45D300594A5D /* TradeHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A741C0927CB45D300594A5D /* TradeHistoryViewController.swift */; };
 		4A741C0C27CB468500594A5D /* TradeHistoryTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A741C0B27CB468500594A5D /* TradeHistoryTableView.swift */; };
@@ -112,6 +116,10 @@
 		4A4B4DF32770E4C600075933 /* PortfolioView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PortfolioView.xib; sourceTree = "<group>"; };
 		4A4B4DF52770E5E300075933 /* ExchangeListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExchangeListTableViewCell.xib; sourceTree = "<group>"; };
 		4A543A472779CF1700662B12 /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
+		4A581C9527CBC94C00276BA9 /* SearchUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserViewController.swift; sourceTree = "<group>"; };
+		4A581C9727CBCFB200276BA9 /* PaddingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingTextField.swift; sourceTree = "<group>"; };
+		4A581C9927CBD25F00276BA9 /* SearchUserCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserCollectionView.swift; sourceTree = "<group>"; };
+		4A581C9B27CBD28200276BA9 /* SearchUserCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkExchangeViewController.swift; sourceTree = "<group>"; };
 		4A741C0927CB45D300594A5D /* TradeHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeHistoryViewController.swift; sourceTree = "<group>"; };
 		4A741C0B27CB468500594A5D /* TradeHistoryTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeHistoryTableView.swift; sourceTree = "<group>"; };
@@ -230,14 +238,24 @@
 			path = ViewPager;
 			sourceTree = "<group>";
 		};
-		4A741C0827CB45A500594A5D /* History */ = {
+		4A581C9427CBC53F00276BA9 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				4A581C9527CBC94C00276BA9 /* SearchUserViewController.swift */,
+				4A581C9927CBD25F00276BA9 /* SearchUserCollectionView.swift */,
+				4A581C9B27CBD28200276BA9 /* SearchUserCollectionViewCell.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		4A741C0827CB45A500594A5D /* TradeHistory */ = {
 			isa = PBXGroup;
 			children = (
 				4A741C0927CB45D300594A5D /* TradeHistoryViewController.swift */,
 				4A741C0B27CB468500594A5D /* TradeHistoryTableView.swift */,
 				4A741C0D27CB46B300594A5D /* TradeHistoryTableViewCell.swift */,
 			);
-			path = History;
+			path = TradeHistory;
 			sourceTree = "<group>";
 		};
 		4A7744C0276FA07D0087A447 /* Statistics */ = {
@@ -246,7 +264,7 @@
 				A0290E2E272319DE00A07224 /* StatisticsViewController.swift */,
 				A092DEB327738C8600E98A2B /* Portfolio */,
 				A092DEAE27738B9300E98A2B /* PNL */,
-				4A741C0827CB45A500594A5D /* History */,
+				4A741C0827CB45A500594A5D /* TradeHistory */,
 			);
 			path = Statistics;
 			sourceTree = "<group>";
@@ -271,6 +289,7 @@
 		4A7744C3276FA0C30087A447 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				4A581C9427CBC53F00276BA9 /* Search */,
 				4A7744C0276FA07D0087A447 /* Statistics */,
 				4A7744C2276FA0B80087A447 /* Setting */,
 			);
@@ -512,6 +531,7 @@
 				A0290E252722F6D900A07224 /* RadioButton */,
 				A0C8E590272006C300848FCB /* NormalInputView */,
 				4A543A472779CF1700662B12 /* PickerView.swift */,
+				4A581C9727CBCFB200276BA9 /* PaddingTextField.swift */,
 			);
 			path = Widget;
 			sourceTree = "<group>";
@@ -818,9 +838,11 @@
 				4A7B8AA4276FBEB200756E05 /* ExchangeApiViewModel.swift in Sources */,
 				4A4B4DF22770E4B100075933 /* PortfolioView.swift in Sources */,
 				4A7744B9276F8E3C0087A447 /* ExchangeApiService.swift in Sources */,
+				4A581C9827CBCFB200276BA9 /* PaddingTextField.swift in Sources */,
 				4A4B4DEF2770E10E00075933 /* PagedViewCell.swift in Sources */,
 				A0921267277F56B40083BBBF /* KeychainAccess.swift in Sources */,
 				A0DAD58F2778441C00CD8760 /* LauncherViewController.swift in Sources */,
+				4A581C9627CBC94C00276BA9 /* SearchUserViewController.swift in Sources */,
 				A0DAD5BC2778627000CD8760 /* Storyboarded.swift in Sources */,
 				4AA9F810276DD68B00D775F0 /* Resolver.swift in Sources */,
 				A0290E272722F6EE00A07224 /* RadioButtonGroup.swift in Sources */,
@@ -838,6 +860,7 @@
 				A09D70E3272518F700ACE44A /* LinkCardView.swift in Sources */,
 				4A741C0E27CB46B300594A5D /* TradeHistoryTableViewCell.swift in Sources */,
 				4A252CCA273F9209005E4C93 /* AlertBuilder.swift in Sources */,
+				4A581C9A27CBD25F00276BA9 /* SearchUserCollectionView.swift in Sources */,
 				4A5FE1F827365E0F004AD836 /* LinkExchangeViewController.swift in Sources */,
 				A08E8E652778E25E0041AC61 /* Registration.swift in Sources */,
 				A0C8E559271FF18900848FCB /* AppDelegate.swift in Sources */,
@@ -847,6 +870,7 @@
 				A0290E2927230AAF00A07224 /* RadioButton.swift in Sources */,
 				A0DAD5B8277861D600CD8760 /* MainCoordinator.swift in Sources */,
 				4A543A482779CF1700662B12 /* PickerView.swift in Sources */,
+				4A581C9C27CBD28200276BA9 /* SearchUserCollectionViewCell.swift in Sources */,
 				A09D70E727251C3500ACE44A /* SettingViewController.swift in Sources */,
 				A08D5C1C278026FD00228ECE /* HttpApiConfig.swift in Sources */,
 			);
