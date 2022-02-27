@@ -11,7 +11,7 @@ import RxCocoa
 import RxSwift
 import RxGesture
 
-class SignInViewController: BaseViewController, Storyboarded {
+final class SignInViewController: BaseViewController, Storyboarded {
     
     @Injected private var mainCoordinator: MainCoordinator
     @Injected private var authViewModel: AuthViewModel

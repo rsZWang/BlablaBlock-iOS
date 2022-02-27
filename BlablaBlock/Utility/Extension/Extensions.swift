@@ -95,7 +95,7 @@ public extension UIWindow {
     }
 }
 
-extension Data {
+public extension Data {
     /// NSString gives us a nice sanitized debugDescription
     var prettyPrintedJSONString: NSString? {
         guard let object = try? JSONSerialization.jsonObject(with: self, options: []),
@@ -105,7 +105,7 @@ extension Data {
     }
 }
 
-extension Int {
+public extension Int {
     
     var formattedNumeric: String {
         withCommas()
@@ -119,7 +119,7 @@ extension Int {
     
 }
 
-extension Double {
+public extension Double {
     
     var string: String {
         String(self)
@@ -145,7 +145,7 @@ extension Double {
     
 }
 
-extension NSError {
+public extension NSError {
     
     static func create(domain: String, code: Int) -> NSError {
         NSError(domain: domain, code: code, userInfo: nil)

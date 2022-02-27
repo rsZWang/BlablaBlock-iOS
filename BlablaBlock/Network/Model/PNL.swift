@@ -39,6 +39,14 @@ struct PNLData: Decodable {
         chartData.map { $0.timestamp.int }.max() ?? 0
     }
     
+    func getMinY() -> Double {
+        chartData.map { $0.value }.min() ?? 0
+    }
+    
+    func getMaxY() -> Double {
+        chartData.map { $0.value }.max() ?? 0
+    }
+    
     func getXAxis() -> [Int] {
         let chunk = 4
         let minX = getMinX()
@@ -54,14 +62,6 @@ struct PNLData: Decodable {
             values.append(maxX + distance)
         }
         return values
-    }
-    
-    func getMinY() -> Double {
-        chartData.map { $0.value }.min() ?? 0
-    }
-    
-    func getMaxY() -> Double {
-        chartData.map { $0.value }.max() ?? 0
     }
     
     func getYAxis() -> [Double] {

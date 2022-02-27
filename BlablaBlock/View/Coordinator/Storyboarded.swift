@@ -7,11 +7,11 @@
 
 import UIKit
 
-protocol Storyboarded {
+public protocol Storyboarded {
     static func instantiate() -> Self
 }
 
-extension Storyboarded where Self: UIViewController {
+public extension Storyboarded where Self: UIViewController {
     static func instantiate() -> Self {
         // this pulls out "MyApp.MyViewController"
         let fullName = NSStringFromClass(self)

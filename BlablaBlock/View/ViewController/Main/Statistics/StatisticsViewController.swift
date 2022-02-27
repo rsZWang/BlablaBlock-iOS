@@ -10,8 +10,9 @@ import Resolver
 import RxCocoa
 import RxSwift
 
-class StatisticsViewController: BaseViewController {
+final class StatisticsViewController: BaseViewController {
     
+    @Injected var mainCoordinator: MainCoordinator
     @Injected private var statisticsViewModel: StatisticsViewModel
 
     private let radioGroup = RadioButtonGroup()
@@ -41,7 +42,7 @@ class StatisticsViewController: BaseViewController {
     private lazy var pagedView = PagedView(pages: [portfolioViewCell, pnlViewCell])
     
     deinit {
-        Timber.i("StatisticsViewController")
+        Timber.i("\(type(of: self)) deinit")
     }
     
     override func viewDidLoad() {
@@ -109,6 +110,12 @@ class StatisticsViewController: BaseViewController {
         
         statisticsViewModel.pnlRefreshObservable
             .bind(to: pnlView.refreshControl.rx.isRefreshing)
+            .disposed(by: disposeBag)
+        
+        statisticsViewModel.historyBtnObservable
+            .subscribe(onNext: { [weak self] in
+                self?.mainCoordinator.showTradeHistory()
+            })
             .disposed(by: disposeBag)
         
         statisticsViewModel.errorMessageObservable

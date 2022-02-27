@@ -7,7 +7,7 @@
 
 import Moya
 
-typealias Method = Moya.Method
+public typealias Method = Moya.Method
 
 struct AuthService {
     

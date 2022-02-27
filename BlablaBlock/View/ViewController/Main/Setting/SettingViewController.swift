@@ -9,14 +9,11 @@ import UIKit
 import RxSwift
 import Resolver
 
-class SettingViewController: BaseViewController, LinkCardViewDelegate {
+final class SettingViewController: BaseViewController, LinkCardViewDelegate {
     
     @Injected var mainCoordinator: MainCoordinator
     @Injected var authViewModel: AuthViewModel
     @Injected var exchangeApiViewModel: ExchangeApiViewModel
-    
-//    private lazy var binanceLinkCard = LinkCardView(self, type: .binance)
-//    private lazy var ftxLinkCard = LinkCardView(self, type: .ftx)
     
     private lazy var linkCardList = [
         LinkCardView(self, type: .binance),
@@ -29,7 +26,7 @@ class SettingViewController: BaseViewController, LinkCardViewDelegate {
     @IBOutlet weak var linkCardViewListStackView: UIStackView!
     
     deinit {
-        Timber.i("SettingViewController")
+        Timber.i("\(type(of: self)) deinit")
     }
     
     override func viewDidLoad() {

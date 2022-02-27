@@ -9,13 +9,14 @@ import Resolver
 import RxCocoa
 import RxSwift
 
-class StatisticsViewModel: BaseViewModel {
+final class StatisticsViewModel: BaseViewModel {
         
     let assetProfitObservable = BehaviorRelay<NSAttributedString>(value: PortfolioData.defaultProfitString)
     let assetSumObservable = BehaviorRelay<NSAttributedString>(value: PortfolioData.defaultAssetSumString)
     let portfolioViewDataListObservable = BehaviorRelay<[PortfolioViewData]?>(value: nil)
     let pnlObservable = BehaviorRelay<PNLData?>(value: nil)
     let pnlRefreshObservable = PublishRelay<Bool>()
+    let historyBtnObservable = PublishRelay<()>()
     
     private let portfolioDataObservable = BehaviorRelay<PortfolioData?>(value: nil)
     private let exchangeFilterObservable = BehaviorRelay<ExchangeType>(value: .all)
@@ -23,7 +24,7 @@ class StatisticsViewModel: BaseViewModel {
     private var pnlPeriodFilterObservable = BehaviorRelay<PNLPeriod>(value: .all)
     
     deinit {
-        Timber.i("StatisticsViewModel")
+        Timber.i("\(type(of: self)) deinit")
     }
     
     override init() {
@@ -57,7 +58,9 @@ class StatisticsViewModel: BaseViewModel {
         
         pnlPeriodFilterObservable
             .subscribe(onNext: { [weak self] period in
-                self?.getPNL(period: period)
+                DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
+                    self?.getPNL(period: period)
+                }
             })
             .disposed(by: disposeBag)
     }
@@ -123,6 +126,10 @@ extension StatisticsViewModel: PortfolioViewDelegate {
     
     func onPortfolioTypeFiltered(type: String) {
         portfolioTypeFilterObservable.accept(PortfolioType.init(rawValue: type)!)
+    }
+    
+    func onTapHistory() {
+        historyBtnObservable.accept(())
     }
 }
 

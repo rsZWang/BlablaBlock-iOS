@@ -9,29 +9,29 @@ import Moya
 import RxSwift
 import KeychainAccess
 
-enum HttpApiError: Error {
+public enum HttpApiError: Error {
     case toeknExpired
     case timeout
 }
 
-enum HttpResponse<SuccessBody: Decodable, FailureBody: Decodable> {
+public enum HttpResponse<SuccessBody: Decodable, FailureBody: Decodable> {
     case success(SuccessBody)
     case failure(FailureBody)
 }
 
-enum TokenType {
+public enum TokenType {
     case normal
     case user
 }
 
-protocol HttpResponseTargetType: Moya.TargetType, AccessTokenAuthorizable {
+public protocol HttpResponseTargetType: Moya.TargetType, AccessTokenAuthorizable {
     associatedtype SuccessType: Decodable
     associatedtype FailureType: Decodable
     
     var tokenType: TokenType { get }
 }
 
-extension HttpResponseTargetType {
+public extension HttpResponseTargetType {
     
     var baseURL: URL { URL(string: "\(HttpApiConfig.domain)/\(HttpApiConfig.apiVersion)")! }
     var headers: [String : String]? { nil }
@@ -47,12 +47,12 @@ extension HttpResponseTargetType {
             perform {
                 single($0)
             }
-            return Disposables.create {  }
+            return Disposables.create {}
         }
     }
     
     private func perform(completion: @escaping (Result<HttpResponse<SuccessType, FailureType>, Error>) -> Void) {
-        ApiProvider.createProvider(tokenType: tokenType).request(self) { reuslt in
+        ApiProvider.createProvider(tokenType: tokenType, callbackQueue: ApiProvider.requestQueue).request(self) { reuslt in
             switch reuslt {
             case let .success(response):
                 if response.statusCode == 401 {
@@ -150,7 +150,7 @@ fileprivate final class ApiProvider {
     
     static func createProvider<MultiTarget>(
         tokenType: TokenType,
-        callbackQueue: DispatchQueue = ApiProvider.requestQueue
+        callbackQueue: DispatchQueue
     ) -> MoyaProvider<MultiTarget> {
         var pluginList = [PluginType]()
         #if DEBUG

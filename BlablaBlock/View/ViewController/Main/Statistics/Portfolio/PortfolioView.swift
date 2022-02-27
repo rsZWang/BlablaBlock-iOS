@@ -9,17 +9,19 @@ import UIKit
 import RxSwift
 import RxGesture
 
-protocol PortfolioViewDelegate: NSObject {
+public protocol PortfolioViewDelegate: NSObject {
     func onExchangeFiltered(exchange: String)
     func onPortfolioTypeFiltered(type: String)
+    func onTapHistory()
 }
 
-class PortfolioView: UIView, NibOwnerLoadable {
+final class PortfolioView: UIView, NibOwnerLoadable {
 
     @IBOutlet weak var exchangeFilterView: UIView!
     @IBOutlet weak var exchangeFilterTextField: UITextField!
     @IBOutlet weak var typeFilterView: UIView!
     @IBOutlet weak var typeFilterTextField: UITextField!
+    @IBOutlet weak var historyButton: UIButton!
     @IBOutlet weak var tableView: ExchangeListTableView!
     private lazy var pickerView: PickerView = {
         let pickerView = PickerView()
@@ -69,6 +71,14 @@ class PortfolioView: UIView, NibOwnerLoadable {
                 pickerView.itemList = PortfolioType.titleList
                 pickerView.bind(textField: typeFilterTextField)
                 typeFilterTextField.becomeFirstResponder()
+            })
+            .disposed(by: disposeBag)
+        
+        historyButton.rx
+            .tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [unowned self] _ in
+                delegate?.onTapHistory()
             })
             .disposed(by: disposeBag)
     }

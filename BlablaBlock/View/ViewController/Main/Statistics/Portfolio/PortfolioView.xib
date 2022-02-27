@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -13,6 +13,7 @@
             <connections>
                 <outlet property="exchangeFilterTextField" destination="pcp-Va-OcG" id="0Ve-l3-cRh"/>
                 <outlet property="exchangeFilterView" destination="ev5-Ln-M3V" id="YjW-bm-Isv"/>
+                <outlet property="historyButton" destination="2JQ-JN-Pty" id="hJq-R0-IS1"/>
                 <outlet property="tableView" destination="3QM-8f-vj7" id="ZeS-Ze-9kX"/>
                 <outlet property="typeFilterTextField" destination="PBn-yB-K2f" id="AZL-9y-LHD"/>
                 <outlet property="typeFilterView" destination="Yee-hK-xVv" id="lpC-5c-vo9"/>
@@ -141,10 +142,18 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2JQ-JN-Pty">
+                                                    <rect key="frame" x="273.5" y="0.0" width="70.5" height="40"/>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" title="History"/>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
                                                 <constraint firstItem="Yee-hK-xVv" firstAttribute="top" secondItem="xMH-sv-3Hm" secondAttribute="top" constant="10" id="1yY-co-Np5"/>
+                                                <constraint firstAttribute="bottom" secondItem="2JQ-JN-Pty" secondAttribute="bottom" id="6ku-xW-cbr"/>
+                                                <constraint firstAttribute="trailing" secondItem="2JQ-JN-Pty" secondAttribute="trailing" id="GpP-O6-jxh"/>
+                                                <constraint firstItem="2JQ-JN-Pty" firstAttribute="top" secondItem="xMH-sv-3Hm" secondAttribute="top" id="NrI-mm-7A7"/>
                                                 <constraint firstAttribute="bottom" secondItem="ev5-Ln-M3V" secondAttribute="bottom" constant="10" id="OmR-S7-ky1"/>
                                                 <constraint firstItem="ev5-Ln-M3V" firstAttribute="top" secondItem="xMH-sv-3Hm" secondAttribute="top" constant="10" id="aYy-Te-uBc"/>
                                                 <constraint firstItem="Yee-hK-xVv" firstAttribute="leading" secondItem="ev5-Ln-M3V" secondAttribute="trailing" constant="10" id="cs8-wF-gTF"/>

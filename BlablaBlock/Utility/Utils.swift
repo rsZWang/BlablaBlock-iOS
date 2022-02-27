@@ -7,7 +7,7 @@
 
 import UIKit
 
-class Utils {
+public class Utils {
     
     // Top most ViewController
     public static func findMostTopViewController() -> UIViewController? {

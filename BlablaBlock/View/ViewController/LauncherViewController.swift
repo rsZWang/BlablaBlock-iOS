@@ -10,7 +10,7 @@ import Resolver
 import SnapKit
 import RxSwift
 
-class LauncherViewController: BaseViewController {
+final class LauncherViewController: BaseViewController {
     
     @Injected var mainCoordinator: MainCoordinator
     @Injected var exchangeApiViewModel: ExchangeApiViewModel

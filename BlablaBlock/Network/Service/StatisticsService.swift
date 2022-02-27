@@ -40,4 +40,15 @@ struct StatisticsService {
         let exchange: String
         let period: String
     }
+    
+    struct getTradeHistory: HttpResponseTargetType {
+        var method: Method { .get }
+        var tokenType: TokenType { .user }
+        var path: String { "trade_history" }
+        var task: Task {
+            .requestPlain
+        }
+        typealias SuccessType = HistoryApi
+        typealias FailureType = ResponseFailure
+    }
 }

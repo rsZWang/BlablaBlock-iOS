@@ -184,4 +184,12 @@ enum PortfolioType: String, Equatable {
     
     static let titleList = ["所有類別", "現貨", "現貨槓桿", "借貸", "合約裡的現貨", "合約的持倉", "流動性資產"]
     static let typeList = ["all", "spot", "margin", "lending", "futures", "positions", "liquidity"]
+    
+    static func map(type: String) -> String {
+        if let index = typeList.firstIndex(where: { $0 == type }) {
+            return titleList[index]
+        } else {
+            return "Unknown type \(type)"
+        }
+    }
 }

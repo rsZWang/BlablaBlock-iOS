@@ -9,12 +9,12 @@ import UIKit
 import SwiftCharts
 import SnapKit
 
-protocol PNLViewDelegate: NSObject {
+public protocol PNLViewDelegate: NSObject {
     func onPeriodFiltered(period: String)
     func onRefresh()
 }
 
-class PNLView: UIView, NibOwnerLoadable {
+final class PNLView: UIView, NibOwnerLoadable {
     
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var exchangePickerTextField: UITextField!

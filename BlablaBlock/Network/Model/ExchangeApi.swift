@@ -43,4 +43,12 @@ enum ExchangeType: String, Equatable {
     
     static let titleList = ["所有交易所", "Binance", "FTX"]
     static let typeList = ["all", "binance", "ftx"]
+    
+    static func map(type: String) -> String {
+        if let index = typeList.firstIndex(where: { $0 == type }) {
+            return titleList[index]
+        } else {
+            return "Unknown type \(type)"
+        }
+    }
 }

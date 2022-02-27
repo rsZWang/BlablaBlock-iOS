@@ -9,7 +9,7 @@ import Resolver
 import RxCocoa
 import RxSwift
 
-class ExchangeApiViewModel: BaseViewModel {
+final class ExchangeApiViewModel: BaseViewModel {
     
     let exhangeListObservable = BehaviorRelay<[ExchangeApiData]>(value: [])
     let exchangeUpdatedObservable = PublishSubject<ExchangeApiData>()

@@ -7,13 +7,13 @@
 
 import UIKit
 
-class MainCoordinator: Coordinator {
+final class MainCoordinator: NSObject, Coordinator {
     
     private let mainSB = UIStoryboard(name: "Main", bundle: nil)
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
     
-    init() {
+    override init() {
         navigationController = UINavigationController()
         navigationController.modalTransitionStyle = .crossDissolve
         navigationController.modalPresentationStyle = .fullScreen
@@ -41,9 +41,23 @@ class MainCoordinator: Coordinator {
         }
     }
     
+    func showTradeHistory() {
+        let vc = TradeHistoryViewController()
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
     func popToSignIn() {
         let signInViewController = navigationController.viewControllers[1]
         navigationController.popToViewController(signInViewController, animated: true)
+    }
+    
+    func childDidFinish(_ child: Coordinator?) {
+        for (index, coordinator) in childCoordinators.enumerated() {
+            if coordinator === child {
+                childCoordinators.remove(at: index)
+                break
+            }
+        }
     }
     
 }

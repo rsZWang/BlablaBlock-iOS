@@ -8,7 +8,7 @@
 import UIKit
 import Differ
 
-class ExchangeListTableView: UITableView {
+final class ExchangeListTableView: UITableView {
     
     private var dataList = [PortfolioViewData]()
     

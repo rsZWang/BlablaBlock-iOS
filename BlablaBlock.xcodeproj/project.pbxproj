@@ -19,6 +19,11 @@
 		4A4B4DF62770E5E300075933 /* ExchangeListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A4B4DF52770E5E300075933 /* ExchangeListTableViewCell.xib */; };
 		4A543A482779CF1700662B12 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A543A472779CF1700662B12 /* PickerView.swift */; };
 		4A5FE1F827365E0F004AD836 /* LinkExchangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */; };
+		4A741C0A27CB45D300594A5D /* TradeHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A741C0927CB45D300594A5D /* TradeHistoryViewController.swift */; };
+		4A741C0C27CB468500594A5D /* TradeHistoryTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A741C0B27CB468500594A5D /* TradeHistoryTableView.swift */; };
+		4A741C0E27CB46B300594A5D /* TradeHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A741C0D27CB46B300594A5D /* TradeHistoryTableViewCell.swift */; };
+		4A741C1027CB587300594A5D /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A741C0F27CB587300594A5D /* History.swift */; };
+		4A741C1227CB597500594A5D /* TradeHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A741C1127CB597500594A5D /* TradeHistoryViewModel.swift */; };
 		4A7744B7276F8A350087A447 /* ResponseFailure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7744B6276F8A350087A447 /* ResponseFailure.swift */; };
 		4A7744B9276F8E3C0087A447 /* ExchangeApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7744B8276F8E3C0087A447 /* ExchangeApiService.swift */; };
 		4A7744BB276F95910087A447 /* StatisticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7744BA276F95910087A447 /* StatisticsService.swift */; };
@@ -108,6 +113,11 @@
 		4A4B4DF52770E5E300075933 /* ExchangeListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExchangeListTableViewCell.xib; sourceTree = "<group>"; };
 		4A543A472779CF1700662B12 /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
 		4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkExchangeViewController.swift; sourceTree = "<group>"; };
+		4A741C0927CB45D300594A5D /* TradeHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeHistoryViewController.swift; sourceTree = "<group>"; };
+		4A741C0B27CB468500594A5D /* TradeHistoryTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeHistoryTableView.swift; sourceTree = "<group>"; };
+		4A741C0D27CB46B300594A5D /* TradeHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeHistoryTableViewCell.swift; sourceTree = "<group>"; };
+		4A741C0F27CB587300594A5D /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
+		4A741C1127CB597500594A5D /* TradeHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeHistoryViewModel.swift; sourceTree = "<group>"; };
 		4A7744B6276F8A350087A447 /* ResponseFailure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseFailure.swift; sourceTree = "<group>"; };
 		4A7744B8276F8E3C0087A447 /* ExchangeApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeApiService.swift; sourceTree = "<group>"; };
 		4A7744BA276F95910087A447 /* StatisticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsService.swift; sourceTree = "<group>"; };
@@ -220,12 +230,23 @@
 			path = ViewPager;
 			sourceTree = "<group>";
 		};
+		4A741C0827CB45A500594A5D /* History */ = {
+			isa = PBXGroup;
+			children = (
+				4A741C0927CB45D300594A5D /* TradeHistoryViewController.swift */,
+				4A741C0B27CB468500594A5D /* TradeHistoryTableView.swift */,
+				4A741C0D27CB46B300594A5D /* TradeHistoryTableViewCell.swift */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
 		4A7744C0276FA07D0087A447 /* Statistics */ = {
 			isa = PBXGroup;
 			children = (
 				A0290E2E272319DE00A07224 /* StatisticsViewController.swift */,
 				A092DEB327738C8600E98A2B /* Portfolio */,
 				A092DEAE27738B9300E98A2B /* PNL */,
+				4A741C0827CB45A500594A5D /* History */,
 			);
 			path = Statistics;
 			sourceTree = "<group>";
@@ -263,6 +284,7 @@
 				4ABA209E273BDC5000F66DB9 /* AuthViewModel.swift */,
 				4A7744C4276FA1B50087A447 /* StatisticsViewModel.swift */,
 				4A7B8AA3276FBEB200756E05 /* ExchangeApiViewModel.swift */,
+				4A741C1127CB597500594A5D /* TradeHistoryViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -366,6 +388,7 @@
 				4A7744BC276F96170087A447 /* Portfolio.swift */,
 				4A7744BE276F97520087A447 /* PNL.swift */,
 				A0DAD5BF27787A1800CD8760 /* ExchangeApi.swift */,
+				4A741C0F27CB587300594A5D /* History.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -782,8 +805,11 @@
 				4AFC6577276E7E3900ADEDA7 /* InputAlertBuilder.swift in Sources */,
 				4A7744C5276FA1B50087A447 /* StatisticsViewModel.swift in Sources */,
 				4AA9F814276E473800D775F0 /* BaseViewModel.swift in Sources */,
+				4A741C0A27CB45D300594A5D /* TradeHistoryViewController.swift in Sources */,
 				A0C8E58E271FFCB400848FCB /* Extensions.swift in Sources */,
+				4A741C1027CB587300594A5D /* History.swift in Sources */,
 				4A7744BD276F96170087A447 /* Portfolio.swift in Sources */,
+				4A741C1227CB597500594A5D /* TradeHistoryViewModel.swift in Sources */,
 				A0859AE5272DBE8100CF936E /* ExchangeListTableView.swift in Sources */,
 				4ABA209F273BDC5000F66DB9 /* AuthViewModel.swift in Sources */,
 				A092DEB027738BEC00E98A2B /* PNLView.swift in Sources */,
@@ -799,6 +825,7 @@
 				4AA9F810276DD68B00D775F0 /* Resolver.swift in Sources */,
 				A0290E272722F6EE00A07224 /* RadioButtonGroup.swift in Sources */,
 				A0290E2B27230E5800A07224 /* Timber.swift in Sources */,
+				4A741C0C27CB468500594A5D /* TradeHistoryTableView.swift in Sources */,
 				4ABA20A1273BDCB500F66DB9 /* String.swift in Sources */,
 				4AA9F812276DD6A200D775F0 /* BaseViewController.swift in Sources */,
 				4A7744B7276F8A350087A447 /* ResponseFailure.swift in Sources */,
@@ -809,6 +836,7 @@
 				4A252CCC273F96A4005E4C93 /* Utils.swift in Sources */,
 				4A7744BB276F95910087A447 /* StatisticsService.swift in Sources */,
 				A09D70E3272518F700ACE44A /* LinkCardView.swift in Sources */,
+				4A741C0E27CB46B300594A5D /* TradeHistoryTableViewCell.swift in Sources */,
 				4A252CCA273F9209005E4C93 /* AlertBuilder.swift in Sources */,
 				4A5FE1F827365E0F004AD836 /* LinkExchangeViewController.swift in Sources */,
 				A08E8E652778E25E0041AC61 /* Registration.swift in Sources */,

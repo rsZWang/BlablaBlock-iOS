@@ -11,7 +11,7 @@ import SnapKit
 import RxSwift
 import RxGesture
 
-class LinkExchangeViewController: BaseViewController {
+final class LinkExchangeViewController: BaseViewController {
     
     @Injected var exchangeApiViewModel: ExchangeApiViewModel
     

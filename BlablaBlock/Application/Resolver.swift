@@ -21,6 +21,8 @@ extension Resolver: ResolverRegistering {
         
         // Exchange Setting
         register { ExchangeApiViewModel() }.scope(.shared)
+        
+        register { TradeHistoryViewModel() }.scope(.unique)
     }
     
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ResponseFailure: Decodable {
+public struct ResponseFailure: Decodable {
     
     let code: Int
     let msg: String

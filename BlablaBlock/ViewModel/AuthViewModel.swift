@@ -10,7 +10,7 @@ import RxCocoa
 import RxSwift
 import KeychainAccess
 
-class AuthViewModel: BaseViewModel {
+final class AuthViewModel: BaseViewModel {
     
     let successObservable = PublishSubject<Bool>()
     
