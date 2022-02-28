@@ -33,6 +33,10 @@ final class HomePageViewController: BaseViewController {
     private let tableView: HomePageTableView = HomePageTableView()
     
     @Injected var homeViewModel: HomeViewModel
+    
+    deinit {
+        Timber.i("\(type(of: self)) deinit")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

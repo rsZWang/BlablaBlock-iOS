@@ -44,6 +44,10 @@ final class SearchUserViewController: BaseViewController {
         collectionView.backgroundColor = #colorLiteral(red: 0.1803734004, green: 0.1804045737, blue: 0.1803635955, alpha: 1)
         return collectionView
     }()
+    
+    deinit {
+        Timber.i("\(type(of: self)) deinit")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -103,6 +103,10 @@ public extension Data {
               let prettyPrintedString = NSString(data: data, encoding: String.Encoding.utf8.rawValue) else { return nil }
         return prettyPrintedString
     }
+    
+    var utf8String: String {
+        String(decoding: self, as: UTF8.self)
+    }
 }
 
 public extension Int {

@@ -66,7 +66,7 @@ public extension HttpResponseTargetType {
                         }
                     }
                 } else {
-                    completion(parseHttpResponse(response.data))
+                    completion(parseHttpResponse(response))
                 }
             case let .failure(moyaError):
                 completion(.failure(moyaError))
@@ -74,16 +74,16 @@ public extension HttpResponseTargetType {
         }
     }
     
-    private func parseHttpResponse<S: Decodable, F: Decodable>(_ data: Data) -> Result<HttpResponse<S, F>, Error> {
+    private func parseHttpResponse<S: Decodable, F: Decodable>(_ response: Response) -> Result<HttpResponse<S, F>, Error> {
         do {
-            let successBody = try decoder.decode(S.self, from: data)
+            let successBody = try decoder.decode(S.self, from: response.data)
             return Result.success(HttpResponse.success(successBody))
         } catch {
-            let failureBody = try? decoder.decode(F.self, from: data)
+            let failureBody = try? decoder.decode(F.self, from: response.data)
             if let failureBody = failureBody {
                 return Result.success(HttpResponse.failure(failureBody))
             } else {
-                return Result.failure(error)
+                return Result.failure(HttpError(code: response.statusCode, body: response.data))
             }
         }
     }
@@ -98,7 +98,7 @@ public extension HttpResponseTargetType {
                     let error: Error?
                     switch moyaResult {
                         case let .success(response):
-                            let httpReponseResult: Result<HttpResponse<Login, ResponseFailure>, Error> = parseHttpResponse(response.data)
+                            let httpReponseResult: Result<HttpResponse<Login, ResponseFailure>, Error> = parseHttpResponse(response)
                             switch httpReponseResult {
                                 case let .success(httpReponse):
                                     switch httpReponse {

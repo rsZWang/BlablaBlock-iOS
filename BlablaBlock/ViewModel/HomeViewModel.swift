@@ -38,6 +38,10 @@ final class HomeViewModel:
     var inputs: HomeViewModelInputs { self }
     var outputs: HomeViewModelOutputs { self }
     
+    deinit {
+        Timber.i("\(type(of: self)) deinit")
+    }
+    
     override init() {
         let viewDidLoad = PublishRelay<()>()
         let notifications = BehaviorRelay<[NotificationApiData]>(value: [])
@@ -55,22 +59,22 @@ final class HomeViewModel:
     }
     
     private func loadNotifications(notifications: BehaviorRelay<[NotificationApiData]>) {
-//        FollowService.getNotifications()
-//            .request()
-//            .subscribe(
-//                onSuccess: { [weak self] response in
-//                    switch response {
-//                    case let .success(historyApiResponse):
-//                        notifications.accept(historyApiResponse.data)
-//                    case let .failure(responseFailure):
-//                        self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
-//                    }
-//                },
-//                onFailure: { [weak self] error in
-//                    self?.errorHandler(error: error)
-//                }
-//            )
-//            .disposed(by: disposeBag)
+        FollowService.getNotifications()
+            .request()
+            .subscribe(
+                onSuccess: { [weak self] response in
+                    switch response {
+                    case let .success(historyApiResponse):
+                        notifications.accept(historyApiResponse.data)
+                    case let .failure(responseFailure):
+                        self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
+                    }
+                },
+                onFailure: { [weak self] error in
+                    self?.errorHandler(error: error)
+                }
+            )
+            .disposed(by: disposeBag)
         
         let data = [
             NotificationApiData(

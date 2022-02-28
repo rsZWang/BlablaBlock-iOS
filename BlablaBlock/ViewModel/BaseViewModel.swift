@@ -61,8 +61,13 @@ public class BaseViewModel: NSObject {
     }
     
     internal func errorHandler(error: Error) {
-        Timber.e("\(error)")
-        errorMessageObservable.accept(error.localizedDescription)
+        if let error = error as? HttpError {
+            Timber.e("Http error: code(\(error.code))\nbody: \(error.body.utf8String)")
+            errorMessageObservable.accept("Http error: code(\(error.code))\nbody: \(error.body.utf8String)")
+        } else {
+            Timber.e("\(error)")
+            errorMessageObservable.accept(error.localizedDescription)
+        }
     }
     
 }

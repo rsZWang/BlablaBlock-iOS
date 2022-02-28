@@ -32,6 +32,7 @@
 		4A6C9F1C27CD2B33003B42F8 /* FollowPortfolio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1B27CD2B33003B42F8 /* FollowPortfolio.swift */; };
 		4A6C9F1E27CD2C94003B42F8 /* CurrencyIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1D27CD2C94003B42F8 /* CurrencyIcon.swift */; };
 		4A6C9F2027CD2EFD003B42F8 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1F27CD2EFD003B42F8 /* HomeViewModel.swift */; };
+		4A6C9F2227CD39DF003B42F8 /* HttpError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F2127CD39DF003B42F8 /* HttpError.swift */; };
 		4A741C0A27CB45D300594A5D /* TradeHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A741C0927CB45D300594A5D /* TradeHistoryViewController.swift */; };
 		4A741C0C27CB468500594A5D /* TradeHistoryTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A741C0B27CB468500594A5D /* TradeHistoryTableView.swift */; };
 		4A741C0E27CB46B300594A5D /* TradeHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A741C0D27CB46B300594A5D /* TradeHistoryTableViewCell.swift */; };
@@ -139,6 +140,7 @@
 		4A6C9F1B27CD2B33003B42F8 /* FollowPortfolio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowPortfolio.swift; sourceTree = "<group>"; };
 		4A6C9F1D27CD2C94003B42F8 /* CurrencyIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyIcon.swift; sourceTree = "<group>"; };
 		4A6C9F1F27CD2EFD003B42F8 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		4A6C9F2127CD39DF003B42F8 /* HttpError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpError.swift; sourceTree = "<group>"; };
 		4A741C0927CB45D300594A5D /* TradeHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeHistoryViewController.swift; sourceTree = "<group>"; };
 		4A741C0B27CB468500594A5D /* TradeHistoryTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeHistoryTableView.swift; sourceTree = "<group>"; };
 		4A741C0D27CB46B300594A5D /* TradeHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeHistoryTableViewCell.swift; sourceTree = "<group>"; };
@@ -451,6 +453,7 @@
 			children = (
 				A0C1FB792764B5B900C4201A /* MoyaLoggerPlugin.swift */,
 				A0C1FB6C27647EC700C4201A /* HttpResponseTargetType.swift */,
+				4A6C9F2127CD39DF003B42F8 /* HttpError.swift */,
 			);
 			path = MoyaSetup;
 			sourceTree = "<group>";
@@ -870,6 +873,7 @@
 				4A7744BD276F96170087A447 /* Portfolio.swift in Sources */,
 				4A741C1227CB597500594A5D /* TradeHistoryViewModel.swift in Sources */,
 				A0859AE5272DBE8100CF936E /* ExchangeListTableView.swift in Sources */,
+				4A6C9F2227CD39DF003B42F8 /* HttpError.swift in Sources */,
 				4ABA209F273BDC5000F66DB9 /* AuthViewModel.swift in Sources */,
 				A092DEB027738BEC00E98A2B /* PNLView.swift in Sources */,
 				4A252CCE273F9737005E4C93 /* View.swift in Sources */,

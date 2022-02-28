@@ -52,7 +52,7 @@ struct MoyaLoggerPlugin: PluginType {
         if let prettyString = response.data.prettyPrintedJSONString {
             logs.append(("Body", prettyString))
         } else {
-            logs.append(("Body", "EMPTY"))
+            logs.append(("Body", "Unparsable"))
         }
         printLogs(" Response⏪ ", logs: logs)
     }

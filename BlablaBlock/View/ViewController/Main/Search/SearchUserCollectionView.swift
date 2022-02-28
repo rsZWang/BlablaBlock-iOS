@@ -11,6 +11,10 @@ final class SearchUserCollectionView: UICollectionView {
     
     static let reuseIdentifier = "SearchUserCollectionViewCell"
     
+    deinit {
+        Timber.i("\(type(of: self)) deinit")
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
