@@ -73,4 +73,15 @@ struct ExchangeApiService {
         
         let id: Int
     }
+    
+    struct getCurrency: HttpResponseTargetType {
+        var method: Method { .get }
+        var tokenType: TokenType { .normal }
+        var path: String { "currency" }
+        var task: Task {
+            .requestPlain
+        }
+        typealias SuccessType = CurrencyIconApi
+        typealias FailureType = ResponseFailure
+    }
 }

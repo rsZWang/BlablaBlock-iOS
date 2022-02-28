@@ -1,19 +1,64 @@
 //
-//  TradeHistoryTableViewCell.swift
+//  HomePageTableViewCell.swift
 //  BlablaBlock
 //
-//  Created by Harry on 2022/2/27.
+//  Created by Harry on 2022/2/28.
 //
 
 import UIKit
-import SnapKit
 
-final class TradeHistoryTableViewCell: UITableViewCell {
+final class HomePageTableViewCell: UITableViewCell {
     
     private let bgView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 6
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.black.cgColor
         view.backgroundColor = .white
+        return view
+    }()
+    
+    private let avatarImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "ic_profile_avatar_placeholder")
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 15
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+    
+    private let nameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "nameLabel"
+        label.textColor = .black
+        label.font = .boldSystemFont(ofSize: 16)
+        return label
+    }()
+    
+    private let timestampCounterLabel: UILabel = {
+        let label = UILabel()
+        label.text = "timestampCounterLabel"
+        label.textColor = .gray
+        label.font = .systemFont(ofSize: 12)
+        return label
+    }()
+    
+    private let followButton: ColorButton = {
+        let button = ColorButton()
+        button.rounded = true
+        button.normalBgColor = .black
+        button.disabledBgColor = .darkGray
+        button.highlightedBgColor = .darkGray
+        button.normalTitleColor = .white
+        button.disabledTitleColor = .white
+        button.highlightedTitleColor = .white
+        button.setTitle("追蹤中", for: .normal)
+        return button
+    }()
+    
+    private let separatorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
         return view
     }()
     
@@ -91,7 +136,7 @@ final class TradeHistoryTableViewCell: UITableViewCell {
         label.text = "  "
         return label
     }()
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -102,7 +147,6 @@ final class TradeHistoryTableViewCell: UITableViewCell {
     }
     
     private func setupUI() {
-        contentView.backgroundColor = #colorLiteral(red: 0.1803734004, green: 0.1804045737, blue: 0.1803635955, alpha: 1)
         contentView.addSubview(bgView)
         bgView.snp.makeConstraints { make in
             make.edges.equalTo(UIEdgeInsets(top: 0, left: 18, bottom: 16, right: 18))
@@ -114,35 +158,67 @@ final class TradeHistoryTableViewCell: UITableViewCell {
             make.edges.equalTo(UIEdgeInsets(top: 12, left: 20, bottom: 12, right: 12))
         }
         
+        contentMarginView.addSubview(avatarImageView)
+        avatarImageView.snp.makeConstraints { make in
+            make.width.height.equalTo(40)
+            make.leading.top.equalToSuperview()
+        }
+        
+        let nameSectionView = UIStackView()
+        nameSectionView.axis = .vertical
+        nameSectionView.spacing = 0
+        nameSectionView.addArrangedSubview(nameLabel)
+        nameSectionView.addArrangedSubview(timestampCounterLabel)
+        contentMarginView.addSubview(nameSectionView)
+        nameSectionView.snp.makeConstraints { make in
+            make.centerY.equalTo(avatarImageView)
+            make.leading.equalTo(avatarImageView.snp.trailing).offset(6)
+        }
+        
+        contentMarginView.addSubview(followButton)
+        followButton.snp.makeConstraints { make in
+            make.width.equalTo(80)
+            make.height.equalTo(30)
+            make.centerY.equalTo(avatarImageView)
+            make.trailing.equalToSuperview()
+        }
+        
+        contentMarginView.addSubview(separatorView)
+        separatorView.snp.makeConstraints { make in
+            make.height.equalTo(1)
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(avatarImageView.snp.bottom).offset(10)
+        }
+        
         contentMarginView.addSubview(currencyImageView)
         currencyImageView.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(-8)
-            make.top.equalToSuperview()
+            make.top.equalTo(separatorView.snp.bottom).offset(10)
             make.width.height.equalTo(40)
         }
-        
+
         contentMarginView.addSubview(currencyLabel)
         currencyLabel.snp.makeConstraints { make in
             make.leading.equalTo(currencyImageView.snp.trailing).offset(8)
             make.centerY.equalTo(currencyImageView)
         }
-        
+
         contentMarginView.addSubview(timestampLabel)
         timestampLabel.snp.makeConstraints { make in
             make.bottom.equalTo(currencyLabel)
             make.trailing.equalToSuperview()
         }
-        
+
         contentMarginView.addSubview(actionLabel)
         actionLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview()
-            make.top.equalTo(currencyImageView.snp.bottom).offset(14)
+            make.top.equalTo(currencyImageView.snp.bottom).offset(10)
         }
-        
+
         contentMarginView.addSubview(exchangeTtitleLabel)
         exchangeTtitleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview()
-            make.top.equalTo(actionLabel.snp.bottom).offset(14)
+            make.top.equalTo(actionLabel.snp.bottom).offset(10)
         }
 
         contentMarginView.addSubview(exchangeLabel)
@@ -177,21 +253,22 @@ final class TradeHistoryTableViewCell: UITableViewCell {
         }
     }
     
-    func bind(history: HistoryApiData) {
-        currencyLabel.attributedText = history.getCurrencyString()
-        timestampLabel.text = formatDateTime(timestamp: history.timestamp)
-        if history.side == "BUY" {
+    func bind(notification: NotificationApiData) {
+        nameLabel.text = notification.name
+        currencyLabel.attributedText = notification.getCurrencyString()
+        timestampLabel.text = formatDateTime(timestamp: notification.timestamp)
+        if notification.side == "BUY" {
             actionLabel.text = "買入"
             actionLabel.textColor = .systemGreen
         } else {
             actionLabel.text = "賣出"
             actionLabel.textColor = .red
         }
-        exchangeLabel.text = history.exchange.uppercased()
+        exchangeLabel.text = notification.exchange.uppercased()
         priceTitleLabel.text = "價格"
-        priceLabel.text = "\(history.price)"
+        priceLabel.text = "\(notification.price)"
         amountTitleLabel.text = "成交數量"
-        amountLabel.text = history.executedQty
+        amountLabel.text = notification.executedQty
     }
     
     private func formatDateTime(timestamp: Int64) -> String {
@@ -199,6 +276,5 @@ final class TradeHistoryTableViewCell: UITableViewCell {
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return formatter.string(from: Date(timeIntervalSince1970: Double(timestamp)))
     }
+
 }
-
-

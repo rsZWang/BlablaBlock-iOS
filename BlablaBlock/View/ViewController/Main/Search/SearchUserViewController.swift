@@ -10,6 +10,12 @@ import SnapKit
 
 final class SearchUserViewController: BaseViewController {
     
+    private let statusBarSection: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(named: "bg_gray")
+        return view
+    }()
+    
     private let topSearchSectionView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(named: "bg_gray")
@@ -45,16 +51,23 @@ final class SearchUserViewController: BaseViewController {
     }
     
     private func setupUI() {
+        view.addSubview(statusBarSection)
+        statusBarSection.snp.makeConstraints { make in
+            make.height.equalTo(20)
+            make.leading.top.trailing.equalToSuperview()
+        }
+        
         view.addSubview(topSearchSectionView)
         topSearchSectionView.snp.makeConstraints { make in
-            make.leading.top.trailing.equalToSuperview()
+            make.top.equalTo(statusBarSection.snp.bottom)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(70)
         }
         
         topSearchSectionView.addSubview(searchTitleLabel)
         searchTitleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(30)
-            make.top.equalToSuperview().offset(36)
-            make.bottom.equalToSuperview().offset(-20)
+            make.centerY.equalToSuperview()
         }
 
         topSearchSectionView.addSubview(searchTextField)

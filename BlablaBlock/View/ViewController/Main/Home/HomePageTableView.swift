@@ -1,16 +1,15 @@
 //
-//  TradeHistoryTableView.swift
+//  HomePageTableView.swift
 //  BlablaBlock
 //
-//  Created by Harry on 2022/2/27.
+//  Created by Harry on 2022/2/28.
 //
 
-import Foundation
 import UIKit
 
-final class TradeHistoryTableView: UITableView {
+final class HomePageTableView: UITableView {
     
-    static let reuseIdentifier = "TradeHistoryTableViewCell"
+    static let reuseIdentifier = "HomePageTableViewCell"
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -21,10 +20,11 @@ final class TradeHistoryTableView: UITableView {
         backgroundColor = nil
         contentInset = UIEdgeInsets(top: 16, left: 0, bottom: 0, right: 0)
         separatorStyle = .none
-        register(TradeHistoryTableViewCell.self, forCellReuseIdentifier: TradeHistoryTableView.reuseIdentifier)
+        register(HomePageTableViewCell.self, forCellReuseIdentifier: HomePageTableView.reuseIdentifier)
     }
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
     }
+
 }

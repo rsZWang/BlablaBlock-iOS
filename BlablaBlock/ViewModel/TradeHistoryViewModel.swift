@@ -13,7 +13,7 @@ public protocol TradeHistoryViewModelInputs {
 }
 
 public protocol TradeHistoryViewModelOutputs {
-    var historyData: BehaviorRelay<[HistoryApiData]> { get }
+    var historyData: Driver<[HistoryApiData]> { get }
 }
 
 public protocol TradeHistoryViewModelType {
@@ -37,7 +37,7 @@ final class TradeHistoryViewModel:
     
     // MARK: - Outputs
     
-    public let historyData: BehaviorRelay<[HistoryApiData]>
+    public let historyData: Driver<[HistoryApiData]>
     
     deinit {
         Timber.i("\(type(of: self)) deinit")
@@ -48,7 +48,7 @@ final class TradeHistoryViewModel:
         let historyData = BehaviorRelay<[HistoryApiData]>(value: [])
         
         self.viewDidLoad = viewDidLoad
-        self.historyData = historyData
+        self.historyData = historyData.asDriver()
         
         super.init()
         

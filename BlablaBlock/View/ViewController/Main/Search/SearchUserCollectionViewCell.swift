@@ -135,10 +135,10 @@ final class SearchUserCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addViews()
+        setupUI()
     }
     
-    private func addViews() {
+    private func setupUI() {
         let width = (UIScreen.main.bounds.width / 2) - 24
         let bgView = UIView()
         bgView.backgroundColor = .white
@@ -159,6 +159,7 @@ final class SearchUserCollectionViewCell: UICollectionViewCell {
         avatarImageView.snp.makeConstraints { make in
             make.leading.top.equalToSuperview()
             make.width.height.equalTo(60)
+            
         }
         
         let nameStackView = UIStackView()
@@ -166,13 +167,13 @@ final class SearchUserCollectionViewCell: UICollectionViewCell {
         nameStackView.spacing = 2
         nameStackView.addArrangedSubview(nameLabel)
         nameStackView.addArrangedSubview(assetLabel)
-        
+
         paddingView.addSubview(nameStackView)
         nameStackView.snp.makeConstraints { make in
             make.centerY.equalTo(avatarImageView)
             make.leading.equalTo(avatarImageView.snp.trailing).offset(8)
         }
-        
+
         let detailStackView = UIStackView()
         detailStackView.axis = .vertical
         detailStackView.spacing = 8
@@ -242,5 +243,4 @@ final class SearchUserCollectionViewCell: UICollectionViewCell {
         }
         detailStackView.addArrangedSubview(sharpRateView)
     }
-    
 }

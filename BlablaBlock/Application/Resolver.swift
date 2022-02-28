@@ -22,7 +22,11 @@ extension Resolver: ResolverRegistering {
         // Exchange Setting
         register { ExchangeApiViewModel() }.scope(.shared)
         
+        // TradeHistory
         register { TradeHistoryViewModel() }.scope(.unique)
+        
+        // Home
+        register { HomeViewModel() }.scope(.unique)
     }
     
 }

@@ -11,10 +11,7 @@ import Resolver
 
 final class TradeHistoryViewController: BaseViewController {
     
-    private let tableView: TradeHistoryTableView = {
-        let tableView = TradeHistoryTableView()
-        return tableView
-    }()
+    private let tableView: TradeHistoryTableView = TradeHistoryTableView()
     
     @Injected var viewModel: TradeHistoryViewModel
     
@@ -44,12 +41,15 @@ final class TradeHistoryViewController: BaseViewController {
     }
     
     private func setupBinding() {
-        viewModel.outputs.historyData
-            .bind(to: tableView.rx.items(cellIdentifier: TradeHistoryTableView.reuseIdentifer)) { (row, element, cell) in
-                if let cell = cell as? TradeHistoryTableViewCell {
+        viewModel.outputs
+            .historyData
+            .drive(
+                tableView.rx.items(
+                    cellIdentifier: TradeHistoryTableView.reuseIdentifier,
+                    cellType: TradeHistoryTableViewCell.self
+                )) { (row, element, cell) in
                     cell.bind(history: element)
                 }
-            }
             .disposed(by: disposeBag)
     }
     

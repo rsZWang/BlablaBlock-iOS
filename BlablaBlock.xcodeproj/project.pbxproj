@@ -23,6 +23,15 @@
 		4A581C9A27CBD25F00276BA9 /* SearchUserCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A581C9927CBD25F00276BA9 /* SearchUserCollectionView.swift */; };
 		4A581C9C27CBD28200276BA9 /* SearchUserCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A581C9B27CBD28200276BA9 /* SearchUserCollectionViewCell.swift */; };
 		4A5FE1F827365E0F004AD836 /* LinkExchangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */; };
+		4A6C9F0F27CD09F3003B42F8 /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F0E27CD09F3003B42F8 /* HomePageViewController.swift */; };
+		4A6C9F1227CD1209003B42F8 /* HomePageTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1127CD1209003B42F8 /* HomePageTableView.swift */; };
+		4A6C9F1427CD1277003B42F8 /* HomePageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1327CD1277003B42F8 /* HomePageTableViewCell.swift */; };
+		4A6C9F1627CD288C003B42F8 /* FollowService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1527CD288C003B42F8 /* FollowService.swift */; };
+		4A6C9F1827CD28D8003B42F8 /* Follower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1727CD28D8003B42F8 /* Follower.swift */; };
+		4A6C9F1A27CD2A3E003B42F8 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1927CD2A3E003B42F8 /* Notification.swift */; };
+		4A6C9F1C27CD2B33003B42F8 /* FollowPortfolio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1B27CD2B33003B42F8 /* FollowPortfolio.swift */; };
+		4A6C9F1E27CD2C94003B42F8 /* CurrencyIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1D27CD2C94003B42F8 /* CurrencyIcon.swift */; };
+		4A6C9F2027CD2EFD003B42F8 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1F27CD2EFD003B42F8 /* HomeViewModel.swift */; };
 		4A741C0A27CB45D300594A5D /* TradeHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A741C0927CB45D300594A5D /* TradeHistoryViewController.swift */; };
 		4A741C0C27CB468500594A5D /* TradeHistoryTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A741C0B27CB468500594A5D /* TradeHistoryTableView.swift */; };
 		4A741C0E27CB46B300594A5D /* TradeHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A741C0D27CB46B300594A5D /* TradeHistoryTableViewCell.swift */; };
@@ -80,7 +89,7 @@
 		A0DAD5B8277861D600CD8760 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DAD5B7277861D600CD8760 /* MainCoordinator.swift */; };
 		A0DAD5BA277861FD00CD8760 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DAD5B9277861FD00CD8760 /* Coordinator.swift */; };
 		A0DAD5BC2778627000CD8760 /* Storyboarded.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DAD5BB2778627000CD8760 /* Storyboarded.swift */; };
-		A0DAD5C027787A1800CD8760 /* ExchangeApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DAD5BF27787A1800CD8760 /* ExchangeApi.swift */; };
+		A0DAD5C027787A1800CD8760 /* Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DAD5BF27787A1800CD8760 /* Exchange.swift */; };
 		D62D2B9B7FC84A28A2C1F52C /* Pods_BlablaBlockTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A4F9FA2216368FC2234CB9B /* Pods_BlablaBlockTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -121,6 +130,15 @@
 		4A581C9927CBD25F00276BA9 /* SearchUserCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserCollectionView.swift; sourceTree = "<group>"; };
 		4A581C9B27CBD28200276BA9 /* SearchUserCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkExchangeViewController.swift; sourceTree = "<group>"; };
+		4A6C9F0E27CD09F3003B42F8 /* HomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
+		4A6C9F1127CD1209003B42F8 /* HomePageTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageTableView.swift; sourceTree = "<group>"; };
+		4A6C9F1327CD1277003B42F8 /* HomePageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageTableViewCell.swift; sourceTree = "<group>"; };
+		4A6C9F1527CD288C003B42F8 /* FollowService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowService.swift; sourceTree = "<group>"; };
+		4A6C9F1727CD28D8003B42F8 /* Follower.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Follower.swift; sourceTree = "<group>"; };
+		4A6C9F1927CD2A3E003B42F8 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		4A6C9F1B27CD2B33003B42F8 /* FollowPortfolio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowPortfolio.swift; sourceTree = "<group>"; };
+		4A6C9F1D27CD2C94003B42F8 /* CurrencyIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyIcon.swift; sourceTree = "<group>"; };
+		4A6C9F1F27CD2EFD003B42F8 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		4A741C0927CB45D300594A5D /* TradeHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeHistoryViewController.swift; sourceTree = "<group>"; };
 		4A741C0B27CB468500594A5D /* TradeHistoryTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeHistoryTableView.swift; sourceTree = "<group>"; };
 		4A741C0D27CB46B300594A5D /* TradeHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeHistoryTableViewCell.swift; sourceTree = "<group>"; };
@@ -185,7 +203,7 @@
 		A0DAD5B7277861D600CD8760 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		A0DAD5B9277861FD00CD8760 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		A0DAD5BB2778627000CD8760 /* Storyboarded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storyboarded.swift; sourceTree = "<group>"; };
-		A0DAD5BF27787A1800CD8760 /* ExchangeApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeApi.swift; sourceTree = "<group>"; };
+		A0DAD5BF27787A1800CD8760 /* Exchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exchange.swift; sourceTree = "<group>"; };
 		DD43244C5F0653EAD9217690 /* Pods_BlablaBlock_BlablaBlockUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlablaBlock_BlablaBlockUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5F2F973E03C0928B571E800 /* Pods-BlablaBlock-BlablaBlockUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlablaBlock-BlablaBlockUITests.release.xcconfig"; path = "Target Support Files/Pods-BlablaBlock-BlablaBlockUITests/Pods-BlablaBlock-BlablaBlockUITests.release.xcconfig"; sourceTree = "<group>"; };
 		F17D6CA0BC7D3564BF36EDDA /* Pods-BlablaBlock.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlablaBlock.release.xcconfig"; path = "Target Support Files/Pods-BlablaBlock/Pods-BlablaBlock.release.xcconfig"; sourceTree = "<group>"; };
@@ -248,6 +266,16 @@
 			path = Search;
 			sourceTree = "<group>";
 		};
+		4A6C9F0D27CD09D4003B42F8 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				4A6C9F0E27CD09F3003B42F8 /* HomePageViewController.swift */,
+				4A6C9F1127CD1209003B42F8 /* HomePageTableView.swift */,
+				4A6C9F1327CD1277003B42F8 /* HomePageTableViewCell.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		4A741C0827CB45A500594A5D /* TradeHistory */ = {
 			isa = PBXGroup;
 			children = (
@@ -289,6 +317,7 @@
 		4A7744C3276FA0C30087A447 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				4A6C9F0D27CD09D4003B42F8 /* Home */,
 				4A581C9427CBC53F00276BA9 /* Search */,
 				4A7744C0276FA07D0087A447 /* Statistics */,
 				4A7744C2276FA0B80087A447 /* Setting */,
@@ -304,6 +333,7 @@
 				4A7744C4276FA1B50087A447 /* StatisticsViewModel.swift */,
 				4A7B8AA3276FBEB200756E05 /* ExchangeApiViewModel.swift */,
 				4A741C1127CB597500594A5D /* TradeHistoryViewModel.swift */,
+				4A6C9F1F27CD2EFD003B42F8 /* HomeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -406,8 +436,12 @@
 				A08E8E642778E25E0041AC61 /* Registration.swift */,
 				4A7744BC276F96170087A447 /* Portfolio.swift */,
 				4A7744BE276F97520087A447 /* PNL.swift */,
-				A0DAD5BF27787A1800CD8760 /* ExchangeApi.swift */,
+				A0DAD5BF27787A1800CD8760 /* Exchange.swift */,
 				4A741C0F27CB587300594A5D /* History.swift */,
+				4A6C9F1727CD28D8003B42F8 /* Follower.swift */,
+				4A6C9F1927CD2A3E003B42F8 /* Notification.swift */,
+				4A6C9F1B27CD2B33003B42F8 /* FollowPortfolio.swift */,
+				4A6C9F1D27CD2C94003B42F8 /* CurrencyIcon.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -427,6 +461,7 @@
 				A0C1FB7327649B0F00C4201A /* AuthService.swift */,
 				4A7744BA276F95910087A447 /* StatisticsService.swift */,
 				4A7744B8276F8E3C0087A447 /* ExchangeApiService.swift */,
+				4A6C9F1527CD288C003B42F8 /* FollowService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -814,14 +849,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				A0C8E594272008BA00848FCB /* NormalInputView.swift in Sources */,
-				A0DAD5C027787A1800CD8760 /* ExchangeApi.swift in Sources */,
+				4A6C9F1427CD1277003B42F8 /* HomePageTableViewCell.swift in Sources */,
+				A0DAD5C027787A1800CD8760 /* Exchange.swift in Sources */,
 				A0DAD5B32778510100CD8760 /* UserDefaults.swift in Sources */,
 				A0C1FB722764935300C4201A /* ResponseSuccess.swift in Sources */,
 				A0C1FB7A2764B5B900C4201A /* MoyaLoggerPlugin.swift in Sources */,
 				A0C8E5982720125800848FCB /* ColorTextButton.swift in Sources */,
+				4A6C9F0F27CD09F3003B42F8 /* HomePageViewController.swift in Sources */,
+				4A6C9F1A27CD2A3E003B42F8 /* Notification.swift in Sources */,
 				4A7744BF276F97520087A447 /* PNL.swift in Sources */,
 				A01B78E2277711880061E86A /* Login.swift in Sources */,
 				A0290E2F272319DE00A07224 /* StatisticsViewController.swift in Sources */,
+				4A6C9F1827CD28D8003B42F8 /* Follower.swift in Sources */,
 				4AFC6577276E7E3900ADEDA7 /* InputAlertBuilder.swift in Sources */,
 				4A7744C5276FA1B50087A447 /* StatisticsViewModel.swift in Sources */,
 				4AA9F814276E473800D775F0 /* BaseViewModel.swift in Sources */,
@@ -837,6 +876,7 @@
 				4A4B4DED2770E0B600075933 /* PagedView.swift in Sources */,
 				4A7B8AA4276FBEB200756E05 /* ExchangeApiViewModel.swift in Sources */,
 				4A4B4DF22770E4B100075933 /* PortfolioView.swift in Sources */,
+				4A6C9F2027CD2EFD003B42F8 /* HomeViewModel.swift in Sources */,
 				4A7744B9276F8E3C0087A447 /* ExchangeApiService.swift in Sources */,
 				4A581C9827CBCFB200276BA9 /* PaddingTextField.swift in Sources */,
 				4A4B4DEF2770E10E00075933 /* PagedViewCell.swift in Sources */,
@@ -851,8 +891,10 @@
 				4ABA20A1273BDCB500F66DB9 /* String.swift in Sources */,
 				4AA9F812276DD6A200D775F0 /* BaseViewController.swift in Sources */,
 				4A7744B7276F8A350087A447 /* ResponseFailure.swift in Sources */,
+				4A6C9F1227CD1209003B42F8 /* HomePageTableView.swift in Sources */,
 				4A252CD0273F9751005E4C93 /* ViewController.swift in Sources */,
 				A0DAD5B127784BEA00CD8760 /* SceneDelegate.swift in Sources */,
+				4A6C9F1E27CD2C94003B42F8 /* CurrencyIcon.swift in Sources */,
 				A0C8E58B271FFAEE00848FCB /* SignInViewController.swift in Sources */,
 				A0C8E59627200ED300848FCB /* ColorButton.swift in Sources */,
 				4A252CCC273F96A4005E4C93 /* Utils.swift in Sources */,
@@ -860,10 +902,12 @@
 				A09D70E3272518F700ACE44A /* LinkCardView.swift in Sources */,
 				4A741C0E27CB46B300594A5D /* TradeHistoryTableViewCell.swift in Sources */,
 				4A252CCA273F9209005E4C93 /* AlertBuilder.swift in Sources */,
+				4A6C9F1627CD288C003B42F8 /* FollowService.swift in Sources */,
 				4A581C9A27CBD25F00276BA9 /* SearchUserCollectionView.swift in Sources */,
 				4A5FE1F827365E0F004AD836 /* LinkExchangeViewController.swift in Sources */,
 				A08E8E652778E25E0041AC61 /* Registration.swift in Sources */,
 				A0C8E559271FF18900848FCB /* AppDelegate.swift in Sources */,
+				4A6C9F1C27CD2B33003B42F8 /* FollowPortfolio.swift in Sources */,
 				A0DAD5BA277861FD00CD8760 /* Coordinator.swift in Sources */,
 				A0C1FB6D27647EC700C4201A /* HttpResponseTargetType.swift in Sources */,
 				A0C1FB7427649B0F00C4201A /* AuthService.swift in Sources */,
