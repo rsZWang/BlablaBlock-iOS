@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ResponseSuccess: Decodable {
+public struct ResponseSuccess: Decodable {
     
     let code: Int  // API status
     

@@ -18,4 +18,18 @@ public class Utils {
         }
     }
     
+    public static func getThreadName() -> String {
+        if Thread.current.isMainThread {
+            return "Main Thread"
+        } else if let name = Thread.current.name {
+            if name == "" {
+                return "Anonymous Thread"
+            } else {
+                return name
+            }
+        } else {
+            return "Unknown Thread"
+        }
+    }
+    
 }

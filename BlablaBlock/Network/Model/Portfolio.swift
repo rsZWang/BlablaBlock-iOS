@@ -8,14 +8,14 @@
 import Foundation
 import UIKit
 
-struct Portfolio: Decodable {
+public struct Portfolio: Decodable {
 
     let code: Int
     let data: PortfolioData
     
 }
 
-struct PortfolioData: Decodable {
+public struct PortfolioData: Decodable {
     
     let percentage: Double
     let totalValue: String
@@ -146,7 +146,7 @@ struct PortfolioData: Decodable {
     
 }
 
-struct PortfolioAsset: Decodable, Equatable {
+public struct PortfolioAsset: Decodable, Equatable {
     
     let entryPrice: String?
     let currentPrice: String?
@@ -160,7 +160,7 @@ struct PortfolioAsset: Decodable, Equatable {
     
 }
 
-struct PortfolioViewData: Equatable {
+public struct PortfolioViewData: Equatable {
     
     let exchange: ExchangeType
     let type: PortfolioType
@@ -172,7 +172,7 @@ struct PortfolioViewData: Equatable {
     
 }
 
-enum PortfolioType: String, Equatable {
+public enum PortfolioType: String, Equatable {
     
     case all = "all"
     case spot = "spot"              // 現貨

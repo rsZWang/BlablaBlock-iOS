@@ -5,7 +5,7 @@
 //  Created by YINGHAO WANG on 2021/12/26.
 //
 
-struct ExchangeApi: Decodable {
+public struct ExchangeApi: Decodable {
     let code: Int
     let data: [ExchangeApiData]
     
@@ -21,7 +21,7 @@ struct ExchangeApi: Decodable {
     }
 }
 
-struct ExchangeApiData: Decodable {
+public struct ExchangeApiData: Decodable {
     
     let id: Int
     let exchange: String
@@ -35,7 +35,7 @@ struct ExchangeApiData: Decodable {
     }
 }
 
-enum ExchangeType: String, Equatable {
+public enum ExchangeType: String, Equatable {
     
     case all = "all"
     case binance = "binance"

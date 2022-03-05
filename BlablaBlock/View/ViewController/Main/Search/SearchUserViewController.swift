@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Resolver
 
 final class SearchUserViewController: BaseViewController {
     
@@ -45,6 +46,8 @@ final class SearchUserViewController: BaseViewController {
         return collectionView
     }()
     
+    @Injected var  viewModel: UserViewModelType
+    
     deinit {
         Timber.i("\(type(of: self)) deinit")
     }
@@ -52,6 +55,7 @@ final class SearchUserViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        viewModel.inputs.viewDidLoad.accept(())
     }
     
     private func setupUI() {

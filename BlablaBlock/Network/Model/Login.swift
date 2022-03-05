@@ -5,14 +5,14 @@
 //  Created by YINGHAO WANG on 2021/12/25.
 //
 
-struct Login: Decodable {
+public struct Login: Decodable {
     
     let code: Int
     let data: LoginData
     
 }
 
-struct LoginData: Decodable {
+public struct LoginData: Decodable {
     
     let apiToken: String
     let userId: Int

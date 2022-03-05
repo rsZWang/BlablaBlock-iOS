@@ -47,9 +47,11 @@ final class TradeHistoryViewController: BaseViewController {
                 tableView.rx.items(
                     cellIdentifier: TradeHistoryTableView.reuseIdentifier,
                     cellType: TradeHistoryTableViewCell.self
-                )) { (row, element, cell) in
+                ),
+                curriedArgument: { (row, element, cell) in
                     cell.bind(history: element)
                 }
+            ) 
             .disposed(by: disposeBag)
     }
     

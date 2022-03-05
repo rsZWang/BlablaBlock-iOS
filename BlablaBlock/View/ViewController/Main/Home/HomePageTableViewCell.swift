@@ -9,6 +9,8 @@ import UIKit
 
 final class HomePageTableViewCell: UITableViewCell {
     
+    static let reuseIdentifier = "HomePageTableViewCell"
+    
     private let bgView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 6
@@ -21,7 +23,6 @@ final class HomePageTableViewCell: UITableViewCell {
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "ic_profile_avatar_placeholder")
-        imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 15
         imageView.clipsToBounds = true
         return imageView

@@ -79,10 +79,9 @@ final class StatisticsViewController: BaseViewController {
         
         Observable.merge(
             followerSection.rx.tapGesture().when(.recognized),
-            shareButton.rx.tapGesture().when(.recognized),
             followingButton.rx.tapGesture().when(.recognized)
         ).subscribe(onNext: { [weak self] _ in
-            self?.promptAlert(message: "此功能尚未開放")
+            self?.mainCoordinator.showFollow()
         }).disposed(by: disposeBag)
         
         shareButton.rx

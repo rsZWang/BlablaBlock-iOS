@@ -13,7 +13,6 @@ final class SearchUserCollectionViewCell: UICollectionViewCell {
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "ic_profile_avatar_placeholder")
-        imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 30
         imageView.clipsToBounds = true
         return imageView

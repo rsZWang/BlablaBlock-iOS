@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct PNL: Decodable {
+public struct PNL: Decodable {
     
     let code: Int
     let data: PNLData
     
 }
 
-struct PNLData: Decodable {
+public struct PNLData: Decodable {
     
     let chartData: [PNLCharRawData]
     let roi: Double
@@ -95,7 +95,7 @@ struct PNLData: Decodable {
     
 }
 
-struct PNLCharRawData: Decodable {
+public struct PNLCharRawData: Decodable {
     
     let value: Double
     let timestamp: String
@@ -103,14 +103,14 @@ struct PNLCharRawData: Decodable {
 }
 
 
-struct PNLCharData {
+public struct PNLCharData {
     
     let value: Double
     let timestamp: Int
     
 }
 
-enum PNLPeriod: String {
+public enum PNLPeriod: String {
     
     case all = "all"
     case _1y = "1y"

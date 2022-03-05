@@ -17,6 +17,7 @@ target 'BlablaBlock' do
   pod 'IQKeyboardManager'
   pod 'SwiftCharts', '~> 0.6.5'
   pod 'Differ'
+  pod 'Tabman'
 
   # Network
   pod 'Moya/RxSwift'

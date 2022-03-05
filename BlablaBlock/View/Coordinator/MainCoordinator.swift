@@ -41,6 +41,11 @@ final class MainCoordinator: NSObject, Coordinator {
         }
     }
     
+    func showFollow() {
+        let vc = FollowViewController()
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
     func showTradeHistory() {
         let vc = TradeHistoryViewController()
         navigationController.pushViewController(vc, animated: true)

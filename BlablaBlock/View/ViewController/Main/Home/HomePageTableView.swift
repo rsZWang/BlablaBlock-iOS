@@ -9,8 +9,6 @@ import UIKit
 
 final class HomePageTableView: UITableView {
     
-    static let reuseIdentifier = "HomePageTableViewCell"
-    
     deinit {
         Timber.i("\(type(of: self)) deinit")
     }
@@ -24,7 +22,7 @@ final class HomePageTableView: UITableView {
         backgroundColor = nil
         contentInset = UIEdgeInsets(top: 16, left: 0, bottom: 0, right: 0)
         separatorStyle = .none
-        register(HomePageTableViewCell.self, forCellReuseIdentifier: HomePageTableView.reuseIdentifier)
+        register(HomePageTableViewCell.self, forCellReuseIdentifier: HomePageTableViewCell.reuseIdentifier)
     }
     
     override init(frame: CGRect, style: UITableView.Style) {

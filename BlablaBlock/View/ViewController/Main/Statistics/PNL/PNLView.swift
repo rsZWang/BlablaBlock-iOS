@@ -228,15 +228,19 @@ extension PNLView {
                 
                 let dateLabel = UILabel()
                 dateLabel.sizeToFit()
-                dateLabel.text = " \(chartPointWithScreenLoc.chartPoint.x.description)"
+                dateLabel.text = " \(chartPointWithScreenLoc.chartPoint.x.description) "
                 dateLabel.font = .systemFont(ofSize: 12)
+                dateLabel.adjustsFontSizeToFitWidth = true
+                dateLabel.numberOfLines = 1
                 dateLabel.textColor = .systemBlue
                 stackView.addArrangedSubview(dateLabel)
                 
                 let profitLabel = UILabel()
                 profitLabel.sizeToFit()
-                profitLabel.text = " \(chartPointWithScreenLoc.chartPoint.y.description)%"
+                profitLabel.text = " \(chartPointWithScreenLoc.chartPoint.y.description)% "
                 profitLabel.font = .systemFont(ofSize: 12)
+                profitLabel.adjustsFontSizeToFitWidth = true
+                profitLabel.numberOfLines = 1
                 profitLabel.textColor = .systemBlue
                 stackView.addArrangedSubview(profitLabel)
                 self?.currentPositionLabels.append(stackView)

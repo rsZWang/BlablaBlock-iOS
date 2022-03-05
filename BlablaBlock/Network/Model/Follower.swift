@@ -9,16 +9,16 @@ import Foundation
 
 public struct FollowerApi: Decodable {
     let code: Int
-    let data: [FollowerApiData]
+    let data: FollowerApiData
 }
 
 public struct FollowerApiData: Decodable {
-    let followers: FollowerApiDataFollower
-    let followings: FollowerApiDataFollower
+    let followers: [FollowerApiDataUser]
+    let followings: [FollowerApiDataUser]
 }
 
-public struct FollowerApiDataFollower: Decodable {
+public struct FollowerApiDataUser: Decodable {
     let userId: String
     let name: String
-    let isFollow: String
+    let isFollow: Bool
 }

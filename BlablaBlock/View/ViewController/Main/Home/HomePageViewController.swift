@@ -40,12 +40,17 @@ final class HomePageViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
+        setupLayout()
         setupBinding()
         homeViewModel.inputs.viewDidLoad.accept(())
+        
+//        let vc = FollowViewController()
+//        vc.modalTransitionStyle = .crossDissolve
+//        vc.modalPresentationStyle = .overFullScreen
+//        present(vc, animated: true, completion: nil)
     }
     
-    private func setupUI() {
+    private func setupLayout() {
         view.addSubview(statusBarSection)
         statusBarSection.snp.makeConstraints { make in
             make.height.equalTo(20)
@@ -77,11 +82,13 @@ final class HomePageViewController: BaseViewController {
             .notifications
             .drive(
                 tableView.rx.items(
-                    cellIdentifier: HomePageTableView.reuseIdentifier,
+                    cellIdentifier: HomePageTableViewCell.reuseIdentifier,
                     cellType: HomePageTableViewCell.self
-                )) { (row, element, cell) in
+                ),
+                curriedArgument: { (row, element, cell) in
                     cell.bind(notification: element)
                 }
+            ) 
             .disposed(by: disposeBag)
     }
 

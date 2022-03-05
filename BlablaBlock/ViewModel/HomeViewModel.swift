@@ -59,22 +59,23 @@ final class HomeViewModel:
     }
     
     private func loadNotifications(notifications: BehaviorRelay<[NotificationApiData]>) {
-        FollowService.getNotifications()
-            .request()
-            .subscribe(
-                onSuccess: { [weak self] response in
-                    switch response {
-                    case let .success(historyApiResponse):
-                        notifications.accept(historyApiResponse.data)
-                    case let .failure(responseFailure):
-                        self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
-                    }
-                },
-                onFailure: { [weak self] error in
-                    self?.errorHandler(error: error)
-                }
-            )
-            .disposed(by: disposeBag)
+//        404
+//        FollowService.getNotifications()
+//            .request()
+//            .subscribe(
+//                onSuccess: { [weak self] response in
+//                    switch response {
+//                    case let .success(historyApiResponse):
+//                        notifications.accept(historyApiResponse.data)
+//                    case let .failure(responseFailure):
+//                        self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
+//                    }
+//                },
+//                onFailure: { [weak self] error in
+//                    self?.errorHandler(error: error)
+//                }
+//            )
+//            .disposed(by: disposeBag)
         
         let data = [
             NotificationApiData(

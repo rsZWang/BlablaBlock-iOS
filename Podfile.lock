@@ -96,6 +96,7 @@ PODS:
     - nanopb/encode (= 2.30908.0)
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
+  - Pageboy (3.6.2)
   - PromisesObjC (2.0.0)
   - Resolver (1.5.0)
   - RxCocoa (6.2.0):
@@ -109,6 +110,8 @@ PODS:
   - RxSwift (6.2.0)
   - SnapKit (5.0.1)
   - SwiftCharts (0.6.5)
+  - Tabman (2.11.1):
+    - Pageboy (~> 3.6.0)
 
 DEPENDENCIES:
   - Defaults
@@ -123,6 +126,7 @@ DEPENDENCIES:
   - RxSwift
   - SnapKit (~> 5.0.0)
   - SwiftCharts (~> 0.6.5)
+  - Tabman
 
 SPEC REPOS:
   trunk:
@@ -141,6 +145,7 @@ SPEC REPOS:
     - KeychainAccess
     - Moya
     - nanopb
+    - Pageboy
     - PromisesObjC
     - Resolver
     - RxCocoa
@@ -149,6 +154,7 @@ SPEC REPOS:
     - RxSwift
     - SnapKit
     - SwiftCharts
+    - Tabman
 
 SPEC CHECKSUMS:
   Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
@@ -166,6 +172,7 @@ SPEC CHECKSUMS:
   KeychainAccess: c0c4f7f38f6fc7bbe58f5702e25f7bd2f65abf51
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
+  Pageboy: cf121b9dd48c63f3f281b2a9ec93d02e0f23879b
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   Resolver: 68984624572763018fd8ec7b8e3e8df0e3b6bba5
   RxCocoa: 4baf94bb35f2c0ab31bc0cb9f1900155f646ba42
@@ -174,7 +181,8 @@ SPEC CHECKSUMS:
   RxSwift: d356ab7bee873611322f134c5f9ef379fa183d8f
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftCharts: 2e755ea292f0b87d3e4b2c1eb5afc080a20cdc15
+  Tabman: 792ac76fd1ec95af175c93db880a3c47cabedc91
 
-PODFILE CHECKSUM: b88d66c90d74b3a8b7ea291cd0a31be9c3c673ff
+PODFILE CHECKSUM: 4ec6f324f6bb07f13a351d17121cb9223d28c320
 
 COCOAPODS: 1.11.2
