@@ -20,7 +20,7 @@ extension Resolver: ResolverRegistering {
         register { HomeViewModel() }.scope(.unique)
         
         // Search user
-        register { UserViewModel() as UserViewModelType }.scope(.shared)
+        register { UserViewModel() as UserViewModelType }.scope(.unique)
         
         // Follow
         register { FollowViewModel() as FollowViewModelType }.scope(.unique)

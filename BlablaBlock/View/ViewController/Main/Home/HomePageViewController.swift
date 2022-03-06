@@ -10,28 +10,6 @@ import Resolver
 
 final class HomePageViewController: BaseViewController {
     
-    private let statusBarSection: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(named: "bg_gray")
-        return view
-    }()
-    
-    private let topSectionView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(named: "bg_gray")
-        return view
-    }()
-    
-    private let appNameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "BlablaBlock"
-        label.textColor = .black
-        label.font = .boldSystemFont(ofSize: 26)
-        return label
-    }()
-    
-    private let tableView: HomePageTableView = HomePageTableView()
-    
     @Injected var homeViewModel: HomeViewModel
     
     deinit {
@@ -43,11 +21,6 @@ final class HomePageViewController: BaseViewController {
         setupLayout()
         setupBinding()
         homeViewModel.inputs.viewDidLoad.accept(())
-        
-//        let vc = FollowViewController()
-//        vc.modalTransitionStyle = .crossDissolve
-//        vc.modalPresentationStyle = .overFullScreen
-//        present(vc, animated: true, completion: nil)
     }
     
     private func setupLayout() {
@@ -91,5 +64,27 @@ final class HomePageViewController: BaseViewController {
             ) 
             .disposed(by: disposeBag)
     }
+    
+    private let statusBarSection: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(named: "bg_gray")
+        return view
+    }()
+    
+    private let topSectionView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(named: "bg_gray")
+        return view
+    }()
+    
+    private let appNameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "BlablaBlock"
+        label.textColor = .black
+        label.font = .boldSystemFont(ofSize: 26)
+        return label
+    }()
 
+    private let tableView: HomePageTableView = HomePageTableView()
+    
 }

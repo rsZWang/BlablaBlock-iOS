@@ -10,6 +10,8 @@ import SnapKit
 
 final class SearchUserCollectionViewCell: UICollectionViewCell {
     
+    static let reuseIdentifier = "SearchUserCollectionViewCell"
+    
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "ic_profile_avatar_placeholder")
@@ -34,7 +36,7 @@ final class SearchUserCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let profitTitleLabel: UILabel = {
+    private let roiTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "總報酬"
         label.textColor = .black
@@ -43,17 +45,18 @@ final class SearchUserCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let profitLabel: UILabel = {
+    private let roiLabel: UILabel = {
         let label = UILabel()
         label.text = "9999999999999999999999"
         label.textColor = .black
         label.font = .systemFont(ofSize: 14)
         label.numberOfLines = 1
         label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .right
         return label
     }()
     
-    private let annualProfitTitleLabel: UILabel = {
+    private let annualRoiTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "年化報酬率"
         label.textColor = .black
@@ -62,13 +65,14 @@ final class SearchUserCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let annualProfitLabel: UILabel = {
+    private let annualRoiLabel: UILabel = {
         let label = UILabel()
         label.text = "9999999999999999999999"
         label.textColor = .black
         label.font = .systemFont(ofSize: 14)
         label.numberOfLines = 1
         label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .right
         return label
     }()
     
@@ -88,6 +92,7 @@ final class SearchUserCollectionViewCell: UICollectionViewCell {
         label.font = .systemFont(ofSize: 14)
         label.numberOfLines = 1
         label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .right
         return label
     }()
     
@@ -107,6 +112,7 @@ final class SearchUserCollectionViewCell: UICollectionViewCell {
         label.font = .systemFont(ofSize: 14)
         label.numberOfLines = 1
         label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .right
         return label
     }()
     
@@ -125,6 +131,7 @@ final class SearchUserCollectionViewCell: UICollectionViewCell {
         label.textColor = .black
         label.font = .systemFont(ofSize: 14)
         label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .right
         return label
     }()
     
@@ -134,10 +141,10 @@ final class SearchUserCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUI()
+        setupLayout()
     }
     
-    private func setupUI() {
+    private func setupLayout() {
         let width = (UIScreen.main.bounds.width / 2) - 24
         let bgView = UIView()
         bgView.backgroundColor = .white
@@ -158,7 +165,6 @@ final class SearchUserCollectionViewCell: UICollectionViewCell {
         avatarImageView.snp.makeConstraints { make in
             make.leading.top.equalToSuperview()
             make.width.height.equalTo(60)
-            
         }
         
         let nameStackView = UIStackView()
@@ -182,29 +188,29 @@ final class SearchUserCollectionViewCell: UICollectionViewCell {
             make.leading.trailing.bottom.equalToSuperview()
         }
 
-        let profitView = UIView()
-        profitView.addSubview(profitTitleLabel)
-        profitTitleLabel.snp.makeConstraints { make in
+        let roiView = UIView()
+        roiView.addSubview(roiTitleLabel)
+        roiTitleLabel.snp.makeConstraints { make in
             make.leading.top.bottom.equalToSuperview()
         }
-        profitView.addSubview(profitLabel)
-        profitLabel.snp.makeConstraints { make in
+        roiView.addSubview(roiLabel)
+        roiLabel.snp.makeConstraints { make in
             make.centerY.trailing.equalToSuperview()
-            make.leading.equalTo(profitTitleLabel.snp.trailing)
+            make.leading.equalTo(roiTitleLabel.snp.trailing)
         }
-        detailStackView.addArrangedSubview(profitView)
+        detailStackView.addArrangedSubview(roiView)
 
-        let annualProfitView = UIView()
-        annualProfitView.addSubview(annualProfitTitleLabel)
-        annualProfitTitleLabel.snp.makeConstraints { make in
+        let annualRoiView = UIView()
+        annualRoiView.addSubview(annualRoiTitleLabel)
+        annualRoiTitleLabel.snp.makeConstraints { make in
             make.leading.top.bottom.equalToSuperview()
         }
-        annualProfitView.addSubview(annualProfitLabel)
-        annualProfitLabel.snp.makeConstraints { make in
+        annualRoiView.addSubview(annualRoiLabel)
+        annualRoiLabel.snp.makeConstraints { make in
             make.centerY.trailing.equalToSuperview()
-            make.leading.equalTo(annualProfitTitleLabel.snp.trailing)
+            make.leading.equalTo(annualRoiTitleLabel.snp.trailing)
         }
-        detailStackView.addArrangedSubview(annualProfitView)
+        detailStackView.addArrangedSubview(annualRoiView)
 
         let mDDView = UIView()
         mDDView.addSubview(mDDTitleLabel)
@@ -241,5 +247,14 @@ final class SearchUserCollectionViewCell: UICollectionViewCell {
             make.leading.equalTo(sharpRatioTitleLabel.snp.trailing)
         }
         detailStackView.addArrangedSubview(sharpRateView)
+    }
+    
+    func bind(_ data: UserApiData) {
+        nameLabel.text = data.name
+        roiLabel.text = "\(data.roi.toPrettyPrecisedString())％"
+        annualRoiLabel.text = "\(data.roiAnnual.toPrettyPrecisedString())％"
+        mDDLabel.text = "\(data.mdd.toPrettyPrecisedString())％"
+        winRateLabel.text = "\(data.dailyWinRate.toPrettyPrecisedString())％"
+        sharpRatioLabel.text = "\(data.sharpeRatio.toPrettyPrecisedString())"
     }
 }

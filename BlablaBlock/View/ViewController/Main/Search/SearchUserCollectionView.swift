@@ -9,8 +9,6 @@ import UIKit
 
 final class SearchUserCollectionView: UICollectionView {
     
-    static let reuseIdentifier = "SearchUserCollectionViewCell"
-    
     deinit {
         Timber.i("\(type(of: self)) deinit")
     }
@@ -26,21 +24,10 @@ final class SearchUserCollectionView: UICollectionView {
         layout.minimumLineSpacing = 18
         self.init(frame: .zero, collectionViewLayout: layout)
         contentInset = UIEdgeInsets(top: 18, left: 14, bottom: 18, right: 14)
-        register(SearchUserCollectionViewCell.self, forCellWithReuseIdentifier: SearchUserCollectionView.reuseIdentifier)
-        dataSource = self
+        register(SearchUserCollectionViewCell.self, forCellWithReuseIdentifier: SearchUserCollectionViewCell.reuseIdentifier)
     }
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
-    }
-}
-
-extension SearchUserCollectionView: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        30
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        collectionView.dequeueReusableCell(withReuseIdentifier: SearchUserCollectionView.reuseIdentifier, for: indexPath)
     }
 }

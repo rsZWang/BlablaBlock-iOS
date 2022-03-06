@@ -140,6 +140,7 @@
 		4A581C9927CBD25F00276BA9 /* SearchUserCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserCollectionView.swift; sourceTree = "<group>"; };
 		4A581C9B27CBD28200276BA9 /* SearchUserCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkExchangeViewController.swift; sourceTree = "<group>"; };
+		4A61598627D4CEDE0085BF4D /* BlablaBlock.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BlablaBlock.entitlements; sourceTree = "<group>"; };
 		4A6C9F0E27CD09F3003B42F8 /* HomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
 		4A6C9F1127CD1209003B42F8 /* HomePageTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageTableView.swift; sourceTree = "<group>"; };
 		4A6C9F1327CD1277003B42F8 /* HomePageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageTableViewCell.swift; sourceTree = "<group>"; };
@@ -370,13 +371,13 @@
 			isa = PBXGroup;
 			children = (
 				4AA9F813276E473800D775F0 /* BaseViewModel.swift */,
-				4A6C9F1F27CD2EFD003B42F8 /* HomeViewModel.swift */,
 				4ABA209E273BDC5000F66DB9 /* AuthViewModel.swift */,
+				4A6C9F1F27CD2EFD003B42F8 /* HomeViewModel.swift */,
+				4A7A190927D331D400AF24A8 /* UserViewModel.swift */,
 				4A7744C4276FA1B50087A447 /* StatisticsViewModel.swift */,
-				4A7B8AA3276FBEB200756E05 /* ExchangeApiViewModel.swift */,
 				4A741C1127CB597500594A5D /* TradeHistoryViewModel.swift */,
 				4A7A190527D3098C00AF24A8 /* FollowViewModel.swift */,
-				4A7A190927D331D400AF24A8 /* UserViewModel.swift */,
+				4A7B8AA3276FBEB200756E05 /* ExchangeApiViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -536,6 +537,7 @@
 		A0C8E557271FF18900848FCB /* BlablaBlock */ = {
 			isa = PBXGroup;
 			children = (
+				4A61598627D4CEDE0085BF4D /* BlablaBlock.entitlements */,
 				A0C8E561271FF19000848FCB /* Assets.xcassets */,
 				A0290E232722F55B00A07224 /* Colors.xcassets */,
 				A0C8E566271FF19000848FCB /* Info.plist */,
@@ -1149,6 +1151,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BlablaBlock/BlablaBlock.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = QRN2TFCH8G;
@@ -1172,6 +1175,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BlablaBlock/BlablaBlock.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = QRN2TFCH8G;

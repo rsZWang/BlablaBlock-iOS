@@ -11,6 +11,68 @@ import Resolver
 
 final class SearchUserViewController: BaseViewController {
     
+    @Injected var viewModel: UserViewModelType
+    
+    deinit {
+        Timber.i("\(type(of: self)) deinit")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupLayout()
+        setupBinding()
+        viewModel.inputs.viewDidLoad.accept(())
+    }
+    
+    private func setupLayout() {
+        view.addSubview(statusBarSection)
+        statusBarSection.snp.makeConstraints { make in
+            make.height.equalTo(20)
+            make.leading.top.trailing.equalToSuperview()
+        }
+        
+        view.addSubview(topSearchSectionView)
+        topSearchSectionView.snp.makeConstraints { make in
+            make.top.equalTo(statusBarSection.snp.bottom)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(70)
+        }
+        
+        topSearchSectionView.addSubview(searchTitleLabel)
+        searchTitleLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(30)
+            make.centerY.equalToSuperview()
+        }
+
+        topSearchSectionView.addSubview(searchTextField)
+        searchTextField.snp.makeConstraints { make in
+            make.centerY.equalTo(searchTitleLabel)
+            make.leading.equalTo(searchTitleLabel.snp.trailing).offset(40)
+            make.trailing.equalToSuperview().offset(-26)
+        }
+        
+        view.addSubview(collectionView)
+        collectionView.snp.makeConstraints { make in
+            make.top.equalTo(topSearchSectionView.snp.bottom)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
+    }
+    
+    private func setupBinding() {
+        viewModel.outputs
+            .users
+            .drive(
+                collectionView.rx.items(
+                    cellIdentifier:  SearchUserCollectionViewCell.reuseIdentifier,
+                    cellType:  SearchUserCollectionViewCell.self
+                ),
+                curriedArgument: { (row, element, cell) in
+                    cell.bind(element)
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+
     private let statusBarSection: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(named: "bg_gray")
@@ -46,50 +108,4 @@ final class SearchUserViewController: BaseViewController {
         return collectionView
     }()
     
-    @Injected var  viewModel: UserViewModelType
-    
-    deinit {
-        Timber.i("\(type(of: self)) deinit")
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupUI()
-        viewModel.inputs.viewDidLoad.accept(())
-    }
-    
-    private func setupUI() {
-        view.addSubview(statusBarSection)
-        statusBarSection.snp.makeConstraints { make in
-            make.height.equalTo(20)
-            make.leading.top.trailing.equalToSuperview()
-        }
-        
-        view.addSubview(topSearchSectionView)
-        topSearchSectionView.snp.makeConstraints { make in
-            make.top.equalTo(statusBarSection.snp.bottom)
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(70)
-        }
-        
-        topSearchSectionView.addSubview(searchTitleLabel)
-        searchTitleLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(30)
-            make.centerY.equalToSuperview()
-        }
-
-        topSearchSectionView.addSubview(searchTextField)
-        searchTextField.snp.makeConstraints { make in
-            make.centerY.equalTo(searchTitleLabel)
-            make.leading.equalTo(searchTitleLabel.snp.trailing).offset(40)
-            make.trailing.equalToSuperview().offset(-26)
-        }
-        
-        view.addSubview(collectionView)
-        collectionView.snp.makeConstraints { make in
-            make.top.equalTo(topSearchSectionView.snp.bottom)
-            make.leading.trailing.bottom.equalToSuperview()
-        }
-    }
-
 }
