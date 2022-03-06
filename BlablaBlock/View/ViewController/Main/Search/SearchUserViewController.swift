@@ -59,6 +59,12 @@ final class SearchUserViewController: BaseViewController {
     }
     
     private func setupBinding() {
+        searchTextField.rx
+            .text
+            .orEmpty
+            .bind(to: viewModel.inputs.userName)
+            .disposed(by: disposeBag)
+        
         viewModel.outputs
             .users
             .drive(

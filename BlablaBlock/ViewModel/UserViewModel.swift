@@ -85,7 +85,6 @@ final class UserViewModel:
             )
             .disposed(by: disposeBag)
         
-        
         let mockUsers = [
             UserApiData(
                 userId: "001",
