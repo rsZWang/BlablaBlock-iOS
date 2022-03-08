@@ -25,6 +25,8 @@ final class SearchUserCollectionViewCell: UICollectionViewCell {
         label.text = "NAME"
         label.textColor = .black
         label.font = .boldSystemFont(ofSize: 22)
+        label.numberOfLines = 1
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -177,6 +179,7 @@ final class SearchUserCollectionViewCell: UICollectionViewCell {
         nameStackView.snp.makeConstraints { make in
             make.centerY.equalTo(avatarImageView)
             make.leading.equalTo(avatarImageView.snp.trailing).offset(8)
+            make.trailing.equalToSuperview()
         }
 
         let detailStackView = UIStackView()
@@ -250,11 +253,11 @@ final class SearchUserCollectionViewCell: UICollectionViewCell {
     }
     
     func bind(_ data: UserApiData) {
-        nameLabel.text = data.name
-        roiLabel.text = "\(data.roi.toPrettyPrecisedString())％"
-        annualRoiLabel.text = "\(data.roiAnnual.toPrettyPrecisedString())％"
-        mDDLabel.text = "\(data.mdd.toPrettyPrecisedString())％"
-        winRateLabel.text = "\(data.dailyWinRate.toPrettyPrecisedString())％"
-        sharpRatioLabel.text = "\(data.sharpeRatio.toPrettyPrecisedString())"
+        nameLabel.text = data.name ?? " "
+        roiLabel.text = "\(data.roi?.toPrettyPrecisedString() ?? "")％"
+        annualRoiLabel.text = "\(data.roiAnnual?.toPrettyPrecisedString() ?? "")％"
+        mDDLabel.text = "\(data.mdd?.toPrettyPrecisedString() ?? "")％"
+        winRateLabel.text = "\(data.dailyWinRate?.toPrettyPrecisedString() ?? "")％"
+        sharpRatioLabel.text = "\(data.sharpeRatio?.toPrettyPrecisedString() ?? "")"
     }
 }

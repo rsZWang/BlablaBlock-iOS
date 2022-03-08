@@ -7,14 +7,14 @@
 
 import Foundation
 
-public struct PNL: Decodable {
+public struct PNLApi: Decodable {
     
     let code: Int
-    let data: PNLData
+    let data: PNLApiData
     
 }
 
-public struct PNLData: Decodable {
+public struct PNLApiData: Decodable {
     
     let chartData: [PNLCharRawData]
     let roi: Double

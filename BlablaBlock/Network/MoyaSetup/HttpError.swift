@@ -9,10 +9,12 @@ import Foundation
 
 final class HttpError: Error {
     let code: Int
+    let message: String
     let body: Data
     
-    init(code: Int, body: Data) {
+    init(code: Int, message: String, body: Data) {
         self.code = code
+        self.message = message
         self.body = body
     }
 }

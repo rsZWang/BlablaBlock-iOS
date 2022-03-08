@@ -18,7 +18,7 @@ struct StatisticsService {
                 "exchange" : exchange
             ], encoding: URLEncoding.queryString)
         }
-        typealias SuccessType = Portfolio
+        typealias SuccessType = PortfolioApi
         typealias FailureType = ResponseFailure
         
         let exchange: String
@@ -34,7 +34,7 @@ struct StatisticsService {
                 "period" : period
             ], encoding: URLEncoding.queryString)
         }
-        typealias SuccessType = PNL
+        typealias SuccessType = PNLApi
         typealias FailureType = ResponseFailure
         
         let exchange: String

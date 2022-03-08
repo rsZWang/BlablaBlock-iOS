@@ -62,63 +62,65 @@ final class FollowViewModel:
             .disposed(by: disposeBag)
     }
     
-    private func loadFollowers(followers: BehaviorRelay<[FollowerApiDataUser]>, followings: BehaviorRelay<[FollowerApiDataUser]>) {
-//        404
-//        FollowService.getFollower()
-//            .request()
-//            .subscribe(
-//                onSuccess: { [weak self] response in
-//                    switch response {
-//                    case let .success(followerApiResponse):
-//                        let data = followerApiResponse.data
-//                        followers.accept(data.followers)
-//                        followings.accept(data.followings)
-//                    case let .failure(responseFailure):
-//                        self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
-//                    }
-//                },
-//                onFailure: { [weak self] error in
-//                    self?.errorHandler(error: error)
-//                }
+    private func loadFollowers(
+        followers: BehaviorRelay<[FollowerApiDataUser]>,
+        followings: BehaviorRelay<[FollowerApiDataUser]>
+    ) {
+        FollowService.getFollower()
+            .request()
+            .subscribe(
+                onSuccess: { [weak self] response in
+                    switch response {
+                    case let .success(followerApiResponse):
+                        let data = followerApiResponse.data
+                        followers.accept(data.followers)
+                        followings.accept(data.followings)
+                    case let .failure(responseFailure):
+                        self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
+                    }
+                },
+                onFailure: { [weak self] error in
+                    self?.errorHandler(error: error)
+                }
+            )
+            .disposed(by: disposeBag)
+        
+//        let followers_data = [
+//            FollowerApiDataUser(
+//                userId: "001",
+//                name: "小花",
+//                isFollow: true
+//            ),
+//            FollowerApiDataUser(
+//                userId: "002",
+//                name: "小明",
+//                isFollow: false
+//            ),
+//            FollowerApiDataUser(
+//                userId: "003",
+//                name: "小華",
+//                isFollow: true
 //            )
-//            .disposed(by: disposeBag)
-        
-        let followers_data = [
-            FollowerApiDataUser(
-                userId: "001",
-                name: "小花",
-                isFollow: true
-            ),
-            FollowerApiDataUser(
-                userId: "002",
-                name: "小明",
-                isFollow: false
-            ),
-            FollowerApiDataUser(
-                userId: "003",
-                name: "小華",
-                isFollow: true
-            )
-        ]
-        followers.accept(followers_data)
-        
-        let followings_data = [
-            FollowerApiDataUser(
-                userId: "003",
-                name: "小華",
-                isFollow: true
-            ),
-            FollowerApiDataUser(
-                userId: "002",
-                name: "小強",
-                isFollow: true
-            ),
-            FollowerApiDataUser(
-                userId: "001",
-                name: "小花",
-                isFollow: true
-            )
-        ]
-        followings.accept(followings_data)
+//        ]
+//        followers.accept(followers_data)
+//
+//        let followings_data = [
+//            FollowerApiDataUser(
+//                userId: "003",
+//                name: "小華",
+//                isFollow: true
+//            ),
+//            FollowerApiDataUser(
+//                userId: "002",
+//                name: "小強",
+//                isFollow: true
+//            ),
+//            FollowerApiDataUser(
+//                userId: "001",
+//                name: "小花",
+//                isFollow: true
+//            )
+//        ]
+//        followings.accept(followings_data)
     }
 }

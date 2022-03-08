@@ -11,6 +11,7 @@ import Resolver
 
 final class SearchUserViewController: BaseViewController {
     
+    @Injected var coordinator: MainCoordinator
     @Injected var viewModel: UserViewModelType
     
     deinit {
@@ -65,17 +66,27 @@ final class SearchUserViewController: BaseViewController {
             .bind(to: viewModel.inputs.userName)
             .disposed(by: disposeBag)
         
+        collectionView.rx
+            .itemSelected
+            .bind(to: viewModel.inputs.selectedIndexPath)
+            .disposed(by: disposeBag)
+        
         viewModel.outputs
             .users
             .drive(
                 collectionView.rx.items(
-                    cellIdentifier:  SearchUserCollectionViewCell.reuseIdentifier,
-                    cellType:  SearchUserCollectionViewCell.self
+                    cellIdentifier: SearchUserCollectionViewCell.reuseIdentifier,
+                    cellType: SearchUserCollectionViewCell.self
                 ),
                 curriedArgument: { (row, element, cell) in
                     cell.bind(element)
                 }
             )
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs
+            .selectedUserId
+            .emit(onNext: coordinator.showPortfolioBy)
             .disposed(by: disposeBag)
     }
 

@@ -1,36 +1,15 @@
 //
-//  StatisticsViewModel.swift
+//  FollowerViewModel.swift
 //  BlablaBlock
 //
-//  Created by Harry on 2021/12/20.
+//  Created by Harry@rooit on 2022/3/9.
 //
 
 import Resolver
 import RxCocoa
 import RxSwift
 
-public protocol StatisticsViewModelInputs {
-    var viewDidLoad: PublishRelay<()> { get }
-    var historyBtnTap: PublishRelay<()> { get }
-    var exchangeFilter: BehaviorRelay<ExchangeType> { get }
-    var portfolioType: BehaviorRelay<PortfolioType> { get }
-    var pnlPeriod: BehaviorRelay<PNLPeriod> { get }
-    var refresh: PublishRelay<()> { get }
-}
-
-public protocol StatisticsViewModelOutputs {
-    var portfolio: Signal<PortfolioViewData> { get }
-    var pnl: Signal<PNLApiData> { get }
-    var portfolioRefresh: Signal<Bool> { get }
-    var pnlRefresh: Signal<Bool> { get }
-}
-
-public protocol StatisticsViewModelType {
-    var inputs: StatisticsViewModelInputs { get }
-    var outputs: StatisticsViewModelOutputs { get }
-}
-
-final class StatisticsViewModel:
+final class FollowerViewModel:
     BaseViewModel,
     StatisticsViewModelInputs,
     StatisticsViewModelOutputs,
@@ -54,13 +33,14 @@ final class StatisticsViewModel:
     var outputs: StatisticsViewModelOutputs { self }
     
     // MARK: - internals
+    private let userId: String
     private let portfolioViewDataCache = BehaviorRelay<PortfolioApiData?>(value: nil)
     
     deinit {
         Timber.i("\(type(of: self)) deinit")
     }
     
-    override init() {
+    init(userId: String) {
         let viewDidLoad = PublishRelay<()>()
         let historyBtnTap = PublishRelay<()>()
         let exchangeFilter = BehaviorRelay<ExchangeType>(value: .all)
@@ -72,6 +52,7 @@ final class StatisticsViewModel:
         let pnlPeriod = BehaviorRelay<PNLPeriod>(value: .all)
         let pnl = PublishRelay<PNLApiData>()
         
+        self.userId = userId
         self.viewDidLoad = viewDidLoad
         self.historyBtnTap = historyBtnTap
         self.exchangeFilter = exchangeFilter
@@ -147,7 +128,8 @@ final class StatisticsViewModel:
     }
     
     func getPortfolio(portfolioRefresh: PublishRelay<Bool>) {
-        StatisticsService.getPortfolio(exchange: "all")
+        UserService.getPortfolioByID(userId: userId, exchange: "all")
+//        StatisticsService.getPortfolio(exchange: "all")
             .request()
             .subscribe(
                 onSuccess: { [weak self] response in
@@ -176,7 +158,8 @@ final class StatisticsViewModel:
         pnl: PublishRelay<PNLApiData>,
         pnlRefresh: PublishRelay<Bool>
     ) {
-        StatisticsService.getPNL(exchange: "all", period: period)
+        UserService.getPNLByID(userId: userId, exchange: "all", period: period)
+//        StatisticsService.getPNL(exchange: "all", period: period)
             .request()
             .subscribe(
                 onSuccess: { [weak self] response in
@@ -201,7 +184,7 @@ final class StatisticsViewModel:
     }
 }
 
-extension StatisticsViewModel: PortfolioViewDelegate {
+extension FollowerViewModel: PortfolioViewDelegate {
     func onExchangeFiltered(exchange: String) {
         exchangeFilter.accept(ExchangeType.init(rawValue: exchange)!)
     }
@@ -215,9 +198,8 @@ extension StatisticsViewModel: PortfolioViewDelegate {
     }
 }
 
-extension StatisticsViewModel: PNLViewDelegate {
+extension FollowerViewModel: PNLViewDelegate {
     func onPeriodFiltered(period: String) {
         pnlPeriod.accept(PNLPeriod.init(rawValue: period)!)
     }
 }
-

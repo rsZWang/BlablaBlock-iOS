@@ -79,11 +79,18 @@ public extension HttpResponseTargetType {
             let successBody = try decoder.decode(S.self, from: response.data)
             return Result.success(HttpResponse.success(successBody))
         } catch {
+            Timber.e(error)
             let failureBody = try? decoder.decode(F.self, from: response.data)
             if let failureBody = failureBody {
                 return Result.success(HttpResponse.failure(failureBody))
             } else {
-                return Result.failure(HttpError(code: response.statusCode, body: response.data))
+                return Result.failure(
+                    HttpError(
+                        code: response.statusCode,
+                        message: error.localizedDescription,
+                        body: response.data
+                    )
+                )
             }
         }
     }

@@ -41,13 +41,20 @@ final class MainCoordinator: NSObject, Coordinator {
         }
     }
     
-    func showFollow() {
+    func showFollow(isFollower: Bool) {
         let vc = FollowViewController()
+        vc.isFollower = isFollower
         navigationController.pushViewController(vc, animated: true)
     }
     
     func showTradeHistory() {
         let vc = TradeHistoryViewController()
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func showPortfolioBy(id: String) {
+        let vc = mainSB.instantiateViewController(withIdentifier: "StatisticsViewController") as! StatisticsViewController
+        vc.userId = id
         navigationController.pushViewController(vc, animated: true)
     }
     

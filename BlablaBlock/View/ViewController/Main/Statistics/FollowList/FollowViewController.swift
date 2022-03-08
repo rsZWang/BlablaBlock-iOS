@@ -13,6 +13,7 @@ import Pageboy
 final class FollowViewController: BaseTabViewController {
     
     @Injected var viewModel: FollowViewModelType
+    var isFollower: Bool!
     private var originNavigationBarColor: UIColor?
     
     deinit {
@@ -113,7 +114,7 @@ extension FollowViewController: PageboyViewControllerDataSource, TMBarDataSource
     }
 
     func defaultPage(for pageboyViewController: PageboyViewController) -> PageboyViewController.Page? {
-        nil
+        PageboyViewController.Page.at(index: isFollower ? 0 : 1)
     }
 
     func barItem(for bar: TMBar, at index: Int) -> TMBarItemable {

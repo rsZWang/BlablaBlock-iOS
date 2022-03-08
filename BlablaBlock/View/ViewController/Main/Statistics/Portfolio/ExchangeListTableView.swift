@@ -10,17 +10,17 @@ import Differ
 
 final class ExchangeListTableView: UITableView {
     
-    private var dataList = [PortfolioViewData]()
+    private var dataList = [PortfolioAssetViewData]()
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         contentInset = UIEdgeInsets(top: 15, left: 0, bottom: 0, right: 0)
         register(UINib(nibName: "ExchangeListTableViewCell", bundle: nil), forCellReuseIdentifier: "ExchangeListTableViewCell")
-        dataSource = self
+//        dataSource = self
     }
     
-    func bind(data: [PortfolioViewData]) {
-        let oldData = [PortfolioViewData](self.dataList)
+    func bind(data: [PortfolioAssetViewData]) {
+        let oldData = [PortfolioAssetViewData](self.dataList)
         self.dataList.removeAll()
         self.dataList.append(contentsOf: data)
         animateRowChanges(
@@ -33,19 +33,19 @@ final class ExchangeListTableView: UITableView {
 
 }
 
-extension ExchangeListTableView: UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        dataList.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ExchangeListTableViewCell", for: indexPath) as! ExchangeListTableViewCell
-        cell.bind(dataList[indexPath.row])
-        return cell
-    }
-    
-}
+//extension ExchangeListTableView: UITableViewDataSource {
+//
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        dataList.count
+//    }
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "ExchangeListTableViewCell", for: indexPath) as! ExchangeListTableViewCell
+//        cell.bind(dataList[indexPath.row])
+//        return cell
+//    }
+//
+//}
 
 class ExchangeListTableViewCell: UITableViewCell {
 
@@ -56,7 +56,7 @@ class ExchangeListTableViewCell: UITableViewCell {
     @IBOutlet weak var valueLabel: UILabel!
     @IBOutlet weak var rateLabel: UILabel!
     
-    func bind(_ portfolio: PortfolioViewData) {
+    func bind(_ portfolio: PortfolioAssetViewData) {
         nameLabel.text = portfolio.currency
         percentageLabel.text = "(\(portfolio.valueWeight)%)"
         amountLabel.text = portfolio.balance

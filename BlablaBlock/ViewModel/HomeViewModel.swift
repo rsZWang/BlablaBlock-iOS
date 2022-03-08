@@ -59,72 +59,21 @@ final class HomeViewModel:
     }
     
     private func loadNotifications(notifications: BehaviorRelay<[NotificationApiData]>) {
-//        404
-//        FollowService.getNotifications()
-//            .request()
-//            .subscribe(
-//                onSuccess: { [weak self] response in
-//                    switch response {
-//                    case let .success(historyApiResponse):
-//                        notifications.accept(historyApiResponse.data)
-//                    case let .failure(responseFailure):
-//                        self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
-//                    }
-//                },
-//                onFailure: { [weak self] error in
-//                    self?.errorHandler(error: error)
-//                }
-//            )
-//            .disposed(by: disposeBag)
-        
-        let data = [
-            NotificationApiData(
-                userId: 1,
-                name: "Name",
-                exchange: "binance",
-                currency: "ETH",
-                type: "spot",
-                timestamp: 1637901093,
-                side: "BUY",
-                price: "2925.2",
-                executedQty: "1.2"
-            ),
-            NotificationApiData(
-                userId: 2,
-                name: "Name Name",
-                exchange: "ftx",
-                currency: "ETH",
-                type: "spot",
-                timestamp: 1637901093,
-                side: "SELL",
-                price: "2925.2",
-                executedQty: "1.2"
-            ),
-            NotificationApiData(
-                userId: 3,
-                name: "Name Name Name",
-                exchange: "ftx",
-                currency: "ETH",
-                type: "spot",
-                timestamp: 1637901093,
-                side: "SELL",
-                price: "2925.2",
-                executedQty: "1.2"
-            ),
-            NotificationApiData(
-                userId: 4,
-                name: "Name Name Name Name",
-                exchange: "ftx",
-                currency: "ETH",
-                type: "spot",
-                timestamp: 1637901093,
-                side: "SELL",
-                price: "2925.2",
-                executedQty: "1.2"
+        FollowService.getNotifications()
+            .request()
+            .subscribe(
+                onSuccess: { [weak self] response in
+                    switch response {
+                    case let .success(historyApiResponse):
+                        notifications.accept(historyApiResponse.data)
+                    case let .failure(responseFailure):
+                        self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
+                    }
+                },
+                onFailure: { [weak self] error in
+                    self?.errorHandler(error: error)
+                }
             )
-        ]
-        notifications.accept(data)
+            .disposed(by: disposeBag)
     }
-    
-    
 }

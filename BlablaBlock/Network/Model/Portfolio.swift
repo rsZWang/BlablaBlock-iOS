@@ -8,18 +8,18 @@
 import Foundation
 import UIKit
 
-public struct Portfolio: Decodable {
+public struct PortfolioApi: Decodable {
 
     let code: Int
-    let data: PortfolioData
+    let data: PortfolioApiData
     
 }
 
-public struct PortfolioData: Decodable {
+public struct PortfolioApiData: Decodable {
     
     let percentage: Double
     let totalValue: String
-    let assets: [PortfolioAsset]
+    let assets: [PortfolioApiDataAsset]
     
     static var defaultProfitString: NSAttributedString {
         let rate = "+0%"
@@ -116,8 +116,8 @@ public struct PortfolioData: Decodable {
         return attribuedString
     }
     
-    func getViewData() -> [PortfolioViewData] {
-        var viewDataList = [PortfolioViewData]()
+    func getAssetsViewData() -> [PortfolioAssetViewData] {
+        var assetsViewData = [PortfolioAssetViewData]()
         var sortedAssets = assets
         sortedAssets.sort { $0.value.double > $1.value.double }
         for data in sortedAssets {
@@ -129,8 +129,8 @@ public struct PortfolioData: Decodable {
             } else {
                 unrealizedProfit = "N/A"
             }
-            viewDataList.append(
-                PortfolioViewData(
+            assetsViewData.append(
+                PortfolioAssetViewData(
                     exchange: ExchangeType.init(rawValue: data.exchange)!,
                     type: PortfolioType.init(rawValue: data.type)!,
                     currency: data.currency,
@@ -141,12 +141,12 @@ public struct PortfolioData: Decodable {
                 )
             )
         }
-        return viewDataList
+        return assetsViewData
     }
     
 }
 
-public struct PortfolioAsset: Decodable, Equatable {
+public struct PortfolioApiDataAsset: Decodable, Equatable {
     
     let entryPrice: String?
     let currentPrice: String?
@@ -161,6 +161,14 @@ public struct PortfolioAsset: Decodable, Equatable {
 }
 
 public struct PortfolioViewData: Equatable {
+    
+    let profit: NSAttributedString
+    let sum: NSAttributedString
+    let assets: [PortfolioAssetViewData]
+    
+}
+
+public struct PortfolioAssetViewData: Equatable {
     
     let exchange: ExchangeType
     let type: PortfolioType

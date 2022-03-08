@@ -11,7 +11,6 @@ import SnapKit
 
 public protocol PNLViewDelegate: NSObject {
     func onPeriodFiltered(period: String)
-    func onRefresh()
 }
 
 final class PNLView: UIView, NibOwnerLoadable {
@@ -33,11 +32,7 @@ final class PNLView: UIView, NibOwnerLoadable {
         return pickerView
     }()
     private var scrollView: UIScrollView!
-    let refreshControl: UIRefreshControl = {
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(onRefresh), for: .valueChanged)
-        return refreshControl
-    }()
+    let refreshControl = UIRefreshControl()
     
     weak var delegate: PNLViewDelegate?
     private lazy var displayFormatter: DateFormatter = {
@@ -81,7 +76,7 @@ final class PNLView: UIView, NibOwnerLoadable {
         pickerView.bind(textField: exchangePickerTextField)
     }
     
-    func bind(data: PNLData) {
+    func bind(data: PNLApiData) {
         DispatchQueue.global().async { [weak self] in
             self?.semaphore.wait()
             DispatchQueue.main.async {
@@ -129,12 +124,6 @@ final class PNLView: UIView, NibOwnerLoadable {
             make.top.bottom.equalToSuperview()
         }
     }
-    
-    @objc
-    private func onRefresh() {
-        delegate?.onRefresh()
-    }
-    
 }
 
 extension PNLView: PickerViewDelegate {
@@ -145,7 +134,7 @@ extension PNLView: PickerViewDelegate {
 
 extension PNLView {
     
-    func drawChart(data: PNLData) {
+    func drawChart(data: PNLApiData) {
         
         if let chart = chart {
             currentPositionLabels.forEach { $0.removeFromSuperview() }
