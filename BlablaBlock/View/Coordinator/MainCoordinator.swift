@@ -47,14 +47,14 @@ final class MainCoordinator: NSObject, Coordinator {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func showTradeHistory() {
+    func showTradeHistory(userId: String?) {
         let vc = TradeHistoryViewController()
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func showPortfolioBy(id: String) {
+    func showPortfolioBy(user: UserApiData) {
         let vc = mainSB.instantiateViewController(withIdentifier: "StatisticsViewController") as! StatisticsViewController
-        vc.userId = id
+        vc.user = user
         navigationController.pushViewController(vc, animated: true)
     }
     

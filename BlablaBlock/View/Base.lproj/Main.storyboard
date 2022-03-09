@@ -700,6 +700,7 @@
                         <outlet property="assetProfitLabel" destination="IId-Eo-acG" id="YxZ-or-DqP"/>
                         <outlet property="assetSumLabel" destination="POX-Ni-j7e" id="vEj-Zz-zCy"/>
                         <outlet property="avatarImageView" destination="fhr-V5-5pR" id="T6O-AR-RVI"/>
+                        <outlet property="followAndShareSection" destination="bkS-5Y-7t2" id="Fog-NL-k4o"/>
                         <outlet property="followerSection" destination="s4c-5W-B4Y" id="1By-9I-F33"/>
                         <outlet property="followingButton" destination="k4r-84-K8l" id="xxx-Qu-eV6"/>
                         <outlet property="followingSection" destination="bOt-0V-1la" id="R3i-yj-oh8"/>

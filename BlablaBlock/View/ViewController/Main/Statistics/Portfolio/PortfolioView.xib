@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -37,26 +37,26 @@
                                             <rect key="frame" x="0.0" y="0.0" width="344" height="40"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ev5-Ln-M3V" userLabel="Exchange Selector Section">
-                                                    <rect key="frame" x="0.0" y="10" width="111" height="20"/>
+                                                    <rect key="frame" x="0.0" y="10" width="101" height="20"/>
                                                     <subviews>
-                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="所有交易所" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pcp-Va-OcG">
-                                                            <rect key="frame" x="0.0" y="0.0" width="90" height="20"/>
+                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="所有交易所" textAlignment="center" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="pcp-Va-OcG">
+                                                            <rect key="frame" x="0.0" y="0.0" width="80" height="20"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="B0P-uJ-woX"/>
-                                                                <constraint firstAttribute="width" constant="90" id="WWm-H5-OKQ"/>
+                                                                <constraint firstAttribute="width" constant="80" id="WWm-H5-OKQ"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <textInputTraits key="textInputTraits"/>
                                                         </textField>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hCi-bh-YHc" userLabel="Separator View">
-                                                            <rect key="frame" x="90" y="0.0" width="1" height="20"/>
+                                                            <rect key="frame" x="80" y="0.0" width="1" height="20"/>
                                                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="1" id="Oo2-cX-MyL"/>
                                                             </constraints>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="V" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Qc-Wf-6DH">
-                                                            <rect key="frame" x="91" y="2" width="20" height="16"/>
+                                                            <rect key="frame" x="81" y="2" width="20" height="16"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="20" id="cQU-aM-za1"/>
                                                             </constraints>
@@ -90,26 +90,26 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yee-hK-xVv" userLabel="Type Selector Section">
-                                                    <rect key="frame" x="121" y="10" width="111" height="20"/>
+                                                    <rect key="frame" x="111" y="10" width="101" height="20"/>
                                                     <subviews>
-                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="所有類別" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PBn-yB-K2f">
-                                                            <rect key="frame" x="0.0" y="0.0" width="90" height="20"/>
+                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="所有類別" textAlignment="center" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="PBn-yB-K2f">
+                                                            <rect key="frame" x="0.0" y="0.0" width="80" height="20"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="90" id="Blh-z8-GHY"/>
+                                                                <constraint firstAttribute="width" constant="80" id="Blh-z8-GHY"/>
                                                                 <constraint firstAttribute="height" constant="20" id="WK9-6f-MHd"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <textInputTraits key="textInputTraits"/>
                                                         </textField>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WEf-u2-Epb" userLabel="Separator View">
-                                                            <rect key="frame" x="90" y="0.0" width="1" height="20"/>
+                                                            <rect key="frame" x="80" y="0.0" width="1" height="20"/>
                                                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="1" id="fwM-jX-sku"/>
                                                             </constraints>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="V" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eGA-4H-mn7">
-                                                            <rect key="frame" x="91" y="2" width="20" height="16"/>
+                                                            <rect key="frame" x="81" y="2" width="20" height="16"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="20" id="lue-Np-JuE"/>
                                                             </constraints>
@@ -142,10 +142,12 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2JQ-JN-Pty">
-                                                    <rect key="frame" x="273.5" y="0.0" width="70.5" height="40"/>
-                                                    <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="plain" title="History"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2JQ-JN-Pty" userLabel="History Button">
+                                                    <rect key="frame" x="304" y="0.0" width="40" height="40"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="2JQ-JN-Pty" secondAttribute="height" multiplier="1:1" id="2zc-a0-WtO"/>
+                                                    </constraints>
+                                                    <state key="normal" image="ic_refresh"/>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -270,6 +272,7 @@
         </view>
     </objects>
     <resources>
+        <image name="ic_refresh" width="12" height="11"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

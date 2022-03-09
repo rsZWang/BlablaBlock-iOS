@@ -60,42 +60,42 @@ final class TradeHistoryViewModel:
     }
     
     private func loadHistory(historyData: BehaviorRelay<[HistoryApiData]>) {
-//        StatisticsService.getTradeHistory()
-//            .request()
-//            .subscribe(onSuccess: { [weak self] response in
-//                switch response {
-//                case let .success(historyApiResponse):
-//                    historyData.accept(historyApiResponse.data)
-//                case let .failure(responseFailure):
-//                    self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
-//                }
-//            },
-//            onFailure: { [weak self] error in
-//                self?.errorHandler(error: error)
-//            }
-//        )
-//        .disposed(by: disposeBag)
+        StatisticsService.getTradeHistory()
+            .request()
+            .subscribe(onSuccess: { [weak self] response in
+                switch response {
+                case let .success(historyApiResponse):
+                    historyData.accept(historyApiResponse.data)
+                case let .failure(responseFailure):
+                    self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
+                }
+            },
+            onFailure: { [weak self] error in
+                self?.errorHandler(error: error)
+            }
+        )
+        .disposed(by: disposeBag)
         
-        let data = [
-            HistoryApiData(
-                exchange: "binance",
-                currency: "ETH",
-                type: "spot",
-                timestamp: 1637901093,
-                side: "BUY",
-                price: "2925.2",
-                executedQty: "1.2"
-            ),
-            HistoryApiData(
-                exchange: "ftx",
-                currency: "ETH",
-                type: "spot",
-                timestamp: 1637901093,
-                side: "SELL",
-                price: "2925.2",
-                executedQty: "1.2"
-            )
-        ]
-        historyData.accept(data)
+//        let data = [
+//            HistoryApiData(
+//                exchange: "binance",
+//                currency: "ETH",
+//                type: "spot",
+//                timestamp: 1637901093,
+//                side: "BUY",
+//                price: "2925.2",
+//                executedQty: "1.2"
+//            ),
+//            HistoryApiData(
+//                exchange: "ftx",
+//                currency: "ETH",
+//                type: "spot",
+//                timestamp: 1637901093,
+//                side: "SELL",
+//                price: "2925.2",
+//                executedQty: "1.2"
+//            )
+//        ]
+//        historyData.accept(data)
     }
 }

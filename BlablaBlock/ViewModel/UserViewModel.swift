@@ -16,7 +16,7 @@ public protocol UserViewModelInputs {
 
 public protocol UserViewModelOutputs {
     var users: Driver<[UserApiData]> { get }
-    var selectedUserId: Signal<String> { get }
+    var selectedUser: Signal<UserApiData> { get }
 }
 
 public protocol UserViewModelType {
@@ -40,7 +40,7 @@ final class UserViewModel:
     // MARK: - outputs
     
     var users: Driver<[UserApiData]>
-    var selectedUserId: Signal<String>
+    var selectedUser: Signal<UserApiData>
 
     var inputs: UserViewModelInputs { self }
     var outputs: UserViewModelOutputs { self }
@@ -50,13 +50,13 @@ final class UserViewModel:
         let userName = BehaviorRelay<String>(value: "")
         let selectedIndexPath = PublishRelay<IndexPath>()
         let users = BehaviorRelay<[UserApiData]>(value: [])
-        let selectedUserId = PublishRelay<String>()
+        let selectedUser = PublishRelay<UserApiData>()
         
         self.viewDidLoad = viewDidLoad
         self.userName = userName
         self.selectedIndexPath = selectedIndexPath
         self.users = users.asDriver()
-        self.selectedUserId = selectedUserId.asSignal()
+        self.selectedUser = selectedUser.asSignal()
         
         super.init()
         
@@ -76,9 +76,9 @@ final class UserViewModel:
         
         selectedIndexPath
             .map { indexPath in
-                String(users.value[indexPath.row].userId)
+                users.value[indexPath.row]
             }
-            .bind(to: selectedUserId)
+            .bind(to: selectedUser)
             .disposed(by: disposeBag)
     }
     

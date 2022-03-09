@@ -85,7 +85,7 @@ final class SearchUserViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         viewModel.outputs
-            .selectedUserId
+            .selectedUser
             .emit(onNext: coordinator.showPortfolioBy)
             .disposed(by: disposeBag)
     }

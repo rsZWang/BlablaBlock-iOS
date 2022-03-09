@@ -13,7 +13,7 @@ import RxSwift
 final class StatisticsViewController: BaseViewController {
     
     @Injected var mainCoordinator: MainCoordinator
-    var userId: String!
+    var user: UserApiData!
     var viewModel: StatisticsViewModelType!
 
     private let radioGroup = RadioButtonGroup()
@@ -21,6 +21,7 @@ final class StatisticsViewController: BaseViewController {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var assetProfitLabel: UILabel!
     @IBOutlet weak var assetSumLabel: UILabel!
+    @IBOutlet weak var followAndShareSection: UIView!
     @IBOutlet weak var followerSection: UIView!
     @IBOutlet weak var followingSection: UIView!
     @IBOutlet weak var shareButton: ColorButton!
@@ -47,22 +48,26 @@ final class StatisticsViewController: BaseViewController {
         Timber.i("\(type(of: self)) deinit")
     }
     
-//    init(viewModel: StatisticsViewModelType) {
-//        self.viewModel = viewModel
-//    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let userId = userId {
-            let viewModel = FollowerViewModel(userId: userId)
+        if let user = user {
+            let viewModel = FollowerViewModel(userId: String(user.userId))
             portfolioView.delegate = viewModel
             pnlView.delegate = viewModel
+//            if user.isFollow {
+//                shareButton.setTitle("追蹤中", for: .normal)
+//                shareButton.isSelected = true
+//            } else {
+//                shareButton.setTitle("追蹤", for: .normal)
+//                shareButton.isSelected = false
+//            }
             self.viewModel = viewModel
         } else {
             let viewModel = StatisticsViewModel()
             portfolioView.delegate = viewModel
             pnlView.delegate = viewModel
+            shareButton.removeFromSuperview()
             self.viewModel = viewModel
         }
         
@@ -119,6 +124,11 @@ final class StatisticsViewController: BaseViewController {
                 self?.promptAlert(message: "此功能尚未開放")
             }).disposed(by: disposeBag)
         
+        portfolioView.historyButton.rx
+            .tap
+            .bind(to: viewModel.inputs.historyBtnTap)
+            .disposed(by: disposeBag)
+        
         portfolioView.refreshControl.rx
             .controlEvent(.valueChanged)
             .bind(to: viewModel.inputs.refresh)
@@ -128,6 +138,8 @@ final class StatisticsViewController: BaseViewController {
             .controlEvent(.valueChanged)
             .bind(to: viewModel.inputs.refresh)
             .disposed(by: disposeBag)
+        
+        
         
         viewModel.outputs
             .portfolio
@@ -161,14 +173,12 @@ final class StatisticsViewController: BaseViewController {
             .emit(onNext: pnlView.bind)
             .disposed(by: disposeBag)
         
-        viewModel
-            .outputs
+        viewModel.outputs
             .portfolioRefresh
             .emit(to: portfolioView.refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
         
-        viewModel
-            .outputs
+        viewModel.outputs
             .pnlRefresh
             .emit(to: pnlView.refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
