@@ -33,7 +33,6 @@ final class StatisticsViewController: BaseViewController {
     @IBOutlet weak var followingButton: ColorButton!
     @IBOutlet weak var pagerSectionView: UIView!
     private lazy var portfolioView = PortfolioView()
-    private var tableView: ExchangeListTableView { portfolioView.tableView }
     private lazy var portfolioViewCell: PagedViewCell = {
         let cell = PagedViewCell()
         cell.setView(view: portfolioView)
@@ -45,7 +44,13 @@ final class StatisticsViewController: BaseViewController {
         cell.setView(view: pnlView)
         return cell
     }()
-    private lazy var pagedView = PagedView(pages: [portfolioViewCell, pnlViewCell])
+    private lazy var followingPortfolioView = PortfolioView()
+    private lazy var followingPortfolioViewCell: PagedViewCell = {
+        let cell = PagedViewCell()
+        cell.setView(view: followingPortfolioView)
+        return cell
+    }()
+    private lazy var pagedView = PagedView(pages: [portfolioViewCell, pnlViewCell, followingPortfolioView])
     
     deinit {
         Timber.i("\(type(of: self)) deinit")
@@ -74,6 +79,8 @@ final class StatisticsViewController: BaseViewController {
     private func setupUI() {
         portfolioView.delegate = self
         pnlView.delegate = self
+        followingPortfolioView.delegate = self
+        followingPortfolioView.backButton.isHidden = true
         radioGroup.delegate = self
         radioGroup.add(protfolioButton)
         radioGroup.add(pnlButton)
@@ -147,6 +154,11 @@ final class StatisticsViewController: BaseViewController {
             .bind(to: viewModel.inputs.refresh)
             .disposed(by: disposeBag)
         
+        followingPortfolioView.refreshControl.rx
+            .controlEvent(.valueChanged)
+            .bind(to: viewModel.inputs.followingPortfolioPull)
+            .disposed(by: disposeBag)
+        
         viewModel.outputs
             .user
             .observe(on: MainScheduler.asyncInstance)
@@ -184,7 +196,7 @@ final class StatisticsViewController: BaseViewController {
             .asObservable()
             .map { $0.assets }
             .bind(
-                to: tableView.rx.items(
+                to: portfolioView.tableView.rx.items(
                     cellIdentifier: "ExchangeListTableViewCell",
                     cellType: ExchangeListTableViewCell.self
                 ),
@@ -198,6 +210,21 @@ final class StatisticsViewController: BaseViewController {
             .pnl
             .emit(onNext: pnlView.bind)
             .disposed(by: disposeBag)
+        
+        viewModel.outputs
+            .followingPortfolio
+            .asObservable()
+            .map { $0.assets }
+            .bind(
+                to: followingPortfolioView.tableView.rx.items(
+                    cellIdentifier: "ExchangeListTableViewCell",
+                    cellType: ExchangeListTableViewCell.self
+                ),
+                curriedArgument: { (row, element, cell) in
+                    cell.bind(element)
+                }
+            )
+            .disposed(by: disposeBag)
 
         viewModel.outputs
             .portfolioRefresh
@@ -207,6 +234,11 @@ final class StatisticsViewController: BaseViewController {
         viewModel.outputs
             .pnlRefresh
             .emit(to: pnlView.refreshControl.rx.isRefreshing)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs
+            .followingPortfolioRefresh
+            .emit(to: followingPortfolioView.refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
 
         viewModel.outputs
@@ -238,16 +270,30 @@ extension StatisticsViewController {
 }
 
 extension StatisticsViewController: PortfolioViewDelegate {
-    func onExchangeFiltered(exchange: String) {
-        viewModel.inputs.exchangeFilter.accept(ExchangeType.init(rawValue: exchange)!)
+    func onExchangeFiltered(_ view: PortfolioView, exchange: String) {
+        let exchangeType = ExchangeType.init(rawValue: exchange)!
+        if view == portfolioView {
+            viewModel.inputs.exchangeFilter.accept(exchangeType)
+        } else {
+            viewModel.inputs.followingPortfolioExchangeFilter.accept(exchangeType)
+        }
     }
     
-    func onPortfolioTypeFiltered(type: String) {
-        viewModel.inputs.portfolioType.accept(PortfolioType.init(rawValue: type)!)
+    func onPortfolioTypeFiltered(_ view: PortfolioView, type: String) {
+        let filterType = PortfolioType.init(rawValue: type)!
+        if view == portfolioView {
+            viewModel.inputs.portfolioType.accept(filterType)
+        } else {
+            viewModel.inputs.followingPortfolioType.accept(filterType)
+        }
     }
     
-    func onTapHistory() {
-        viewModel.outputs.uiEvent.accept(.history)
+    func onTapHistory(_ view: PortfolioView) {
+        if view == portfolioView {
+            viewModel.outputs.uiEvent.accept(.history)
+        } else {
+            
+        }
     }
     
     func onTapBack() {
@@ -268,7 +314,7 @@ extension StatisticsViewController: RadioButtonGroupDelegate {
         } else if radioButton == pnlButton {
             pagedView.moveToPage(at: 1)
         } else {
-            radioGroup.lastButton.sendActions(for: .touchUpInside)
+            pagedView.moveToPage(at: 2)
         }
     }
 }

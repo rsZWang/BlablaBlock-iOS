@@ -264,6 +264,7 @@ final class HomePageTableViewCell: UITableViewCell {
             followButton.isSelected = false
         }
         nameLabel.text = notification.name
+        timestampCounterLabel.text = Date(timeIntervalSince1970: TimeInterval(notification.timestamp)).agoString()
         currencyLabel.attributedText = notification.getCurrencyString()
         timestampLabel.text = formatDateTime(timestamp: notification.timestamp)
         if notification.side == "BUY" {

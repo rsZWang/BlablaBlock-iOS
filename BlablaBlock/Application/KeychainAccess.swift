@@ -12,6 +12,7 @@ enum KeychainKey: String {
     case userEmail = "userEmail"
     case userPassword = "userPassword"
     case userName = "userName"
+    case userId = "userId"
 }
 
 let keychainUser = Keychain(server: HttpApiConfig.domain, protocolType: .https)

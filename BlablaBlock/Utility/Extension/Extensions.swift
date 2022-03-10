@@ -160,3 +160,32 @@ public extension NSError {
     }
     
 }
+
+public extension Date {
+    func agoString() -> String {
+
+        let current = Date()
+        let calendar = Calendar.current
+        let minuteAgo = calendar.date(byAdding: .minute, value: -1, to: current)!
+        let hourAgo = calendar.date(byAdding: .hour, value: -1, to: current)!
+        let dayAgo = calendar.date(byAdding: .day, value: -1, to: current)!
+        let weekAgo = calendar.date(byAdding: .day, value: -7, to: current)!
+
+        if minuteAgo < self {
+            let diff = Calendar.current.dateComponents([.second], from: self, to: current).second ?? 0
+            return "\(diff) 秒鐘前"
+        } else if hourAgo < self {
+            let diff = Calendar.current.dateComponents([.minute], from: self, to: current).minute ?? 0
+            return "\(diff) 分鐘前"
+        } else if dayAgo < self {
+            let diff = Calendar.current.dateComponents([.hour], from: self, to: current).hour ?? 0
+            return "\(diff) 個小時前"
+        } else if weekAgo < self {
+            let diff = Calendar.current.dateComponents([.day], from: self, to: current).day ?? 0
+            return "\(diff) 天前"
+        } else {
+            let diff = Calendar.current.dateComponents([.weekOfYear], from: self, to: current).weekOfYear ?? 0
+            return "\(diff) 個禮拜前"
+        }
+    }
+}

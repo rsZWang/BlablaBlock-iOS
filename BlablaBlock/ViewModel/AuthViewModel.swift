@@ -39,12 +39,13 @@ final class AuthViewModel: BaseViewModel {
             .subscribe(
                 onSuccess: { [weak self] response in
                     switch response {
-                    case let .success(registrationModel):
+                    case let .success(registrationApi):
                         self?.signIn(
                             userEmail: email,
                             userPassword: password,
-                            userToken: registrationModel.data.apiToken,
-                            userName: registrationModel.data.name
+                            userToken: registrationApi.data.apiToken,
+                            userName: registrationApi.data.name,
+                            userId: registrationApi.data.id
                         )
                     case let .failure(responseFailure):
                         self?.errorCodeHandler(responseFailure)
@@ -94,7 +95,8 @@ final class AuthViewModel: BaseViewModel {
                 userEmail: userEmail,
                 userPassword: userPassword,
                 userToken: login.data.apiToken,
-                userName: login.data.name ?? login.data.email
+                userName: login.data.name ?? login.data.email,
+                userId: login.data.userId
             )
         case let .failure(responseFailure):
             errorCodeHandler(responseFailure)
@@ -105,12 +107,14 @@ final class AuthViewModel: BaseViewModel {
         userEmail: String,
         userPassword: String,
         userToken: String,
-        userName: String
+        userName: String,
+        userId: Int
     ) {
         keychainUser[.userEmail] = userEmail
         keychainUser[.userPassword] = userPassword
         keychainUser[.userToken] = userToken
         keychainUser[.userName] = userName
+        keychainUser[.userId] = String(userId)
         successObservable.onNext(true)
     }
     

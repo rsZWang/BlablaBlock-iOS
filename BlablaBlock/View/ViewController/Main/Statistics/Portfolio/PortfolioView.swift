@@ -10,13 +10,13 @@ import RxSwift
 import RxGesture
 
 public protocol PortfolioViewDelegate: NSObject {
-    func onExchangeFiltered(exchange: String)
-    func onPortfolioTypeFiltered(type: String)
-    func onTapHistory()
+    func onExchangeFiltered(_ view: PortfolioView, exchange: String)
+    func onPortfolioTypeFiltered(_ view: PortfolioView, type: String)
+    func onTapHistory(_ view: PortfolioView)
     func onTapBack()
 }
 
-final class PortfolioView: UIView, NibOwnerLoadable {
+public final class PortfolioView: UIView, NibOwnerLoadable {
 
     @IBOutlet weak var exchangeFilterView: UIView!
     @IBOutlet weak var exchangeFilterTextField: UITextField!
@@ -80,7 +80,7 @@ final class PortfolioView: UIView, NibOwnerLoadable {
             .tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [unowned self] _ in
-                delegate?.onTapHistory()
+                delegate?.onTapHistory(self)
             })
             .disposed(by: disposeBag)
         
@@ -97,9 +97,9 @@ final class PortfolioView: UIView, NibOwnerLoadable {
 extension PortfolioView: PickerViewDelegate {
     func onSelected(index: Int, item: String) {
         if selector == 0 {
-            delegate?.onExchangeFiltered(exchange: ExchangeType.typeList[index])
+            delegate?.onExchangeFiltered(self, exchange: ExchangeType.typeList[index])
         } else {
-            delegate?.onPortfolioTypeFiltered(type: PortfolioType.typeList[index])
+            delegate?.onPortfolioTypeFiltered(self, type: PortfolioType.typeList[index])
         }
     }
 }
