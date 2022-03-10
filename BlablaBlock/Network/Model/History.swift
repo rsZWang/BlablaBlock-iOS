@@ -18,8 +18,8 @@ public struct HistoryApiData: Decodable {
     let type: String
     let timestamp: Int64
     let side: String
-    let price: String
-    let executedQty: String
+    let price: Double
+    let executedQty: Double
     
     func getCurrencyString() -> NSAttributedString {
         let attribuedString = NSMutableAttributedString()

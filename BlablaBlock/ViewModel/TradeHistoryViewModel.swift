@@ -10,6 +10,7 @@ import RxSwift
 
 public protocol TradeHistoryViewModelInputs {
     var viewDidLoad: PublishRelay<()> { get }
+    var userId: BehaviorRelay<Int?> { get }
 }
 
 public protocol TradeHistoryViewModelOutputs {
@@ -33,11 +34,12 @@ final class TradeHistoryViewModel:
     
     // MARK: - Inputs
     
-    public let viewDidLoad: PublishRelay<()>
+    let viewDidLoad: PublishRelay<()>
+    let userId: BehaviorRelay<Int?>
     
     // MARK: - Outputs
     
-    public let historyData: Driver<[HistoryApiData]>
+    let historyData: Driver<[HistoryApiData]>
     
     deinit {
         Timber.i("\(type(of: self)) deinit")
@@ -45,16 +47,22 @@ final class TradeHistoryViewModel:
     
     override init() {
         let viewDidLoad = PublishRelay<()>()
+        let userId = BehaviorRelay<Int?>(value: nil)
         let historyData = BehaviorRelay<[HistoryApiData]>(value: [])
         
         self.viewDidLoad = viewDidLoad
+        self.userId = userId
         self.historyData = historyData.asDriver()
         
         super.init()
         
         viewDidLoad
             .subscribe(onNext: { [weak self] in
-                self?.loadHistory(historyData: historyData)
+                if let userId = userId.value {
+                    self?.loadHistoryByID(userId, historyData: historyData)
+                } else {
+                    self?.loadHistory(historyData: historyData)
+                }
             })
             .disposed(by: disposeBag)
     }
@@ -75,27 +83,23 @@ final class TradeHistoryViewModel:
             }
         )
         .disposed(by: disposeBag)
-        
-//        let data = [
-//            HistoryApiData(
-//                exchange: "binance",
-//                currency: "ETH",
-//                type: "spot",
-//                timestamp: 1637901093,
-//                side: "BUY",
-//                price: "2925.2",
-//                executedQty: "1.2"
-//            ),
-//            HistoryApiData(
-//                exchange: "ftx",
-//                currency: "ETH",
-//                type: "spot",
-//                timestamp: 1637901093,
-//                side: "SELL",
-//                price: "2925.2",
-//                executedQty: "1.2"
-//            )
-//        ]
-//        historyData.accept(data)
+    }
+    
+    private func loadHistoryByID(_ id: Int, historyData: BehaviorRelay<[HistoryApiData]>) {
+        UserService.getTradeHistoryByID(userId: id)
+            .request()
+            .subscribe(onSuccess: { [weak self] response in
+                switch response {
+                case let .success(historyApiResponse):
+                    historyData.accept(historyApiResponse.data)
+                case let .failure(responseFailure):
+                    self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
+                }
+            },
+            onFailure: { [weak self] error in
+                self?.errorHandler(error: error)
+            }
+        )
+        .disposed(by: disposeBag)
     }
 }

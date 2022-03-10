@@ -9,12 +9,15 @@ import RxCocoa
 import RxSwift
 
 public protocol FollowViewModelInputs {
-    var viewDidLoad: PublishRelay<()> { get }
+    var viewWillAppear: PublishRelay<()> { get }
+    var userId: BehaviorRelay<Int?> { get }
 }
 
 public protocol FollowViewModelOutputs {
-    var followers: Driver<[FollowerApiDataUser]> { get }
-    var followings: Driver<[FollowerApiDataUser]> { get }
+    var followerAmount: Signal<Int> { get }
+    var followingAmount: Signal<Int> { get }
+    var followers: Driver<[FollowApiDataFollowUser]> { get }
+    var followings: Driver<[FollowApiDataFollowUser]> { get }
 }
 
 public protocol FollowViewModelType {
@@ -30,12 +33,15 @@ final class FollowViewModel:
 {
     // MARK: - inputs
     
-    var viewDidLoad: PublishRelay<()>
+    var viewWillAppear: PublishRelay<()>
+    var userId: BehaviorRelay<Int?>
     
     // MARK: - outputs
     
-    var followers: Driver<[FollowerApiDataUser]>
-    var followings: Driver<[FollowerApiDataUser]>
+    var followerAmount: Signal<Int>
+    var followingAmount: Signal<Int>
+    var followers: Driver<[FollowApiDataFollowUser]>
+    var followings: Driver<[FollowApiDataFollowUser]>
     
     var inputs: FollowViewModelInputs { self }
     var outputs: FollowViewModelOutputs { self }
@@ -45,26 +51,43 @@ final class FollowViewModel:
     }
     
     override init() {
-        let viewDidLoad = PublishRelay<()>()
-        let followers = BehaviorRelay<[FollowerApiDataUser]>(value: [])
-        let followings = BehaviorRelay<[FollowerApiDataUser]>(value: [])
+        let viewWillAppear = PublishRelay<()>()
+        let userId = BehaviorRelay<Int?>(value: nil)
+        let followerAmount = PublishRelay<Int>()
+        let followingAmount = PublishRelay<Int>()
+        let followers = BehaviorRelay<[FollowApiDataFollowUser]>(value: [])
+        let followings = BehaviorRelay<[FollowApiDataFollowUser]>(value: [])
         
-        self.viewDidLoad = viewDidLoad
+        self.viewWillAppear = viewWillAppear
+        self.userId = userId
+        self.followerAmount = followerAmount.asSignal()
+        self.followingAmount = followingAmount.asSignal()
         self.followers = followers.asDriver()
         self.followings = followings.asDriver()
         
         super.init()
         
-        viewDidLoad
+        viewWillAppear
             .subscribe(onNext: { [weak self] in
-                self?.loadFollowers(followers: followers, followings: followings)
+                if let userId = userId.value {
+                    
+                } else {
+                    self?.loadFollowers(
+                        followerAmount: followerAmount,
+                        followingAmount: followingAmount,
+                        followers: followers,
+                        followings: followings
+                    )
+                }
             })
             .disposed(by: disposeBag)
     }
     
     private func loadFollowers(
-        followers: BehaviorRelay<[FollowerApiDataUser]>,
-        followings: BehaviorRelay<[FollowerApiDataUser]>
+        followerAmount: PublishRelay<Int>,
+        followingAmount: PublishRelay<Int>,
+        followers: BehaviorRelay<[FollowApiDataFollowUser]>,
+        followings: BehaviorRelay<[FollowApiDataFollowUser]>
     ) {
         FollowService.getFollower()
             .request()
@@ -73,8 +96,10 @@ final class FollowViewModel:
                     switch response {
                     case let .success(followerApiResponse):
                         let data = followerApiResponse.data
-                        followers.accept(data.followers)
-                        followings.accept(data.followings)
+                        followerAmount.accept(data.followers.count)
+                        followingAmount.accept(data.followings.count)
+                        followers.accept(data.followers.list)
+                        followings.accept(data.followings.list)
                     case let .failure(responseFailure):
                         self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
                     }
@@ -84,43 +109,5 @@ final class FollowViewModel:
                 }
             )
             .disposed(by: disposeBag)
-        
-//        let followers_data = [
-//            FollowerApiDataUser(
-//                userId: "001",
-//                name: "小花",
-//                isFollow: true
-//            ),
-//            FollowerApiDataUser(
-//                userId: "002",
-//                name: "小明",
-//                isFollow: false
-//            ),
-//            FollowerApiDataUser(
-//                userId: "003",
-//                name: "小華",
-//                isFollow: true
-//            )
-//        ]
-//        followers.accept(followers_data)
-//
-//        let followings_data = [
-//            FollowerApiDataUser(
-//                userId: "003",
-//                name: "小華",
-//                isFollow: true
-//            ),
-//            FollowerApiDataUser(
-//                userId: "002",
-//                name: "小強",
-//                isFollow: true
-//            ),
-//            FollowerApiDataUser(
-//                userId: "001",
-//                name: "小花",
-//                isFollow: true
-//            )
-//        ]
-//        followings.accept(followings_data)
     }
 }

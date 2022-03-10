@@ -20,13 +20,18 @@ final class HomePageViewController: BaseViewController {
         super.viewDidLoad()
         setupLayout()
         setupBinding()
-        homeViewModel.inputs.viewDidLoad.accept(())
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        homeViewModel.inputs.viewWillAppear.accept(())
     }
     
     private func setupLayout() {
         view.addSubview(statusBarSection)
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
         statusBarSection.snp.makeConstraints { make in
-            make.height.equalTo(20)
+            make.height.equalTo(statusBarHeight)
             make.leading.top.trailing.equalToSuperview()
         }
         
@@ -61,7 +66,7 @@ final class HomePageViewController: BaseViewController {
                 curriedArgument: { (row, element, cell) in
                     cell.bind(notification: element)
                 }
-            ) 
+            )
             .disposed(by: disposeBag)
     }
     

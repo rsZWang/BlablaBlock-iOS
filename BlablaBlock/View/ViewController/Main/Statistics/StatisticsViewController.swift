@@ -13,8 +13,9 @@ import RxSwift
 final class StatisticsViewController: BaseViewController {
     
     @Injected var mainCoordinator: MainCoordinator
+    @Injected var viewModel: StatisticsViewModelType
+    @Injected var followViewModel: FollowViewModelType
     var user: UserApiData!
-    var viewModel: StatisticsViewModelType!
 
     private let radioGroup = RadioButtonGroup()
     @IBOutlet weak var avatarImageView: UIImageView!
@@ -23,7 +24,9 @@ final class StatisticsViewController: BaseViewController {
     @IBOutlet weak var assetSumLabel: UILabel!
     @IBOutlet weak var followAndShareSection: UIView!
     @IBOutlet weak var followerSection: UIView!
+    @IBOutlet weak var followerLabel: UILabel!
     @IBOutlet weak var followingSection: UIView!
+    @IBOutlet weak var followingLabel: UILabel!
     @IBOutlet weak var shareButton: ColorButton!
     @IBOutlet weak var protfolioButton: ColorButton!
     @IBOutlet weak var pnlButton: ColorButton!
@@ -50,109 +53,132 @@ final class StatisticsViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let user = user {
-            let viewModel = FollowerViewModel(userId: String(user.userId))
-            portfolioView.delegate = viewModel
-            pnlView.delegate = viewModel
-//            if user.isFollow {
-//                shareButton.setTitle("追蹤中", for: .normal)
-//                shareButton.isSelected = true
-//            } else {
-//                shareButton.setTitle("追蹤", for: .normal)
-//                shareButton.isSelected = false
-//            }
-            self.viewModel = viewModel
-        } else {
-            let viewModel = StatisticsViewModel()
-            portfolioView.delegate = viewModel
-            pnlView.delegate = viewModel
-            shareButton.removeFromSuperview()
-            self.viewModel = viewModel
-        }
-        
+        setupUI()
+        setupLayout()
+        setupBinding()
+        viewModel.outputs.user.accept(user)
+        viewModel.inputs.viewDidLoad.accept(())
+        followViewModel.inputs.userId.accept(user?.userId)
+        followViewModel.inputs.viewWillAppear.accept(())
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        avatarImageView.makeCircle()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    private func setupUI() {
+        portfolioView.delegate = self
+        pnlView.delegate = self
         radioGroup.delegate = self
         radioGroup.add(protfolioButton)
         radioGroup.add(pnlButton)
         radioGroup.add(followingButton)
-        
+    }
+    
+    private func setupUser(user: UserApiData?) {
+        if let user = user {
+            nameLabel.text = user.name
+            if user.isFollow {
+                shareButton.setTitle("追蹤中", for: .normal)
+                shareButton.isSelected = true
+            } else {
+                shareButton.setTitle("追蹤", for: .normal)
+                shareButton.isSelected = false
+            }
+            shareButton.isHidden = false
+            portfolioView.backButton.isHidden = false
+        } else {
+            nameLabel.text = keychainUser[.userName]
+            shareButton.isHidden = true
+            portfolioView.backButton.isHidden = true
+        }
+    }
+    
+    private func setupLayout() {
         pagerSectionView.addSubview(pagedView)
         pagerSectionView.snp.makeConstraints { make in
             make.edges.equalTo(pagedView)
         }
-        
-        nameLabel.text = keychainUser[.userName]
-        
-        setupBinding()
-        viewModel.inputs.viewDidLoad.accept(())
-
-//        statisticsViewModel.historyBtnObservable
-//            .subscribe(onNext: { [weak self] in
-//                self?.mainCoordinator.showTradeHistory()
-//            })
-//            .disposed(by: disposeBag)
     }
     
     private func setupBinding() {
-//        Observable.merge(
-//            followerSection.rx.tapGesture().when(.recognized),
-//            followingButton.rx.tapGesture().when(.recognized)
-//        ).subscribe(
-//            onNext: { [weak self] _ in
-//                self?.mainCoordinator.showFollow()
-//            }
-//        )
-//        .disposed(by: disposeBag)
-        
         followerSection.rx
             .tapGesture()
             .when(.recognized)
             .map { _ in true }
-            .subscribe(onNext: mainCoordinator.showFollow)
+            .subscribe(onNext: { [weak self] isFollower in
+                guard let self = self else { return }
+                self.mainCoordinator.showFollow(isFollower: isFollower, followViewModel: self.followViewModel)
+            })
             .disposed(by: disposeBag)
-        
+
         followingSection.rx
             .tapGesture()
             .when(.recognized)
             .map { _ in false }
-            .subscribe(onNext: mainCoordinator.showFollow)
+            .subscribe(onNext: { [weak self] isFollower in
+                guard let self = self else { return }
+                self.mainCoordinator.showFollow(isFollower: isFollower, followViewModel: self.followViewModel)
+            })
             .disposed(by: disposeBag)
-        
+
         shareButton.rx
             .tap
-            .subscribe(onNext: { [weak self] _ in
-                self?.promptAlert(message: "此功能尚未開放")
-            }).disposed(by: disposeBag)
-        
+            .bind(to: viewModel.inputs.shareBtnTap)
+            .disposed(by: disposeBag)
+
         portfolioView.historyButton.rx
             .tap
             .bind(to: viewModel.inputs.historyBtnTap)
             .disposed(by: disposeBag)
-        
+
         portfolioView.refreshControl.rx
             .controlEvent(.valueChanged)
             .bind(to: viewModel.inputs.refresh)
             .disposed(by: disposeBag)
-        
+
         pnlView.refreshControl.rx
             .controlEvent(.valueChanged)
             .bind(to: viewModel.inputs.refresh)
             .disposed(by: disposeBag)
         
+        viewModel.outputs
+            .user
+            .observe(on: MainScheduler.asyncInstance)
+            .subscribe(onNext: { [weak self] user in
+                self?.setupUser(user: user)
+            })
+            .disposed(by: disposeBag)
         
+        followViewModel.outputs
+            .followerAmount
+            .map { String($0) }
+            .emit(to: followerLabel.rx.text)
+            .disposed(by: disposeBag)
         
+        followViewModel.outputs
+            .followingAmount
+            .map { String($0) }
+            .emit(to: followingLabel.rx.text)
+            .disposed(by: disposeBag)
+
         viewModel.outputs
             .portfolio
             .map { $0.profit }
             .emit(to: assetProfitLabel.rx.attributedText)
             .disposed(by: disposeBag)
-            
+
         viewModel.outputs
             .portfolio
             .map { $0.sum }
             .emit(to: assetSumLabel.rx.attributedText)
             .disposed(by: disposeBag)
-        
+
         viewModel.outputs
             .portfolio
             .asObservable()
@@ -167,20 +193,27 @@ final class StatisticsViewController: BaseViewController {
                 }
             )
             .disposed(by: disposeBag)
-        
+
         viewModel.outputs
             .pnl
             .emit(onNext: pnlView.bind)
             .disposed(by: disposeBag)
-        
+
         viewModel.outputs
             .portfolioRefresh
             .emit(to: portfolioView.refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
-        
+
         viewModel.outputs
             .pnlRefresh
             .emit(to: pnlView.refreshControl.rx.isRefreshing)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs
+            .uiEvent
+            .subscribe(onNext: { [weak self] event in
+                self?.handleUiEvent(event)
+            })
             .disposed(by: disposeBag)
         
 //        statisticsViewModel.errorMessageObservable
@@ -191,14 +224,40 @@ final class StatisticsViewController: BaseViewController {
 //            })
 //            .disposed(by: disposeBag)
     }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        avatarImageView.makeCircle()
+}
+
+extension StatisticsViewController {
+    func handleUiEvent(_ event: StatisticsViewUiEvent) {
+        switch event {
+        case .history:
+            mainCoordinator.showTradeHistory(userId: user?.userId)
+        case .back:
+            pop()
+        }
+    }
+}
+
+extension StatisticsViewController: PortfolioViewDelegate {
+    func onExchangeFiltered(exchange: String) {
+        viewModel.inputs.exchangeFilter.accept(ExchangeType.init(rawValue: exchange)!)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    func onPortfolioTypeFiltered(type: String) {
+        viewModel.inputs.portfolioType.accept(PortfolioType.init(rawValue: type)!)
+    }
+    
+    func onTapHistory() {
+        viewModel.outputs.uiEvent.accept(.history)
+    }
+    
+    func onTapBack() {
+        viewModel.outputs.uiEvent.accept(.back)
+    }
+}
+
+extension StatisticsViewController: PNLViewDelegate {
+    func onPeriodFiltered(period: String) {
+        viewModel.inputs.pnlPeriod.accept(PNLPeriod.init(rawValue: period)!)
     }
 }
 

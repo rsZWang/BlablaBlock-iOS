@@ -12,7 +12,7 @@ import Pageboy
 
 final class FollowViewController: BaseTabViewController {
     
-    @Injected var viewModel: FollowViewModelType
+    var viewModel: FollowViewModelType!
     var isFollower: Bool!
     private var originNavigationBarColor: UIColor?
     
@@ -24,7 +24,6 @@ final class FollowViewController: BaseTabViewController {
         super.viewDidLoad()
         setupUI()
         setupBinding()
-        viewModel.inputs.viewDidLoad.accept(())
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -70,8 +69,9 @@ final class FollowViewController: BaseTabViewController {
     private func setupBinding() {
         viewModel.outputs
             .followers
-            .drive(
-                followersViewController.tableView.rx.items(
+            .asObservable()
+            .bind(
+                to: followersViewController.tableView.rx.items(
                     cellIdentifier: FollowListTableViewCell.reuseIdentifier,
                     cellType: FollowListTableViewCell.self
                 ),
@@ -83,8 +83,9 @@ final class FollowViewController: BaseTabViewController {
         
         viewModel.outputs
             .followings
-            .drive(
-                followingsViewController.tableView.rx.items(
+            .asObservable()
+            .bind(
+                to: followingsViewController.tableView.rx.items(
                     cellIdentifier: FollowListTableViewCell.reuseIdentifier,
                     cellType: FollowListTableViewCell.self
                 ),

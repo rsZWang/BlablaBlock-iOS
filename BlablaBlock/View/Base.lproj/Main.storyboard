@@ -320,10 +320,10 @@
             </objects>
             <point key="canvasLocation" x="2000" y="-146"/>
         </scene>
-        <!--Statistics View Controller-->
+        <!--Back-->
         <scene sceneID="EAZ-vw-ubg">
             <objects>
-                <viewController storyboardIdentifier="StatisticsViewController" title="Statistics View Controller" id="Csa-qC-qwM" customClass="StatisticsViewController" customModule="BlablaBlock" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="StatisticsViewController" title="Back" id="Csa-qC-qwM" customClass="StatisticsViewController" customModule="BlablaBlock" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="x2y-ff-1rG">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -416,16 +416,16 @@
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i3I-pa-rQL">
                                                                 <rect key="frame" x="0.0" y="0.0" width="122.66666666666667" height="40"/>
                                                                 <subviews>
-                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s4c-5W-B4Y" userLabel="Fans Section">
+                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s4c-5W-B4Y" userLabel="Follower Section">
                                                                         <rect key="frame" x="0.0" y="0.0" width="61.333333333333336" height="40"/>
                                                                         <subviews>
-                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="粉絲" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="C1y-ew-RuD" userLabel="Fans Title Label">
+                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="粉絲" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="C1y-ew-RuD" userLabel="Follower Title Label">
                                                                                 <rect key="frame" x="0.0" y="0.0" width="61.333333333333336" height="16"/>
                                                                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="12"/>
                                                                                 <nil key="textColor"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
-                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="3i7-fs-Lsb" userLabel="Fans Label">
+                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="3i7-fs-Lsb" userLabel="Follower Label">
                                                                                 <rect key="frame" x="0.0" y="16" width="61.333333333333336" height="24"/>
                                                                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="20"/>
                                                                                 <nil key="textColor"/>
@@ -444,16 +444,16 @@
                                                                             <constraint firstAttribute="trailing" secondItem="C1y-ew-RuD" secondAttribute="trailing" id="hmx-8c-nz0"/>
                                                                         </constraints>
                                                                     </view>
-                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bOt-0V-1la" userLabel="Followers Section">
+                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bOt-0V-1la" userLabel="Following Section">
                                                                         <rect key="frame" x="61.333333333333314" y="0.0" width="61.333333333333343" height="40"/>
                                                                         <subviews>
-                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="追蹤中" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="FO2-hL-HfH" userLabel="Followers Title Label">
+                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="追蹤中" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="FO2-hL-HfH" userLabel="Following Title Label">
                                                                                 <rect key="frame" x="0.0" y="0.0" width="61.333333333333336" height="16"/>
                                                                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="12"/>
                                                                                 <nil key="textColor"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
-                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="lLM-2e-1sg" userLabel="Followers Label">
+                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="lLM-2e-1sg" userLabel="Following Label">
                                                                                 <rect key="frame" x="0.0" y="16" width="61.333333333333336" height="24"/>
                                                                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="20"/>
                                                                                 <nil key="textColor"/>
@@ -505,13 +505,13 @@
                                                                     <userDefinedRuntimeAttribute type="color" keyPath="normalTitleColor">
                                                                         <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     </userDefinedRuntimeAttribute>
-                                                                    <userDefinedRuntimeAttribute type="color" keyPath="highlightedBgColor">
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="selectedBgColor">
                                                                         <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     </userDefinedRuntimeAttribute>
-                                                                    <userDefinedRuntimeAttribute type="color" keyPath="highlightedBorderColor">
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="selectedBorderColor">
                                                                         <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     </userDefinedRuntimeAttribute>
-                                                                    <userDefinedRuntimeAttribute type="color" keyPath="highlightedTitleColor">
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="selectedTitleColor">
                                                                         <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     </userDefinedRuntimeAttribute>
                                                                 </userDefinedRuntimeAttributes>
@@ -701,8 +701,10 @@
                         <outlet property="assetSumLabel" destination="POX-Ni-j7e" id="vEj-Zz-zCy"/>
                         <outlet property="avatarImageView" destination="fhr-V5-5pR" id="T6O-AR-RVI"/>
                         <outlet property="followAndShareSection" destination="bkS-5Y-7t2" id="Fog-NL-k4o"/>
+                        <outlet property="followerLabel" destination="3i7-fs-Lsb" id="7rU-Y1-Tcn"/>
                         <outlet property="followerSection" destination="s4c-5W-B4Y" id="1By-9I-F33"/>
                         <outlet property="followingButton" destination="k4r-84-K8l" id="xxx-Qu-eV6"/>
+                        <outlet property="followingLabel" destination="lLM-2e-1sg" id="AHa-ta-GMO"/>
                         <outlet property="followingSection" destination="bOt-0V-1la" id="R3i-yj-oh8"/>
                         <outlet property="nameLabel" destination="6o3-tU-T16" id="1cT-Mx-One"/>
                         <outlet property="pagerSectionView" destination="EUP-KZ-Khr" id="723-Sw-UpU"/>

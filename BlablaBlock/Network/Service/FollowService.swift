@@ -16,7 +16,7 @@ struct FollowService {
         var task: Task {
             .requestPlain
         }
-        typealias SuccessType = FollowerApi
+        typealias SuccessType = FollowApi
         typealias FailureType = ResponseFailure
     }
     
@@ -32,7 +32,7 @@ struct FollowService {
         typealias SuccessType = ResponseSuccess
         typealias FailureType = ResponseFailure
         
-        let userId: String
+        let userId: Int
     }
     
     struct unfollow: HttpResponseTargetType {
@@ -47,48 +47,6 @@ struct FollowService {
         typealias SuccessType = ResponseSuccess
         typealias FailureType = ResponseFailure
         
-        let userId: String
-    }
-    
-    struct getNotifications: HttpResponseTargetType {
-        var method: Method { .get }
-        var tokenType: TokenType { .user }
-        var path: String { "notifications" }
-        var task: Task {
-            .requestPlain
-        }
-        typealias SuccessType = NotificationApi
-        typealias FailureType = ResponseFailure
-    }
-    
-    struct getFollowPortfolio: HttpResponseTargetType {
-        var method: Method { .get }
-        var tokenType: TokenType { .user }
-        var path: String { "follow_portfolio" }
-        var task: Task {
-            .requestParameters(parameters: [
-                "exchange" : exchange
-            ], encoding: JSONEncoding.default)
-        }
-        typealias SuccessType = FollowPortfolioApi
-        typealias FailureType = ResponseFailure
-        
-        let exchange: String
-    }
-    
-    struct getFollowPortfolioByID: HttpResponseTargetType {
-        var method: Method { .get }
-        var tokenType: TokenType { .user }
-        var path: String { "follow_portfolio/\(userId)" }
-        var task: Task {
-            .requestParameters(parameters: [
-                "exchange" : exchange
-            ], encoding: JSONEncoding.default)
-        }
-        typealias SuccessType = FollowPortfolioApi
-        typealias FailureType = ResponseFailure
-        
-        let userId: String
-        let exchange: String
+        let userId: Int
     }
 }

@@ -13,6 +13,7 @@ public protocol PortfolioViewDelegate: NSObject {
     func onExchangeFiltered(exchange: String)
     func onPortfolioTypeFiltered(type: String)
     func onTapHistory()
+    func onTapBack()
 }
 
 final class PortfolioView: UIView, NibOwnerLoadable {
@@ -23,6 +24,7 @@ final class PortfolioView: UIView, NibOwnerLoadable {
     @IBOutlet weak var typeFilterTextField: UITextField!
     @IBOutlet weak var historyButton: UIButton!
     @IBOutlet weak var tableView: ExchangeListTableView!
+    @IBOutlet weak var backButton: ColorButton!
     private lazy var pickerView: PickerView = {
         let pickerView = PickerView()
         pickerView.pickerViewDelegate = self
@@ -79,6 +81,13 @@ final class PortfolioView: UIView, NibOwnerLoadable {
             .when(.recognized)
             .subscribe(onNext: { [unowned self] _ in
                 delegate?.onTapHistory()
+            })
+            .disposed(by: disposeBag)
+        
+        backButton.rx
+            .tap
+            .subscribe(onNext: { [unowned self] _ in
+                delegate?.onTapBack()
             })
             .disposed(by: disposeBag)
     }

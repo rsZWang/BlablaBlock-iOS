@@ -254,6 +254,7 @@ final class SearchUserCollectionViewCell: UICollectionViewCell {
     
     func bind(_ data: UserApiData) {
         nameLabel.text = data.name ?? " "
+        assetLabel.text = "\(data.totalValue.toPrettyPrecisedString()) USDT"
         roiLabel.text = "\(data.roi?.toPrettyPrecisedString() ?? "")％"
         annualRoiLabel.text = "\(data.roiAnnual?.toPrettyPrecisedString() ?? "")％"
         mDDLabel.text = "\(data.mdd?.toPrettyPrecisedString() ?? "")％"

@@ -27,8 +27,9 @@ final class SearchUserViewController: BaseViewController {
     
     private func setupLayout() {
         view.addSubview(statusBarSection)
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
         statusBarSection.snp.makeConstraints { make in
-            make.height.equalTo(20)
+            make.height.equalTo(statusBarHeight)
             make.leading.top.trailing.equalToSuperview()
         }
         

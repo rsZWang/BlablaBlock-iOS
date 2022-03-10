@@ -26,10 +26,10 @@ extension Resolver: ResolverRegistering {
         register { FollowViewModel() as FollowViewModelType }.scope(.unique)
         
         // Statistics
-        register { StatisticsViewModel() }.scope(.shared)
+        register { StatisticsViewModel() as StatisticsViewModelType }.scope(.unique)
         
         // Exchange Setting
-        register { ExchangeApiViewModel() }.scope(.shared)
+        register { ExchangeApiViewModel() }.scope(.unique)
         
         // TradeHistory
         register { TradeHistoryViewModel() }.scope(.unique)

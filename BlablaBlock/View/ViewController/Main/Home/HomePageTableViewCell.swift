@@ -47,12 +47,13 @@ final class HomePageTableViewCell: UITableViewCell {
     private let followButton: ColorButton = {
         let button = ColorButton()
         button.rounded = true
-        button.normalBgColor = .black
-        button.disabledBgColor = .darkGray
-        button.highlightedBgColor = .darkGray
-        button.normalTitleColor = .white
-        button.disabledTitleColor = .white
-        button.highlightedTitleColor = .white
+        button.normalBgColor = .white
+        button.selectedBgColor = .black
+        button.normalTitleColor = .black
+        button.selectedTitleColor = .white
+        button.borderColor = .black
+        button.border = true
+        button.borderWidth = 1
         button.setTitle("追蹤中", for: .normal)
         return button
     }()
@@ -255,6 +256,13 @@ final class HomePageTableViewCell: UITableViewCell {
     }
     
     func bind(notification: NotificationApiData) {
+        if notification.isFollow {
+            followButton.setTitle("追蹤中", for: .normal)
+            followButton.isSelected = true
+        } else {
+            followButton.setTitle("追蹤", for: .normal)
+            followButton.isSelected = false
+        }
         nameLabel.text = notification.name
         currencyLabel.attributedText = notification.getCurrencyString()
         timestampLabel.text = formatDateTime(timestamp: notification.timestamp)
@@ -267,9 +275,9 @@ final class HomePageTableViewCell: UITableViewCell {
         }
         exchangeLabel.text = notification.exchange.uppercased()
         priceTitleLabel.text = "價格"
-        priceLabel.text = "\(notification.price)"
+        priceLabel.text = notification.price.toPrettyPrecisedString()
         amountTitleLabel.text = "成交數量"
-        amountLabel.text = notification.executedQty
+        amountLabel.text = notification.executedQty.toPrettyPrecisedString()
     }
     
     private func formatDateTime(timestamp: Int64) -> String {

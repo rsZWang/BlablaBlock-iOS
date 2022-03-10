@@ -69,7 +69,7 @@ final class FollowListTableViewCell: UITableViewCell {
         }
     }
     
-    func bind(follow: FollowerApiDataUser) {
+    func bind(follow: FollowApiDataFollowUser) {
         userNameLabel.text = follow.name
         if follow.isFollow {
             followButton.isSelected = true

@@ -27,7 +27,7 @@
 		4A6C9F1227CD1209003B42F8 /* HomePageTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1127CD1209003B42F8 /* HomePageTableView.swift */; };
 		4A6C9F1427CD1277003B42F8 /* HomePageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1327CD1277003B42F8 /* HomePageTableViewCell.swift */; };
 		4A6C9F1627CD288C003B42F8 /* FollowService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1527CD288C003B42F8 /* FollowService.swift */; };
-		4A6C9F1827CD28D8003B42F8 /* Follower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1727CD28D8003B42F8 /* Follower.swift */; };
+		4A6C9F1827CD28D8003B42F8 /* Follow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1727CD28D8003B42F8 /* Follow.swift */; };
 		4A6C9F1A27CD2A3E003B42F8 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1927CD2A3E003B42F8 /* Notification.swift */; };
 		4A6C9F1C27CD2B33003B42F8 /* FollowPortfolio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1B27CD2B33003B42F8 /* FollowPortfolio.swift */; };
 		4A6C9F1E27CD2C94003B42F8 /* CurrencyIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1D27CD2C94003B42F8 /* CurrencyIcon.swift */; };
@@ -60,7 +60,7 @@
 		4AA9F814276E473800D775F0 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA9F813276E473800D775F0 /* BaseViewModel.swift */; };
 		4ABA209F273BDC5000F66DB9 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABA209E273BDC5000F66DB9 /* AuthViewModel.swift */; };
 		4ABA20A1273BDCB500F66DB9 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABA20A0273BDCB500F66DB9 /* String.swift */; };
-		4AEE577C27D7B841006D8313 /* FollowerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEE577B27D7B841006D8313 /* FollowerViewModel.swift */; };
+		4AEE577C27D7B841006D8313 /* UserStatisticsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEE577B27D7B841006D8313 /* UserStatisticsViewModel.swift */; };
 		4AFC6577276E7E3900ADEDA7 /* InputAlertBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFC6576276E7E3900ADEDA7 /* InputAlertBuilder.swift */; };
 		7C21BD24E9DFC3B795B0358B /* Pods_BlablaBlock_BlablaBlockUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD43244C5F0653EAD9217690 /* Pods_BlablaBlock_BlablaBlockUITests.framework */; };
 		A01B78E2277711880061E86A /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01B78E1277711880061E86A /* Login.swift */; };
@@ -146,7 +146,7 @@
 		4A6C9F1127CD1209003B42F8 /* HomePageTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageTableView.swift; sourceTree = "<group>"; };
 		4A6C9F1327CD1277003B42F8 /* HomePageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageTableViewCell.swift; sourceTree = "<group>"; };
 		4A6C9F1527CD288C003B42F8 /* FollowService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowService.swift; sourceTree = "<group>"; };
-		4A6C9F1727CD28D8003B42F8 /* Follower.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Follower.swift; sourceTree = "<group>"; };
+		4A6C9F1727CD28D8003B42F8 /* Follow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Follow.swift; sourceTree = "<group>"; };
 		4A6C9F1927CD2A3E003B42F8 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		4A6C9F1B27CD2B33003B42F8 /* FollowPortfolio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowPortfolio.swift; sourceTree = "<group>"; };
 		4A6C9F1D27CD2C94003B42F8 /* CurrencyIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyIcon.swift; sourceTree = "<group>"; };
@@ -179,7 +179,7 @@
 		4AA9F813276E473800D775F0 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		4ABA209E273BDC5000F66DB9 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		4ABA20A0273BDCB500F66DB9 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
-		4AEE577B27D7B841006D8313 /* FollowerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerViewModel.swift; sourceTree = "<group>"; };
+		4AEE577B27D7B841006D8313 /* UserStatisticsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStatisticsViewModel.swift; sourceTree = "<group>"; };
 		4AFC6576276E7E3900ADEDA7 /* InputAlertBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputAlertBuilder.swift; sourceTree = "<group>"; };
 		8A4F9FA2216368FC2234CB9B /* Pods_BlablaBlockTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlablaBlockTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C7DDF02B8A2C7ED2BA6233A /* Pods_BlablaBlock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlablaBlock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -377,9 +377,9 @@
 				4A6C9F1F27CD2EFD003B42F8 /* HomeViewModel.swift */,
 				4A7A190927D331D400AF24A8 /* UserViewModel.swift */,
 				4A7744C4276FA1B50087A447 /* StatisticsViewModel.swift */,
+				4AEE577B27D7B841006D8313 /* UserStatisticsViewModel.swift */,
 				4A741C1127CB597500594A5D /* TradeHistoryViewModel.swift */,
 				4A7A190527D3098C00AF24A8 /* FollowViewModel.swift */,
-				4AEE577B27D7B841006D8313 /* FollowerViewModel.swift */,
 				4A7B8AA3276FBEB200756E05 /* ExchangeApiViewModel.swift */,
 			);
 			path = ViewModel;
@@ -484,7 +484,7 @@
 				4A7744BE276F97520087A447 /* PNL.swift */,
 				A0DAD5BF27787A1800CD8760 /* Exchange.swift */,
 				4A741C0F27CB587300594A5D /* History.swift */,
-				4A6C9F1727CD28D8003B42F8 /* Follower.swift */,
+				4A6C9F1727CD28D8003B42F8 /* Follow.swift */,
 				4A6C9F1927CD2A3E003B42F8 /* Notification.swift */,
 				4A6C9F1B27CD2B33003B42F8 /* FollowPortfolio.swift */,
 				4A6C9F1D27CD2C94003B42F8 /* CurrencyIcon.swift */,
@@ -913,7 +913,7 @@
 				A01B78E2277711880061E86A /* Login.swift in Sources */,
 				4A7A190A27D331D400AF24A8 /* UserViewModel.swift in Sources */,
 				A0290E2F272319DE00A07224 /* StatisticsViewController.swift in Sources */,
-				4A6C9F1827CD28D8003B42F8 /* Follower.swift in Sources */,
+				4A6C9F1827CD28D8003B42F8 /* Follow.swift in Sources */,
 				4AFC6577276E7E3900ADEDA7 /* InputAlertBuilder.swift in Sources */,
 				4A7A190027D2FAF600AF24A8 /* FollowListViewController.swift in Sources */,
 				4A7744C5276FA1B50087A447 /* StatisticsViewModel.swift in Sources */,
@@ -923,7 +923,7 @@
 				A0C8E58E271FFCB400848FCB /* Extensions.swift in Sources */,
 				4A7A18FB27D2F68B00AF24A8 /* FollowViewController.swift in Sources */,
 				4A741C1027CB587300594A5D /* History.swift in Sources */,
-				4AEE577C27D7B841006D8313 /* FollowerViewModel.swift in Sources */,
+				4AEE577C27D7B841006D8313 /* UserStatisticsViewModel.swift in Sources */,
 				4A7744BD276F96170087A447 /* Portfolio.swift in Sources */,
 				4A741C1227CB597500594A5D /* TradeHistoryViewModel.swift in Sources */,
 				A0859AE5272DBE8100CF936E /* ExchangeListTableView.swift in Sources */,

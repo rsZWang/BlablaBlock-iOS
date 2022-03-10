@@ -11,9 +11,10 @@ import Resolver
 
 final class TradeHistoryViewController: BaseViewController {
     
-    private let tableView: TradeHistoryTableView = TradeHistoryTableView()
-    
     @Injected var viewModel: TradeHistoryViewModel
+    var userId: Int?
+    
+    private let tableView: TradeHistoryTableView = TradeHistoryTableView()
     
     deinit {
         Timber.i("\(type(of: self)) deinit")
@@ -23,6 +24,7 @@ final class TradeHistoryViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
         setupBinding()
+        viewModel.inputs.userId.accept(userId)
         viewModel.inputs.viewDidLoad.accept(())
     }
     

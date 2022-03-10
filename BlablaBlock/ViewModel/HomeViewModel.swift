@@ -9,7 +9,7 @@ import RxCocoa
 import RxSwift
 
 public protocol HomeViewModelInputs: NSObject {
-    var viewDidLoad: PublishRelay<()> { get }
+    var viewWillAppear: PublishRelay<()> { get }
 }
 
 public protocol HomeViewModelOutputs: NSObject {
@@ -29,7 +29,7 @@ final class HomeViewModel:
 {
     // MARK: - Inputs
     
-    var viewDidLoad: PublishRelay<()>
+    var viewWillAppear: PublishRelay<()>
     
     // MARK: - Outputs
     
@@ -43,15 +43,15 @@ final class HomeViewModel:
     }
     
     override init() {
-        let viewDidLoad = PublishRelay<()>()
+        let viewWillAppear = PublishRelay<()>()
         let notifications = BehaviorRelay<[NotificationApiData]>(value: [])
         
-        self.viewDidLoad = viewDidLoad
+        self.viewWillAppear = viewWillAppear
         self.notifications = notifications.asDriver()
         
         super.init()
         
-        viewDidLoad
+        viewWillAppear
             .subscribe(onNext: { [weak self] in
                 self?.loadNotifications(notifications: notifications)
             })
@@ -59,7 +59,7 @@ final class HomeViewModel:
     }
     
     private func loadNotifications(notifications: BehaviorRelay<[NotificationApiData]>) {
-        FollowService.getNotifications()
+        UserService.getNotifications()
             .request()
             .subscribe(
                 onSuccess: { [weak self] response in

@@ -13,9 +13,11 @@ public struct UserApi: Decodable {
 public struct UserApiData: Decodable {
     let userId: Int
     let name: String?
+    let totalValue: Double
     let roi: Double?
     let roiAnnual: Double?
     let mdd: Double?
     let dailyWinRate: Double?
     let sharpeRatio: Double?
+    var isFollow: Bool
 }
