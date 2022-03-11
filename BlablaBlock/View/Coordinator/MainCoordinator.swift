@@ -41,9 +41,9 @@ final class MainCoordinator: NSObject, Coordinator {
         }
     }
     
-    func showFollow(isFollower: Bool, followViewModel: FollowViewModelType) {
+    func showFollow(isDefaultPageFollower: Bool, followViewModel: FollowViewModelType) {
         let vc = FollowViewController()
-        vc.isFollower = isFollower
+        vc.isDefaultPageFollower = isDefaultPageFollower
         vc.viewModel = followViewModel
         navigationController.pushViewController(vc, animated: true)
     }

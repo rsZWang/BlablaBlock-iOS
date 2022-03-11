@@ -25,5 +25,5 @@ public struct FollowApiDataFollow: Decodable {
 public struct FollowApiDataFollowUser: Decodable {
     let userId: Int
     let name: String?
-    let isFollow: Bool
+    var isFollow: Bool
 }

@@ -63,8 +63,7 @@ final class StatisticsViewController: BaseViewController {
         setupBinding()
         viewModel.outputs.user.accept(user)
         viewModel.inputs.viewDidLoad.accept(())
-        followViewModel.inputs.userId.accept(user?.userId)
-        followViewModel.inputs.viewWillAppear.accept(())
+        followViewModel.inputs.user.accept(user)
     }
     
     override func viewDidLayoutSubviews() {
@@ -74,12 +73,14 @@ final class StatisticsViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        followViewModel.inputs.viewWillAppear.accept(())
     }
     
     private func setupUI() {
         portfolioView.delegate = self
         pnlView.delegate = self
         followingPortfolioView.delegate = self
+        followingPortfolioView.historyButton.isHidden = true
         followingPortfolioView.backButton.isHidden = true
         radioGroup.delegate = self
         radioGroup.add(protfolioButton)
@@ -118,9 +119,9 @@ final class StatisticsViewController: BaseViewController {
             .tapGesture()
             .when(.recognized)
             .map { _ in true }
-            .subscribe(onNext: { [weak self] isFollower in
+            .subscribe(onNext: { [weak self] isDefaultPageFollower in
                 guard let self = self else { return }
-                self.mainCoordinator.showFollow(isFollower: isFollower, followViewModel: self.followViewModel)
+                self.mainCoordinator.showFollow(isDefaultPageFollower: isDefaultPageFollower, followViewModel: self.followViewModel)
             })
             .disposed(by: disposeBag)
 
@@ -128,15 +129,15 @@ final class StatisticsViewController: BaseViewController {
             .tapGesture()
             .when(.recognized)
             .map { _ in false }
-            .subscribe(onNext: { [weak self] isFollower in
+            .subscribe(onNext: { [weak self] isDefaultPageFollower in
                 guard let self = self else { return }
-                self.mainCoordinator.showFollow(isFollower: isFollower, followViewModel: self.followViewModel)
+                self.mainCoordinator.showFollow(isDefaultPageFollower: isDefaultPageFollower, followViewModel: self.followViewModel)
             })
             .disposed(by: disposeBag)
 
         shareButton.rx
             .tap
-            .bind(to: viewModel.inputs.shareBtnTap)
+            .bind(to: followViewModel.inputs.followBtnTap)
             .disposed(by: disposeBag)
 
         portfolioView.historyButton.rx

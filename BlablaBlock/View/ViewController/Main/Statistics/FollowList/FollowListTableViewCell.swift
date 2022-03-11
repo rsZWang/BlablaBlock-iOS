@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
 
 final class FollowListTableViewCell: UITableViewCell {
     
     static let reuseIdentifier = "FollowListTableViewCell"
+    private var disposeBag = DisposeBag()
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -19,6 +22,11 @@ final class FollowListTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
         setupLayout()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
     }
     
     private func setupUI() {
@@ -69,7 +77,7 @@ final class FollowListTableViewCell: UITableViewCell {
         }
     }
     
-    func bind(follow: FollowApiDataFollowUser) {
+    func bind(follow: FollowApiDataFollowUser, input: PublishRelay<Int>) {
         userNameLabel.text = follow.name
         if follow.isFollow {
             followButton.isSelected = true
@@ -78,6 +86,12 @@ final class FollowListTableViewCell: UITableViewCell {
             followButton.isSelected = false
             followButton.setTitle("追蹤", for: .normal)
         }
+        followButton.rx
+            .tap
+            .subscribe(onNext: {
+                input.accept(follow.userId)
+            })
+            .disposed(by: disposeBag)
     }
     
     private let bgView = UIView()

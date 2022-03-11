@@ -11,7 +11,6 @@ import RxSwift
 
 public protocol StatisticsViewModelInputs {
     var viewDidLoad: PublishRelay<()> { get }
-    var shareBtnTap: PublishRelay<()> { get }
     var historyBtnTap: PublishRelay<()> { get }
     var exchangeFilter: BehaviorRelay<ExchangeType> { get }
     var portfolioType: BehaviorRelay<PortfolioType> { get }
@@ -51,7 +50,6 @@ final class StatisticsViewModel:
 {
     // MARK: - inputs
     var viewDidLoad: PublishRelay<()>
-    var shareBtnTap: PublishRelay<()>
     var historyBtnTap: PublishRelay<()>
     var exchangeFilter: BehaviorRelay<ExchangeType>
     var portfolioType: BehaviorRelay<PortfolioType>
@@ -84,7 +82,6 @@ final class StatisticsViewModel:
     
     override init() {
         let viewDidLoad = PublishRelay<()>()
-        let shareBtnTap = PublishRelay<()>()
         let historyBtnTap = PublishRelay<()>()
         let exchangeFilter = BehaviorRelay<ExchangeType>(value: .all)
         let portfolioType = BehaviorRelay<PortfolioType>(value: .all)
@@ -104,7 +101,6 @@ final class StatisticsViewModel:
         let uiEvent = PublishRelay<StatisticsViewUiEvent>()
         
         self.viewDidLoad = viewDidLoad
-        self.shareBtnTap = shareBtnTap
         self.historyBtnTap = historyBtnTap
         self.exchangeFilter = exchangeFilter
         self.portfolioType = portfolioType
@@ -129,16 +125,6 @@ final class StatisticsViewModel:
             .subscribe(onNext: {
                 refresh.accept(())
                 followingPortfolioPull.accept(())
-            })
-            .disposed(by: disposeBag)
-        
-        shareBtnTap
-            .subscribe(onNext: { [weak self] in
-                if let user = self?.user.value {
-                    self?.follow(user)
-                } else {
-                    self?.share()
-                }
             })
             .disposed(by: disposeBag)
         
@@ -221,36 +207,7 @@ final class StatisticsViewModel:
     }
 }
 
-private extension StatisticsViewModel {
-    func follow(_ user: UserApiData) {
-        if user.isFollow {
-            
-        } else {
-            FollowService.follow(userId: user.userId)
-                .request()
-                .subscribe(
-                    onSuccess: { [weak self] response in
-                        switch response {
-                        case .success(_):
-                            var user = user
-                            user.isFollow = true
-                            self?.user.accept(user)
-                        case let .failure(responseFailure):
-                            self?.errorCodeHandler(responseFailure)
-                        }
-                    },
-                    onFailure: { [weak self] error in
-                        self?.errorHandler(error: error)
-                    }
-                )
-                .disposed(by: disposeBag)
-        }
-    }
-    
-    func share() {
-        
-    }
-    
+private extension StatisticsViewModel {    
     func getPortfolio(portfolioRefresh: PublishRelay<Bool>) {
         let request: Single<HttpResponse<PortfolioApi, ResponseFailure>>
         if let userId = user.value?.userId {

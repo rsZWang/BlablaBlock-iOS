@@ -13,7 +13,7 @@ import Pageboy
 final class FollowViewController: BaseTabViewController {
     
     var viewModel: FollowViewModelType!
-    var isFollower: Bool!
+    var isDefaultPageFollower: Bool!
     private var originNavigationBarColor: UIColor?
     
     deinit {
@@ -75,8 +75,10 @@ final class FollowViewController: BaseTabViewController {
                     cellIdentifier: FollowListTableViewCell.reuseIdentifier,
                     cellType: FollowListTableViewCell.self
                 ),
-                curriedArgument: { (row, element, cell) in
-                    cell.bind(follow: element)
+                curriedArgument: { [weak self] (row, element, cell) in
+                    if let self = self {
+                        cell.bind(follow: element, input: self.viewModel.inputs.followerFollowBtnTap)
+                    }
                 }
             )
             .disposed(by: disposeBag)
@@ -89,8 +91,10 @@ final class FollowViewController: BaseTabViewController {
                     cellIdentifier: FollowListTableViewCell.reuseIdentifier,
                     cellType: FollowListTableViewCell.self
                 ),
-                curriedArgument: { (row, element, cell) in
-                    cell.bind(follow: element)
+                curriedArgument: { [weak self] (row, element, cell) in
+                    if let self = self {
+                        cell.bind(follow: element, input: self.viewModel.inputs.followingFollowBtnTap)
+                    }
                 }
             )
             .disposed(by: disposeBag)
@@ -101,6 +105,11 @@ final class FollowViewController: BaseTabViewController {
     private lazy var viewControllers: [UIViewController] = {
         [followersViewController, followingsViewController]
     }()
+    
+//    private func followListCellBind(row: Int, element: FollowApiDataFollowUser, cell: FollowListTableViewCell) {
+//        cell.bind(follow: element)
+//        cell.bindFollowBtn(input: viewModel.inputs.followBtnTap)
+//    }
     
 }
 
@@ -115,7 +124,7 @@ extension FollowViewController: PageboyViewControllerDataSource, TMBarDataSource
     }
 
     func defaultPage(for pageboyViewController: PageboyViewController) -> PageboyViewController.Page? {
-        PageboyViewController.Page.at(index: isFollower ? 0 : 1)
+        PageboyViewController.Page.at(index: isDefaultPageFollower ? 0 : 1)
     }
 
     func barItem(for bar: TMBar, at index: Int) -> TMBarItemable {
