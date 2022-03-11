@@ -26,6 +26,7 @@ target 'BlablaBlock' do
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'RxGesture'
+  pod 'RxDataSources'
   # pod 'RxReachability'
   # pod 'RxSwiftExt/Core'
 

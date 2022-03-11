@@ -105,7 +105,7 @@ public extension HttpResponseTargetType {
                     let error: Error?
                     switch moyaResult {
                         case let .success(response):
-                            let httpReponseResult: Result<HttpResponse<Login, ResponseFailure>, Error> = parseHttpResponse(response)
+                            let httpReponseResult: Result<HttpResponse<LoginApi, ResponseFailure>, Error> = parseHttpResponse(response)
                             switch httpReponseResult {
                                 case let .success(httpReponse):
                                     switch httpReponse {

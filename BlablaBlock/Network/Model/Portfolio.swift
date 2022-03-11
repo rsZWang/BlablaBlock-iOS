@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import RxDataSources
 
 public struct PortfolioApi: Decodable {
 
@@ -129,10 +130,13 @@ public struct PortfolioApiData: Decodable {
             } else {
                 unrealizedProfit = "N/A"
             }
+            let exchange = ExchangeType.init(rawValue: data.exchange)!
+            let type = PortfolioType.init(rawValue: data.type) ?? .management
             assetsViewData.append(
                 PortfolioAssetViewData(
-                    exchange: ExchangeType.init(rawValue: data.exchange)!,
-                    type: PortfolioType.init(rawValue: data.type)!,
+                    identity: "\(exchange.rawValue)_\(type.rawValue)",
+                    exchange: exchange,
+                    type: type,
                     currency: data.currency,
                     valueWeight: data.percentage.double.toPrettyPrecisedString().appendTo2Precision(),
                     balance: data.balance.double.toPrettyPrecisedString().appendTo2Precision(),
@@ -168,7 +172,10 @@ public struct PortfolioViewData: Equatable {
     
 }
 
-public struct PortfolioAssetViewData: Equatable {
+public struct PortfolioAssetViewData: Equatable, IdentifiableType {
+    
+    public typealias Identity = String
+    public var identity: String
     
     let exchange: ExchangeType
     let type: PortfolioType
@@ -187,11 +194,12 @@ public enum PortfolioType: String, Equatable {
     case margin = "margin"          // 現貨槓桿
     case lending = "lending"        // 借貸
     case futures = "futures"        // 合約裡的現貨
-    case positions = "positions"    // 合約的持倉
-    case liquidity = "liquidity"
+//    case positions = "positions"    // 合約的持倉
+//    case liquidity = "liquidity"    // 流動性資產
+    case management = "management"  // 理財
     
-    static let titleList = ["所有類別", "現貨", "現貨槓桿", "借貸", "合約裡的現貨", "合約的持倉", "流動性資產"]
-    static let typeList = ["all", "spot", "margin", "lending", "futures", "positions", "liquidity"]
+    static let titleList = ["所有類別", "現貨", "現貨槓桿", "借貸", "合約裡的現貨", "理財"]
+    static let typeList = ["all", "spot", "margin", "lending", "futures", "management"]
     
     static func map(type: String) -> String {
         if let index = typeList.firstIndex(where: { $0 == type }) {

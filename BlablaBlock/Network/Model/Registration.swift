@@ -5,14 +5,14 @@
 //  Created by YINGHAO WANG on 2021/12/27.
 //
 
-public struct RegistrationModel: Decodable {
+public struct RegistrationApi: Decodable {
     
     let code: Int
-    let data: RegistrationModelData
+    let data: RegistrationApiData
     
 }
 
-public struct RegistrationModelData: Decodable {
+public struct RegistrationApiData: Decodable {
     
     let apiToken: String
     let id: Int

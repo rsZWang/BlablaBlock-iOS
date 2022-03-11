@@ -58,7 +58,7 @@ final class AuthViewModel: BaseViewModel {
             .disposed(by: disposeBag)
     }
     
-    func forgetPassword(email: String) -> Single<HttpResponse<Login, ResponseFailure>> {
+    func forgetPassword(email: String) -> Single<HttpResponse<LoginApi, ResponseFailure>> {
         AuthService.forgetPassword(email: email)
             .request()
     }
@@ -87,7 +87,7 @@ final class AuthViewModel: BaseViewModel {
     private func signInHandler(
         userEmail: String,
         userPassword: String,
-        login: HttpResponse<Login, ResponseFailure>
+        login: HttpResponse<LoginApi, ResponseFailure>
     ) {
         switch login {
         case let .success(login):

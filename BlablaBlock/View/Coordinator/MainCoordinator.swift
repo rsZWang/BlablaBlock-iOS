@@ -48,7 +48,7 @@ final class MainCoordinator: NSObject, Coordinator {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func showTradeHistory(userId: Int?) {
+    func showTradeHistoryBy(userId: Int?) {
         let vc = TradeHistoryViewController()
         vc.userId = userId
         navigationController.pushViewController(vc, animated: true)

@@ -9,6 +9,7 @@ import UIKit
 import Resolver
 import RxCocoa
 import RxSwift
+import RxDataSources
 
 final class StatisticsViewController: BaseViewController {
     
@@ -188,21 +189,20 @@ final class StatisticsViewController: BaseViewController {
         viewModel.outputs
             .portfolio
             .map { $0.profit }
-            .emit(to: assetProfitLabel.rx.attributedText)
+            .drive(assetProfitLabel.rx.attributedText)
             .disposed(by: disposeBag)
 
         viewModel.outputs
             .portfolio
             .map { $0.sum }
-            .emit(to: assetSumLabel.rx.attributedText)
+            .drive(assetSumLabel.rx.attributedText)
             .disposed(by: disposeBag)
 
         viewModel.outputs
             .portfolio
-            .asObservable()
             .map { $0.assets }
-            .bind(
-                to: portfolioView.tableView.rx.items(
+            .drive(
+                portfolioView.tableView.rx.items(
                     cellIdentifier: "ExchangeListTableViewCell",
                     cellType: ExchangeListTableViewCell.self
                 ),
@@ -219,10 +219,9 @@ final class StatisticsViewController: BaseViewController {
         
         viewModel.outputs
             .followingPortfolio
-            .asObservable()
             .map { $0.assets }
-            .bind(
-                to: followingPortfolioView.tableView.rx.items(
+            .drive(
+                followingPortfolioView.tableView.rx.items(
                     cellIdentifier: "ExchangeListTableViewCell",
                     cellType: ExchangeListTableViewCell.self
                 ),
@@ -268,7 +267,7 @@ extension StatisticsViewController {
     func handleUiEvent(_ event: StatisticsViewUiEvent) {
         switch event {
         case .history:
-            mainCoordinator.showTradeHistory(userId: user?.userId)
+            mainCoordinator.showTradeHistoryBy(userId: user?.userId)
         case .back:
             pop()
         }

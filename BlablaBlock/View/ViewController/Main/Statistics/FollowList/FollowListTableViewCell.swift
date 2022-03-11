@@ -77,7 +77,7 @@ final class FollowListTableViewCell: UITableViewCell {
         }
     }
     
-    func bind(follow: FollowApiDataFollowUser, input: PublishRelay<Int>) {
+    func bind(follow: FollowApiDataFollowUser, followBtnTap: PublishRelay<Int>, cellTap: PublishRelay<FollowApiDataFollowUser>) {
         userNameLabel.text = follow.name
         if follow.isFollow {
             followButton.isSelected = true
@@ -89,7 +89,14 @@ final class FollowListTableViewCell: UITableViewCell {
         followButton.rx
             .tap
             .subscribe(onNext: {
-                input.accept(follow.userId)
+                followBtnTap.accept(follow.userId)
+            })
+            .disposed(by: disposeBag)
+        bgView.rx
+            .tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { _ in
+                cellTap.accept(follow)
             })
             .disposed(by: disposeBag)
     }

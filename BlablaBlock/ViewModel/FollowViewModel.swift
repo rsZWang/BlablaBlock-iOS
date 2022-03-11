@@ -14,6 +14,7 @@ public protocol FollowViewModelInputs {
     var followBtnTap: PublishRelay<()> { get }
     var followerFollowBtnTap: PublishRelay<Int> { get }
     var followingFollowBtnTap: PublishRelay<Int> { get }
+    var followCellTap: PublishRelay<FollowApiDataFollowUser> { get }
 }
 
 public protocol FollowViewModelOutputs {
@@ -22,6 +23,7 @@ public protocol FollowViewModelOutputs {
     var followingAmount: Signal<Int> { get }
     var followers: Driver<[FollowApiDataFollowUser]> { get }
     var followings: Driver<[FollowApiDataFollowUser]> { get }
+    var showUser: Signal<UserApiData> { get }
 }
 
 public protocol FollowViewModelType {
@@ -43,6 +45,7 @@ final class FollowViewModel:
     var followBtnTap: PublishRelay<()>
     var followerFollowBtnTap: PublishRelay<Int>
     var followingFollowBtnTap: PublishRelay<Int>
+    var followCellTap: PublishRelay<FollowApiDataFollowUser>
     
     // MARK: - outputs
     
@@ -50,6 +53,7 @@ final class FollowViewModel:
     var followingAmount: Signal<Int>
     var followers: Driver<[FollowApiDataFollowUser]>
     var followings: Driver<[FollowApiDataFollowUser]>
+    var showUser: Signal<UserApiData>
     
     var inputs: FollowViewModelInputs { self }
     var outputs: FollowViewModelOutputs { self }
@@ -64,23 +68,27 @@ final class FollowViewModel:
         let followBtnTap = PublishRelay<()>()
         let followerFollowBtnTap = PublishRelay<Int>()
         let followingFollowBtnTap = PublishRelay<Int>()
+        let followCellTap = PublishRelay<FollowApiDataFollowUser>()
         
         let followerAmount = PublishRelay<Int>()
         let followingAmount = PublishRelay<Int>()
         let followers = BehaviorRelay<[FollowApiDataFollowUser]>(value: [])
         let followings = BehaviorRelay<[FollowApiDataFollowUser]>(value: [])
+        let showUser = PublishRelay<UserApiData>()
         
         self.user = user
         self.viewWillAppear = viewWillAppear
         self.followBtnTap = followBtnTap
         self.followerFollowBtnTap = followerFollowBtnTap
         self.followingFollowBtnTap = followingFollowBtnTap
+        self.followCellTap = followCellTap
         
         self.user = user
         self.followerAmount = followerAmount.asSignal()
         self.followingAmount = followingAmount.asSignal()
         self.followers = followers.asDriver()
         self.followings = followings.asDriver()
+        self.showUser = showUser.asSignal()
         
         super.init()
         
@@ -114,6 +122,23 @@ final class FollowViewModel:
             .subscribe(onNext: { [weak self] userId in
                 self?.follow(id: userId, follow: followings)
             })
+            .disposed(by: disposeBag)
+        
+        followCellTap
+            .map {
+                UserApiData(
+                    userId: $0.userId,
+                    name: $0.name,
+                    totalValue: 0,
+                    roi: 0,
+                    roiAnnual: 0,
+                    mdd: 0,
+                    dailyWinRate: 0,
+                    sharpeRatio: 0,
+                    isFollow: $0.isFollow
+                )
+            }
+            .bind(to: showUser)
             .disposed(by: disposeBag)
     }
 }

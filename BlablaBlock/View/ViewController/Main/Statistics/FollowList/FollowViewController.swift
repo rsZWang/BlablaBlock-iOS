@@ -12,6 +12,7 @@ import Pageboy
 
 final class FollowViewController: BaseTabViewController {
     
+    @Injected var coordinator: MainCoordinator
     var viewModel: FollowViewModelType!
     var isDefaultPageFollower: Bool!
     private var originNavigationBarColor: UIColor?
@@ -26,6 +27,14 @@ final class FollowViewController: BaseTabViewController {
         setupBinding()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        originNavigationBarColor = navigationController?.navigationBar.barTintColor
+        navigationController?.navigationBar.barTintColor = UIColor(named: "bg_gray")
+        navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
+        navigationController?.isNavigationBarHidden = false
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.isNavigationBarHidden = true
@@ -34,10 +43,6 @@ final class FollowViewController: BaseTabViewController {
     
     private func setupUI() {
         view.backgroundColor = .white
-        originNavigationBarColor = navigationController?.navigationBar.barTintColor
-        navigationController?.navigationBar.barTintColor = UIColor(named: "bg_gray")
-        navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
-        navigationController?.isNavigationBarHidden = false
         dataSource = self
         setupTab()
     }
@@ -77,7 +82,11 @@ final class FollowViewController: BaseTabViewController {
                 ),
                 curriedArgument: { [weak self] (row, element, cell) in
                     if let self = self {
-                        cell.bind(follow: element, input: self.viewModel.inputs.followerFollowBtnTap)
+                        cell.bind(
+                            follow: element,
+                            followBtnTap: self.viewModel.inputs.followerFollowBtnTap,
+                            cellTap: self.viewModel.inputs.followCellTap
+                        )
                     }
                 }
             )
@@ -93,10 +102,21 @@ final class FollowViewController: BaseTabViewController {
                 ),
                 curriedArgument: { [weak self] (row, element, cell) in
                     if let self = self {
-                        cell.bind(follow: element, input: self.viewModel.inputs.followingFollowBtnTap)
+                        cell.bind(
+                            follow: element,
+                            followBtnTap: self.viewModel.inputs.followingFollowBtnTap,
+                            cellTap: self.viewModel.inputs.followCellTap
+                        )
                     }
                 }
             )
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs
+            .showUser
+            .emit(onNext: { [weak self] user in
+                self?.coordinator.showPortfolioBy(user: user)
+            })
             .disposed(by: disposeBag)
     }
     
@@ -105,11 +125,6 @@ final class FollowViewController: BaseTabViewController {
     private lazy var viewControllers: [UIViewController] = {
         [followersViewController, followingsViewController]
     }()
-    
-//    private func followListCellBind(row: Int, element: FollowApiDataFollowUser, cell: FollowListTableViewCell) {
-//        cell.bind(follow: element)
-//        cell.bindFollowBtn(input: viewModel.inputs.followBtnTap)
-//    }
     
 }
 

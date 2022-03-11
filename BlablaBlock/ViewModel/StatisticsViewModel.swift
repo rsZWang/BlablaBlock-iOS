@@ -23,9 +23,9 @@ public protocol StatisticsViewModelInputs {
 
 public protocol StatisticsViewModelOutputs {
     var user: BehaviorRelay<UserApiData?> { get }
-    var portfolio: Signal<PortfolioViewData> { get }
+    var portfolio: Driver<PortfolioViewData> { get }
     var pnl: Signal<PNLApiData> { get }
-    var followingPortfolio: Signal<PortfolioViewData> { get }
+    var followingPortfolio: Driver<PortfolioViewData> { get }
     var portfolioRefresh: Signal<Bool> { get }
     var pnlRefresh: Signal<Bool> { get }
     var followingPortfolioRefresh: Signal<Bool> { get }
@@ -61,9 +61,9 @@ final class StatisticsViewModel:
     
     // MARK: - outpus
     var user: BehaviorRelay<UserApiData?>
-    var portfolio: Signal<PortfolioViewData>
+    var portfolio: Driver<PortfolioViewData>
     var pnl: Signal<PNLApiData>
-    var followingPortfolio: Signal<PortfolioViewData>
+    var followingPortfolio: Driver<PortfolioViewData>
     var portfolioRefresh: Signal<Bool>
     var pnlRefresh: Signal<Bool>
     var followingPortfolioRefresh: Signal<Bool>
@@ -111,9 +111,15 @@ final class StatisticsViewModel:
         self.followingPortfolioPull = followingPortfolioPull
         
         self.user = user
-        self.portfolio = portfolio.asSignal()
+        self.portfolio = portfolio.asDriver(onErrorJustReturn: PortfolioViewData(
+                                                profit: PortfolioApiData.defaultProfitString,
+                                                sum: PortfolioApiData.defaultAssetSumString,
+                                                assets: []))
         self.pnl = pnl.asSignal()
-        self.followingPortfolio = followingPortfolio.asSignal()
+        self.followingPortfolio = followingPortfolio.asDriver(onErrorJustReturn: PortfolioViewData(
+                                                                profit: PortfolioApiData.defaultProfitString,
+                                                                sum: PortfolioApiData.defaultAssetSumString,
+                                                                assets: []))
         self.portfolioRefresh = portfolioRefresh.asSignal()
         self.pnlRefresh = pnlRefresh.asSignal()
         self.followingPortfolioRefresh = followingPortfolioRefresh.asSignal()
