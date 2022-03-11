@@ -19,7 +19,19 @@ platform :ios do
   desc "Push a new release build to the App Store"
   lane :release do
     increment_build_number(xcodeproj: "BlablaBlock.xcodeproj")
-    build_app(workspace: "BlablaBlock.xcworkspace", scheme: "BrabraBlock")
+    build_app(workspace: "BlablaBlock.xcworkspace", scheme: "BlablaBlock")
     upload_to_app_store
+  end
+end
+
+platform :ios do
+  desc "Upload ipa to Testflight"
+  lane :beta do
+    build_app(workspace: "BlablaBlock.xcworkspace", scheme: "BlablaBlock")
+    pilot(
+      ipa: "BlablaBlock.ipa",
+      skip_submission: true,
+      skip_waiting_for_build_processing: true
+    )
   end
 end
