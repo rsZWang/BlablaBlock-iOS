@@ -160,7 +160,7 @@ final class StatisticsViewController: BaseViewController {
             .bind(to: viewModel.inputs.followingPortfolioPull)
             .disposed(by: disposeBag)
         
-        viewModel.outputs
+        followViewModel.outputs
             .user
             .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] user in
