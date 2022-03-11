@@ -44,7 +44,7 @@ final class PNLView: UIView, NibOwnerLoadable {
     private lazy var yAxisLabelSettings = ChartLabelSettings(font: .systemFont(ofSize: 8))
     private var chart: Chart!
     private var currentPositionLabels: [UIView] = []
-    private var semaphore:  DispatchSemaphore!
+    var semaphore: DispatchSemaphore!
     override var bounds: CGRect {
         didSet {
             DispatchQueue.global().async { [unowned self] in

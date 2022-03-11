@@ -26,7 +26,7 @@ public struct PNLApiData: Decodable {
     func getChartDataList() -> [PNLCharData] {
         var list = [PNLCharData]()
         for data in chartData {
-            list.append(PNLCharData(value: data.value, timestamp: data.timestamp.int))
+            list.append(PNLCharData(value: data.value ?? 0, timestamp: data.timestamp.int))
         }
         return list
     }
@@ -40,11 +40,11 @@ public struct PNLApiData: Decodable {
     }
     
     func getMinY() -> Double {
-        chartData.map { $0.value }.min() ?? 0
+        chartData.map { $0.value ?? 0 }.min() ?? 0
     }
     
     func getMaxY() -> Double {
-        chartData.map { $0.value }.max() ?? 0
+        chartData.map { $0.value ?? 0 }.max() ?? 0
     }
     
     func getXAxis() -> [Int] {
@@ -90,14 +90,20 @@ public struct PNLApiData: Decodable {
     }
     
     func getYAxisLabel() -> [Int] {
-        chartData.map { Int($0.value) }
+        chartData.map { data in
+            if let value = data.value {
+                return Int(value)
+            } else {
+                return 0
+            }
+        }
     }
     
 }
 
 public struct PNLCharRawData: Decodable {
     
-    let value: Double
+    let value: Double?
     let timestamp: String
     
 }

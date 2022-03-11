@@ -76,6 +76,11 @@ final class StatisticsViewController: BaseViewController {
         followViewModel.inputs.viewWillAppear.accept(())
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        pnlView.semaphore?.signal()
+    }
+    
     private func setupUI() {
         portfolioView.delegate = self
         pnlView.delegate = self
