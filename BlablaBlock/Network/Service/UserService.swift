@@ -97,4 +97,17 @@ struct UserService {
         let userId: Int
         let exchange: String
     }
+    
+    struct getFollowerByID: HttpResponseTargetType {
+        var method: Method { .get }
+        var tokenType: TokenType { .user }
+        var path: String { "follower/\(userId)" }
+        var task: Task {
+            .requestPlain
+        }
+        typealias SuccessType = FollowApi
+        typealias FailureType = ResponseFailure
+        
+        let userId: Int
+    }
 }

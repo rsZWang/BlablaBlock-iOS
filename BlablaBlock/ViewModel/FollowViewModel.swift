@@ -69,45 +69,47 @@ final class FollowViewModel:
         
         viewWillAppear
             .subscribe(onNext: { [weak self] in
-                if let userId = userId.value {
-                    
-                } else {
-                    self?.loadFollowers(
-                        followerAmount: followerAmount,
-                        followingAmount: followingAmount,
-                        followers: followers,
-                        followings: followings
-                    )
-                }
+                self?.getFollowers(
+                    followerAmount: followerAmount,
+                    followingAmount: followingAmount,
+                    followers: followers,
+                    followings: followings
+                )
             })
             .disposed(by: disposeBag)
     }
     
-    private func loadFollowers(
+    private func getFollowers(
         followerAmount: PublishRelay<Int>,
         followingAmount: PublishRelay<Int>,
         followers: BehaviorRelay<[FollowApiDataFollowUser]>,
         followings: BehaviorRelay<[FollowApiDataFollowUser]>
     ) {
-        FollowService.getFollower()
-            .request()
-            .subscribe(
-                onSuccess: { [weak self] response in
-                    switch response {
-                    case let .success(followerApiResponse):
-                        let data = followerApiResponse.data
-                        followerAmount.accept(data.followers.count)
-                        followingAmount.accept(data.followings.count)
-                        followers.accept(data.followers.list)
-                        followings.accept(data.followings.list)
-                    case let .failure(responseFailure):
-                        self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
-                    }
-                },
-                onFailure: { [weak self] error in
-                    self?.errorHandler(error: error)
+        let target: Single<HttpResponse<FollowApi, ResponseFailure>>
+        if let userId = userId.value {
+            target = UserService.getFollowerByID(userId: userId)
+                .request()
+        } else {
+            target = FollowService.getFollower()
+                .request()
+        }
+        target.subscribe(
+            onSuccess: { [weak self] response in
+                switch response {
+                case let .success(followerApiResponse):
+                    let data = followerApiResponse.data
+                    followerAmount.accept(data.followers.count)
+                    followingAmount.accept(data.followings.count)
+                    followers.accept(data.followers.list)
+                    followings.accept(data.followings.list)
+                case let .failure(responseFailure):
+                    self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
                 }
-            )
-            .disposed(by: disposeBag)
+            },
+            onFailure: { [weak self] error in
+                self?.errorHandler(error: error)
+            }
+        )
+        .disposed(by: disposeBag)
     }
 }

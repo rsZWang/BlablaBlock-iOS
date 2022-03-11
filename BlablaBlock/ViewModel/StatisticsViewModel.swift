@@ -127,7 +127,7 @@ final class StatisticsViewModel:
         
         viewDidLoad
             .subscribe(onNext: {
-//                refresh.accept(())
+                refresh.accept(())
                 followingPortfolioPull.accept(())
             })
             .disposed(by: disposeBag)
