@@ -72,6 +72,11 @@ final class SearchUserViewController: BaseViewController {
             .bind(to: viewModel.inputs.selectedIndexPath)
             .disposed(by: disposeBag)
         
+        refreshControl.rx
+            .controlEvent(.valueChanged)
+            .bind(to: viewModel.inputs.refresh)
+            .disposed(by: disposeBag)
+        
         viewModel.outputs
             .users
             .drive(
@@ -88,6 +93,11 @@ final class SearchUserViewController: BaseViewController {
         viewModel.outputs
             .selectedUser
             .emit(onNext: coordinator.showPortfolioBy)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs
+            .finishLoading
+            .emit(to: refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
     }
 
@@ -120,10 +130,15 @@ final class SearchUserViewController: BaseViewController {
         return textField
     }()
     
-    private let collectionView: SearchUserCollectionView = {
+    private lazy var collectionView: SearchUserCollectionView = {
         let collectionView = SearchUserCollectionView()
         collectionView.backgroundColor = #colorLiteral(red: 0.1803734004, green: 0.1804045737, blue: 0.1803635955, alpha: 1)
+        collectionView.addSubview(refreshControl)
         return collectionView
+    }()
+    
+    private lazy var refreshControl: UIRefreshControl = {
+        UIRefreshControl()
     }()
     
 }

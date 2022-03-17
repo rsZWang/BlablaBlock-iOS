@@ -77,21 +77,23 @@ final class PNLView: UIView, NibOwnerLoadable {
     }
     
     func bind(data: PNLApiData) {
-        DispatchQueue.global().async { [weak self] in
-            self?.semaphore.wait()
-            DispatchQueue.main.async {
-                if self?.scrollView == nil {
-                    self?.makeRefreshable()
+        if data.chartData.compactMap({ $0.value }).isNotEmpty {
+            DispatchQueue.global().async { [weak self] in
+                self?.semaphore.wait()
+                DispatchQueue.main.async {
+                    if self?.scrollView == nil {
+                        self?.makeRefreshable()
+                    }
+                    self?.drawChart(data: data)
                 }
-                self?.drawChart(data: data)
+                self?.semaphore.signal()
             }
-            self?.semaphore.signal()
         }
-        roiLabel.text = "\(data.roi.toPrettyPrecisedString())%"
-        roiAnnualLabel.text = "\(data.roiAnnual.toPrettyPrecisedString())%"
-        mddLabel.text = "\(data.mdd.toPrettyPrecisedString())%"
+        roiLabel.text = "\(data.roi?.toPrettyPrecisedString() ?? "0.0")%"
+        roiAnnualLabel.text = "\(data.roiAnnual?.toPrettyPrecisedString() ?? "0.0")%"
+        mddLabel.text = "\(data.mdd?.toPrettyPrecisedString() ?? "0.0")%"
         dailyWinRateLabel.text = "\(data.dailyWinRate.toPrettyPrecisedString())%"
-        sharpeRatio.text = "\(data.sharpeRatio.toPrettyPrecisedString())"
+        sharpeRatio.text = "\(data.sharpeRatio?.toPrettyPrecisedString() ?? "0.0")"
     }
     
     private func makeRefreshable() {

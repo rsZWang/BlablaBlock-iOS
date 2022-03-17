@@ -29,7 +29,7 @@ extension Resolver: ResolverRegistering {
         register { StatisticsViewModel() as StatisticsViewModelType }.scope(.unique)
         
         // Exchange Setting
-        register { ExchangeApiViewModel() }.scope(.unique)
+        register { ExchangeApiViewModel() }.scope(.shared)
         
         // TradeHistory
         register { TradeHistoryViewModel() }.scope(.unique)

@@ -17,16 +17,18 @@ public struct PNLApi: Decodable {
 public struct PNLApiData: Decodable {
     
     let chartData: [PNLCharRawData]
-    let roi: Double
-    let roiAnnual: Double
-    let mdd: Double
+    let roi: Double?
+    let roiAnnual: Double?
+    let mdd: Double?
     let dailyWinRate: Double
-    let sharpeRatio: Double
+    let sharpeRatio: Double?
     
     func getChartDataList() -> [PNLCharData] {
         var list = [PNLCharData]()
         for data in chartData {
-            list.append(PNLCharData(value: data.value ?? 0, timestamp: data.timestamp.int))
+            if let value = data.value {
+                list.append(PNLCharData(value: value, timestamp: data.timestamp.int))
+            }
         }
         return list
     }
@@ -75,7 +77,13 @@ public struct PNLApiData: Decodable {
         }
         
         let minY = roundUp(getMinY())
+        if minY == 0 {
+            return []
+        }
         let maxY = roundUp(getMaxY())
+        if maxY == 0 {
+            return []
+        }
         let diff = minY - maxY
         let distance = abs(diff/10)
         
@@ -90,13 +98,7 @@ public struct PNLApiData: Decodable {
     }
     
     func getYAxisLabel() -> [Int] {
-        chartData.map { data in
-            if let value = data.value {
-                return Int(value)
-            } else {
-                return 0
-            }
-        }
+        chartData.map { Int($0.value ?? 0) }
     }
     
 }

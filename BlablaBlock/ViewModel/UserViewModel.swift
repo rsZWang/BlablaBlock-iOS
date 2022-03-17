@@ -12,11 +12,13 @@ public protocol UserViewModelInputs {
     var viewDidLoad: PublishRelay<()> { get }
     var userName: BehaviorRelay<String> { get }
     var selectedIndexPath: PublishRelay<IndexPath> { get }
+    var refresh: PublishRelay<()> { get }
 }
 
 public protocol UserViewModelOutputs {
     var users: Driver<[UserApiData]> { get }
     var selectedUser: Signal<UserApiData> { get }
+    var finishLoading: Signal<Bool> { get }
 }
 
 public protocol UserViewModelType {
@@ -36,11 +38,13 @@ final class UserViewModel:
     var viewDidLoad: PublishRelay<()>
     var userName: BehaviorRelay<String>
     var selectedIndexPath: PublishRelay<IndexPath>
+    var refresh: PublishRelay<()>
     
     // MARK: - outputs
     
     var users: Driver<[UserApiData]>
     var selectedUser: Signal<UserApiData>
+    var finishLoading: Signal<Bool>
 
     var inputs: UserViewModelInputs { self }
     var outputs: UserViewModelOutputs { self }
@@ -49,14 +53,20 @@ final class UserViewModel:
         let viewDidLoad = PublishRelay<()>()
         let userName = BehaviorRelay<String>(value: "")
         let selectedIndexPath = PublishRelay<IndexPath>()
+        let refresh = PublishRelay<()>()
+        
         let users = BehaviorRelay<[UserApiData]>(value: [])
         let selectedUser = PublishRelay<UserApiData>()
+        let finishLoading = PublishRelay<Bool>()
         
+        self.refresh = refresh
         self.viewDidLoad = viewDidLoad
         self.userName = userName
         self.selectedIndexPath = selectedIndexPath
+        
         self.users = users.asDriver()
         self.selectedUser = selectedUser.asSignal()
+        self.finishLoading = finishLoading.asSignal()
         
         super.init()
         
@@ -68,9 +78,8 @@ final class UserViewModel:
         
         userName
             .compactMap { $0 }
-            .distinctUntilChanged()
             .subscribe(onNext: { [weak self] name in
-                self?.getAllUsers(name: name, users: users)
+                self?.getAllUsers(name: name, users: users, finishLoading: finishLoading)
             })
             .disposed(by: disposeBag)
         
@@ -80,13 +89,24 @@ final class UserViewModel:
             }
             .bind(to: selectedUser)
             .disposed(by: disposeBag)
+        
+        refresh
+            .subscribe(onNext: { 
+                userName.accept(userName.value)
+            })
+            .disposed(by: disposeBag)
     }
     
-    private func getAllUsers(name: String, users: BehaviorRelay<[UserApiData]>) {
+    private func getAllUsers(
+        name: String,
+        users: BehaviorRelay<[UserApiData]>,
+        finishLoading: PublishRelay<Bool>
+    ) {
         UserService.getUsers(name: name)
             .request()
             .subscribe(
                 onSuccess: { [weak self] response in
+                    finishLoading.accept(false)
                     switch response {
                     case let .success(userApiResponse):
                         users.accept(userApiResponse.data)
@@ -95,6 +115,7 @@ final class UserViewModel:
                     }
                 },
                 onFailure: { [weak self] error in
+                    finishLoading.accept(false)
                     self?.errorHandler(error: error)
                 }
             )

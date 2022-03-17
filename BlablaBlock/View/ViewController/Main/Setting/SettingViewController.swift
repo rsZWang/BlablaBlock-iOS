@@ -85,6 +85,7 @@ final class SettingViewController: BaseViewController, LinkCardViewDelegate {
     }
     
     private func refreshList(exchangeList: [ExchangeApiData]) {
+        Timber.i("refresh list: \(exchangeList)")
         for card in linkCardList {
             card.exchange = exchangeList.first { $0.exchange == card.type.rawValue }
         }

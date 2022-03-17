@@ -24,7 +24,11 @@ final class SearchUserCollectionView: UICollectionView {
         layout.minimumLineSpacing = 18
         self.init(frame: .zero, collectionViewLayout: layout)
         contentInset = UIEdgeInsets(top: 18, left: 14, bottom: 18, right: 14)
-        register(SearchUserCollectionViewCell.self, forCellWithReuseIdentifier: SearchUserCollectionViewCell.reuseIdentifier)
+        register(
+            SearchUserCollectionViewCell.self,
+            forCellWithReuseIdentifier: SearchUserCollectionViewCell.reuseIdentifier
+        )
+        alwaysBounceVertical = true
     }
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
