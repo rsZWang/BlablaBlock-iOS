@@ -117,6 +117,7 @@ PODS:
   - SwiftCharts (0.6.5)
   - Tabman (2.11.1):
     - Pageboy (~> 3.6.0)
+  - Toast-Swift (5.0.1)
 
 DEPENDENCIES:
   - Defaults
@@ -133,6 +134,7 @@ DEPENDENCIES:
   - SnapKit (~> 5.0.0)
   - SwiftCharts (~> 0.6.5)
   - Tabman
+  - Toast-Swift (~> 5.0.1)
 
 SPEC REPOS:
   trunk:
@@ -163,6 +165,7 @@ SPEC REPOS:
     - SnapKit
     - SwiftCharts
     - Tabman
+    - Toast-Swift
 
 SPEC CHECKSUMS:
   Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
@@ -192,7 +195,8 @@ SPEC CHECKSUMS:
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftCharts: 2e755ea292f0b87d3e4b2c1eb5afc080a20cdc15
   Tabman: 792ac76fd1ec95af175c93db880a3c47cabedc91
+  Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
 
-PODFILE CHECKSUM: 6cc5d8b3463ed664877b473c4ef1811ff83bcd97
+PODFILE CHECKSUM: 5046bea31aaef38660710608cb7eaa5699247037
 
 COCOAPODS: 1.11.2

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class InputAlert {
+class InputAlertBuilder {
     
     private lazy var alertController = UIAlertController(
         title: "標題",
@@ -15,17 +15,17 @@ class InputAlert {
         preferredStyle: .alert
     )
     
-    func setTitle(_ title: String) -> InputAlert {
+    func setTitle(_ title: String) -> InputAlertBuilder {
         alertController.title = title
         return self
     }
     
-    func setMessage(_ message: String) -> InputAlert {
+    func setMessage(_ message: String) -> InputAlertBuilder {
         alertController.message = message
         return self
     }
     
-    func addTextField(tag: Int, placeholder: String) -> InputAlert {
+    func addTextField(tag: Int, placeholder: String) -> InputAlertBuilder {
         alertController.addTextField(configurationHandler: { textField in
             textField.tag = tag
             textField.placeholder = placeholder
@@ -33,7 +33,7 @@ class InputAlert {
         return self
     }
     
-    func setConfirmButton(title: String, action: @escaping ([Int : String]) -> Void) -> InputAlert {
+    func setConfirmButton(title: String, action: @escaping ([Int : String]) -> Void) -> InputAlertBuilder {
         alertController.addAction(UIAlertAction(title: title, style: .default) { [weak self] _ in
             var result = [Int : String]()
             if let textFields = self?.alertController.textFields {
@@ -46,7 +46,7 @@ class InputAlert {
         return self
     }
     
-    func build() -> InputAlert {
+    func build() -> InputAlertBuilder {
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel))
         return self
     }

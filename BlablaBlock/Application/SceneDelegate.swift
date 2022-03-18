@@ -28,6 +28,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.overrideUserInterfaceStyle = .light
         self.window = window
     }
+    
+    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+        let url = userActivity.webpageURL?.absoluteString ?? "nil"
+        Timber.i("Open from: \(url)")
+        if url.contains("/users/password/edit") {
+            // Reset password link
+            if let token = Utils.getQueryStringParameter(url: url, param: "reset_password_token") {
+                mainCoordinator.resetPassword(token: token)
+            }
+        }
+    }
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.

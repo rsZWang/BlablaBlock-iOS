@@ -76,8 +76,24 @@ public extension HttpResponseTargetType {
     
     private func parseHttpResponse<S: Decodable, F: Decodable>(_ response: Response) -> Result<HttpResponse<S, F>, Error> {
         do {
-            let successBody = try decoder.decode(S.self, from: response.data)
-            return Result.success(HttpResponse.success(successBody))
+            let status = try decoder.decode(ResponseSuccess.self, from: response.data)
+            if status.code == 200 {
+                let successBody = try decoder.decode(S.self, from: response.data)
+                return Result.success(HttpResponse.success(successBody))
+            } else {
+                let failureBody = try? decoder.decode(F.self, from: response.data)
+                if let failureBody = failureBody {
+                    return Result.success(HttpResponse.failure(failureBody))
+                } else {
+                    return Result.failure(
+                        HttpError(
+                            code: response.statusCode,
+                            message: "Parse error, empty",
+                            body: response.data
+                        )
+                    )
+                }
+            }
         } catch {
             Timber.e(error)
             let failureBody = try? decoder.decode(F.self, from: response.data)
@@ -96,6 +112,10 @@ public extension HttpResponseTargetType {
     }
     
     private func refreshToken(_ completion: @escaping (Error?) -> Void) {
+        if self is AuthService.resetPassword {
+            completion(NSError(domain: "Token expired", code: 20003, userInfo: nil))
+            return
+        }
         if let email = keychainUser[.userEmail] {
             if let password = keychainUser[.userPassword] {
                 ApiProvider.createProvider(

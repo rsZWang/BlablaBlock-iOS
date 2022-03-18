@@ -13,6 +13,7 @@ import KeychainAccess
 final class AuthViewModel: BaseViewModel {
     
     let successObservable = PublishSubject<Bool>()
+    let resetPasswordSent = PublishRelay<()>()
     
     func signIn(email: String, password: String) {
         AuthService.login(email: email, password: password)
@@ -58,9 +59,23 @@ final class AuthViewModel: BaseViewModel {
             .disposed(by: disposeBag)
     }
     
-    func forgetPassword(email: String) -> Single<HttpResponse<LoginApi, ResponseFailure>> {
+    func forgetPassword(email: String) {
         AuthService.forgetPassword(email: email)
             .request()
+            .subscribe(
+                onSuccess: { [weak self] response in
+                    switch response {
+                    case .success(_):
+                        self?.resetPasswordSent.accept(())
+                    case let .failure(responseFailure):
+                        self?.errorCodeHandler(responseFailure)
+                    }
+                },
+                onFailure: { [weak self] error in
+                    self?.errorHandler(error: error)
+                }
+            )
+            .disposed(by: disposeBag)
     }
     
     func signOut() {

@@ -34,7 +34,7 @@ final class SignInViewController: BaseViewController, Storyboarded {
     private var emailTextField: UITextField { emailInputView.textField }
     private var passwordTextField: UITextField { passwordInputView.textField }
     private var passwordConfirmTextField: UITextField { passwordConfirmInputView.textField }
-    private var forgetPasswordInputAlert: InputAlert? = nil
+    private var forgetPasswordInputAlert: InputAlertBuilder? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,6 +109,19 @@ final class SignInViewController: BaseViewController, Storyboarded {
             })
             .disposed(by: shortLifecycleOwner)
         
+        authViewModel.resetPasswordSent
+            .asSignal()
+            .emit(
+                onNext: {
+                    AlertBuilder()
+                        .setTitle("重設密碼的信件已寄出")
+                        .setMessage("快去信箱收信喔！")
+                        .setOkButton()
+                        .show(self)
+                }
+            )
+            .disposed(by: disposeBag)
+        
         authViewModel.errorMessageObservable
             .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] msg in
@@ -135,7 +148,7 @@ final class SignInViewController: BaseViewController, Storyboarded {
     
     private func promptForgetPasswordAlert() {
         if forgetPasswordInputAlert == nil {
-            forgetPasswordInputAlert = InputAlert()
+            forgetPasswordInputAlert = InputAlertBuilder()
                 .setTitle("忘記密碼")
                 .setMessage("輸入註冊時的信箱，我們將寄送驗證信件給您")
                 .addTextField(tag: 1, placeholder: "電子信箱")
@@ -153,19 +166,6 @@ final class SignInViewController: BaseViewController, Storyboarded {
     
     private func sendForgetPasswordMail(_ email: String) {
         authViewModel.forgetPassword(email: email)
-            .subscribe(
-                onSuccess: { [unowned self] _ in
-                    AlertBuilder()
-                        .setTitle("重設密碼的信件已寄出")
-                        .setMessage("快去信箱收信喔！")
-                        .setOkButton()
-                        .show(self)
-                },
-                onFailure: { [weak self] error in
-                    self?.promptAlert(message: "\(error)")
-                }
-            )
-            .disposed(by: disposeBag)
     }
     
     private func clearPage() {

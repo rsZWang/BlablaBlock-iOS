@@ -56,7 +56,7 @@ struct AuthService {
                 "email" : email
             ], encoding: JSONEncoding.default)
         }
-        typealias SuccessType = LoginApi
+        typealias SuccessType = ResponseSuccess
         typealias FailureType = ResponseFailure
         
         let email: String
@@ -66,7 +66,7 @@ struct AuthService {
         var method: Method { .post }
         var tokenType: TokenType { .user }
         var path: String { "resetpassword" }
-        var headers: [String : String]? { ["Authorization" : "Bearer \(keychainUser[.userToken]!)"] }
+        var headers: [String : String]? { ["Authorization" : "Bearer \(token)"] }
         var task: Task {
             .requestParameters(parameters: [
                 "password" : password
@@ -75,6 +75,7 @@ struct AuthService {
         typealias SuccessType = ResponseSuccess
         typealias FailureType = ResponseFailure
         
+        let token: String
         let password: String
     }
     

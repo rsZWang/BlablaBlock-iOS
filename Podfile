@@ -18,6 +18,7 @@ target 'BlablaBlock' do
   pod 'SwiftCharts', '~> 0.6.5'
   pod 'Differ'
   pod 'Tabman'
+  pod 'Toast-Swift', '~> 5.0.1'
 
   # Network
   pod 'Moya/RxSwift'

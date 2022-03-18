@@ -3,6 +3,8 @@
 <plist version="1.0">
 <dict>
 	<key>com.apple.developer.associated-domains</key>
-	<array/>
+	<array>
+		<string>applinks:edf5-2401-e180-8d23-1be3-1a3-6367-8c20-e836.ngrok.io</string>
+	</array>
 </dict>
 </plist>
