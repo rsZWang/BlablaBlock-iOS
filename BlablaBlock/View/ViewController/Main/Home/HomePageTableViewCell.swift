@@ -151,7 +151,7 @@ final class HomePageTableViewCell: UITableViewCell {
     private func setupUI() {
         contentView.addSubview(bgView)
         bgView.snp.makeConstraints { make in
-            make.edges.equalTo(UIEdgeInsets(top: 0, left: 18, bottom: 16, right: 18))
+            make.edges.equalTo(UIEdgeInsets(top: 16, left: 18, bottom: 0, right: 18))
         }
         
         let contentMarginView = UIView()

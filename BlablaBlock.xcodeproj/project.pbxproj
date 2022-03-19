@@ -29,7 +29,6 @@
 		4A6C9F1627CD288C003B42F8 /* FollowService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1527CD288C003B42F8 /* FollowService.swift */; };
 		4A6C9F1827CD28D8003B42F8 /* Follow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1727CD28D8003B42F8 /* Follow.swift */; };
 		4A6C9F1A27CD2A3E003B42F8 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1927CD2A3E003B42F8 /* Notification.swift */; };
-		4A6C9F1C27CD2B33003B42F8 /* FollowPortfolio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1B27CD2B33003B42F8 /* FollowPortfolio.swift */; };
 		4A6C9F1E27CD2C94003B42F8 /* CurrencyIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1D27CD2C94003B42F8 /* CurrencyIcon.swift */; };
 		4A6C9F2027CD2EFD003B42F8 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1F27CD2EFD003B42F8 /* HomeViewModel.swift */; };
 		4A6C9F2227CD39DF003B42F8 /* HttpError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F2127CD39DF003B42F8 /* HttpError.swift */; };
@@ -148,7 +147,6 @@
 		4A6C9F1527CD288C003B42F8 /* FollowService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowService.swift; sourceTree = "<group>"; };
 		4A6C9F1727CD28D8003B42F8 /* Follow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Follow.swift; sourceTree = "<group>"; };
 		4A6C9F1927CD2A3E003B42F8 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
-		4A6C9F1B27CD2B33003B42F8 /* FollowPortfolio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowPortfolio.swift; sourceTree = "<group>"; };
 		4A6C9F1D27CD2C94003B42F8 /* CurrencyIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyIcon.swift; sourceTree = "<group>"; };
 		4A6C9F1F27CD2EFD003B42F8 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		4A6C9F2127CD39DF003B42F8 /* HttpError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpError.swift; sourceTree = "<group>"; };
@@ -486,7 +484,6 @@
 				4A741C0F27CB587300594A5D /* History.swift */,
 				4A6C9F1727CD28D8003B42F8 /* Follow.swift */,
 				4A6C9F1927CD2A3E003B42F8 /* Notification.swift */,
-				4A6C9F1B27CD2B33003B42F8 /* FollowPortfolio.swift */,
 				4A6C9F1D27CD2C94003B42F8 /* CurrencyIcon.swift */,
 				4A7A190D27D332DC00AF24A8 /* User.swift */,
 			);
@@ -969,7 +966,6 @@
 				4A5FE1F827365E0F004AD836 /* LinkExchangeViewController.swift in Sources */,
 				A08E8E652778E25E0041AC61 /* Registration.swift in Sources */,
 				A0C8E559271FF18900848FCB /* AppDelegate.swift in Sources */,
-				4A6C9F1C27CD2B33003B42F8 /* FollowPortfolio.swift in Sources */,
 				A0DAD5BA277861FD00CD8760 /* Coordinator.swift in Sources */,
 				A0C1FB6D27647EC700C4201A /* HttpResponseTargetType.swift in Sources */,
 				A0C1FB7427649B0F00C4201A /* AuthService.swift in Sources */,

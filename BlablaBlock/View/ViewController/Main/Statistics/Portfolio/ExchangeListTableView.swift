@@ -14,9 +14,8 @@ final class ExchangeListTableView: UITableView {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        contentInset = UIEdgeInsets(top: 15, left: 0, bottom: 0, right: 0)
+        contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 16, right: 0)
         register(UINib(nibName: "ExchangeListTableViewCell", bundle: nil), forCellReuseIdentifier: "ExchangeListTableViewCell")
-//        dataSource = self
     }
     
     func bind(data: [PortfolioAssetViewData]) {
@@ -33,20 +32,6 @@ final class ExchangeListTableView: UITableView {
 
 }
 
-//extension ExchangeListTableView: UITableViewDataSource {
-//
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        dataList.count
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "ExchangeListTableViewCell", for: indexPath) as! ExchangeListTableViewCell
-//        cell.bind(dataList[indexPath.row])
-//        return cell
-//    }
-//
-//}
-
 class ExchangeListTableViewCell: UITableViewCell {
 
     @IBOutlet weak var iconImageView: UIImageView!
@@ -58,19 +43,14 @@ class ExchangeListTableViewCell: UITableViewCell {
     
     func bind(_ portfolio: PortfolioAssetViewData) {
         nameLabel.text = portfolio.currency
-        percentageLabel.text = "(\(portfolio.valueWeight)%)"
+        percentageLabel.text = portfolio.percentage
         amountLabel.text = portfolio.balance
-        valueLabel.text = "$\(portfolio.value)"
-        rateLabel.text = "\(portfolio.unrealizedProfit)%"
-        if let profit = Double(portfolio.unrealizedProfit) {
-            if profit < 0 {
-                rateLabel.textColor = #colorLiteral(red: 0.8666666667, green: 0.3921568627, blue: 0.3921568627, alpha: 1)
-            } else {
-                rateLabel.textColor = #colorLiteral(red: 0.2352941176, green: 0.831372549, blue: 0.5568627451, alpha: 1)
-            }
+        valueLabel.text = portfolio.value
+        rateLabel.text = portfolio.dayChange
+        if Double(portfolio.dayChange) ?? 0 < 0 {
+            rateLabel.textColor = #colorLiteral(red: 0.8666666667, green: 0.3921568627, blue: 0.3921568627, alpha: 1)
         } else {
-            rateLabel.text?.removeLast()
-            rateLabel.textColor = .black
+            rateLabel.textColor = #colorLiteral(red: 0.2352941176, green: 0.831372549, blue: 0.5568627451, alpha: 1)
         }
     }
      

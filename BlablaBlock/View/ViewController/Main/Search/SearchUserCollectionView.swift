@@ -23,7 +23,7 @@ final class SearchUserCollectionView: UICollectionView {
         layout.minimumInteritemSpacing = 14
         layout.minimumLineSpacing = 18
         self.init(frame: .zero, collectionViewLayout: layout)
-        contentInset = UIEdgeInsets(top: 18, left: 14, bottom: 18, right: 14)
+        contentInset = UIEdgeInsets(top: 0, left: 14, bottom: 18, right: 14)
         register(
             SearchUserCollectionViewCell.self,
             forCellWithReuseIdentifier: SearchUserCollectionViewCell.reuseIdentifier

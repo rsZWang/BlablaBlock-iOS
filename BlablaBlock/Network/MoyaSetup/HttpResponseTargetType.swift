@@ -22,6 +22,7 @@ public enum HttpResponse<SuccessBody: Decodable, FailureBody: Decodable> {
 public enum TokenType {
     case normal
     case user
+    case custom(String)
 }
 
 public protocol HttpResponseTargetType: Moya.TargetType, AccessTokenAuthorizable {
@@ -184,8 +185,16 @@ fileprivate final class ApiProvider {
         pluginList.append(MoyaLoggerPlugin())
         #endif
         pluginList.append(AccessTokenPlugin { _ in
-            tokenType == .normal ? HttpApiConfig.normalToken : keychainUser[.userToken] ?? ""
+            switch tokenType {
+            case .normal:
+                return HttpApiConfig.normalToken
+            case .user:
+                return keychainUser[.userToken] ?? ""
+            case .custom(let token):
+                return token
+            }
         })
+
         return MoyaProvider<MultiTarget>(callbackQueue: callbackQueue, plugins: pluginList)
     }
 }

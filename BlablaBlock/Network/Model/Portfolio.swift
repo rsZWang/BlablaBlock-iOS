@@ -120,28 +120,45 @@ public struct PortfolioApiData: Decodable {
     func getAssetsViewData() -> [PortfolioAssetViewData] {
         var assetsViewData = [PortfolioAssetViewData]()
         var sortedAssets = assets
-        sortedAssets.sort { $0.value.double > $1.value.double }
+        sortedAssets.sort { $0.value > $1.value }
         for data in sortedAssets {
-            let unrealizedProfit: String
-            if let profit = data.unrealizedProfit {
-                let doubleValue = profit.double
-                let roundedValue = round(100 * doubleValue) / 100
-                unrealizedProfit = roundedValue.toPrecisedString()
+//            let unrealizedProfit: String
+//            if let profit = data.unrealizedProfit {
+//                let doubleValue = profit.double
+//                let roundedValue = round(100 * doubleValue) / 100
+//                unrealizedProfit = roundedValue.toPrecisedString()
+//            } else {
+//                unrealizedProfit = "N/A"
+//            }
+//            let exchange = ExchangeType.init(rawValue: data.exchange)!
+//            let type = PortfolioType.init(rawValue: data.type) ?? .management
+//            assetsViewData.append(
+//                PortfolioAssetViewData(
+//                    identity: "\(exchange.rawValue)_\(type.rawValue)",
+//                    exchange: exchange,
+//                    type: type,
+//                    currency: data.currency,
+//                    valueWeight: data.percentage.double.toPrettyPrecisedString().appendTo2Precision(),
+//                    balance: data.balance.double.toPrettyPrecisedString().appendTo2Precision(),
+//                    value: data.value.double.toPrettyPrecisedString().appendTo2Precision(),
+//                    unrealizedProfit: unrealizedProfit
+//                )
+//            )
+            var dayChange: String? = Double(data.dayChange)?.toPrettyPrecisedString()
+            if let change = dayChange, !change.isEmpty {
+                dayChange = "\(change)％"
             } else {
-                unrealizedProfit = "N/A"
+                dayChange = "N/A"
             }
-            let exchange = ExchangeType.init(rawValue: data.exchange)!
-            let type = PortfolioType.init(rawValue: data.type) ?? .management
+            
             assetsViewData.append(
                 PortfolioAssetViewData(
-                    identity: "\(exchange.rawValue)_\(type.rawValue)",
-                    exchange: exchange,
-                    type: type,
+                    identity: "\(data.currency)_\(data.balance)",
                     currency: data.currency,
-                    valueWeight: data.percentage.double.toPrettyPrecisedString().appendTo2Precision(),
-                    balance: data.balance.double.toPrettyPrecisedString().appendTo2Precision(),
-                    value: data.value.double.toPrettyPrecisedString().appendTo2Precision(),
-                    unrealizedProfit: unrealizedProfit
+                    balance: data.balance.toPrettyPrecisedString(),
+                    value: "$\(data.value.toPrettyPrecisedString())",
+                    dayChange: dayChange!,
+                    percentage: "(\(data.percentage.toPrettyPrecisedString())%)"
                 )
             )
         }
@@ -152,15 +169,20 @@ public struct PortfolioApiData: Decodable {
 
 public struct PortfolioApiDataAsset: Decodable, Equatable {
     
-    let entryPrice: String?
-    let currentPrice: String?
-    let unrealizedProfit: String?
-    let exchange: String
+//    let entryPrice: String?
+//    let currentPrice: String?
+//    let unrealizedProfit: String?
+//    let exchange: String
+//    let currency: String
+//    let value: String
+//    let type: String
+//    let balance: String
+//    let percentage: String
     let currency: String
-    let value: String
-    let type: String
-    let balance: String
-    let percentage: String
+    let balance: Double
+    let value: Double
+    let dayChange: String
+    let percentage: Double
     
 }
 
@@ -177,13 +199,18 @@ public struct PortfolioAssetViewData: Equatable, IdentifiableType {
     public typealias Identity = String
     public var identity: String
     
-    let exchange: ExchangeType
-    let type: PortfolioType
+//    let exchange: ExchangeType
+//    let type: PortfolioType
+//    let currency: String
+//    let valueWeight: String
+//    let balance: String
+//    let value: String
+//    let unrealizedProfit: String
     let currency: String
-    let valueWeight: String
     let balance: String
     let value: String
-    let unrealizedProfit: String
+    let dayChange: String
+    let percentage: String
     
 }
 

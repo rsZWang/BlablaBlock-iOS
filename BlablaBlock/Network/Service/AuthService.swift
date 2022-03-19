@@ -64,9 +64,8 @@ struct AuthService {
     
     struct resetPassword: HttpResponseTargetType {
         var method: Method { .post }
-        var tokenType: TokenType { .user }
+        var tokenType: TokenType { .custom(token) }
         var path: String { "resetpassword" }
-        var headers: [String : String]? { ["Authorization" : "Bearer \(token)"] }
         var task: Task {
             .requestParameters(parameters: [
                 "password" : password

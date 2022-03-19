@@ -147,9 +147,29 @@ final class StatisticsViewModel:
         portfolioRefresh
             .filter { $0 }
             .subscribe(onNext: { [weak self] _ in
-                self?.getPortfolio(portfolioRefresh: portfolioRefresh)
+                self?.getPortfolio(
+                    portfolioRefresh: portfolioRefresh,
+                    exchange: exchangeFilter.value.rawValue
+                )
             })
             .disposed(by: disposeBag)
+        
+        exchangeFilter
+            .subscribe(onNext: { [weak self] exchange in
+                self?.getPortfolio(
+                    portfolioRefresh: portfolioRefresh,
+                    exchange: exchange.rawValue
+                )
+            })
+            .disposed(by: disposeBag)
+        
+        Observable.combineLatest(
+            portfolioType,
+            portfolioViewDataCache,
+            resultSelector: portfolioHandler
+        )
+        .bind(to: portfolio)
+        .disposed(by: disposeBag)
         
         Observable.combineLatest(
             pnlRefresh.filter { $0 },
@@ -163,24 +183,28 @@ final class StatisticsViewModel:
         })
         .disposed(by: disposeBag)
         
+        // MARK: - following
+        
         followingPortfolioRefresh
             .filter { $0 }
             .subscribe(onNext: { [weak self] _ in
-                self?.getFollowingPortfolio(followingPortfolioRefresh: followingPortfolioRefresh)
+                self?.getFollowingPortfolio(
+                    followingPortfolioRefresh: followingPortfolioRefresh,
+                    exchange: followingPortfolioExchangeFilter.value.rawValue
+                )
+            })
+            .disposed(by: disposeBag)
+        
+        followingPortfolioExchangeFilter
+            .subscribe(onNext: { [weak self] exchange in
+                self?.getFollowingPortfolio(
+                    followingPortfolioRefresh: followingPortfolioRefresh,
+                    exchange: followingPortfolioExchangeFilter.value.rawValue
+                )
             })
             .disposed(by: disposeBag)
         
         Observable.combineLatest(
-            exchangeFilter,
-            portfolioType,
-            portfolioViewDataCache,
-            resultSelector: portfolioHandler
-        )
-        .bind(to: portfolio)
-        .disposed(by: disposeBag)
-        
-        Observable.combineLatest(
-            followingPortfolioExchangeFilter,
             followingPortfolioType,
             followingPortfolioViewDataCache,
             resultSelector: portfolioHandler
@@ -189,15 +213,15 @@ final class StatisticsViewModel:
         .disposed(by: disposeBag)
     }
     
-    private let portfolioHandler: ((ExchangeType, PortfolioType, PortfolioApiData?) -> PortfolioViewData) = { (exchangeFilter, portfolioFilter, portfolioData) in
+    private let portfolioHandler: ((PortfolioType, PortfolioApiData?) -> PortfolioViewData) = { (portfolioFilter, portfolioData) in
         if let portfolioData = portfolioData {
             var assetsViewData: [PortfolioAssetViewData] = portfolioData.getAssetsViewData()
-            if exchangeFilter != .all {
-                assetsViewData = assetsViewData.filter { $0.exchange == exchangeFilter }
-            }
-            if portfolioFilter != .all {
-                assetsViewData = assetsViewData.filter { $0.type == portfolioFilter }
-            }
+//            if exchangeFilter != .all {
+//                assetsViewData = assetsViewData.filter { $0.exchange == exchangeFilter }
+//            }
+//            if portfolioFilter != .all {
+//                assetsViewData = assetsViewData.filter { $0.type == portfolioFilter }
+//            }
             return PortfolioViewData(
                 profit: portfolioData.getProfitString(),
                 sum: portfolioData.getAssetSumString(),
@@ -214,13 +238,16 @@ final class StatisticsViewModel:
 }
 
 private extension StatisticsViewModel {    
-    func getPortfolio(portfolioRefresh: PublishRelay<Bool>) {
+    func getPortfolio(
+        portfolioRefresh: PublishRelay<Bool>,
+        exchange: String
+    ) {
         let request: Single<HttpResponse<PortfolioApi, ResponseFailure>>
         if let userId = user.value?.userId {
-            request = UserService.getPortfolioByID(userId: userId, exchange: "all")
+            request = UserService.getPortfolioByID(userId: userId, exchange: exchange)
                 .request()
         } else {
-            request = StatisticsService.getPortfolio(exchange: "all")
+            request = StatisticsService.getPortfolio(exchange: exchange)
                 .request()
         }
         request.subscribe(
@@ -279,14 +306,17 @@ private extension StatisticsViewModel {
         .disposed(by: disposeBag)
     }
     
-    func getFollowingPortfolio(followingPortfolioRefresh: PublishRelay<Bool>) {
+    func getFollowingPortfolio(
+        followingPortfolioRefresh: PublishRelay<Bool>,
+        exchange: String
+    ) {
         let userId: Int
         if let id = user.value?.userId {
             userId = id
         } else {
             userId = Int(keychainUser[.userId]!)!
         }
-        UserService.getFollowPortfolioByID(userId: userId, exchange: "all")
+        UserService.getFollowPortfolioByID(userId: userId, exchange: exchange)
             .request()
             .subscribe(
                 onSuccess: { [weak self] response in

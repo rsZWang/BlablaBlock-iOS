@@ -21,10 +21,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="484" height="60"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lvy-OZ-MCT" userLabel="Content Section">
-                                <rect key="frame" x="0.0" y="0.0" width="484" height="40"/>
+                                <rect key="frame" x="0.0" y="16" width="484" height="44"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="252" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="749" image="info" translatesAutoresizingMaskIntoConstraints="NO" id="0Ck-Ne-FH1">
-                                        <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                        <rect key="frame" x="0.0" y="2" width="40" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="b3z-8p-1dd"/>
                                             <constraint firstAttribute="width" secondItem="0Ck-Ne-FH1" secondAttribute="height" multiplier="1:1" id="jKt-AY-Vqw"/>
@@ -32,10 +32,10 @@
                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="small"/>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DHI-04-x1U" userLabel="Text Section">
-                                        <rect key="frame" x="40" y="0.0" width="444" height="40"/>
+                                        <rect key="frame" x="40" y="0.0" width="444" height="44"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gec-Yx-zXo" userLabel="Type Section">
-                                                <rect key="frame" x="0.0" y="0.0" width="155.5" height="40"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="155.5" height="44"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="BNB" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="eEq-uf-06V" userLabel="Name">
                                                         <rect key="frame" x="0.0" y="0.0" width="155.5" height="21.5"/>
@@ -44,7 +44,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weight" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="L2I-Po-fpW" userLabel="Percentage">
-                                                        <rect key="frame" x="0.0" y="21.5" width="155.5" height="18.5"/>
+                                                        <rect key="frame" x="0.0" y="21.5" width="155.5" height="22.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
@@ -61,7 +61,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IKq-AR-dPA" userLabel="Exposure Section">
-                                                <rect key="frame" x="155.5" y="0.0" width="177.5" height="40"/>
+                                                <rect key="frame" x="155.5" y="0.0" width="177.5" height="44"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Balance" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="xEm-4t-9tW" userLabel="Amount">
                                                         <rect key="frame" x="5" y="0.0" width="172.5" height="21.5"/>
@@ -70,7 +70,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Value" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E6B-ou-WG4" userLabel="Value">
-                                                        <rect key="frame" x="5" y="21.5" width="172.5" height="18.5"/>
+                                                        <rect key="frame" x="5" y="21.5" width="172.5" height="22.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
@@ -87,10 +87,10 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="izo-0x-QFh" userLabel="Rate section">
-                                                <rect key="frame" x="333" y="0.0" width="111" height="40"/>
+                                                <rect key="frame" x="333" y="0.0" width="111" height="44"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profit" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="9fg-3a-5CB" userLabel="Rate">
-                                                        <rect key="frame" x="0.0" y="0.0" width="111" height="40"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="111" height="44"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -131,23 +131,13 @@
                                     <constraint firstItem="DHI-04-x1U" firstAttribute="leading" secondItem="0Ck-Ne-FH1" secondAttribute="trailing" id="zJC-Rv-dP3"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tff-H4-iwD" userLabel="Space">
-                                <rect key="frame" x="0.0" y="40" width="484" height="20"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="kOp-U6-OTd"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Lvy-OZ-MCT" firstAttribute="top" secondItem="LWG-eJ-0xQ" secondAttribute="top" id="79t-fm-NyO"/>
-                            <constraint firstItem="tff-H4-iwD" firstAttribute="leading" secondItem="LWG-eJ-0xQ" secondAttribute="leading" id="OQS-Jf-cor"/>
-                            <constraint firstItem="tff-H4-iwD" firstAttribute="top" secondItem="Lvy-OZ-MCT" secondAttribute="bottom" id="Oiy-GD-zyx"/>
+                            <constraint firstItem="Lvy-OZ-MCT" firstAttribute="top" secondItem="LWG-eJ-0xQ" secondAttribute="top" constant="16" id="79t-fm-NyO"/>
+                            <constraint firstAttribute="bottom" secondItem="Lvy-OZ-MCT" secondAttribute="bottom" id="9Dp-Ep-Re0"/>
                             <constraint firstItem="Lvy-OZ-MCT" firstAttribute="leading" secondItem="LWG-eJ-0xQ" secondAttribute="leading" id="oXi-4b-lpk"/>
                             <constraint firstAttribute="trailing" secondItem="Lvy-OZ-MCT" secondAttribute="trailing" id="oqd-5e-d63"/>
-                            <constraint firstAttribute="bottom" secondItem="tff-H4-iwD" secondAttribute="bottom" id="ovU-vv-a0Z"/>
-                            <constraint firstAttribute="trailing" secondItem="tff-H4-iwD" secondAttribute="trailing" id="y6y-aA-F9j"/>
                         </constraints>
                     </view>
                 </subviews>
