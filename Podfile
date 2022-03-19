@@ -11,6 +11,7 @@ target 'BlablaBlock' do
   pod 'KeychainAccess'
   pod 'Defaults'
   pod 'Firebase/Analytics'
+  pod 'Firebase/Crashlytics'
 
   # UI
   pod 'SnapKit', '~> 5.0.0'

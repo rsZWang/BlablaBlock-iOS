@@ -37,7 +37,7 @@ Upload ipa to Testflight
 [bundle exec] fastlane ios harry
 ```
 
-TEST TEST
+Build, upload_to_testflight, download dsyms, upload dsyms, clear dsyms
 
 ----
 

@@ -663,6 +663,7 @@
 				A0C8E552271FF18900848FCB /* Frameworks */,
 				A0C8E553271FF18900848FCB /* Resources */,
 				85A4A81A398C4CB5C7B86FC9 /* [CP] Embed Pods Frameworks */,
+				4A6CBDEB27E6465700F579A5 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -805,6 +806,25 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BlablaBlock-BlablaBlockUITests/Pods-BlablaBlock-BlablaBlockUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		4A6CBDEB27E6465700F579A5 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
 		};
 		5EE7A06763B534A1CD5DDFE4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1149,11 +1169,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2383D8BB6CEC99F34E3A3B03 /* Pods-BlablaBlock.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = BlablaBlock/BlablaBlock.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 14;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QRN2TFCH8G;
 				INFOPLIST_FILE = BlablaBlock/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1173,6 +1195,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F17D6CA0BC7D3564BF36EDDA /* Pods-BlablaBlock.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = BlablaBlock/BlablaBlock.entitlements;
@@ -1197,7 +1220,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 066E1089AFA88F4D12AEB030 /* Pods-BlablaBlockTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = D995T28HR4;
@@ -1220,7 +1243,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0F285A77444CEAEBD826CA43 /* Pods-BlablaBlockTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = D995T28HR4;
@@ -1243,7 +1266,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1EAA7F54C51D44E108C43650 /* Pods-BlablaBlock-BlablaBlockUITests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = D995T28HR4;
 				INFOPLIST_FILE = BlablaBlockUITests/Info.plist;
@@ -1264,7 +1287,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E5F2F973E03C0928B571E800 /* Pods-BlablaBlock-BlablaBlockUITests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = D995T28HR4;
 				INFOPLIST_FILE = BlablaBlockUITests/Info.plist;

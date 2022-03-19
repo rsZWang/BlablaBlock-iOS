@@ -44,29 +44,61 @@ platform :ios do
 end
 
 platform :ios do
-  desc "TEST TEST"
+  desc "Build, upload_to_testflight, download dsyms, upload dsyms, clear dsyms"
   lane :harry do
-    cleanDir
+    cleanDir(build_dir)
 
-    build_app(
-      workspace: workspace, 
-      scheme: scheme,
-      clean: true,
-      output_directory: build_dir,
-      include_symbols: true,
-      include_bitcode: true
-    )
+    build_testflight(workspace, scheme, build_number)
 
-    pilot(
-      ipa: "BlablaBlock.ipa",
-      skip_submission: true,
-      skip_waiting_for_build_processing: true
-    )
+    upload_dsyms(version, build_number)
   end
 end
 
-def cleanDir
+platform :ios do
+  desc "Build and upload to testflight"
+  lane :harry_build_testflight do
+    build_testflight(workspace, scheme, build_number)
+  end
+end
+
+platform :ios do
+  desc "Download and upload and clear dsyms"
+  lane :harry_dsyms do
+    upload_dsyms(version, build_number)
+  end
+end
+
+def cleanDir(build_dir)
   sh "pwd"
   sh "rm -r ./../#{build_dir} | echo"
   sh "mkdir ./../#{build_dir}"
+end
+
+def build_testflight(workspace, scheme, build_dir)
+  build_app(
+    workspace: workspace, 
+    scheme: scheme,
+    clean: true,
+    output_directory: build_dir,
+    include_symbols: true,
+    include_bitcode: true
+  )
+
+  pilot(
+    ipa: "BlablaBlock.ipa",
+    skip_submission: true,
+    skip_waiting_for_build_processing: true
+  )
+end
+
+def upload_dsyms(version, build_number)
+  download_dsyms(
+      version: version, 
+      build_number: build_number,
+      output_directory: "./dSYMs"
+    )
+    upload_symbols_to_crashlytics(
+      gsp_path: "./BlablaBlock/GoogleService-Info.plist"
+    )
+    clean_build_artifacts
 end
