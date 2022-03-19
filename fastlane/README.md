@@ -31,6 +31,14 @@ Push a new release build to the App Store
 
 Upload ipa to Testflight
 
+### ios harry
+
+```sh
+[bundle exec] fastlane ios harry
+```
+
+TEST TEST
+
 ----
 
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.

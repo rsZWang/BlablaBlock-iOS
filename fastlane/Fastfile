@@ -13,6 +13,13 @@
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
+proj = "BlablaBlock.xcodeproj"
+version = get_version_number(xcodeproj: proj)
+build_number = get_build_number(xcodeproj: proj)
+build_dir = "builds/#{version}_#{build_number}"
+workspace = "BlablaBlock.xcworkspace"
+scheme = "BlablaBlock"
+
 default_platform(:ios)
 
 platform :ios do
@@ -34,4 +41,32 @@ platform :ios do
       skip_waiting_for_build_processing: true
     )
   end
+end
+
+platform :ios do
+  desc "TEST TEST"
+  lane :harry do
+    cleanDir
+
+    build_app(
+      workspace: workspace, 
+      scheme: scheme,
+      clean: true,
+      output_directory: build_dir,
+      include_symbols: true,
+      include_bitcode: true
+    )
+
+    pilot(
+      ipa: "BlablaBlock.ipa",
+      skip_submission: true,
+      skip_waiting_for_build_processing: true
+    )
+  end
+end
+
+def cleanDir
+  sh "pwd"
+  sh "rm -r ./../#{build_dir} | echo"
+  sh "mkdir ./../#{build_dir}"
 end
