@@ -39,6 +39,22 @@ Upload ipa to Testflight
 
 Build, upload_to_testflight, download dsyms, upload dsyms, clear dsyms
 
+### ios harry_build_testflight
+
+```sh
+[bundle exec] fastlane ios harry_build_testflight
+```
+
+Build and upload to testflight
+
+### ios harry_dsyms
+
+```sh
+[bundle exec] fastlane ios harry_dsyms
+```
+
+Download and upload and clear dsyms
+
 ----
 
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.

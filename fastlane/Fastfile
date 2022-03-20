@@ -85,7 +85,7 @@ def build_testflight(workspace, scheme, build_dir)
   )
 
   pilot(
-    ipa: "BlablaBlock.ipa",
+    ipa: "#{build_dir}/BlablaBlock.ipa",
     skip_submission: true,
     skip_waiting_for_build_processing: true
   )

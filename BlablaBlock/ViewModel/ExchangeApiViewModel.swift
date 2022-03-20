@@ -84,6 +84,21 @@ final class ExchangeApiViewModel: BaseViewModel {
             .disposed(by: disposeBag)
     }
     
+    func getIcons() {
+        ExchangeApiService.getCurrency()
+            .request()
+            .subscribe(
+                onSuccess: { [weak self] response in
+//                    self?.newExchangeHandler(response: response)
+                    Timber.i("response: \(response)")
+                },
+                onFailure: { [weak self] error in
+                    self?.errorHandler(error: error)
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    
     private func newExchangeHandler(response: HttpResponse<ExchangeApi, ResponseFailure>) {
         switch response {
         case let .success(exchange):
