@@ -8,7 +8,7 @@
 import UIKit
 
 @IBDesignable
-public class ColorButton: RadioButton {
+open class ColorButton: RadioButton {
 
     public enum Style: Int { case square, rounded }
     
@@ -30,6 +30,7 @@ public class ColorButton: RadioButton {
     
     @IBInspectable public var rounded: Bool = false
     @IBInspectable public var border: Bool = false
+    @IBInspectable public var titleBold: Bool = false
     
     override public var isEnabled: Bool {
         didSet { updated() }
@@ -47,9 +48,9 @@ public class ColorButton: RadioButton {
     
     override public func layoutSubviews() {
         super.layoutSubviews()
-        layer.cornerRadius = rounded ? 6 : 0
+        layer.cornerRadius = rounded ? 4 : 0
         layer.borderWidth = border ? 1 : 0
-        titleLabel?.font = .systemFont(ofSize: titleSize)
+        titleLabel?.font = titleBold ? .boldSystemFont(ofSize: titleSize) : .systemFont(ofSize: titleSize)
         updated()
     }
     

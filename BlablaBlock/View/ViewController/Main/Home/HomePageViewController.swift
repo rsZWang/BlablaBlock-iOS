@@ -10,7 +10,16 @@ import Resolver
 
 final class HomePageViewController: BaseViewController {
     
-    @Injected var homeViewModel: HomeViewModel
+    private let viewModel: HomeViewModelType
+    
+    init(viewModel: HomeViewModelType) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     deinit {
         Timber.i("\(type(of: self)) deinit")
@@ -18,46 +27,53 @@ final class HomePageViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.separatorStyle = .none
+        setupUI()
         setupLayout()
         setupBinding()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        homeViewModel.inputs.viewWillAppear.accept(())
+        viewModel.inputs.viewWillAppear.accept(())
+    }
+    
+    private func setupUI() {
+        view.backgroundColor = .grayE5E5E5
+        logoImageView.image = "ic_home_page_logo".image()
+        tableView.separatorStyle = .none
     }
     
     private func setupLayout() {
         view.addSubview(statusBarSection)
+        view.addSubview(topSectionView)
+        topSectionView.addSubview(logoImageView)
+        view.addSubview(tableView)
+        
         let statusBarHeight = UIApplication.shared.statusBarFrame.height
         statusBarSection.snp.makeConstraints { make in
             make.height.equalTo(statusBarHeight)
             make.leading.top.trailing.equalToSuperview()
         }
         
-        view.addSubview(topSectionView)
         topSectionView.snp.makeConstraints { make in
             make.top.equalTo(statusBarSection.snp.bottom)
             make.leading.trailing.equalToSuperview()
-            make.height.equalTo(70)
         }
         
-        topSectionView.addSubview(appNameLabel)
-        appNameLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.leading.equalToSuperview().offset(30)
+        logoImageView.snp.makeConstraints { make in
+            make.height.equalTo(42)
+            make.leading.equalToSuperview().offset(24)
+            make.top.bottom.equalToSuperview()
         }
-        
-        view.addSubview(tableView)
+
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(topSectionView.snp.bottom)
+            make.top.equalTo(topSectionView.snp.bottom).offset(16)
             make.leading.trailing.bottom.equalToSuperview()
         }
     }
     
     private func setupBinding() {
-        homeViewModel.outputs
+        viewModel.outputs
             .notifications
             .drive(
                 tableView.rx.items(
@@ -71,26 +87,9 @@ final class HomePageViewController: BaseViewController {
             .disposed(by: disposeBag)
     }
     
-    private let statusBarSection: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(named: "bg_gray")
-        return view
-    }()
-    
-    private let topSectionView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(named: "bg_gray")
-        return view
-    }()
-    
-    private let appNameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "BlablaBlock"
-        label.textColor = .black
-        label.font = .boldSystemFont(ofSize: 26)
-        return label
-    }()
-
-    private let tableView: HomePageTableView = HomePageTableView()
+    private let statusBarSection = UIView()
+    private let topSectionView = UIView()
+    private let logoImageView = UIImageView()
+    private let tableView = HomePageTableView()
     
 }

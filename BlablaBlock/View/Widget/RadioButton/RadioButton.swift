@@ -16,7 +16,11 @@ open class RadioButton: UIButton {
     
     public var delegate: RadioButtonDelegate?
     
-    override public var buttonType: UIButton.ButtonType { get { .custom } }
+    override public var buttonType: UIButton.ButtonType { .custom }
+    
+    convenience init() {
+        self.init(frame: .zero)
+    }
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,7 +29,6 @@ open class RadioButton: UIButton {
     
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        addTarget(self, action: #selector(selected), for: .touchUpInside)
         commonInit()
     }
     
@@ -34,11 +37,11 @@ open class RadioButton: UIButton {
         titleLabel?.numberOfLines = 1
         titleLabel?.adjustsFontSizeToFitWidth = true
         titleLabel?.lineBreakMode = .byClipping
+        addTarget(self, action: #selector(selected), for: .touchUpInside)
     }
     
     @objc
     private func selected() {
-        isSelected = !isSelected
         delegate?.onClicked(radioButton: self)
     }
     

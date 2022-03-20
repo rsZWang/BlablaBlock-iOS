@@ -13,7 +13,7 @@ import RxGesture
 
 final class LinkExchangeViewController: BaseViewController {
     
-    @Injected var exchangeApiViewModel: ExchangeApiViewModel
+    @Injected var exchangeApiViewModel: ExchangeViewModel
     
     var exchangeType: ExchangeType!
     var exchange: ExchangeApiData?

@@ -12,25 +12,51 @@ import RxSwift
 
 final class LauncherViewController: BaseViewController {
     
-    @Injected var mainCoordinator: MainCoordinator
-    @Injected var exchangeApiViewModel: ExchangeApiViewModel
+    @Injected var mainCoordinator: NewMainCoordinator
+    private let homeViewModel: HomeViewModelType
+    private let searchViewModel: SearchViewModelType
+    private let portfolioViewModel: PortfolioViewModelType
+    private let exchangeViewModel: ExchangeViewModelType
+    
+    init(
+        homeViewModel: HomeViewModelType,
+        searchViewModel: SearchViewModelType,
+        portfolioViewModel: PortfolioViewModelType,
+        exchangeViewModel: ExchangeViewModelType
+    ) {
+        self.homeViewModel = homeViewModel
+        self.searchViewModel = searchViewModel
+        self.portfolioViewModel = portfolioViewModel
+        self.exchangeViewModel = exchangeViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        Timber.i("\(type(of: self)) deinit")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
-        addLogo()
+        setupUI()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let _ = keychainUser[.userToken], let _ = keychainUser[.userId] {
-            preload()
-        } else {
-            mainCoordinator.signIn()
-        }
+//        if let _ = keychainUser[.userToken], let _ = keychainUser[.userId] {
+//            preload()
+//        } else {
+//            mainCoordinator.signIn()
+//        }
+        preload()
     }
     
-    private func addLogo() {
+    private func setupUI() {
+        view.backgroundColor = .black
+        
         let containerView = UIView()
         view.addSubview(containerView)
         containerView.snp.makeConstraints { make in
@@ -63,16 +89,22 @@ final class LauncherViewController: BaseViewController {
     }
     
     private func preload() {
-        exchangeApiViewModel.getApiStatus()
-            .subscribe(
-                onNext: { [weak self] hasLinked in
-                    self?.mainCoordinator.main(isSignIn: false, hasLinked: hasLinked)
-                },
-                onError: { [weak self] error in
-                    self?.mainCoordinator.signIn()
-                }
-            )
-            .disposed(by: shortLifecycleOwner)
+        mainCoordinator.main(
+            homeViewModel: homeViewModel,
+            searchViewModel: searchViewModel,
+            portfolioViewModel: portfolioViewModel,
+            exchangeViewModel: exchangeViewModel
+        )
+//        exchangeApiViewModel.getApiStatus()
+//            .subscribe(
+//                onNext: { [weak self] hasLinked in
+//                    self?.mainCoordinator.main(isSignIn: false, hasLinked: hasLinked)
+//                },
+//                onError: { [weak self] error in
+//                    self?.mainCoordinator.signIn()
+//                }
+//            )
+//            .disposed(by: shortLifecycleOwner)
     }
     
 }

@@ -13,7 +13,7 @@ final class SettingViewController: BaseViewController, LinkCardViewDelegate {
     
     @Injected var mainCoordinator: MainCoordinator
     @Injected var authViewModel: AuthViewModel
-    @Injected var exchangeApiViewModel: ExchangeApiViewModel
+    @Injected var exchangeApiViewModel: ExchangeViewModel
     
     private lazy var linkCardList = [
         LinkCardView(self, type: .binance),

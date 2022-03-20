@@ -13,16 +13,16 @@ open class BaseViewController: UIViewController {
     internal let disposeBag = DisposeBag()
     internal var shortLifecycleOwner: DisposeBag!
 
-    open override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    open override func viewWillAppear(_ animated: Bool) {
+    override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         shortLifecycleOwner = DisposeBag()
     }
     
-    open override func viewDidDisappear(_ animated: Bool) {
+    override public func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         shortLifecycleOwner = nil
     }

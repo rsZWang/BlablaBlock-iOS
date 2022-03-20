@@ -1,5 +1,5 @@
 //
-//  UserViewModel.swift
+//  SearchViewModel.swift
 //  BlablaBlock
 //
 //  Created by Harry on 2022/3/5.
@@ -8,29 +8,29 @@
 import Foundation
 import RxCocoa
 
-public protocol UserViewModelInputs {
+public protocol SearchViewModelInputs {
     var viewDidLoad: PublishRelay<()> { get }
     var userName: BehaviorRelay<String> { get }
     var selectedIndexPath: PublishRelay<IndexPath> { get }
     var refresh: PublishRelay<()> { get }
 }
 
-public protocol UserViewModelOutputs {
+public protocol SearchViewModelOutputs {
     var users: Driver<[UserApiData]> { get }
     var selectedUser: Signal<UserApiData> { get }
     var finishLoading: Signal<Bool> { get }
 }
 
-public protocol UserViewModelType {
-    var inputs: UserViewModelInputs { get }
-    var outputs: UserViewModelOutputs { get }
+public protocol SearchViewModelType {
+    var inputs: SearchViewModelInputs { get }
+    var outputs: SearchViewModelOutputs { get }
 }
 
-final class UserViewModel:
+final class SearchViewModel:
     BaseViewModel,
-    UserViewModelInputs,
-    UserViewModelOutputs,
-    UserViewModelType
+    SearchViewModelInputs,
+    SearchViewModelOutputs,
+    SearchViewModelType
 {
 
     // MARK: - inputs
@@ -46,8 +46,8 @@ final class UserViewModel:
     var selectedUser: Signal<UserApiData>
     var finishLoading: Signal<Bool>
 
-    var inputs: UserViewModelInputs { self }
-    var outputs: UserViewModelOutputs { self }
+    var inputs: SearchViewModelInputs { self }
+    var outputs: SearchViewModelOutputs { self }
     
     override init() {
         let viewDidLoad = PublishRelay<()>()
@@ -120,37 +120,6 @@ final class UserViewModel:
                 }
             )
             .disposed(by: disposeBag)
-        
-//        let mockUsers = [
-//            UserApiData(
-//                userId: "001",
-//                name: "Harry",
-//                roi: 60.11111,
-//                roiAnnual: 60.22222,
-//                mdd: 60.33333,
-//                dailyWinRate: 60.44444,
-//                sharpeRatio: 60.55555
-//            ),
-//            UserApiData(
-//                userId: "002",
-//                name: "Stacey",
-//                roi: 50.11111,
-//                roiAnnual: 50.22222,
-//                mdd: 50.33333,
-//                dailyWinRate: 50.44444,
-//                sharpeRatio: 50.55555
-//            ),
-//            UserApiData(
-//                userId: "003",
-//                name: "Angel",
-//                roi: 40.11111,
-//                roiAnnual: 40.22222,
-//                mdd: 40.33333,
-//                dailyWinRate: 40.44444,
-//                sharpeRatio: 40.55555
-//            )
-//        ]
-//        users.accept(mockUsers)
     }
 }
 

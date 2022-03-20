@@ -12,7 +12,7 @@ import Resolver
 final class SearchUserViewController: BaseViewController {
     
     @Injected var coordinator: MainCoordinator
-    @Injected var viewModel: UserViewModelType
+    @Injected var viewModel: SearchViewModelType
     
     deinit {
         Timber.i("\(type(of: self)) deinit")

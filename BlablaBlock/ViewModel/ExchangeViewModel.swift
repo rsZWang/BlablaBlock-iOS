@@ -1,5 +1,5 @@
 //
-//  ExchangeApiViewModel.swift
+//  ExchangeViewModel.swift
 //  BlablaBlock
 //
 //  Created by Harry on 2021/12/20.
@@ -9,7 +9,11 @@ import Resolver
 import RxCocoa
 import RxSwift
 
-final class ExchangeApiViewModel: BaseViewModel {
+public protocol ExchangeViewModelType {
+    
+}
+
+final class ExchangeViewModel: BaseViewModel, ExchangeViewModelType {
     
     let exhangeListObservable = BehaviorRelay<[ExchangeApiData]>(value: [])
     let exchangeUpdatedObservable = PublishSubject<ExchangeApiData>()

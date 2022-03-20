@@ -36,17 +36,19 @@ public class RadioButtonGroup: RadioButtonDelegate {
     }
 
     public func onClicked(radioButton: RadioButton) {
-        for button in buttons {
-            if button.isSelected {
-                _lastButton = button
-                break
+        if !radioButton.isSelected {
+            for button in buttons {
+                if button.isSelected {
+                    _lastButton = button
+                    break
+                }
             }
-        }
-        for button in buttons {
-            let isThis = button == radioButton
-            button.isSelected = isThis
-            if isThis {
-                delegate?.onClicked(radioButton: radioButton)
+            for button in buttons {
+                let isThis = button == radioButton
+                button.isSelected = isThis
+                if isThis {
+                    delegate?.onClicked(radioButton: radioButton)
+                }
             }
         }
     }

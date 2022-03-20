@@ -13,22 +13,22 @@ import Resolver
 class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UISceneDelegate {
 
     var window: UIWindow?
-    @Injected var mainCoordinator: MainCoordinator
+    @Injected var mainCoordinator: NewMainCoordinator
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        Resolver.registerAllServices()
+        FirebaseApp.configure()
         
         if #available(iOS 13, *) {
             
         } else {
-            mainCoordinator.start()
             let window = UIWindow(frame: UIScreen.main.bounds)
             window.rootViewController = mainCoordinator.navigationController
             window.makeKeyAndVisible()
             self.window = window
         }
-        
-        FirebaseApp.configure()
-        Resolver.registerAllServices()
+        mainCoordinator.start()
         
         return true
     }

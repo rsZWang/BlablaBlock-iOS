@@ -93,12 +93,11 @@ end
 
 def upload_dsyms(version, build_number)
   download_dsyms(
-      version: version, 
-      build_number: build_number,
-      output_directory: "./dSYMs"
-    )
-    upload_symbols_to_crashlytics(
-      gsp_path: "./BlablaBlock/GoogleService-Info.plist"
-    )
-    clean_build_artifacts
+    version: version, 
+    build_number: build_number
+  )
+  upload_symbols_to_crashlytics(
+    gsp_path: "./BlablaBlock/GoogleService-Info.plist"
+  )
+  clean_build_artifacts
 end

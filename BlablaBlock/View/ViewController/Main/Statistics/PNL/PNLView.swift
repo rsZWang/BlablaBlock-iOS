@@ -281,7 +281,7 @@ extension PNLView {
     
     private func createChartPoint(point: PNLCharData) -> ChartPoint {
         ChartPoint(
-            x: createDateAxisValue(timestamp: point.timestamp),
+            x: createDateAxisValue(timestamp: Int(point.timestamp)),
             y: ChartAxisValueDouble(point.value)
         )
     }

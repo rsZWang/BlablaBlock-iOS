@@ -14,7 +14,7 @@ import RxDataSources
 final class StatisticsViewController: BaseViewController {
     
     @Injected var mainCoordinator: MainCoordinator
-    @Injected var viewModel: StatisticsViewModelType
+    @Injected var viewModel: PortfolioViewModelType
     @Injected var followViewModel: FollowViewModelType
     var user: UserApiData!
 

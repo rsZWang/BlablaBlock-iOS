@@ -1,5 +1,5 @@
 //
-//  StatisticsViewModel.swift
+//  PortfolioViewModel.swift
 //  BlablaBlock
 //
 //  Created by Harry on 2021/12/20.
@@ -9,7 +9,7 @@ import Resolver
 import RxCocoa
 import RxSwift
 
-public protocol StatisticsViewModelInputs {
+public protocol PortfolioViewModelInputs {
     var viewDidLoad: PublishRelay<()> { get }
     var historyBtnTap: PublishRelay<()> { get }
     var exchangeFilter: BehaviorRelay<ExchangeType> { get }
@@ -21,7 +21,7 @@ public protocol StatisticsViewModelInputs {
     var followingPortfolioPull: PublishRelay<()> { get }
 }
 
-public protocol StatisticsViewModelOutputs {
+public protocol PortfolioViewModelOutputs {
     var user: BehaviorRelay<UserApiData?> { get }
     var portfolio: Driver<PortfolioViewData> { get }
     var pnl: Signal<PNLApiData> { get }
@@ -32,9 +32,9 @@ public protocol StatisticsViewModelOutputs {
     var uiEvent: PublishRelay<StatisticsViewUiEvent> { get }
 }
 
-public protocol StatisticsViewModelType {
-    var inputs: StatisticsViewModelInputs { get }
-    var outputs: StatisticsViewModelOutputs { get }
+public protocol PortfolioViewModelType {
+    var inputs: PortfolioViewModelInputs { get }
+    var outputs: PortfolioViewModelOutputs { get }
 }
 
 public enum StatisticsViewUiEvent {
@@ -42,11 +42,11 @@ public enum StatisticsViewUiEvent {
     case history
 }
 
-final class StatisticsViewModel:
+final class PortfolioViewModel:
     BaseViewModel,
-    StatisticsViewModelInputs,
-    StatisticsViewModelOutputs,
-    StatisticsViewModelType
+    PortfolioViewModelInputs,
+    PortfolioViewModelOutputs,
+    PortfolioViewModelType
 {
     // MARK: - inputs
     var viewDidLoad: PublishRelay<()>
@@ -69,8 +69,8 @@ final class StatisticsViewModel:
     var followingPortfolioRefresh: Signal<Bool>
     var uiEvent: PublishRelay<StatisticsViewUiEvent>
     
-    var inputs: StatisticsViewModelInputs { self }
-    var outputs: StatisticsViewModelOutputs { self }
+    var inputs: PortfolioViewModelInputs { self }
+    var outputs: PortfolioViewModelOutputs { self }
     
     // MARK: - internals
     private let portfolioViewDataCache = BehaviorRelay<PortfolioApiData?>(value: nil)
@@ -237,7 +237,7 @@ final class StatisticsViewModel:
     }
 }
 
-private extension StatisticsViewModel {    
+private extension PortfolioViewModel {    
     func getPortfolio(
         portfolioRefresh: PublishRelay<Bool>,
         exchange: String

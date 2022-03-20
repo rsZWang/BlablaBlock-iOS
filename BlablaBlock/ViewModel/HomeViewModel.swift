@@ -59,21 +59,49 @@ final class HomeViewModel:
     }
     
     private func loadNotifications(notifications: BehaviorRelay<[NotificationApiData]>) {
-        UserService.getNotifications()
-            .request()
-            .subscribe(
-                onSuccess: { [weak self] response in
-                    switch response {
-                    case let .success(historyApiResponse):
-                        notifications.accept(historyApiResponse.data)
-                    case let .failure(responseFailure):
-                        self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
-                    }
-                },
-                onFailure: { [weak self] error in
-                    self?.errorHandler(error: error)
-                }
+//        UserService.getNotifications()
+//            .request()
+//            .subscribe(
+//                onSuccess: { [weak self] response in
+//                    switch response {
+//                    case let .success(historyApiResponse):
+//                        notifications.accept(historyApiResponse.data)
+//                    case let .failure(responseFailure):
+//                        self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
+//                    }
+//                },
+//                onFailure: { [weak self] error in
+//                    self?.errorHandler(error: error)
+//                }
+//            )
+//            .disposed(by: disposeBag)
+        
+        let mocdNotifications = [
+            NotificationApiData(
+                userId: 1,
+                name: "Harry",
+                exchange: "Binance",
+                currency: "BTC",
+                type: "spot",
+                timestamp: 1637901093,
+                side: "BUY",
+                price: 2925.2,
+                executedQty: 1.2,
+                isFollow: false
+            ),
+            NotificationApiData(
+                userId: 2,
+                name: "Potter",
+                exchange: "FTX",
+                currency: "ETH",
+                type: "spot",
+                timestamp: 1647901093,
+                side: "BUY",
+                price: 2925.2,
+                executedQty: 1.2,
+                isFollow: true
             )
-            .disposed(by: disposeBag)
+        ]
+        notifications.accept(mocdNotifications)
     }
 }

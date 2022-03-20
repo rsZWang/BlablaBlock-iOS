@@ -24,8 +24,8 @@ final class MainCoordinator: NSObject, Coordinator {
     }
 
     func start() {
-        let vc = LauncherViewController()
-        navigationController.pushViewController(vc, animated: false)
+//        let vc = LauncherViewController()
+//        navigationController.pushViewController(vc, animated: false)
     }
     
     func signIn() {

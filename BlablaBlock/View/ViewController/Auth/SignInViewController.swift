@@ -15,7 +15,7 @@ final class SignInViewController: BaseViewController, Storyboarded {
     
     @Injected private var mainCoordinator: MainCoordinator
     @Injected private var authViewModel: AuthViewModel
-    @Injected private var exchangeApiViewModel: ExchangeApiViewModel
+    @Injected private var exchangeApiViewModel: ExchangeViewModel
     private let signInMode = ReplayRelay<Bool>.create(bufferSize: 1)
        
     private let radioButtonGruop = RadioButtonGroup()
