@@ -17,16 +17,19 @@ final class TradeHistoryTableViewCell: UITableViewCell {
         return view
     }()
     
-    private let currencyImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "info")
-        return imageView
-    }()
+    private let currencyImageView = UIImageView()
     
     private let currencyLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 20)
+        label.font = .boldSystemFont(ofSize: 20)
         label.textColor = .black
+        return label
+    }()
+    
+    private let currencyType: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 12)
+        label.textColor = .darkGray
         return label
     }()
     
@@ -121,15 +124,32 @@ final class TradeHistoryTableViewCell: UITableViewCell {
             make.width.height.equalTo(40)
         }
         
-        contentMarginView.addSubview(currencyLabel)
-        currencyLabel.snp.makeConstraints { make in
-            make.leading.equalTo(currencyImageView.snp.trailing).offset(8)
+        let currencyStackView = UIStackView()
+        currencyStackView.axis = .vertical
+        currencyStackView.addArrangedSubview(currencyLabel)
+        currencyStackView.addArrangedSubview(currencyType)
+        
+        contentMarginView.addSubview(currencyStackView)
+        currencyStackView.snp.makeConstraints { make in
+            make.leading.equalTo(currencyImageView.snp.trailing).offset(6)
             make.centerY.equalTo(currencyImageView)
         }
         
+//        contentMarginView.addSubview(currencyLabel)
+//        currencyLabel.snp.makeConstraints { make in
+//            make.leading.equalTo(currencyImageView.snp.trailing).offset(8)
+//            make.centerY.equalTo(currencyImageView)
+//        }
+//
+//        contentMarginView.addSubview(currencyType)
+//        currencyType.snp.makeConstraints { make in
+//            make.leading.equalTo(currencyLabel)
+//            make.top.equalTo(currencyLabel.snp.bottom)
+//        }
+        
         contentMarginView.addSubview(timestampLabel)
         timestampLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(currencyLabel)
+            make.bottom.equalTo(currencyType)
             make.trailing.equalToSuperview()
         }
         
@@ -178,7 +198,9 @@ final class TradeHistoryTableViewCell: UITableViewCell {
     }
     
     func bind(history: HistoryApiData) {
-        currencyLabel.attributedText = history.getCurrencyString()
+        currencyImageView.currency(name: history.currency)
+        currencyLabel.text = history.currency.uppercased()
+        currencyType.text = PortfolioType.map(type: history.type)
         timestampLabel.text = formatDateTime(timestamp: history.timestamp)
         if history.side == "BUY" {
             actionLabel.text = "買入"
@@ -189,15 +211,15 @@ final class TradeHistoryTableViewCell: UITableViewCell {
         }
         exchangeLabel.text = history.exchange.uppercased()
         priceTitleLabel.text = "價格"
-        priceLabel.text = history.price.toPrettyPrecisedString()
+        priceLabel.text = Double(history.price)?.toPrettyPrecisedString()
         amountTitleLabel.text = "成交數量"
-        amountLabel.text = history.executedQty.toPrettyPrecisedString()
+        amountLabel.text = Double(history.executedQty)?.toPrettyPrecisedString()
     }
     
-    private func formatDateTime(timestamp: Int64) -> String {
+    private func formatDateTime(timestamp: TimeInterval) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return formatter.string(from: Date(timeIntervalSince1970: Double(timestamp)))
+        return formatter.string(from: Date(timeIntervalSince1970: timestamp/1000))
     }
 }
 

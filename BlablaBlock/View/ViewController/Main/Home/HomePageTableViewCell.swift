@@ -64,11 +64,12 @@ final class HomePageTableViewCell: UITableViewCell {
         return view
     }()
     
-    private let currencyImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "info")
-        return imageView
-    }()
+    private let currencyImageView = UIImageView()
+//        = {
+//        let imageView = UIImageView()
+//        imageView.image = UIImage(named: "info")
+//        return imageView
+//    }()
     
     private let currencyLabel: UILabel = {
         let label = UILabel()
@@ -256,6 +257,7 @@ final class HomePageTableViewCell: UITableViewCell {
     }
     
     func bind(notification: NotificationApiData) {
+        currencyImageView.currency(name: notification.currency)
         if notification.isFollow {
             followButton.setTitle("追蹤中", for: .normal)
             followButton.isSelected = true

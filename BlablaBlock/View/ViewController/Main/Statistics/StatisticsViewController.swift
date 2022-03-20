@@ -54,6 +54,7 @@ final class StatisticsViewController: BaseViewController {
     private lazy var pagedView = PagedView(pages: [portfolioViewCell, pnlViewCell, followingPortfolioView])
     
     deinit {
+        pnlView.semaphore?.signal()
         Timber.i("\(type(of: self)) deinit")
     }
     
@@ -75,11 +76,6 @@ final class StatisticsViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         followViewModel.inputs.viewWillAppear.accept(())
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        pnlView.semaphore?.signal()
     }
     
     private func setupUI() {

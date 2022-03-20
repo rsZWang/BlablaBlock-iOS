@@ -42,12 +42,16 @@ class ExchangeListTableViewCell: UITableViewCell {
     @IBOutlet weak var rateLabel: UILabel!
     
     func bind(_ portfolio: PortfolioAssetViewData) {
+        iconImageView.currency(name: portfolio.currency)
         nameLabel.text = portfolio.currency
         percentageLabel.text = portfolio.percentage
         amountLabel.text = portfolio.balance
         valueLabel.text = portfolio.value
         rateLabel.text = portfolio.dayChange
-        if Double(portfolio.dayChange) ?? 0 < 0 {
+        
+        var dayChangeDouble = portfolio.dayChange
+        dayChangeDouble.removeAll(where: { $0 == "%" })
+        if Double(dayChangeDouble) ?? 0 < 0 {
             rateLabel.textColor = #colorLiteral(red: 0.8666666667, green: 0.3921568627, blue: 0.3921568627, alpha: 1)
         } else {
             rateLabel.textColor = #colorLiteral(red: 0.2352941176, green: 0.831372549, blue: 0.5568627451, alpha: 1)

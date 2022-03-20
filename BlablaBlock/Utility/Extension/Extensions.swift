@@ -189,3 +189,12 @@ public extension Date {
         }
     }
 }
+
+public extension UIImageView {
+    
+    func currency(name: String) {
+        let lowercase = name.lowercased()
+        image = UIImage(named: lowercase)
+    }
+    
+}
