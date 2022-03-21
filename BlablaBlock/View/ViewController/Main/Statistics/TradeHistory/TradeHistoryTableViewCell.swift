@@ -211,9 +211,9 @@ final class TradeHistoryTableViewCell: UITableViewCell {
         }
         exchangeLabel.text = history.exchange.uppercased()
         priceTitleLabel.text = "價格"
-        priceLabel.text = Double(history.price)?.toPrettyPrecisedString()
+        priceLabel.text = history.price.toPrettyPrecisedString()
         amountTitleLabel.text = "成交數量"
-        amountLabel.text = Double(history.executedQty)?.toPrettyPrecisedString()
+        amountLabel.text = history.executedQty.toPrettyPrecisedString()
     }
     
     private func formatDateTime(timestamp: TimeInterval) -> String {

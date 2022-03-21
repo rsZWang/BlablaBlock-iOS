@@ -266,7 +266,7 @@ final class HomePageTableViewCell: UITableViewCell {
             followButton.isSelected = false
         }
         nameLabel.text = notification.name
-        timestampCounterLabel.text = Date(timeIntervalSince1970: TimeInterval(notification.timestamp)).agoString()
+        timestampCounterLabel.text = Date(timeIntervalSince1970: notification.timestamp/1000).agoString()
         currencyLabel.attributedText = notification.getCurrencyString()
         timestampLabel.text = formatDateTime(timestamp: notification.timestamp)
         if notification.side == "BUY" {
@@ -283,10 +283,10 @@ final class HomePageTableViewCell: UITableViewCell {
         amountLabel.text = notification.executedQty.toPrettyPrecisedString()
     }
     
-    private func formatDateTime(timestamp: Int64) -> String {
+    private func formatDateTime(timestamp: TimeInterval) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return formatter.string(from: Date(timeIntervalSince1970: Double(timestamp)))
+        return formatter.string(from: Date(timeIntervalSince1970: timestamp/1000))
     }
 
 }

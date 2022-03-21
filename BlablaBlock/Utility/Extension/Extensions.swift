@@ -194,7 +194,7 @@ public extension UIImageView {
     
     func currency(name: String) {
         let lowercase = name.lowercased()
-        image = UIImage(named: lowercase)
+        image = UIImage(named: lowercase) ?? UIImage(named: "currency_unknown")
     }
     
 }

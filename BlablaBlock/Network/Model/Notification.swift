@@ -18,7 +18,7 @@ public struct NotificationApiData: Decodable {
     let exchange: String
     let currency: String
     let type: String
-    let timestamp: Int64
+    let timestamp: TimeInterval
     let side: String
     let price: Double
     let executedQty: Double

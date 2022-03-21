@@ -88,7 +88,7 @@ final class ExchangeApiViewModel: BaseViewModel {
         ExchangeApiService.getCurrency()
             .request()
             .subscribe(
-                onSuccess: { [weak self] response in
+                onSuccess: { response in
 //                    self?.newExchangeHandler(response: response)
                     Timber.i("response: \(response)")
                 },
