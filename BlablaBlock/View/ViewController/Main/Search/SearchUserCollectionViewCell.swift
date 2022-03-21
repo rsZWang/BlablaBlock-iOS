@@ -154,7 +154,7 @@ final class SearchUserCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(bgView)
         bgView.snp.makeConstraints { make in
             make.width.equalTo(width)
-            make.edges.equalTo(UIEdgeInsets(top: 18, left: 0, bottom: 0, right: 0))
+            make.edges.equalTo(UIEdgeInsets(top: 14, left: 0, bottom: 0, right: 0))
         }
         
         let paddingView = UIView()

@@ -64,7 +64,6 @@ final class StatisticsViewController: BaseViewController {
         setupLayout()
         setupBinding()
         viewModel.outputs.user.accept(user)
-        viewModel.inputs.viewDidLoad.accept(())
         followViewModel.inputs.user.accept(user)
     }
     
@@ -229,7 +228,13 @@ final class StatisticsViewController: BaseViewController {
 
         viewModel.outputs
             .portfolioRefresh
-            .emit(to: portfolioView.refreshControl.rx.isRefreshing)
+            .emit(onNext: { [unowned self] bool in
+                if bool {
+                    portfolioView.refreshControl.beginRefreshing(in: portfolioView.tableView)
+                } else {
+                    portfolioView.refreshControl.endRefreshing()
+                }
+            })
             .disposed(by: disposeBag)
 
         viewModel.outputs
@@ -239,7 +244,13 @@ final class StatisticsViewController: BaseViewController {
         
         viewModel.outputs
             .followingPortfolioRefresh
-            .emit(to: followingPortfolioView.refreshControl.rx.isRefreshing)
+            .emit(onNext: { [unowned self] bool in
+                if bool {
+                    followingPortfolioView.refreshControl.beginRefreshing(in: followingPortfolioView.tableView)
+                } else {
+                    followingPortfolioView.refreshControl.endRefreshing()
+                }
+            })
             .disposed(by: disposeBag)
 
         viewModel.outputs

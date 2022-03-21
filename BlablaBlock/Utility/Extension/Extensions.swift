@@ -198,3 +198,11 @@ public extension UIImageView {
     }
     
 }
+
+public extension UIRefreshControl {
+    func beginRefreshing(in tableView: UITableView) {
+        beginRefreshing()
+        let offsetPoint = CGPoint.init(x: 0, y: -frame.size.height)
+        tableView.setContentOffset(offsetPoint, animated: true)
+    }
+}

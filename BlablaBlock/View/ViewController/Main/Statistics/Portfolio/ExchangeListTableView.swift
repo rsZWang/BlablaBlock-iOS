@@ -50,7 +50,7 @@ class ExchangeListTableViewCell: UITableViewCell {
         rateLabel.text = portfolio.dayChange
         
         var dayChangeDouble = portfolio.dayChange
-        dayChangeDouble.removeAll(where: { $0 == "%" })
+        dayChangeDouble.removeAll(where: { $0 == "％" })
         if Double(dayChangeDouble) ?? 0 < 0 {
             rateLabel.textColor = #colorLiteral(red: 0.8666666667, green: 0.3921568627, blue: 0.3921568627, alpha: 1)
         } else {

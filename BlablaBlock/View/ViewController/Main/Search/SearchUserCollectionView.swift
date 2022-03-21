@@ -20,10 +20,10 @@ final class SearchUserCollectionView: UICollectionView {
     convenience init() {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        layout.minimumInteritemSpacing = 14
-        layout.minimumLineSpacing = 18
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
         self.init(frame: .zero, collectionViewLayout: layout)
-        contentInset = UIEdgeInsets(top: 0, left: 14, bottom: 18, right: 14)
+        contentInset = UIEdgeInsets(top: 0, left: 14, bottom: 14, right: 14)
         register(
             SearchUserCollectionViewCell.self,
             forCellWithReuseIdentifier: SearchUserCollectionViewCell.reuseIdentifier

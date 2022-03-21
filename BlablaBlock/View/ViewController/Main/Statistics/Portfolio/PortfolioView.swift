@@ -91,7 +91,6 @@ public final class PortfolioView: UIView, NibOwnerLoadable {
             })
             .disposed(by: disposeBag)
     }
-
 }
 
 extension PortfolioView: PickerViewDelegate {

@@ -10,7 +10,6 @@ import RxCocoa
 import RxSwift
 
 public protocol StatisticsViewModelInputs {
-    var viewDidLoad: PublishRelay<()> { get }
     var historyBtnTap: PublishRelay<()> { get }
     var exchangeFilter: BehaviorRelay<ExchangeType> { get }
     var portfolioType: BehaviorRelay<PortfolioType> { get }
@@ -49,7 +48,6 @@ final class StatisticsViewModel:
     StatisticsViewModelType
 {
     // MARK: - inputs
-    var viewDidLoad: PublishRelay<()>
     var historyBtnTap: PublishRelay<()>
     var exchangeFilter: BehaviorRelay<ExchangeType>
     var portfolioType: BehaviorRelay<PortfolioType>
@@ -81,7 +79,6 @@ final class StatisticsViewModel:
     }
     
     override init() {
-        let viewDidLoad = PublishRelay<()>()
         let historyBtnTap = PublishRelay<()>()
         let exchangeFilter = BehaviorRelay<ExchangeType>(value: .all)
         let portfolioType = BehaviorRelay<PortfolioType>(value: .all)
@@ -100,7 +97,6 @@ final class StatisticsViewModel:
         let followingPortfolioRefresh = PublishRelay<Bool>()
         let uiEvent = PublishRelay<StatisticsViewUiEvent>()
         
-        self.viewDidLoad = viewDidLoad
         self.historyBtnTap = historyBtnTap
         self.exchangeFilter = exchangeFilter
         self.portfolioType = portfolioType
@@ -127,8 +123,8 @@ final class StatisticsViewModel:
         
         super.init()
         
-        viewDidLoad
-            .subscribe(onNext: {
+        user
+            .subscribe(onNext: { _ in
                 refresh.accept(())
                 followingPortfolioPull.accept(())
             })
@@ -139,27 +135,21 @@ final class StatisticsViewModel:
             .bind(to: portfolioRefresh, pnlRefresh)
             .disposed(by: disposeBag)
         
-        followingPortfolioPull
-            .map { true }
-            .bind(to: followingPortfolioRefresh)
-            .disposed(by: disposeBag)
-        
         portfolioRefresh
-            .filter { $0 }
-            .subscribe(onNext: { [weak self] _ in
-                self?.getPortfolio(
-                    portfolioRefresh: portfolioRefresh,
-                    exchange: exchangeFilter.value.rawValue
-                )
+            .subscribe(onNext: { [weak self] bool in
+                if bool {
+                    self?.getPortfolio(
+                        portfolioRefresh: portfolioRefresh,
+                        exchange: exchangeFilter.value.rawValue
+                    )
+                }
             })
             .disposed(by: disposeBag)
-        
+
         exchangeFilter
-            .subscribe(onNext: { [weak self] exchange in
-                self?.getPortfolio(
-                    portfolioRefresh: portfolioRefresh,
-                    exchange: exchange.rawValue
-                )
+            .skip(1)
+            .subscribe(onNext: { _ in
+                portfolioRefresh.accept(true)
             })
             .disposed(by: disposeBag)
         
@@ -185,22 +175,26 @@ final class StatisticsViewModel:
         
         // MARK: - following
         
+        followingPortfolioPull
+            .map { true }
+            .bind(to: followingPortfolioRefresh)
+            .disposed(by: disposeBag)
+        
         followingPortfolioRefresh
-            .filter { $0 }
-            .subscribe(onNext: { [weak self] _ in
-                self?.getFollowingPortfolio(
-                    followingPortfolioRefresh: followingPortfolioRefresh,
-                    exchange: followingPortfolioExchangeFilter.value.rawValue
-                )
+            .subscribe(onNext: { [weak self] bool in
+                if bool {
+                    self?.getFollowingPortfolio(
+                        followingPortfolioRefresh: followingPortfolioRefresh,
+                        exchange: followingPortfolioExchangeFilter.value.rawValue
+                    )
+                }
             })
             .disposed(by: disposeBag)
         
         followingPortfolioExchangeFilter
-            .subscribe(onNext: { [weak self] exchange in
-                self?.getFollowingPortfolio(
-                    followingPortfolioRefresh: followingPortfolioRefresh,
-                    exchange: followingPortfolioExchangeFilter.value.rawValue
-                )
+            .skip(1)
+            .subscribe(onNext: { _ in
+                followingPortfolioRefresh.accept(true)
             })
             .disposed(by: disposeBag)
         
@@ -242,34 +236,53 @@ private extension StatisticsViewModel {
         portfolioRefresh: PublishRelay<Bool>,
         exchange: String
     ) {
-        let request: Single<HttpResponse<PortfolioApi, ResponseFailure>>
         if let userId = user.value?.userId {
-            request = UserService.getPortfolioByID(userId: userId, exchange: exchange)
+            UserService.getPortfolioByID(userId: userId, exchange: exchange)
                 .request()
-        } else {
-            request = StatisticsService.getPortfolio(exchange: exchange)
-                .request()
-        }
-        request.subscribe(
-            onSuccess: { [weak self] response in
-                switch response {
-                case let .success(portfolio):
-                    self?.portfolioViewDataCache.accept(portfolio.data)
-                case let .failure(responseFailure):
-                    if responseFailure.code == 1006 {
-                        
-                    } else {
-                        self?.errorCodeHandler(responseFailure)
+                .subscribe(
+                    onSuccess: { [weak self] response in
+                        switch response {
+                        case let .success(portfolio):
+                            self?.portfolioViewDataCache.accept(portfolio.data)
+                        case let .failure(responseFailure):
+                            if responseFailure.code == 1006 {
+                                
+                            } else {
+                                self?.errorCodeHandler(responseFailure)
+                            }
+                        }
+                        portfolioRefresh.accept(false)
+                    },
+                    onFailure: { [weak self] error in
+                        self?.errorHandler(error: error)
+                        portfolioRefresh.accept(false)
                     }
-                }
-                portfolioRefresh.accept(false)
-            },
-            onFailure: { [weak self] error in
-                self?.errorHandler(error: error)
-                portfolioRefresh.accept(false)
-            }
-        )
-        .disposed(by: disposeBag)
+                )
+                .disposed(by: disposeBag)
+        } else {
+            StatisticsService.getPortfolio(exchange: exchange)
+                .request()
+                .subscribe(
+                    onSuccess: { [weak self] response in
+                        switch response {
+                        case let .success(portfolio):
+                            self?.portfolioViewDataCache.accept(portfolio.data)
+                        case let .failure(responseFailure):
+                            if responseFailure.code == 1006 {
+                                
+                            } else {
+                                self?.errorCodeHandler(responseFailure)
+                            }
+                        }
+                        portfolioRefresh.accept(false)
+                    },
+                    onFailure: { [weak self] error in
+                        self?.errorHandler(error: error)
+                        portfolioRefresh.accept(false)
+                    }
+                )
+                .disposed(by: disposeBag)
+        }
     }
     
     func getPNL(
@@ -277,33 +290,51 @@ private extension StatisticsViewModel {
         pnl: PublishRelay<PNLApiData>,
         pnlRefresh: PublishRelay<Bool>
     ) {
-        let request: Single<HttpResponse<PNLApi, ResponseFailure>>
         if let userId = user.value?.userId {
-            request = UserService.getPNLByID(userId: userId, exchange: "all", period: period)
+            UserService.getPNLByID(userId: userId, exchange: "all", period: period)
                 .request()
-        } else {
-            request = StatisticsService.getPNL(exchange: "all", period: period)
-                .request()
-        }
-        request.subscribe(
-            onSuccess: { [weak self] response in
-                switch response {
-                case let .success(pnlData):
-                    pnl.accept(pnlData.data)
-                case let .failure(responseFailure):
-                    if responseFailure.code == 1007 {
+                .subscribe(
+                    onSuccess: { [weak self] response in
+                        switch response {
+                        case let .success(pnlData):
+                            pnl.accept(pnlData.data)
+                        case let .failure(responseFailure):
+                            if responseFailure.code == 1007 {
 
-                    } else {
-                        self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
+                            } else {
+                                self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
+                            }
+                        }
+                        pnlRefresh.accept(false)
+                    }, onFailure: { [weak self] error in
+                        self?.errorHandler(error: error)
+                        pnlRefresh.accept(false)
                     }
-                }
-                pnlRefresh.accept(false)
-            }, onFailure: { [weak self] error in
-                self?.errorHandler(error: error)
-                pnlRefresh.accept(false)
-            }
-        )
-        .disposed(by: disposeBag)
+                )
+                .disposed(by: disposeBag)
+        } else {
+            StatisticsService.getPNL(exchange: "all", period: period)
+                .request()
+                .subscribe(
+                    onSuccess: { [weak self] response in
+                        switch response {
+                        case let .success(pnlData):
+                            pnl.accept(pnlData.data)
+                        case let .failure(responseFailure):
+                            if responseFailure.code == 1007 {
+
+                            } else {
+                                self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
+                            }
+                        }
+                        pnlRefresh.accept(false)
+                    }, onFailure: { [weak self] error in
+                        self?.errorHandler(error: error)
+                        pnlRefresh.accept(false)
+                    }
+                )
+                .disposed(by: disposeBag)
+        }
     }
     
     func getFollowingPortfolio(
