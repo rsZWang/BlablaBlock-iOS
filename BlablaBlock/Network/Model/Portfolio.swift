@@ -164,7 +164,6 @@ public struct PortfolioApiData: Decodable {
         }
         return assetsViewData
     }
-    
 }
 
 public struct PortfolioApiDataAsset: Decodable, Equatable {

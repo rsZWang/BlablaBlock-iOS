@@ -33,6 +33,8 @@ final class ExchangeListTableView: UITableView {
 }
 
 class ExchangeListTableViewCell: UITableViewCell {
+    
+    static let identifier = "ExchangeListTableViewCell"
 
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!

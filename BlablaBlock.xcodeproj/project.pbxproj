@@ -61,6 +61,7 @@
 		4ABA20A1273BDCB500F66DB9 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABA20A0273BDCB500F66DB9 /* String.swift */; };
 		4AC2F35227E6E60700E187FE /* CurrencyIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AC2F35127E6E60700E187FE /* CurrencyIcon.xcassets */; };
 		4AEE577C27D7B841006D8313 /* UserStatisticsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEE577B27D7B841006D8313 /* UserStatisticsViewModel.swift */; };
+		4AF1CC5F27E836AD0035A4F7 /* FollowingPortfolio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF1CC5E27E836AD0035A4F7 /* FollowingPortfolio.swift */; };
 		4AFC6577276E7E3900ADEDA7 /* InputAlertBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFC6576276E7E3900ADEDA7 /* InputAlertBuilder.swift */; };
 		7C21BD24E9DFC3B795B0358B /* Pods_BlablaBlock_BlablaBlockUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD43244C5F0653EAD9217690 /* Pods_BlablaBlock_BlablaBlockUITests.framework */; };
 		A01B78E2277711880061E86A /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01B78E1277711880061E86A /* Login.swift */; };
@@ -180,6 +181,7 @@
 		4ABA20A0273BDCB500F66DB9 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		4AC2F35127E6E60700E187FE /* CurrencyIcon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CurrencyIcon.xcassets; sourceTree = "<group>"; };
 		4AEE577B27D7B841006D8313 /* UserStatisticsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStatisticsViewModel.swift; sourceTree = "<group>"; };
+		4AF1CC5E27E836AD0035A4F7 /* FollowingPortfolio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingPortfolio.swift; sourceTree = "<group>"; };
 		4AFC6576276E7E3900ADEDA7 /* InputAlertBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputAlertBuilder.swift; sourceTree = "<group>"; };
 		8A4F9FA2216368FC2234CB9B /* Pods_BlablaBlockTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlablaBlockTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C7DDF02B8A2C7ED2BA6233A /* Pods_BlablaBlock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlablaBlock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -481,6 +483,7 @@
 				A01B78E1277711880061E86A /* Login.swift */,
 				A08E8E642778E25E0041AC61 /* Registration.swift */,
 				4A7744BC276F96170087A447 /* Portfolio.swift */,
+				4AF1CC5E27E836AD0035A4F7 /* FollowingPortfolio.swift */,
 				4A7744BE276F97520087A447 /* PNL.swift */,
 				A0DAD5BF27787A1800CD8760 /* Exchange.swift */,
 				4A741C0F27CB587300594A5D /* History.swift */,
@@ -970,6 +973,7 @@
 				4A7A18FE27D2FA6400AF24A8 /* BaseTabViewController.swift in Sources */,
 				A0290E272722F6EE00A07224 /* RadioButtonGroup.swift in Sources */,
 				A0290E2B27230E5800A07224 /* Timber.swift in Sources */,
+				4AF1CC5F27E836AD0035A4F7 /* FollowingPortfolio.swift in Sources */,
 				4A741C0C27CB468500594A5D /* TradeHistoryTableView.swift in Sources */,
 				4ABA20A1273BDCB500F66DB9 /* String.swift in Sources */,
 				4AA9F812276DD6A200D775F0 /* BaseViewController.swift in Sources */,
@@ -1178,7 +1182,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = BlablaBlock/BlablaBlock.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QRN2TFCH8G;
 				INFOPLIST_FILE = BlablaBlock/Info.plist;
@@ -1204,7 +1208,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = BlablaBlock/BlablaBlock.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = QRN2TFCH8G;
 				INFOPLIST_FILE = BlablaBlock/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;

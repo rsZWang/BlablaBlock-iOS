@@ -24,7 +24,7 @@ public protocol StatisticsViewModelOutputs {
     var user: BehaviorRelay<UserApiData?> { get }
     var portfolio: Driver<PortfolioViewData> { get }
     var pnl: Signal<PNLApiData> { get }
-    var followingPortfolio: Driver<PortfolioViewData> { get }
+    var followingPortfolio: Driver<[PortfolioAssetViewData]> { get }
     var portfolioRefresh: Signal<Bool> { get }
     var pnlRefresh: Signal<Bool> { get }
     var followingPortfolioRefresh: Signal<Bool> { get }
@@ -61,7 +61,7 @@ final class StatisticsViewModel:
     var user: BehaviorRelay<UserApiData?>
     var portfolio: Driver<PortfolioViewData>
     var pnl: Signal<PNLApiData>
-    var followingPortfolio: Driver<PortfolioViewData>
+    var followingPortfolio: Driver<[PortfolioAssetViewData]>
     var portfolioRefresh: Signal<Bool>
     var pnlRefresh: Signal<Bool>
     var followingPortfolioRefresh: Signal<Bool>
@@ -72,7 +72,7 @@ final class StatisticsViewModel:
     
     // MARK: - internals
     private let portfolioViewDataCache = BehaviorRelay<PortfolioApiData?>(value: nil)
-    private let followingPortfolioViewDataCache = BehaviorRelay<PortfolioApiData?>(value: nil)
+    private let followingPortfolioViewDataCache = BehaviorRelay<[PortfolioAssetViewData]>(value: [])
     
     deinit {
         Timber.i("\(type(of: self)) deinit")
@@ -91,7 +91,7 @@ final class StatisticsViewModel:
         let user = BehaviorRelay<UserApiData?>(value: nil)
         let portfolio = PublishRelay<PortfolioViewData>()
         let pnl = PublishRelay<PNLApiData>()
-        let followingPortfolio = PublishRelay<PortfolioViewData>()
+        let followingPortfolio = PublishRelay<[PortfolioAssetViewData]>()
         let portfolioRefresh = PublishRelay<Bool>()
         let pnlRefresh = PublishRelay<Bool>()
         let followingPortfolioRefresh = PublishRelay<Bool>()
@@ -112,10 +112,7 @@ final class StatisticsViewModel:
                                                 sum: PortfolioApiData.defaultAssetSumString,
                                                 assets: []))
         self.pnl = pnl.asSignal()
-        self.followingPortfolio = followingPortfolio.asDriver(onErrorJustReturn: PortfolioViewData(
-                                                                profit: PortfolioApiData.defaultProfitString,
-                                                                sum: PortfolioApiData.defaultAssetSumString,
-                                                                assets: []))
+        self.followingPortfolio = followingPortfolio.asDriver(onErrorJustReturn: [])
         self.portfolioRefresh = portfolioRefresh.asSignal()
         self.pnlRefresh = pnlRefresh.asSignal()
         self.followingPortfolioRefresh = followingPortfolioRefresh.asSignal()
@@ -156,7 +153,28 @@ final class StatisticsViewModel:
         Observable.combineLatest(
             portfolioType,
             portfolioViewDataCache,
-            resultSelector: portfolioHandler
+            resultSelector: { (portfolioFilter, portfolioData) in
+                if let portfolioData = portfolioData {
+                    let assetsViewData: [PortfolioAssetViewData] = portfolioData.getAssetsViewData()
+        //            if exchangeFilter != .all {
+        //                assetsViewData = assetsViewData.filter { $0.exchange == exchangeFilter }
+        //            }
+        //            if portfolioFilter != .all {
+        //                assetsViewData = assetsViewData.filter { $0.type == portfolioFilter }
+        //            }
+                    return PortfolioViewData(
+                        profit: portfolioData.getProfitString(),
+                        sum: portfolioData.getAssetSumString(),
+                        assets: assetsViewData
+                    )
+                } else {
+                    return PortfolioViewData(
+                        profit: PortfolioApiData.defaultProfitString,
+                        sum: PortfolioApiData.defaultAssetSumString,
+                        assets: []
+                    )
+                }
+            }
         )
         .bind(to: portfolio)
         .disposed(by: disposeBag)
@@ -201,7 +219,29 @@ final class StatisticsViewModel:
         Observable.combineLatest(
             followingPortfolioType,
             followingPortfolioViewDataCache,
-            resultSelector: portfolioHandler
+            resultSelector: { (portfolioFilter, portfolioAssetViewData) in
+                portfolioAssetViewData
+//                if let portfolioData = portfolioData {
+//                    var assetsViewData: [PortfolioAssetViewData] = portfolioData.getAssetsViewData()
+//        //            if exchangeFilter != .all {
+//        //                assetsViewData = assetsViewData.filter { $0.exchange == exchangeFilter }
+//        //            }
+//        //            if portfolioFilter != .all {
+//        //                assetsViewData = assetsViewData.filter { $0.type == portfolioFilter }
+//        //            }
+//                    return PortfolioViewData(
+//                        profit: portfolioData.getProfitString(),
+//                        sum: portfolioData.getAssetSumString(),
+//                        assets: assetsViewData
+//                    )
+//                } else {
+//                    return PortfolioViewData(
+//                        profit: PortfolioApiData.defaultProfitString,
+//                        sum: PortfolioApiData.defaultAssetSumString,
+//                        assets: []
+//                    )
+//                }
+            }
         )
         .bind(to: followingPortfolio)
         .disposed(by: disposeBag)
@@ -246,7 +286,7 @@ private extension StatisticsViewModel {
                             self?.portfolioViewDataCache.accept(portfolio.data)
                         case let .failure(responseFailure):
                             if responseFailure.code == 1006 {
-                                
+                                self?.portfolioViewDataCache.accept(nil)
                             } else {
                                 self?.errorCodeHandler(responseFailure)
                             }
@@ -269,7 +309,7 @@ private extension StatisticsViewModel {
                             self?.portfolioViewDataCache.accept(portfolio.data)
                         case let .failure(responseFailure):
                             if responseFailure.code == 1006 {
-                                
+                                self?.portfolioViewDataCache.accept(nil)
                             } else {
                                 self?.errorCodeHandler(responseFailure)
                             }
@@ -353,10 +393,10 @@ private extension StatisticsViewModel {
                 onSuccess: { [weak self] response in
                     switch response {
                     case let .success(portfolio):
-                        self?.followingPortfolioViewDataCache.accept(portfolio.data)
+                        self?.followingPortfolioViewDataCache.accept(portfolio.getAssetsViewData())
                     case let .failure(responseFailure):
                         if responseFailure.code == 1006 {
-                            
+                            self?.followingPortfolioViewDataCache.accept([])
                         } else {
                             self?.errorCodeHandler(responseFailure)
                         }

@@ -198,7 +198,7 @@ final class StatisticsViewController: BaseViewController {
             .map { $0.assets }
             .drive(
                 portfolioView.tableView.rx.items(
-                    cellIdentifier: "ExchangeListTableViewCell",
+                    cellIdentifier: ExchangeListTableViewCell.identifier,
                     cellType: ExchangeListTableViewCell.self
                 ),
                 curriedArgument: { (row, element, cell) in
@@ -214,10 +214,9 @@ final class StatisticsViewController: BaseViewController {
         
         viewModel.outputs
             .followingPortfolio
-            .map { $0.assets }
             .drive(
                 followingPortfolioView.tableView.rx.items(
-                    cellIdentifier: "ExchangeListTableViewCell",
+                    cellIdentifier: ExchangeListTableViewCell.identifier,
                     cellType: ExchangeListTableViewCell.self
                 ),
                 curriedArgument: { (row, element, cell) in

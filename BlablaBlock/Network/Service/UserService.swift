@@ -85,13 +85,13 @@ struct UserService {
     struct getFollowPortfolioByID: HttpResponseTargetType {
         var method: Method { .get }
         var tokenType: TokenType { .user }
-        var path: String { "portfolio/\(userId)" }
+        var path: String { "follow_portfolio/\(userId)" }
         var task: Task {
             .requestParameters(parameters: [
                 "exchange" : exchange
             ], encoding: URLEncoding.queryString)
         }
-        typealias SuccessType = PortfolioApi
+        typealias SuccessType = FollowingPortfolioApi
         typealias FailureType = ResponseFailure
         
         let userId: Int
