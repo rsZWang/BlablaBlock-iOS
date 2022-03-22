@@ -65,15 +65,17 @@ final class HomePageTableViewCell: UITableViewCell {
     }()
     
     private let currencyImageView = UIImageView()
-//        = {
-//        let imageView = UIImageView()
-//        imageView.image = UIImage(named: "info")
-//        return imageView
-//    }()
     
     private let currencyLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 20)
+        label.font = .boldSystemFont(ofSize: 20)
+        label.textColor = .black
+        return label
+    }()
+    
+    private let currencyTypeLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 12)
         label.textColor = .black
         return label
     }()
@@ -199,16 +201,21 @@ final class HomePageTableViewCell: UITableViewCell {
             make.top.equalTo(separatorView.snp.bottom).offset(10)
             make.width.height.equalTo(38)
         }
-
-        contentMarginView.addSubview(currencyLabel)
-        currencyLabel.snp.makeConstraints { make in
+        
+        let currencyStackView = UIStackView()
+        currencyStackView.axis = .vertical
+        currencyStackView.addArrangedSubview(currencyLabel)
+        currencyStackView.addArrangedSubview(currencyTypeLabel)
+        
+        contentMarginView.addSubview(currencyStackView)
+        currencyStackView.snp.makeConstraints { make in
             make.leading.equalTo(currencyImageView.snp.trailing).offset(8)
             make.centerY.equalTo(currencyImageView)
         }
 
         contentMarginView.addSubview(timestampLabel)
         timestampLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(currencyLabel)
+            make.bottom.equalTo(currencyStackView)
             make.trailing.equalToSuperview()
         }
 
@@ -266,8 +273,9 @@ final class HomePageTableViewCell: UITableViewCell {
             followButton.isSelected = false
         }
         nameLabel.text = notification.name
-        timestampCounterLabel.text = Date(timeIntervalSince1970: notification.timestamp/1000).agoString()
-        currencyLabel.attributedText = notification.getCurrencyString()
+        timestampCounterLabel.text = Date(timeIntervalSince1970: notification.timestamp).agoString()
+        currencyLabel.text = notification.currency
+        currencyTypeLabel.text = PortfolioType.map(type: notification.type)
         timestampLabel.text = formatDateTime(timestamp: notification.timestamp)
         if notification.side == "BUY" {
             actionLabel.text = "買入"
@@ -286,7 +294,7 @@ final class HomePageTableViewCell: UITableViewCell {
     private func formatDateTime(timestamp: TimeInterval) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return formatter.string(from: Date(timeIntervalSince1970: timestamp/1000))
+        return formatter.string(from: Date(timeIntervalSince1970: timestamp))
     }
 
 }

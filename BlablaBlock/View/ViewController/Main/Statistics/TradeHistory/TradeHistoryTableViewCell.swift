@@ -219,7 +219,7 @@ final class TradeHistoryTableViewCell: UITableViewCell {
     private func formatDateTime(timestamp: TimeInterval) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return formatter.string(from: Date(timeIntervalSince1970: timestamp/1000))
+        return formatter.string(from: Date(timeIntervalSince1970: timestamp))
     }
 }
 

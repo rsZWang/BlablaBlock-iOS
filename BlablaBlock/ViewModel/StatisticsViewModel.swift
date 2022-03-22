@@ -24,7 +24,7 @@ public protocol StatisticsViewModelOutputs {
     var user: BehaviorRelay<UserApiData?> { get }
     var portfolio: Driver<PortfolioViewData> { get }
     var pnl: Signal<PNLApiData> { get }
-    var followingPortfolio: Driver<[PortfolioAssetViewData]> { get }
+    var followingPortfolio: Driver<[FollowingPortfolioAssetViewData]> { get }
     var portfolioRefresh: Signal<Bool> { get }
     var pnlRefresh: Signal<Bool> { get }
     var followingPortfolioRefresh: Signal<Bool> { get }
@@ -61,7 +61,7 @@ final class StatisticsViewModel:
     var user: BehaviorRelay<UserApiData?>
     var portfolio: Driver<PortfolioViewData>
     var pnl: Signal<PNLApiData>
-    var followingPortfolio: Driver<[PortfolioAssetViewData]>
+    var followingPortfolio: Driver<[FollowingPortfolioAssetViewData]>
     var portfolioRefresh: Signal<Bool>
     var pnlRefresh: Signal<Bool>
     var followingPortfolioRefresh: Signal<Bool>
@@ -72,7 +72,7 @@ final class StatisticsViewModel:
     
     // MARK: - internals
     private let portfolioViewDataCache = BehaviorRelay<PortfolioApiData?>(value: nil)
-    private let followingPortfolioViewDataCache = BehaviorRelay<[PortfolioAssetViewData]>(value: [])
+    private let followingPortfolioViewDataCache = BehaviorRelay<FollowingPortfolioApi?>(value: nil)
     
     deinit {
         Timber.i("\(type(of: self)) deinit")
@@ -91,7 +91,7 @@ final class StatisticsViewModel:
         let user = BehaviorRelay<UserApiData?>(value: nil)
         let portfolio = PublishRelay<PortfolioViewData>()
         let pnl = PublishRelay<PNLApiData>()
-        let followingPortfolio = PublishRelay<[PortfolioAssetViewData]>()
+        let followingPortfolio = PublishRelay<[FollowingPortfolioAssetViewData]>()
         let portfolioRefresh = PublishRelay<Bool>()
         let pnlRefresh = PublishRelay<Bool>()
         let followingPortfolioRefresh = PublishRelay<Bool>()
@@ -219,55 +219,16 @@ final class StatisticsViewModel:
         Observable.combineLatest(
             followingPortfolioType,
             followingPortfolioViewDataCache,
-            resultSelector: { (portfolioFilter, portfolioAssetViewData) in
-                portfolioAssetViewData
-//                if let portfolioData = portfolioData {
-//                    var assetsViewData: [PortfolioAssetViewData] = portfolioData.getAssetsViewData()
-//        //            if exchangeFilter != .all {
-//        //                assetsViewData = assetsViewData.filter { $0.exchange == exchangeFilter }
-//        //            }
-//        //            if portfolioFilter != .all {
-//        //                assetsViewData = assetsViewData.filter { $0.type == portfolioFilter }
-//        //            }
-//                    return PortfolioViewData(
-//                        profit: portfolioData.getProfitString(),
-//                        sum: portfolioData.getAssetSumString(),
-//                        assets: assetsViewData
-//                    )
-//                } else {
-//                    return PortfolioViewData(
-//                        profit: PortfolioApiData.defaultProfitString,
-//                        sum: PortfolioApiData.defaultAssetSumString,
-//                        assets: []
-//                    )
-//                }
+            resultSelector: { (portfolioFilter, followingPortfolioApi) in
+                if let followingPortfolioApi = followingPortfolioApi {
+                    return followingPortfolioApi.getAssetsViewData()
+                } else {
+                    return []
+                }
             }
         )
         .bind(to: followingPortfolio)
         .disposed(by: disposeBag)
-    }
-    
-    private let portfolioHandler: ((PortfolioType, PortfolioApiData?) -> PortfolioViewData) = { (portfolioFilter, portfolioData) in
-        if let portfolioData = portfolioData {
-            var assetsViewData: [PortfolioAssetViewData] = portfolioData.getAssetsViewData()
-//            if exchangeFilter != .all {
-//                assetsViewData = assetsViewData.filter { $0.exchange == exchangeFilter }
-//            }
-//            if portfolioFilter != .all {
-//                assetsViewData = assetsViewData.filter { $0.type == portfolioFilter }
-//            }
-            return PortfolioViewData(
-                profit: portfolioData.getProfitString(),
-                sum: portfolioData.getAssetSumString(),
-                assets: assetsViewData
-            )
-        } else {
-            return PortfolioViewData(
-                profit: PortfolioApiData.defaultProfitString,
-                sum: PortfolioApiData.defaultAssetSumString,
-                assets: []
-            )
-        }
     }
 }
 
@@ -393,10 +354,10 @@ private extension StatisticsViewModel {
                 onSuccess: { [weak self] response in
                     switch response {
                     case let .success(portfolio):
-                        self?.followingPortfolioViewDataCache.accept(portfolio.getAssetsViewData())
+                        self?.followingPortfolioViewDataCache.accept(portfolio)
                     case let .failure(responseFailure):
                         if responseFailure.code == 1006 {
-                            self?.followingPortfolioViewDataCache.accept([])
+                            self?.followingPortfolioViewDataCache.accept(nil)
                         } else {
                             self?.errorCodeHandler(responseFailure)
                         }

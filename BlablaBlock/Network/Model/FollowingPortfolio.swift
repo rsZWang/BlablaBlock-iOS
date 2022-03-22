@@ -5,39 +5,19 @@
 //  Created by Harry on 2022/3/21.
 //
 
+import RxDataSources
+
 public struct FollowingPortfolioApi: Decodable {
 
     let code: Int
-    let data: [PortfolioApiDataAsset]
+    let assets: [FollowingPortfolioApiAsset]
     
-    func getAssetsViewData() -> [PortfolioAssetViewData] {
-        var assetsViewData = [PortfolioAssetViewData]()
-        var sortedAssets = data
+    func getAssetsViewData() -> [FollowingPortfolioAssetViewData] {
+        var assetsViewData = [FollowingPortfolioAssetViewData]()
+        var sortedAssets = assets
         sortedAssets.sort { $0.value > $1.value }
         for data in sortedAssets {
-//            let unrealizedProfit: String
-//            if let profit = data.unrealizedProfit {
-//                let doubleValue = profit.double
-//                let roundedValue = round(100 * doubleValue) / 100
-//                unrealizedProfit = roundedValue.toPrecisedString()
-//            } else {
-//                unrealizedProfit = "N/A"
-//            }
-//            let exchange = ExchangeType.init(rawValue: data.exchange)!
-//            let type = PortfolioType.init(rawValue: data.type) ?? .management
-//            assetsViewData.append(
-//                PortfolioAssetViewData(
-//                    identity: "\(exchange.rawValue)_\(type.rawValue)",
-//                    exchange: exchange,
-//                    type: type,
-//                    currency: data.currency,
-//                    valueWeight: data.percentage.double.toPrettyPrecisedString().appendTo2Precision(),
-//                    balance: data.balance.double.toPrettyPrecisedString().appendTo2Precision(),
-//                    value: data.value.double.toPrettyPrecisedString().appendTo2Precision(),
-//                    unrealizedProfit: unrealizedProfit
-//                )
-//            )
-            var dayChange: String? = Double(data.dayChange)?.toPrettyPrecisedString()
+            var dayChange: String? = data.dayChange.toPrettyPrecisedString()
             if let change = dayChange, !change.isEmpty {
                 dayChange = "\(change)％"
             } else {
@@ -45,7 +25,7 @@ public struct FollowingPortfolioApi: Decodable {
             }
             
             assetsViewData.append(
-                PortfolioAssetViewData(
+                FollowingPortfolioAssetViewData(
                     identity: "\(data.currency)_\(data.balance)",
                     currency: data.currency,
                     balance: data.balance.toPrettyPrecisedString(),
@@ -58,4 +38,25 @@ public struct FollowingPortfolioApi: Decodable {
         return assetsViewData
     }
     
+}
+
+public struct FollowingPortfolioApiAsset: Decodable, Equatable {
+
+    let currency: String
+    let balance: Double
+    let value: Double
+    let dayChange: Double
+    let percentage: Double
+}
+
+public struct FollowingPortfolioAssetViewData: Equatable, IdentifiableType {
+    
+    public typealias Identity = String
+    public var identity: String
+    
+    let currency: String
+    let balance: String
+    let value: String
+    let dayChange: String
+    let percentage: String
 }

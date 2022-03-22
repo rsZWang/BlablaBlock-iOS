@@ -167,22 +167,12 @@ public struct PortfolioApiData: Decodable {
 }
 
 public struct PortfolioApiDataAsset: Decodable, Equatable {
-    
-//    let entryPrice: String?
-//    let currentPrice: String?
-//    let unrealizedProfit: String?
-//    let exchange: String
-//    let currency: String
-//    let value: String
-//    let type: String
-//    let balance: String
-//    let percentage: String
+
     let currency: String
     let balance: Double
     let value: Double
     let dayChange: String
     let percentage: Double
-    
 }
 
 public struct PortfolioViewData: Equatable {
@@ -190,7 +180,6 @@ public struct PortfolioViewData: Equatable {
     let profit: NSAttributedString
     let sum: NSAttributedString
     let assets: [PortfolioAssetViewData]
-    
 }
 
 public struct PortfolioAssetViewData: Equatable, IdentifiableType {
@@ -198,19 +187,11 @@ public struct PortfolioAssetViewData: Equatable, IdentifiableType {
     public typealias Identity = String
     public var identity: String
     
-//    let exchange: ExchangeType
-//    let type: PortfolioType
-//    let currency: String
-//    let valueWeight: String
-//    let balance: String
-//    let value: String
-//    let unrealizedProfit: String
     let currency: String
     let balance: String
     let value: String
     let dayChange: String
     let percentage: String
-    
 }
 
 public enum PortfolioType: String, Equatable {
@@ -231,7 +212,7 @@ public enum PortfolioType: String, Equatable {
         if let index = typeList.firstIndex(where: { $0 == type }) {
             return titleList[index]
         } else {
-            return "Unknown type \(type)"
+            return titleList.last!
         }
     }
 }
