@@ -275,7 +275,7 @@ final class HomePageTableViewCell: UITableViewCell {
         nameLabel.text = notification.name
         timestampCounterLabel.text = Date(timeIntervalSince1970: notification.timestamp).agoString()
         currencyLabel.text = notification.currency
-        currencyTypeLabel.text = PortfolioType.map(type: notification.type)
+        currencyTypeLabel.text = AssetType.map(type: notification.type)
         timestampLabel.text = formatDateTime(timestamp: notification.timestamp)
         if notification.side == "BUY" {
             actionLabel.text = "買入"

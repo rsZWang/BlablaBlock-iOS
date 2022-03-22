@@ -199,20 +199,45 @@ public enum PortfolioType: String, Equatable {
     case all = "all"
     case spot = "spot"              // 現貨
     case margin = "margin"          // 現貨槓桿
-    case lending = "lending"        // 借貸
     case futures = "futures"        // 合約裡的現貨
-//    case positions = "positions"    // 合約的持倉
-//    case liquidity = "liquidity"    // 流動性資產
+    case positions = "positions"    // 合約的持倉
     case management = "management"  // 理財
     
-    static let titleList = ["所有類別", "現貨", "現貨槓桿", "借貸", "合約裡的現貨", "理財"]
-    static let typeList = ["all", "spot", "margin", "lending", "futures", "management"]
+    static let titleList = ["所有類別", "現貨", "現貨槓桿", "合約裡的現貨", "合約的持倉", "理財"]
+    static let typeList = ["all", "spot", "margin", "futures", "positions", "management"]
+    
+    static func map(type: String) -> String {
+        switch type {
+        case "lending", "liquidity":
+            return "理財"
+        default:
+            if let index = typeList.firstIndex(where: { $0 == type }) {
+                return titleList[index]
+            } else {
+                return "Unknown type (\(type))"
+            }
+        }
+    }
+}
+
+public enum AssetType: String, Equatable {
+    
+    case all = "all"
+    case spot = "spot"              // 現貨
+    case margin = "margin"          // 現貨槓桿
+    case lending = "lending"        // 借貸
+    case futures = "futures"        // 合約裡的現貨
+    case positions = "positions"    // 合約的持倉
+    case liquidity = "liquidity"    // 流動性資產
+    
+    static let titleList = ["所有類別", "現貨", "現貨槓桿", "借貸", "合約裡的現貨", "合約的持倉", "流動性資產"]
+    static let typeList = ["all", "spot", "margin", "lending", "futures", "positions", "liquidity"]
     
     static func map(type: String) -> String {
         if let index = typeList.firstIndex(where: { $0 == type }) {
             return titleList[index]
         } else {
-            return titleList.last!
+            return "Unknown type (\(type))"
         }
     }
 }
