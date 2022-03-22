@@ -14,8 +14,9 @@ public struct NotificationApi: Decodable {
 
 public struct NotificationApiData: Decodable {
     let userId: Int
-    let name: String
+    let name: String?
     let exchange: String
+    let baseCurrency: String
     let currency: String
     let type: String
     let timestamp: TimeInterval

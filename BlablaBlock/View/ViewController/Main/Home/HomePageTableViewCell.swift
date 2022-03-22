@@ -163,7 +163,7 @@ final class HomePageTableViewCell: UITableViewCell {
         
         contentMarginView.addSubview(avatarImageView)
         avatarImageView.snp.makeConstraints { make in
-            make.width.height.equalTo(40)
+            make.width.height.equalTo(38)
             make.leading.top.equalToSuperview()
         }
         
@@ -195,9 +195,9 @@ final class HomePageTableViewCell: UITableViewCell {
         
         contentMarginView.addSubview(currencyImageView)
         currencyImageView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(-8)
+            make.leading.equalToSuperview()
             make.top.equalTo(separatorView.snp.bottom).offset(10)
-            make.width.height.equalTo(40)
+            make.width.height.equalTo(38)
         }
 
         contentMarginView.addSubview(currencyLabel)
@@ -214,13 +214,13 @@ final class HomePageTableViewCell: UITableViewCell {
 
         contentMarginView.addSubview(actionLabel)
         actionLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
+            make.leading.equalTo(currencyImageView).offset(4)
             make.top.equalTo(currencyImageView.snp.bottom).offset(10)
         }
 
         contentMarginView.addSubview(exchangeTtitleLabel)
         exchangeTtitleLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
+            make.leading.equalTo(currencyImageView).offset(4)
             make.top.equalTo(actionLabel.snp.bottom).offset(10)
         }
 
@@ -232,7 +232,7 @@ final class HomePageTableViewCell: UITableViewCell {
 
         contentMarginView.addSubview(priceTitleLabel)
         priceTitleLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
+            make.leading.equalTo(currencyImageView).offset(4)
             make.top.equalTo(exchangeTtitleLabel.snp.bottom).offset(6)
         }
 
@@ -244,7 +244,7 @@ final class HomePageTableViewCell: UITableViewCell {
 
         contentMarginView.addSubview(amountTitleLabel)
         amountTitleLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
+            make.leading.equalTo(currencyImageView).offset(4)
             make.top.equalTo(priceTitleLabel.snp.bottom).offset(6)
             make.bottom.equalToSuperview()
         }
@@ -257,7 +257,7 @@ final class HomePageTableViewCell: UITableViewCell {
     }
     
     func bind(notification: NotificationApiData) {
-        currencyImageView.currency(name: notification.currency)
+        currencyImageView.currency(name: notification.baseCurrency)
         if notification.isFollow {
             followButton.setTitle("追蹤中", for: .normal)
             followButton.isSelected = true

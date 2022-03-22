@@ -15,6 +15,7 @@ public struct HistoryApi: Decodable {
 public struct HistoryApiData: Decodable {
     let exchange: String
     let currency: String
+    let baseCurrency: String
     let type: String
     let timestamp: TimeInterval
     let side: String

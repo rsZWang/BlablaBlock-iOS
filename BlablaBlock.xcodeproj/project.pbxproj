@@ -482,15 +482,15 @@
 				4A7744B6276F8A350087A447 /* ResponseFailure.swift */,
 				A01B78E1277711880061E86A /* Login.swift */,
 				A08E8E642778E25E0041AC61 /* Registration.swift */,
+				4A6C9F1927CD2A3E003B42F8 /* Notification.swift */,
+				4A7A190D27D332DC00AF24A8 /* User.swift */,
+				4A6C9F1727CD28D8003B42F8 /* Follow.swift */,
 				4A7744BC276F96170087A447 /* Portfolio.swift */,
 				4AF1CC5E27E836AD0035A4F7 /* FollowingPortfolio.swift */,
 				4A7744BE276F97520087A447 /* PNL.swift */,
-				A0DAD5BF27787A1800CD8760 /* Exchange.swift */,
 				4A741C0F27CB587300594A5D /* History.swift */,
-				4A6C9F1727CD28D8003B42F8 /* Follow.swift */,
-				4A6C9F1927CD2A3E003B42F8 /* Notification.swift */,
+				A0DAD5BF27787A1800CD8760 /* Exchange.swift */,
 				4A6C9F1D27CD2C94003B42F8 /* CurrencyIcon.swift */,
-				4A7A190D27D332DC00AF24A8 /* User.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";

@@ -45,6 +45,9 @@ final class TradeHistoryViewController: BaseViewController {
     private func setupBinding() {
         viewModel.outputs
             .historyData
+            .map {
+                $0.sorted(by: { $0.timestamp > $1.timestamp })
+            }
             .drive(
                 tableView.rx.items(
                     cellIdentifier: TradeHistoryTableView.reuseIdentifier,

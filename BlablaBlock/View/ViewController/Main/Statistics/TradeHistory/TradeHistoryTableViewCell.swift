@@ -198,7 +198,7 @@ final class TradeHistoryTableViewCell: UITableViewCell {
     }
     
     func bind(history: HistoryApiData) {
-        currencyImageView.currency(name: history.currency)
+        currencyImageView.currency(name: history.baseCurrency)
         currencyLabel.text = history.currency.uppercased()
         currencyType.text = PortfolioType.map(type: history.type)
         timestampLabel.text = formatDateTime(timestamp: history.timestamp)
