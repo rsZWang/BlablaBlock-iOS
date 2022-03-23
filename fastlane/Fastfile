@@ -47,10 +47,10 @@ platform :ios do
   desc "Build, upload_to_testflight, download dsyms, upload dsyms, clear dsyms"
   lane :harry do
     cleanDir(build_dir)
-
-    build_testflight(workspace, scheme, build_number)
-
+    build_testflight(workspace, scheme, build_dir)
     upload_dsyms(version, build_number)
+    upload_local_dsyms(build_dir)
+    clean_build_artifacts
   end
 end
 
@@ -75,9 +75,12 @@ def cleanDir(build_dir)
 end
 
 def build_testflight(workspace, scheme, build_dir)
+  get_certificates
+  get_provisioning_profile
   build_app(
     workspace: workspace, 
     scheme: scheme,
+    xcargs: "-allowProvisioningUpdates",
     clean: true,
     output_directory: build_dir,
     include_symbols: true,
@@ -93,12 +96,18 @@ end
 
 def upload_dsyms(version, build_number)
   download_dsyms(
-      version: version, 
-      build_number: build_number,
-      output_directory: "./dSYMs"
-    )
-    upload_symbols_to_crashlytics(
-      gsp_path: "./BlablaBlock/GoogleService-Info.plist"
-    )
-    clean_build_artifacts
+    version: version, 
+	build_number: build_number,
+	output_directory: "./dSYMs"
+  )
+  upload_symbols_to_crashlytics(
+	gsp_path: "./BlablaBlock/GoogleService-Info.plist"
+  )
+end
+
+def upload_local_dsyms(build_dir)
+  upload_symbols_to_crashlytics(
+  	dsym_path: "#{build_dir}/BlablaBlock.app.dSYM.zip",
+	gsp_path: "./BlablaBlock/GoogleService-Info.plist"
+  )
 end
