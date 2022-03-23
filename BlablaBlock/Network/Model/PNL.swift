@@ -77,13 +77,7 @@ public struct PNLApiData: Decodable {
         }
         
         let minY = roundUp(getMinY())
-        if minY == 0 {
-            return []
-        }
         let maxY = roundUp(getMaxY())
-        if maxY == 0 {
-            return []
-        }
         let diff = minY - maxY
         let distance = abs(diff/10)
         
