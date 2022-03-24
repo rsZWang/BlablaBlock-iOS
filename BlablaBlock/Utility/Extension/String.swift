@@ -39,7 +39,7 @@ public extension String {
     
     var isNotEmail: Bool { !isEmail }
     
-    var isValidPassword: Bool { count >= 6 && count <= 16 }
+    var isValidPassword: Bool { count >= 6 }
     
     var isNotValidPassword: Bool { !isValidPassword }
         

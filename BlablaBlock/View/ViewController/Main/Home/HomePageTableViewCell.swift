@@ -277,7 +277,7 @@ final class HomePageTableViewCell: UITableViewCell {
         currencyLabel.text = notification.currency
         currencyTypeLabel.text = AssetType.map(type: notification.type)
         timestampLabel.text = formatDateTime(timestamp: notification.timestamp)
-        if notification.side == "BUY" {
+        if notification.side.caseInsensitiveCompare("buy") == .orderedSame {
             actionLabel.text = "買入"
             actionLabel.textColor = .systemGreen
         } else {
