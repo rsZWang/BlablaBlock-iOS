@@ -202,7 +202,7 @@ final class TradeHistoryTableViewCell: UITableViewCell {
         currencyLabel.text = history.currency.uppercased()
         currencyType.text = AssetType.map(type: history.type)
         timestampLabel.text = formatDateTime(timestamp: history.timestamp)
-        if history.side == "BUY" {
+        if history.side.caseInsensitiveCompare("buy") == .orderedSame {
             actionLabel.text = "買入"
             actionLabel.textColor = .systemGreen
         } else {
