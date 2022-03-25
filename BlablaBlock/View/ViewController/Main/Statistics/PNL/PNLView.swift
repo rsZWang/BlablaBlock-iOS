@@ -92,7 +92,7 @@ final class PNLView: UIView, NibOwnerLoadable {
         roiLabel.text = "\(data.roi?.toPrettyPrecisedString() ?? "0.0")%"
         roiAnnualLabel.text = "\(data.roiAnnual?.toPrettyPrecisedString() ?? "0.0")%"
         mddLabel.text = "\(data.mdd?.toPrettyPrecisedString() ?? "0.0")%"
-        dailyWinRateLabel.text = "\(data.dailyWinRate.toPrettyPrecisedString())%"
+        dailyWinRateLabel.text = "\(data.dailyWinRate?.toPrettyPrecisedString() ?? "0.0")%"
         sharpeRatio.text = "\(data.sharpeRatio?.toPrettyPrecisedString() ?? "0.0")"
     }
     
@@ -137,6 +137,10 @@ extension PNLView: PickerViewDelegate {
 extension PNLView {
     
     func drawChart(data: PNLApiData) {
+        
+        if data.chartData.count <= 1 {
+            return
+        }
         
         if let chart = chart {
             currentPositionLabels.forEach { $0.removeFromSuperview() }

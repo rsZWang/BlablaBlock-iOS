@@ -18,7 +18,7 @@ public struct PortfolioApi: Decodable {
 
 public struct PortfolioApiData: Decodable {
     
-    let percentage: Double
+    let percentage: Double?
     let totalValue: String
     let assets: [PortfolioApiDataAsset]
     
@@ -65,37 +65,41 @@ public struct PortfolioApiData: Decodable {
     }
     
     func getProfitString() -> NSAttributedString {
-        let sign: String
-        let color: UIColor
-        if percentage < 0 {
-            sign = ""
-            color = #colorLiteral(red: 0.8666666667, green: 0.3921568627, blue: 0.3921568627, alpha: 1)
+        if let percentage = percentage {
+            let sign: String
+            let color: UIColor
+            if percentage < 0 {
+                sign = ""
+                color = #colorLiteral(red: 0.8666666667, green: 0.3921568627, blue: 0.3921568627, alpha: 1)
+            } else {
+                sign = "+"
+                color = #colorLiteral(red: 0.2352941176, green: 0.831372549, blue: 0.5568627451, alpha: 1)
+            }
+            let rate = "\(sign)\(percentage.toPrettyPrecisedString().appendTo2Precision())%"
+            let attribuedString = NSMutableAttributedString()
+            attribuedString.append(NSAttributedString(
+                string: "總資產(",
+                attributes: [
+                    NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 12)
+                ]
+            ))
+            attribuedString.append(NSAttributedString(
+                string: rate,
+                attributes: [
+                    NSAttributedString.Key.foregroundColor : color,
+                    NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 12)
+                ]
+            ))
+            attribuedString.append(NSAttributedString(
+                string: ")",
+                attributes: [
+                    NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 12)
+                ]
+            ))
+            return attribuedString
         } else {
-            sign = "+"
-            color = #colorLiteral(red: 0.2352941176, green: 0.831372549, blue: 0.5568627451, alpha: 1)
+            return Self.defaultProfitString
         }
-        let rate = "\(sign)\(percentage.toPrettyPrecisedString().appendTo2Precision())%"
-        let attribuedString = NSMutableAttributedString()
-        attribuedString.append(NSAttributedString(
-            string: "總資產(",
-            attributes: [
-                NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 12)
-            ]
-        ))
-        attribuedString.append(NSAttributedString(
-            string: rate,
-            attributes: [
-                NSAttributedString.Key.foregroundColor : color,
-                NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 12)
-            ]
-        ))
-        attribuedString.append(NSAttributedString(
-            string: ")",
-            attributes: [
-                NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 12)
-            ]
-        ))
-        return attribuedString
     }
     
     func getAssetSumString() -> NSAttributedString {

@@ -20,7 +20,7 @@ public struct PNLApiData: Decodable {
     let roi: Double?
     let roiAnnual: Double?
     let mdd: Double?
-    let dailyWinRate: Double
+    let dailyWinRate: Double?
     let sharpeRatio: Double?
     
     func getChartDataList() -> [PNLCharData] {
