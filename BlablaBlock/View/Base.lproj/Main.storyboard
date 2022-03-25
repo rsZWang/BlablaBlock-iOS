@@ -563,11 +563,11 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dOr-dv-6aO" userLabel="Bottom Section">
                                 <rect key="frame" x="0.0" y="222.66666666666669" width="414" height="590.33333333333326"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="S3B-CA-rJM">
-                                        <rect key="frame" x="20" y="20.000000000000004" width="374" height="50.333333333333343"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="S3B-CA-rJM" userLabel="Button Stack View">
+                                        <rect key="frame" x="15" y="15.000000000000004" width="384" height="50.333333333333343"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ark-2r-ftG" userLabel="Protfolio Button" customClass="ColorButton" customModule="BlablaBlock" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="111.33333333333333" height="50.333333333333336"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="114.66666666666667" height="50.333333333333336"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                 <state key="normal" title="投資組合"/>
                                                 <userDefinedRuntimeAttributes>
@@ -597,7 +597,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4CV-sV-43g" userLabel="PNL Button" customClass="ColorButton" customModule="BlablaBlock" customModuleProvider="target">
-                                                <rect key="frame" x="131.33333333333334" y="0.0" width="111.33333333333334" height="50.333333333333336"/>
+                                                <rect key="frame" x="134.66666666666666" y="0.0" width="114.66666666666666" height="50.333333333333336"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                 <state key="normal" title="交易績效"/>
                                                 <userDefinedRuntimeAttributes>
@@ -627,7 +627,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k4r-84-K8l" userLabel="Following Button" customClass="ColorButton" customModule="BlablaBlock" customModuleProvider="target">
-                                                <rect key="frame" x="262.66666666666669" y="0.0" width="111.33333333333331" height="50.333333333333336"/>
+                                                <rect key="frame" x="269.33333333333331" y="0.0" width="114.66666666666669" height="50.333333333333336"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                 <state key="normal" title="追蹤中組合"/>
                                                 <userDefinedRuntimeAttributes>
@@ -662,20 +662,46 @@
                                             <constraint firstItem="Ark-2r-ftG" firstAttribute="width" secondItem="4CV-sV-43g" secondAttribute="width" id="pgx-BM-mLH"/>
                                         </constraints>
                                     </stackView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EUP-KZ-Khr" userLabel="Pager View Section">
-                                        <rect key="frame" x="0.0" y="85.333333333333371" width="414" height="490"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                    </view>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="PGf-se-2wv" userLabel="Pager View Section Stack View">
+                                        <rect key="frame" x="15" y="80.333333333333371" width="384" height="495"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EUP-KZ-Khr" userLabel="Pager View Section">
+                                                <rect key="frame" x="0.0" y="0.0" width="384" height="495"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            </view>
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="stJ-Zh-Y08" userLabel="Back Button" customClass="ColorButton" customModule="BlablaBlock" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="384" height="46"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="46" id="cJa-c7-Aur"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <state key="normal" title="上一頁"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="normalBorderColor">
+                                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="normalTitleColor">
+                                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="rounded" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="border" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="titleSize">
+                                                        <real key="value" value="16"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstItem="EUP-KZ-Khr" firstAttribute="leading" secondItem="dOr-dv-6aO" secondAttribute="leading" id="7DL-K2-dTf"/>
-                                    <constraint firstAttribute="bottom" secondItem="EUP-KZ-Khr" secondAttribute="bottom" constant="15" id="8FD-iR-UVk"/>
-                                    <constraint firstItem="S3B-CA-rJM" firstAttribute="top" secondItem="dOr-dv-6aO" secondAttribute="top" constant="20" id="FNI-8W-hbs"/>
-                                    <constraint firstAttribute="trailing" secondItem="S3B-CA-rJM" secondAttribute="trailing" constant="20" id="Rca-l4-DsD"/>
-                                    <constraint firstAttribute="trailing" secondItem="EUP-KZ-Khr" secondAttribute="trailing" id="VM3-S1-iBC"/>
-                                    <constraint firstItem="EUP-KZ-Khr" firstAttribute="top" secondItem="S3B-CA-rJM" secondAttribute="bottom" constant="15.000000000000028" id="az0-yW-qf3"/>
-                                    <constraint firstItem="S3B-CA-rJM" firstAttribute="leading" secondItem="dOr-dv-6aO" secondAttribute="leading" constant="20" id="iEQ-Sb-1zD"/>
+                                    <constraint firstItem="PGf-se-2wv" firstAttribute="leading" secondItem="dOr-dv-6aO" secondAttribute="leading" constant="15" id="8nF-7Z-TZ6"/>
+                                    <constraint firstItem="S3B-CA-rJM" firstAttribute="top" secondItem="dOr-dv-6aO" secondAttribute="top" constant="15" id="FNI-8W-hbs"/>
+                                    <constraint firstAttribute="trailing" secondItem="S3B-CA-rJM" secondAttribute="trailing" constant="15" id="Rca-l4-DsD"/>
+                                    <constraint firstItem="S3B-CA-rJM" firstAttribute="leading" secondItem="dOr-dv-6aO" secondAttribute="leading" constant="15" id="iEQ-Sb-1zD"/>
+                                    <constraint firstAttribute="trailing" secondItem="PGf-se-2wv" secondAttribute="trailing" constant="15" id="mhF-Me-70z"/>
+                                    <constraint firstItem="PGf-se-2wv" firstAttribute="top" secondItem="S3B-CA-rJM" secondAttribute="bottom" constant="15" id="sS5-mm-4gw"/>
+                                    <constraint firstAttribute="bottom" secondItem="PGf-se-2wv" secondAttribute="bottom" constant="15" id="z9M-AN-Jm1"/>
                                     <constraint firstItem="S3B-CA-rJM" firstAttribute="height" secondItem="dOr-dv-6aO" secondAttribute="height" multiplier="0.085" id="zWh-ph-lix"/>
                                 </constraints>
                             </view>
@@ -700,6 +726,7 @@
                         <outlet property="assetProfitLabel" destination="IId-Eo-acG" id="YxZ-or-DqP"/>
                         <outlet property="assetSumLabel" destination="POX-Ni-j7e" id="vEj-Zz-zCy"/>
                         <outlet property="avatarImageView" destination="fhr-V5-5pR" id="T6O-AR-RVI"/>
+                        <outlet property="backButton" destination="stJ-Zh-Y08" id="9Ri-1a-KpN"/>
                         <outlet property="followAndShareSection" destination="bkS-5Y-7t2" id="Fog-NL-k4o"/>
                         <outlet property="followerLabel" destination="3i7-fs-Lsb" id="7rU-Y1-Tcn"/>
                         <outlet property="followerSection" destination="s4c-5W-B4Y" id="1By-9I-F33"/>

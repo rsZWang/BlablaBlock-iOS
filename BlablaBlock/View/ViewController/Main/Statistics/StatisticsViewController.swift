@@ -33,6 +33,7 @@ final class StatisticsViewController: BaseViewController {
     @IBOutlet weak var pnlButton: ColorButton!
     @IBOutlet weak var followingButton: ColorButton!
     @IBOutlet weak var pagerSectionView: UIView!
+    @IBOutlet weak var backButton: ColorButton!
     private lazy var portfolioView = PortfolioView()
     private lazy var portfolioViewCell: PagedViewCell = {
         let cell = PagedViewCell()
@@ -82,11 +83,28 @@ final class StatisticsViewController: BaseViewController {
         pnlView.delegate = self
         followingPortfolioView.delegate = self
         followingPortfolioView.historyButton.isHidden = true
-        followingPortfolioView.backButton.isHidden = true
         radioGroup.delegate = self
         radioGroup.add(protfolioButton)
         radioGroup.add(pnlButton)
         radioGroup.add(followingButton)
+        if user == nil {
+            shareButton.isHidden = true
+            backButton.isHidden = true
+        } else {
+            shareButton.isHidden = false
+            shareButton.rx
+                .tap
+                .bind(to: followViewModel.inputs.followBtnTap)
+                .disposed(by: disposeBag)
+            
+            backButton.isHidden = false
+            backButton.rx
+                .tap
+                .asSignal()
+                .map { StatisticsViewUiEvent.back }
+                .emit(to: viewModel.outputs.uiEvent)
+                .disposed(by: disposeBag)
+        }
     }
     
     private func setupUser(user: UserApiData?) {
@@ -99,12 +117,8 @@ final class StatisticsViewController: BaseViewController {
                 shareButton.setTitle("追蹤", for: .normal)
                 shareButton.isSelected = false
             }
-            shareButton.isHidden = false
-            portfolioView.backButton.isHidden = false
         } else {
             nameLabel.text = keychainUser[.userName]
-            shareButton.isHidden = true
-            portfolioView.backButton.isHidden = true
         }
     }
     
@@ -134,11 +148,6 @@ final class StatisticsViewController: BaseViewController {
                 guard let self = self else { return }
                 self.mainCoordinator.showFollow(isDefaultPageFollower: isDefaultPageFollower, followViewModel: self.followViewModel)
             })
-            .disposed(by: disposeBag)
-
-        shareButton.rx
-            .tap
-            .bind(to: followViewModel.inputs.followBtnTap)
             .disposed(by: disposeBag)
 
         portfolioView.historyButton.rx
@@ -305,10 +314,6 @@ extension StatisticsViewController: PortfolioViewDelegate {
         } else {
             
         }
-    }
-    
-    func onTapBack() {
-        viewModel.outputs.uiEvent.accept(.back)
     }
 }
 
