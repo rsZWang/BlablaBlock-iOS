@@ -80,7 +80,7 @@ final class SearchUserCollectionViewCell: UICollectionViewCell {
     
     private let mDDTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "績效最大回撤"
+        label.text = "最大回撤"
         label.textColor = .black
         label.font = .systemFont(ofSize: 14)
         label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
