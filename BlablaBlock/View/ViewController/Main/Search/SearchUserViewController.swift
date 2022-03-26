@@ -87,15 +87,24 @@ final class SearchUserViewController: BaseViewController {
         
         viewModel.outputs
             .users
-            .map { [AnimatableSectionModel<String, UserApiData>(model: "", items: $0)] }
-            .drive(collectionView.rx.items(dataSource: RxCollectionViewSectionedAnimatedDataSource<AnimatableSectionModel<String, UserApiData>>(
-                configureCell: { (_, collectionView, indexPath, item: UserApiData) in
-                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchUserCollectionViewCell.reuseIdentifier, for: indexPath) as! SearchUserCollectionViewCell
-                    cell.bind(item)
-                    return cell
-                },
-                configureSupplementaryView: { _, _, _, _ in UICollectionReusableView(frame: .zero) }
-            )))
+//            .map { [AnimatableSectionModel<String, UserApiData>(model: "", items: $0)] }
+//            .drive(collectionView.rx.items(dataSource: RxCollectionViewSectionedAnimatedDataSource<AnimatableSectionModel<String, UserApiData>>(
+//                configureCell: { (_, collectionView, indexPath, item: UserApiData) in
+//                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchUserCollectionViewCell.reuseIdentifier, for: indexPath) as! SearchUserCollectionViewCell
+//                    cell.bind(item)
+//                    return cell
+//                },
+//                configureSupplementaryView: { _, _, _, _ in UICollectionReusableView(frame: .zero) }
+//            )))
+            .drive(
+                collectionView.rx.items(
+                    cellIdentifier: SearchUserCollectionViewCell.reuseIdentifier,
+                    cellType: SearchUserCollectionViewCell.self
+                ),
+                curriedArgument: { (row, element, cell) in
+                    cell.bind(element)
+                }
+            )
             .disposed(by: disposeBag)
         
         viewModel.outputs
