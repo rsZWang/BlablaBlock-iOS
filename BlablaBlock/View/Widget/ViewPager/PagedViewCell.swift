@@ -9,6 +9,8 @@ import UIKit
 
 class PagedViewCell: UICollectionViewCell {
     
+    static let identifier = "PagedViewCell"
+    
     private var leftOffSet: CGFloat = 0
     private var topOffSet: CGFloat = 0
     private var rightOffSet: CGFloat = 0

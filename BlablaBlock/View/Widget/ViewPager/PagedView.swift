@@ -34,7 +34,7 @@ class PagedView: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewDat
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(PagedViewCell.self, forCellWithReuseIdentifier: "PagedViewCell")
+        collectionView.register(PagedViewCell.self, forCellWithReuseIdentifier: PagedViewCell.identifier)
         collectionView.isScrollEnabled = false
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.isPagingEnabled = true
@@ -46,15 +46,15 @@ class PagedView: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewDat
     
     // MARK: - UI Setup
     func setupUI() {
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(collectionView)
+        translatesAutoresizingMaskIntoConstraints = false
+        addSubview(collectionView)
         collectionView.snp.makeConstraints { make in
-            make.width.height.centerX.centerY.equalTo(self)
+            make.edges.equalToSuperview()
         }
     }
     
     public func moveToPage(at index: Int) {
-        self.collectionView.scrollToItem(at: IndexPath(item: index, section: 0), at: .centeredHorizontally, animated: true)
+        collectionView.scrollToItem(at: IndexPath(item: index, section: 0), at: .centeredHorizontally, animated: true)
     }
     
     // MARK: - Delegate
@@ -85,12 +85,9 @@ class PagedView: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewDat
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        CGSize(
-            width: self.collectionView.frame.width,
-            height: self.collectionView.frame.height
-        )
+        collectionView.frame.size
     }
-    
+
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
