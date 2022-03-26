@@ -11,7 +11,7 @@ import Resolver
 
 final class TradeHistoryViewController: BaseViewController {
     
-    @Injected var viewModel: TradeHistoryViewModel
+    @Injected var viewModel: TradeHistoryViewModelType
     var userId: Int?
     
     private let tableView: TradeHistoryTableView = TradeHistoryTableView()

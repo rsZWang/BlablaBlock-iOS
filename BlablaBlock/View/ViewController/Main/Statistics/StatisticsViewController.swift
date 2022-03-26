@@ -204,16 +204,24 @@ final class StatisticsViewController: BaseViewController {
 
         viewModel.outputs
             .portfolio
-            .map { $0.assets }
-            .drive(
-                portfolioView.tableView.rx.items(
-                    cellIdentifier: ExchangeListTableViewCell.identifier,
-                    cellType: ExchangeListTableViewCell.self
-                ),
-                curriedArgument: { (row, element, cell) in
-                    cell.bind(element)
+            .map { [AnimatableSectionModel<String, PortfolioAssetViewData>(model: "", items: $0.assets)] }
+            .drive(portfolioView.tableView.rx.items(dataSource: RxTableViewSectionedAnimatedDataSource<AnimatableSectionModel<String, PortfolioAssetViewData>>(
+                configureCell: { dataSource, tableView, indexPath, item in
+                    let cell = tableView.dequeueReusableCell(withIdentifier: ExchangeListTableViewCell.identifier, for: indexPath) as! ExchangeListTableViewCell
+                    cell.bind(item)
+                    return cell
                 }
-            )
+            )))
+//            .map { $0.assets }
+//            .drive(
+//                portfolioView.tableView.rx.items(
+//                    cellIdentifier: ExchangeListTableViewCell.identifier,
+//                    cellType: ExchangeListTableViewCell.self
+//                ),
+//                curriedArgument: { (row, element, cell) in
+//                    cell.bind(element)
+//                }
+//            )
             .disposed(by: disposeBag)
 
         viewModel.outputs
@@ -223,15 +231,23 @@ final class StatisticsViewController: BaseViewController {
         
         viewModel.outputs
             .followingPortfolio
-            .drive(
-                followingPortfolioView.tableView.rx.items(
-                    cellIdentifier: ExchangeListTableViewCell.identifier,
-                    cellType: ExchangeListTableViewCell.self
-                ),
-                curriedArgument: { (row, element, cell) in
-                    cell.bind(element)
+            .map { [AnimatableSectionModel<String, FollowingPortfolioAssetViewData>(model: "", items: $0)] }
+            .drive(followingPortfolioView.tableView.rx.items(dataSource: RxTableViewSectionedAnimatedDataSource<AnimatableSectionModel<String, FollowingPortfolioAssetViewData>>(
+                configureCell: { dataSource, tableView, indexPath, item in
+                    let cell = tableView.dequeueReusableCell(withIdentifier: ExchangeListTableViewCell.identifier, for: indexPath) as! ExchangeListTableViewCell
+                    cell.bind(item)
+                    return cell
                 }
-            )
+            )))
+//            .drive(
+//                followingPortfolioView.tableView.rx.items(
+//                    cellIdentifier: ExchangeListTableViewCell.identifier,
+//                    cellType: ExchangeListTableViewCell.self
+//                ),
+//                curriedArgument: { (row, element, cell) in
+//                    cell.bind(element)
+//                }
+//            )
             .disposed(by: disposeBag)
 
         viewModel.outputs

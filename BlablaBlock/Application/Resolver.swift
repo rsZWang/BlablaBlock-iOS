@@ -17,7 +17,7 @@ extension Resolver: ResolverRegistering {
         register { AuthViewModel() }.scope(.shared)
         
         // Home
-        register { HomeViewModel() }.scope(.unique)
+        register { HomeViewModel() as HomeViewModelType }.scope(.unique)
         
         // Search user
         register { UserViewModel() as UserViewModelType }.scope(.unique)
@@ -28,11 +28,11 @@ extension Resolver: ResolverRegistering {
         // Statistics
         register { StatisticsViewModel() as StatisticsViewModelType }.scope(.unique)
         
+        // TradeHistory
+        register { TradeHistoryViewModel() as TradeHistoryViewModelType }.scope(.unique)
+        
         // Exchange Setting
         register { ExchangeApiViewModel() }.scope(.shared)
-        
-        // TradeHistory
-        register { TradeHistoryViewModel() }.scope(.unique)
     }
     
 }

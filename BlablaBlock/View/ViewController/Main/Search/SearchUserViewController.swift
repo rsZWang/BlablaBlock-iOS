@@ -85,28 +85,17 @@ final class SearchUserViewController: BaseViewController {
             .bind(to: viewModel.inputs.refresh)
             .disposed(by: disposeBag)
         
-        let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimatableSectionModel<String, UserApiData>>(
-            configureCell: { (_, collectionView, indexPath, item: UserApiData) in
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchUserCollectionViewCell.reuseIdentifier, for: indexPath) as! SearchUserCollectionViewCell
-                cell.bind(item)
-                return cell
-            },
-            configureSupplementaryView: { _, _, _, _ in UICollectionReusableView(frame: .zero) }
-        )
-        
         viewModel.outputs
             .users
             .map { [AnimatableSectionModel<String, UserApiData>(model: "", items: $0)] }
-            .drive(collectionView.rx.items(dataSource: dataSource))
-//            .drive(
-//                collectionView.rx.items(
-//                    cellIdentifier: SearchUserCollectionViewCell.reuseIdentifier,
-//                    cellType: SearchUserCollectionViewCell.self
-//                ),
-//                curriedArgument: { (row, element, cell) in
-//                    cell.bind(element)
-//                }
-//            )
+            .drive(collectionView.rx.items(dataSource: RxCollectionViewSectionedAnimatedDataSource<AnimatableSectionModel<String, UserApiData>>(
+                configureCell: { (_, collectionView, indexPath, item: UserApiData) in
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchUserCollectionViewCell.reuseIdentifier, for: indexPath) as! SearchUserCollectionViewCell
+                    cell.bind(item)
+                    return cell
+                },
+                configureSupplementaryView: { _, _, _, _ in UICollectionReusableView(frame: .zero) }
+            )))
             .disposed(by: disposeBag)
         
         viewModel.outputs
@@ -170,6 +159,7 @@ final class SearchUserViewController: BaseViewController {
         label.font = .boldSystemFont(ofSize: 18)
         label.textColor = .white
         label.numberOfLines = 5
+        label.isHidden = true
         return label
     }()
 }

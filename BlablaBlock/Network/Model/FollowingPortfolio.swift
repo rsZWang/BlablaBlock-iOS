@@ -23,10 +23,8 @@ public struct FollowingPortfolioApi: Decodable {
             } else {
                 dayChange = "N/A"
             }
-            
             assetsViewData.append(
                 FollowingPortfolioAssetViewData(
-                    identity: "\(data.currency)_\(data.balance)",
                     currency: data.currency,
                     balance: data.balance.toPrettyPrecisedString(),
                     value: "$\(data.value.toPrettyPrecisedString())",
@@ -49,10 +47,9 @@ public struct FollowingPortfolioApiAsset: Decodable, Equatable {
     let percentage: Double
 }
 
-public struct FollowingPortfolioAssetViewData: Equatable, IdentifiableType {
+public struct FollowingPortfolioAssetViewData: IdentifiableType, Equatable {
     
-    public typealias Identity = String
-    public var identity: String
+    public var identity: String { balance }
     
     let currency: String
     let balance: String

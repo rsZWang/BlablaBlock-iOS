@@ -125,6 +125,7 @@ final class FollowViewModel:
             .disposed(by: disposeBag)
         
         followCellTap
+            .filter { $0.userId != Int(keychainUser[.userId] ?? "-1") }
             .map {
                 UserApiData(
                     userId: $0.userId,

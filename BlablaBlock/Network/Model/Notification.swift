@@ -6,13 +6,17 @@
 //
 
 import UIKit
+import RxDataSources
 
 public struct NotificationApi: Decodable {
     let code: Int
     let data: [NotificationApiData]
 }
 
-public struct NotificationApiData: Decodable {
+public struct NotificationApiData: Decodable, IdentifiableType, Equatable {
+    
+    public var identity: String { "\(userId)\(currency)\(type)\(timestamp)\(side)" }
+    
     let userId: Int
     let name: String?
     let exchange: String
@@ -23,7 +27,7 @@ public struct NotificationApiData: Decodable {
     let side: String
     let price: Double
     let executedQty: Double
-    let isFollow: Bool
+    var isFollow: Bool
     
     func getCurrencyString() -> NSAttributedString {
         let attribuedString = NSMutableAttributedString()

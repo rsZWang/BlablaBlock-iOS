@@ -154,10 +154,8 @@ public struct PortfolioApiData: Decodable {
             } else {
                 dayChange = "N/A"
             }
-            
             assetsViewData.append(
                 PortfolioAssetViewData(
-                    identity: "\(data.currency)_\(data.balance)",
                     currency: data.currency,
                     balance: data.balance.toPrettyPrecisedString(),
                     value: "$\(data.value.toPrettyPrecisedString())",
@@ -186,10 +184,9 @@ public struct PortfolioViewData: Equatable {
     let assets: [PortfolioAssetViewData]
 }
 
-public struct PortfolioAssetViewData: Equatable, IdentifiableType {
+public struct PortfolioAssetViewData: IdentifiableType, Equatable {
     
-    public typealias Identity = String
-    public var identity: String
+    public var identity: String { balance }
     
     let currency: String
     let balance: String

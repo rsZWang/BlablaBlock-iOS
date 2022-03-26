@@ -7,10 +7,11 @@
 
 import UIKit
 import Resolver
+import RxDataSources
 
 final class HomePageViewController: BaseViewController {
     
-    @Injected var homeViewModel: HomeViewModel
+    @Injected var viewModel: HomeViewModelType
     
     deinit {
         Timber.i("\(type(of: self)) deinit")
@@ -21,11 +22,7 @@ final class HomePageViewController: BaseViewController {
         tableView.separatorStyle = .none
         setupLayout()
         setupBinding()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        homeViewModel.inputs.viewWillAppear.accept(())
+        viewModel.inputs.viewDidLoad.accept(())
     }
     
     private func setupLayout() {
@@ -54,20 +51,43 @@ final class HomePageViewController: BaseViewController {
             make.top.equalTo(topSectionView.snp.bottom)
             make.leading.trailing.bottom.equalToSuperview()
         }
+        
+        tableView.addSubview(refreshControl)
+        
+        view.addSubview(emptyLabel)
+        emptyLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalTo(tableView)
+        }
     }
     
     private func setupBinding() {
-        homeViewModel.outputs
+        refreshControl.rx
+            .controlEvent(.valueChanged)
+            .bind(to: viewModel.inputs.refresh)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs
+            .isRefreshing
+            .emit(to: refreshControl.rx.isRefreshing)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs
             .notifications
-            .drive(
-                tableView.rx.items(
-                    cellIdentifier: HomePageTableViewCell.reuseIdentifier,
-                    cellType: HomePageTableViewCell.self
-                ),
-                curriedArgument: { (row, element, cell) in
-                    cell.bind(notification: element)
+            .map { [AnimatableSectionModel<String, NotificationApiData>(model: "", items: $0)] }
+            .drive(tableView.rx.items(dataSource: RxTableViewSectionedAnimatedDataSource<AnimatableSectionModel<String, NotificationApiData>>(
+                configureCell: { [weak self] dataSource, tableView, indexPath, item in
+                    let cell = tableView.dequeueReusableCell(withIdentifier: HomePageTableViewCell.reuseIdentifier, for: indexPath) as! HomePageTableViewCell
+                    cell.bind(notification: item, followBtnTap: self?.viewModel.inputs.followBtnTap)
+                    return cell
                 }
-            )
+            )))
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs
+            .isNotEmpty
+            .distinctUntilChanged()
+            .emit(to: emptyLabel.rx.isHidden)
             .disposed(by: disposeBag)
     }
     
@@ -92,5 +112,16 @@ final class HomePageViewController: BaseViewController {
     }()
 
     private let tableView: HomePageTableView = HomePageTableView()
+    private let refreshControl = UIRefreshControl()
+    
+    private let emptyLabel: UILabel = {
+        let label = UILabel()
+        label.text = "請至設定頁面串接交易所API，\n以獲取追蹤他人投資組合"
+        label.font = .boldSystemFont(ofSize: 18)
+        label.textColor = .black
+        label.numberOfLines = 5
+        label.isHidden = true
+        return label
+    }()
     
 }

@@ -14,9 +14,7 @@ public struct UserApi: Decodable {
 
 public struct UserApiData: Decodable, IdentifiableType, Equatable, Hashable {
     
-    public var identity: UserApiData {
-        return self
-    }
+    public var identity: UserApiData { self }
     
     let userId: Int
     let name: String?

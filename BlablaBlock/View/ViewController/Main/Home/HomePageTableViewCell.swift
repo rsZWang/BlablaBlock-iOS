@@ -6,10 +6,14 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
 
 final class HomePageTableViewCell: UITableViewCell {
     
     static let reuseIdentifier = "HomePageTableViewCell"
+    
+    private var disposeBag = DisposeBag()
     
     private let bgView: UIView = {
         let view = UIView()
@@ -151,6 +155,11 @@ final class HomePageTableViewCell: UITableViewCell {
         setupUI()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
+    
     private func setupUI() {
         contentView.addSubview(bgView)
         bgView.snp.makeConstraints { make in
@@ -263,7 +272,7 @@ final class HomePageTableViewCell: UITableViewCell {
         }
     }
     
-    func bind(notification: NotificationApiData) {
+    func bind(notification: NotificationApiData, followBtnTap: PublishRelay<Int>?) {
         currencyImageView.currency(name: notification.baseCurrency)
         if notification.isFollow {
             followButton.setTitle("追蹤中", for: .normal)
@@ -289,6 +298,13 @@ final class HomePageTableViewCell: UITableViewCell {
         priceLabel.text = notification.price.toPrettyPrecisedString()
         amountTitleLabel.text = "成交數量"
         amountLabel.text = notification.executedQty.toPrettyPrecisedString()
+        
+        followButton.rx
+            .tap
+            .subscribe(onNext: {
+                followBtnTap?.accept(notification.userId)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func formatDateTime(timestamp: TimeInterval) -> String {
