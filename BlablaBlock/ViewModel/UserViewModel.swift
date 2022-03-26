@@ -17,6 +17,7 @@ public protocol UserViewModelInputs {
 
 public protocol UserViewModelOutputs {
     var users: Driver<[UserApiData]> { get }
+    var isNotEmpty: Driver<Bool> { get }
     var selectedUser: Signal<UserApiData> { get }
     var finishLoading: Signal<Bool> { get }
 }
@@ -43,6 +44,7 @@ final class UserViewModel:
     // MARK: - outputs
     
     var users: Driver<[UserApiData]>
+    var isNotEmpty: Driver<Bool>
     var selectedUser: Signal<UserApiData>
     var finishLoading: Signal<Bool>
 
@@ -56,6 +58,7 @@ final class UserViewModel:
         let refresh = PublishRelay<()>()
         
         let users = BehaviorRelay<[UserApiData]>(value: [])
+        let isNotEmpty = BehaviorRelay<Bool>(value: true)
         let selectedUser = PublishRelay<UserApiData>()
         let finishLoading = PublishRelay<Bool>()
         
@@ -65,6 +68,7 @@ final class UserViewModel:
         self.selectedIndexPath = selectedIndexPath
         
         self.users = users.asDriver()
+        self.isNotEmpty = isNotEmpty.asDriver()
         self.selectedUser = selectedUser.asSignal()
         self.finishLoading = finishLoading.asSignal()
         
@@ -72,14 +76,19 @@ final class UserViewModel:
         
         viewDidLoad
             .subscribe(onNext: {
-//                userName.accept("")
+
             })
             .disposed(by: disposeBag)
         
         userName
-            .compactMap { $0 }
+            .skip(1)
             .subscribe(onNext: { [weak self] name in
-                self?.getAllUsers(name: name, users: users, finishLoading: finishLoading)
+                self?.getAllUsers(
+                    name: name,
+                    users: users,
+                    isNotEmpty: isNotEmpty,
+                    finishLoading: finishLoading
+                )
             })
             .disposed(by: disposeBag)
         
@@ -100,6 +109,7 @@ final class UserViewModel:
     private func getAllUsers(
         name: String,
         users: BehaviorRelay<[UserApiData]>,
+        isNotEmpty: BehaviorRelay<Bool>,
         finishLoading: PublishRelay<Bool>
     ) {
         UserService.getUsers(name: name)
@@ -109,7 +119,8 @@ final class UserViewModel:
                     finishLoading.accept(false)
                     switch response {
                     case let .success(userApiResponse):
-                        users.accept(userApiResponse.data)
+                        users.accept(userApiResponse.data.shuffled())
+                        isNotEmpty.accept(userApiResponse.data.isNotEmpty)
                     case let .failure(responseFailure):
                         self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
                     }

@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Resolver
+import RxDataSources
 
 final class SearchUserViewController: BaseViewController {
     
@@ -58,6 +59,13 @@ final class SearchUserViewController: BaseViewController {
             make.top.equalTo(topSearchSectionView.snp.bottom)
             make.leading.trailing.bottom.equalToSuperview()
         }
+        
+        view.addSubview(emptyLabel)
+        emptyLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(topSearchSectionView)
+            make.bottom.equalToSuperview()
+        }
     }
     
     private func setupBinding() {
@@ -77,17 +85,34 @@ final class SearchUserViewController: BaseViewController {
             .bind(to: viewModel.inputs.refresh)
             .disposed(by: disposeBag)
         
+        let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimatableSectionModel<String, UserApiData>>(
+            configureCell: { (_, collectionView, indexPath, item: UserApiData) in
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchUserCollectionViewCell.reuseIdentifier, for: indexPath) as! SearchUserCollectionViewCell
+                cell.bind(item)
+                return cell
+            },
+            configureSupplementaryView: { _, _, _, _ in UICollectionReusableView(frame: .zero) }
+        )
+        
         viewModel.outputs
             .users
-            .drive(
-                collectionView.rx.items(
-                    cellIdentifier: SearchUserCollectionViewCell.reuseIdentifier,
-                    cellType: SearchUserCollectionViewCell.self
-                ),
-                curriedArgument: { (row, element, cell) in
-                    cell.bind(element)
-                }
-            )
+            .map { [AnimatableSectionModel<String, UserApiData>(model: "", items: $0)] }
+            .drive(collectionView.rx.items(dataSource: dataSource))
+//            .drive(
+//                collectionView.rx.items(
+//                    cellIdentifier: SearchUserCollectionViewCell.reuseIdentifier,
+//                    cellType: SearchUserCollectionViewCell.self
+//                ),
+//                curriedArgument: { (row, element, cell) in
+//                    cell.bind(element)
+//                }
+//            )
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs
+            .isNotEmpty
+            .distinctUntilChanged()
+            .drive(emptyLabel.rx.isHidden)
             .disposed(by: disposeBag)
         
         viewModel.outputs
@@ -137,8 +162,14 @@ final class SearchUserViewController: BaseViewController {
         return collectionView
     }()
     
-    private lazy var refreshControl: UIRefreshControl = {
-        UIRefreshControl()
-    }()
+    private lazy var refreshControl: UIRefreshControl = UIRefreshControl()
     
+    private let emptyLabel: UILabel = {
+        let label = UILabel()
+        label.text = "請至設定頁面串接交易所API，\n以獲取追蹤他人投資組合"
+        label.font = .boldSystemFont(ofSize: 18)
+        label.textColor = .white
+        label.numberOfLines = 5
+        return label
+    }()
 }

@@ -9,6 +9,9 @@ import UIKit
 
 final class SearchUserCollectionView: UICollectionView {
     
+    static var cellWidth: CGFloat { (UIScreen.main.bounds.width / 2) - 24 }
+    static var cellHeight: CGFloat { 100 }
+    
     deinit {
         Timber.i("\(type(of: self)) deinit")
     }
@@ -19,7 +22,7 @@ final class SearchUserCollectionView: UICollectionView {
     
     convenience init() {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        layout.estimatedItemSize = CGSize(width: Self.cellWidth, height: Self.cellHeight)
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
         self.init(frame: .zero, collectionViewLayout: layout)

@@ -147,13 +147,12 @@ final class SearchUserCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupLayout() {
-        let width = (UIScreen.main.bounds.width / 2) - 24
         let bgView = UIView()
         bgView.backgroundColor = .white
         bgView.layer.cornerRadius = 6
         contentView.addSubview(bgView)
         bgView.snp.makeConstraints { make in
-            make.width.equalTo(width)
+            make.width.equalTo(SearchUserCollectionView.cellWidth)
             make.edges.equalTo(UIEdgeInsets(top: 14, left: 0, bottom: 0, right: 0))
         }
         
