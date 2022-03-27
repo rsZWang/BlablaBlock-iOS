@@ -10,7 +10,7 @@ import SnapKit
 
 final class SearchUserCollectionViewCell: UICollectionViewCell {
     
-    static let reuseIdentifier = "SearchUserCollectionViewCell"
+    static let identifier = "SearchUserCollectionViewCell"
     
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView()

@@ -50,7 +50,7 @@ final class TradeHistoryViewController: BaseViewController {
             }
             .drive(
                 tableView.rx.items(
-                    cellIdentifier: TradeHistoryTableView.reuseIdentifier,
+                    cellIdentifier: TradeHistoryTableViewCell.identifier,
                     cellType: TradeHistoryTableViewCell.self
                 ),
                 curriedArgument: { (row, element, cell) in

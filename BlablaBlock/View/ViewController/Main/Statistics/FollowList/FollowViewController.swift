@@ -77,7 +77,7 @@ final class FollowViewController: BaseTabViewController {
             .asObservable()
             .bind(
                 to: followersViewController.tableView.rx.items(
-                    cellIdentifier: FollowListTableViewCell.reuseIdentifier,
+                    cellIdentifier: FollowListTableViewCell.identifier,
                     cellType: FollowListTableViewCell.self
                 ),
                 curriedArgument: { [weak self] (row, element, cell) in
@@ -97,7 +97,7 @@ final class FollowViewController: BaseTabViewController {
             .asObservable()
             .bind(
                 to: followingsViewController.tableView.rx.items(
-                    cellIdentifier: FollowListTableViewCell.reuseIdentifier,
+                    cellIdentifier: FollowListTableViewCell.identifier,
                     cellType: FollowListTableViewCell.self
                 ),
                 curriedArgument: { [weak self] (row, element, cell) in

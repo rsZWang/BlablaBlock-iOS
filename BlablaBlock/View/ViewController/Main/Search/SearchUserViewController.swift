@@ -98,7 +98,7 @@ final class SearchUserViewController: BaseViewController {
 //            )))
             .drive(
                 collectionView.rx.items(
-                    cellIdentifier: SearchUserCollectionViewCell.reuseIdentifier,
+                    cellIdentifier: SearchUserCollectionViewCell.identifier,
                     cellType: SearchUserCollectionViewCell.self
                 ),
                 curriedArgument: { (row, element, cell) in

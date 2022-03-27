@@ -22,7 +22,11 @@ final class HomePageViewController: BaseViewController {
         tableView.separatorStyle = .none
         setupLayout()
         setupBinding()
-        viewModel.inputs.viewDidLoad.accept(())
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.inputs.viewWillAppear.accept(())
     }
     
     private func setupLayout() {
@@ -49,7 +53,8 @@ final class HomePageViewController: BaseViewController {
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.top.equalTo(topSectionView.snp.bottom)
-            make.leading.trailing.bottom.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.leading.trailing.equalToSuperview()
         }
         
         tableView.addSubview(refreshControl)
@@ -62,6 +67,8 @@ final class HomePageViewController: BaseViewController {
     }
     
     private func setupBinding() {
+        tableView.followBtnTap = viewModel.inputs.followBtnTap
+        
         refreshControl.rx
             .controlEvent(.valueChanged)
             .bind(to: viewModel.inputs.refresh)
@@ -73,16 +80,35 @@ final class HomePageViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         viewModel.outputs
-            .notifications
-            .map { [AnimatableSectionModel<String, NotificationApiData>(model: "", items: $0)] }
-            .drive(tableView.rx.items(dataSource: RxTableViewSectionedAnimatedDataSource<AnimatableSectionModel<String, NotificationApiData>>(
-                configureCell: { [weak self] dataSource, tableView, indexPath, item in
-                    let cell = tableView.dequeueReusableCell(withIdentifier: HomePageTableViewCell.reuseIdentifier, for: indexPath) as! HomePageTableViewCell
-                    cell.bind(notification: item, followBtnTap: self?.viewModel.inputs.followBtnTap)
-                    return cell
-                }
-            )))
+            .notificationsRefresh
+            .emit(onNext: tableView.refresh)
             .disposed(by: disposeBag)
+        
+        viewModel.outputs
+            .notificationsUpdate
+            .emit(onNext: tableView.update)
+            .disposed(by: disposeBag)
+        
+//        viewModel.outputs
+//            .notifications
+//            .map { [AnimatableSectionModel<String, NotificationApiData>(model: "", items: $0)] }
+//            .drive(tableView.rx.items(dataSource: RxTableViewSectionedAnimatedDataSource<AnimatableSectionModel<String, NotificationApiData>>(
+//                configureCell: { [weak self] dataSource, tableView, indexPath, item in
+//                    let cell = tableView.dequeueReusableCell(withIdentifier: HomePageTableViewCell.reuseIdentifier, for: indexPath) as! HomePageTableViewCell
+//                    cell.bind(notification: item, followBtnTap: self?.viewModel.inputs.followBtnTap)
+//                    return cell
+//                }
+//            )))
+//            .drive(
+//                tableView.rx.items(
+//                    cellIdentifier: HomePageTableViewCell.reuseIdentifier,
+//                    cellType: HomePageTableViewCell.self
+//                ),
+//                curriedArgument: { [weak self] (row, element, cell) in
+//                    cell.bind(notification: element, followBtnTap: self?.viewModel.inputs.followBtnTap)
+//                }
+//            )
+//            .disposed(by: disposeBag)
         
         viewModel.outputs
             .isNotEmpty

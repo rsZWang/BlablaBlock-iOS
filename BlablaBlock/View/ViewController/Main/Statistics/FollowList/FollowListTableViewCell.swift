@@ -11,7 +11,7 @@ import RxSwift
 
 final class FollowListTableViewCell: UITableViewCell {
     
-    static let reuseIdentifier = "FollowListTableViewCell"
+    static let identifier = "FollowListTableViewCell"
     private var disposeBag = DisposeBag()
     
     required init?(coder aDecoder: NSCoder) {

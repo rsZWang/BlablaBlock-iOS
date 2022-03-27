@@ -22,7 +22,7 @@ final class FollowListTableView: UITableView {
         backgroundColor = nil
         contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
         separatorStyle = .none
-        register(FollowListTableViewCell.self, forCellReuseIdentifier: FollowListTableViewCell.reuseIdentifier)
+        register(FollowListTableViewCell.self, forCellReuseIdentifier: FollowListTableViewCell.identifier)
         tableFooterView = UIView()
     }
     

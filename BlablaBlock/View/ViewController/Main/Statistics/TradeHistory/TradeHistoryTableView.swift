@@ -10,8 +10,6 @@ import UIKit
 
 final class TradeHistoryTableView: UITableView {
     
-    static let reuseIdentifier = "TradeHistoryTableViewCell"
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -21,7 +19,7 @@ final class TradeHistoryTableView: UITableView {
         backgroundColor = nil
         contentInset = UIEdgeInsets(top: 16, left: 0, bottom: 0, right: 0)
         separatorStyle = .none
-        register(TradeHistoryTableViewCell.self, forCellReuseIdentifier: TradeHistoryTableView.reuseIdentifier)
+        register(TradeHistoryTableViewCell.self, forCellReuseIdentifier: TradeHistoryTableViewCell.identifier)
     }
     
     override init(frame: CGRect, style: UITableView.Style) {

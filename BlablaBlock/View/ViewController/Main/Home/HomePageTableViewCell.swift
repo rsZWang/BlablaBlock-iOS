@@ -11,7 +11,7 @@ import RxSwift
 
 final class HomePageTableViewCell: UITableViewCell {
     
-    static let reuseIdentifier = "HomePageTableViewCell"
+    static let identifier = "HomePageTableViewCell"
     
     private var disposeBag = DisposeBag()
     
@@ -282,10 +282,10 @@ final class HomePageTableViewCell: UITableViewCell {
             followButton.isSelected = false
         }
         nameLabel.text = notification.name
-        timestampCounterLabel.text = Date(timeIntervalSince1970: notification.timestamp).agoString()
+        timestampCounterLabel.text = notification.timestamp.ago()
         currencyLabel.text = notification.currency
         currencyTypeLabel.text = AssetType.map(type: notification.type)
-        timestampLabel.text = formatDateTime(timestamp: notification.timestamp)
+        timestampLabel.text = notification.timestamp.format()
         if notification.side.caseInsensitiveCompare("buy") == .orderedSame {
             actionLabel.text = "買入"
             actionLabel.textColor = .systemGreen
@@ -306,11 +306,4 @@ final class HomePageTableViewCell: UITableViewCell {
             })
             .disposed(by: disposeBag)
     }
-    
-    private func formatDateTime(timestamp: TimeInterval) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return formatter.string(from: Date(timeIntervalSince1970: timestamp))
-    }
-
 }

@@ -10,6 +10,8 @@ import SnapKit
 
 final class TradeHistoryTableViewCell: UITableViewCell {
     
+    static let identifier = "TradeHistoryTableViewCell"
+    
     private let bgView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 6
@@ -201,7 +203,7 @@ final class TradeHistoryTableViewCell: UITableViewCell {
         currencyImageView.currency(name: history.baseCurrency)
         currencyLabel.text = history.currency.uppercased()
         currencyType.text = AssetType.map(type: history.type)
-        timestampLabel.text = formatDateTime(timestamp: history.timestamp)
+        timestampLabel.text = history.timestamp.format()
         if history.side.caseInsensitiveCompare("buy") == .orderedSame {
             actionLabel.text = "買入"
             actionLabel.textColor = .systemGreen
@@ -214,12 +216,6 @@ final class TradeHistoryTableViewCell: UITableViewCell {
         priceLabel.text = history.price.toPrettyPrecisedString()
         amountTitleLabel.text = "成交數量"
         amountLabel.text = history.executedQty.toPrettyPrecisedString()
-    }
-    
-    private func formatDateTime(timestamp: TimeInterval) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return formatter.string(from: Date(timeIntervalSince1970: timestamp))
     }
 }
 

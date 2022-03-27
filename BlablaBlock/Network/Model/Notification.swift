@@ -15,7 +15,9 @@ public struct NotificationApi: Decodable {
 
 public struct NotificationApiData: Decodable, IdentifiableType, Equatable {
     
-    public var identity: String { "\(userId)\(currency)\(type)\(timestamp)\(side)" }
+    public var identity: String {
+        "\(userId)\(currency)\(type)\(side)\(timestamp)"
+    }
     
     let userId: Int
     let name: String?

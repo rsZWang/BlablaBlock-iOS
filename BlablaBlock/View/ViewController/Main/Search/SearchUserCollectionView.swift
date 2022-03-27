@@ -29,7 +29,7 @@ final class SearchUserCollectionView: UICollectionView {
         contentInset = UIEdgeInsets(top: 0, left: 14, bottom: 14, right: 14)
         register(
             SearchUserCollectionViewCell.self,
-            forCellWithReuseIdentifier: SearchUserCollectionViewCell.reuseIdentifier
+            forCellWithReuseIdentifier: SearchUserCollectionViewCell.identifier
         )
         alwaysBounceVertical = true
     }

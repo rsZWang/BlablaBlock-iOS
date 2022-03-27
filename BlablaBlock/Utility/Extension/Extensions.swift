@@ -161,42 +161,12 @@ public extension NSError {
     
 }
 
-public extension Date {
-    func agoString() -> String {
-
-        let current = Date()
-        let calendar = Calendar.current
-        let minuteAgo = calendar.date(byAdding: .minute, value: -1, to: current)!
-        let hourAgo = calendar.date(byAdding: .hour, value: -1, to: current)!
-        let dayAgo = calendar.date(byAdding: .day, value: -1, to: current)!
-        let weekAgo = calendar.date(byAdding: .day, value: -7, to: current)!
-
-        if minuteAgo < self {
-            let diff = Calendar.current.dateComponents([.second], from: self, to: current).second ?? 0
-            return "\(diff) 秒鐘前"
-        } else if hourAgo < self {
-            let diff = Calendar.current.dateComponents([.minute], from: self, to: current).minute ?? 0
-            return "\(diff) 分鐘前"
-        } else if dayAgo < self {
-            let diff = Calendar.current.dateComponents([.hour], from: self, to: current).hour ?? 0
-            return "\(diff) 個小時前"
-        } else if weekAgo < self {
-            let diff = Calendar.current.dateComponents([.day], from: self, to: current).day ?? 0
-            return "\(diff) 天前"
-        } else {
-            let diff = Calendar.current.dateComponents([.weekOfYear], from: self, to: current).weekOfYear ?? 0
-            return "\(diff) 個禮拜前"
-        }
-    }
-}
-
 public extension UIImageView {
     
     func currency(name: String) {
         let lowercase = name.lowercased()
         image = UIImage(named: lowercase) ?? UIImage(named: "currency_unknown")
     }
-    
 }
 
 public extension UIRefreshControl {
@@ -204,5 +174,51 @@ public extension UIRefreshControl {
         beginRefreshing()
         let offsetPoint = CGPoint.init(x: 0, y: -frame.size.height)
         tableView.setContentOffset(offsetPoint, animated: true)
+    }
+}
+
+public extension TimeInterval {
+    
+    func format(_ format: String = "yyyy-MM-dd HH:mm:ss") -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        return formatter.string(from: Date(timeIntervalSince1970: self))
+    }
+    
+    func ago() -> String {
+        let when = Date(timeIntervalSince1970: self)
+        let current = Date()
+        let calendar = Calendar.current
+        let minuteAgo = calendar.date(byAdding: .minute, value: -1, to: current)!
+        let hourAgo = calendar.date(byAdding: .hour, value: -1, to: current)!
+        let dayAgo = calendar.date(byAdding: .day, value: -1, to: current)!
+        let weekAgo = calendar.date(byAdding: .day, value: -7, to: current)!
+
+        if minuteAgo < when {
+            let diff = Calendar.current.dateComponents([.second], from: when, to: current).second ?? 0
+            return "\(diff) 秒鐘前"
+        } else if hourAgo < when {
+            let diff = Calendar.current.dateComponents([.minute], from: when, to: current).minute ?? 0
+            return "\(diff) 分鐘前"
+        } else if dayAgo < when {
+            let diff = Calendar.current.dateComponents([.hour], from: when, to: current).hour ?? 0
+            return "\(diff) 個小時前"
+        } else if weekAgo < when {
+            let diff = Calendar.current.dateComponents([.day], from: when, to: current).day ?? 0
+            return "\(diff) 天前"
+        } else {
+            let diff = Calendar.current.dateComponents([.weekOfYear], from: when, to: current).weekOfYear ?? 0
+            return "\(diff) 個禮拜前"
+        }
+    }
+}
+
+public extension UITableView {
+    
+    func reloadVisibleCells() {
+        guard let visibleRows = indexPathsForVisibleRows else { return }
+        beginUpdates()
+        reloadRows(at: visibleRows, with: .none)
+        endUpdates()
     }
 }
