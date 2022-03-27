@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -142,24 +143,30 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2JQ-JN-Pty" userLabel="History Button">
-                                                    <rect key="frame" x="344" y="0.0" width="40" height="40"/>
+                                                <button opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2JQ-JN-Pty" userLabel="History Button">
+                                                    <rect key="frame" x="360" y="8" width="24" height="24"/>
+                                                    <color key="backgroundColor" name="bg_gray"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="2JQ-JN-Pty" secondAttribute="height" multiplier="1:1" id="2zc-a0-WtO"/>
+                                                        <constraint firstAttribute="width" constant="24" id="4oW-eH-que"/>
                                                     </constraints>
                                                     <state key="normal" image="ic_portfolio_history"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                            <real key="value" value="4"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
                                                 <constraint firstItem="Yee-hK-xVv" firstAttribute="top" secondItem="xMH-sv-3Hm" secondAttribute="top" constant="10" id="1yY-co-Np5"/>
-                                                <constraint firstAttribute="bottom" secondItem="2JQ-JN-Pty" secondAttribute="bottom" id="6ku-xW-cbr"/>
                                                 <constraint firstAttribute="trailing" secondItem="2JQ-JN-Pty" secondAttribute="trailing" id="GpP-O6-jxh"/>
-                                                <constraint firstItem="2JQ-JN-Pty" firstAttribute="top" secondItem="xMH-sv-3Hm" secondAttribute="top" id="NrI-mm-7A7"/>
                                                 <constraint firstAttribute="bottom" secondItem="ev5-Ln-M3V" secondAttribute="bottom" constant="10" id="OmR-S7-ky1"/>
                                                 <constraint firstItem="ev5-Ln-M3V" firstAttribute="top" secondItem="xMH-sv-3Hm" secondAttribute="top" constant="10" id="aYy-Te-uBc"/>
                                                 <constraint firstItem="Yee-hK-xVv" firstAttribute="leading" secondItem="ev5-Ln-M3V" secondAttribute="trailing" constant="10" id="cs8-wF-gTF"/>
                                                 <constraint firstAttribute="bottom" secondItem="Yee-hK-xVv" secondAttribute="bottom" constant="10" id="gnr-p4-iVy"/>
+                                                <constraint firstItem="2JQ-JN-Pty" firstAttribute="centerY" secondItem="xMH-sv-3Hm" secondAttribute="centerY" id="jIY-pf-oXr"/>
                                                 <constraint firstItem="ev5-Ln-M3V" firstAttribute="leading" secondItem="xMH-sv-3Hm" secondAttribute="leading" id="xbs-Ay-pks"/>
                                             </constraints>
                                         </view>
@@ -273,6 +280,9 @@
     </objects>
     <resources>
         <image name="ic_portfolio_history" width="12" height="12"/>
+        <namedColor name="bg_gray">
+            <color red="0.86699998378753662" green="0.86699998378753662" blue="0.86699998378753662" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
