@@ -20,94 +20,110 @@ build_dir = "builds/#{version}_#{build_number}"
 workspace = "BlablaBlock.xcworkspace"
 scheme = "BlablaBlock"
 
+review_notes = "測試連結交易所的部分，請使用
+Binance:
+API KEY:
+tuXwcjGeJC4vCpdUez0mZxJJEOSqBBSJc60MCGcXeQg0CWPvufmndvQdEwgwvNnV
+
+API Secret: CHpW8MZwBuBHuPncE2KIN78gH06tpTCJ0JIrpt7PWXcC2i6yBRkMiZaIUVspIUqL"
+
 default_platform(:ios)
 
 platform :ios do
-  desc "Push a new release build to the App Store"
-  lane :release do
-    increment_build_number(xcodeproj: "BlablaBlock.xcodeproj")
-    build_app(workspace: "BlablaBlock.xcworkspace", scheme: "BlablaBlock")
-    upload_to_app_store
-  end
+    desc "Push a new release build to the App Store"
+    lane :release do
+        increment_build_number(xcodeproj: "BlablaBlock.xcodeproj")
+        build_app(workspace: "BlablaBlock.xcworkspace", scheme: "BlablaBlock")
+        upload_to_app_store
+    end
 end
 
 platform :ios do
-  desc "Upload ipa to Testflight"
-  lane :beta do
-    build_app(workspace: "BlablaBlock.xcworkspace", scheme: "BlablaBlock")
-    pilot(
-      ipa: "BlablaBlock.ipa",
-      skip_submission: true,
-      skip_waiting_for_build_processing: true
-    )
-  end
+    desc "Upload ipa to Testflight"
+    lane :beta do
+        build_app(workspace: "BlablaBlock.xcworkspace", scheme: "BlablaBlock")
+        pilot(
+            ipa: "BlablaBlock.ipa",
+            skip_submission: true,
+            skip_waiting_for_build_processing: true
+        )
+    end
 end
 
 platform :ios do
-  desc "Build, upload_to_testflight, download dsyms, upload dsyms, clear dsyms"
-  lane :harry do
-    cleanDir(build_dir)
-    build_testflight(workspace, scheme, build_dir)
-    upload_dsyms(version, build_number)
-    upload_local_dsyms(build_dir)
-    clean_build_artifacts
-  end
+    desc "Build, upload_to_testflight, download dsyms, upload dsyms, clear dsyms"
+    lane :harry do
+        cleanDir(build_dir)
+        get_certificates
+        get_provisioning_profile
+        build_testflight(workspace, scheme, build_dir, review_notes)
+        upload_dsyms(version, build_number)
+        upload_local_dsyms(build_dir)
+        clean_build_artifacts
+    end
 end
 
 platform :ios do
-  desc "Build and upload to testflight"
-  lane :harry_build_testflight do
-    build_testflight(workspace, scheme, build_number)
-  end
+    desc "Build and upload to testflight"
+        lane :harry_build_testflight do
+        build_testflight(workspace, scheme, build_number)
+    end
 end
 
 platform :ios do
-  desc "Download and upload and clear dsyms"
-  lane :harry_dsyms do
-    upload_dsyms(version, build_number)
-  end
+    desc "Download and upload and clear dsyms"
+        lane :harry_dsyms do
+        upload_dsyms(version, build_number)
+    end
 end
 
 def cleanDir(build_dir)
-  sh "pwd"
-  sh "rm -r ./../#{build_dir} | echo"
-  sh "mkdir ./../#{build_dir}"
+    sh "pwd"
+    sh "rm -r ./../#{build_dir} | echo"
+    sh "mkdir ./../#{build_dir}"
 end
 
-def build_testflight(workspace, scheme, build_dir)
-  get_certificates
-  get_provisioning_profile
-  build_app(
-    workspace: workspace, 
-    scheme: scheme,
-    xcargs: "-allowProvisioningUpdates",
-    clean: true,
-    output_directory: build_dir,
-    include_symbols: true,
-    include_bitcode: true
-  )
+def build_testflight(workspace, scheme, build_dir, review_notes)
+    build_app(
+        workspace: workspace, 
+        scheme: scheme,
+        xcargs: "-allowProvisioningUpdates",
+        clean: true,
+        output_directory: build_dir,
+        include_symbols: true,
+        include_bitcode: true
+    )
 
-  pilot(
-    ipa: "#{build_dir}/BlablaBlock.ipa",
-    skip_submission: true,
-    skip_waiting_for_build_processing: true
-  )
+    pilot(
+        ipa: "#{build_dir}/BlablaBlock.ipa",
+        beta_app_review_info: {
+            contact_email: "jedi19931106@icloud.com",
+            contact_first_name: "Harry",
+            contact_last_name: "Wang",
+            contact_phone: "+886978077059",
+            demo_account_name: "test_user@blablablock.com",
+            demo_account_password: "Abc123",
+            notes: review_notes
+        },
+        distribute_external: true,
+        groups: "External_1"
+    )
 end
 
 def upload_dsyms(version, build_number)
-  download_dsyms(
-    version: version, 
-	build_number: build_number,
-	output_directory: "./dSYMs"
-  )
-  upload_symbols_to_crashlytics(
-	gsp_path: "./BlablaBlock/GoogleService-Info.plist"
-  )
+    download_dsyms(
+        version: version, 
+        build_number: build_number,
+        utput_directory: "./dSYMs"
+    )
+    upload_symbols_to_crashlytics(
+        gsp_path: "./BlablaBlock/GoogleService-Info.plist"
+    )
 end
 
 def upload_local_dsyms(build_dir)
-  upload_symbols_to_crashlytics(
-  	dsym_path: "#{build_dir}/BlablaBlock.app.dSYM.zip",
-	gsp_path: "./BlablaBlock/GoogleService-Info.plist"
-  )
+    upload_symbols_to_crashlytics(
+        dsym_path: "#{build_dir}/BlablaBlock.app.dSYM.zip",
+        gsp_path: "./BlablaBlock/GoogleService-Info.plist"
+    )
 end
