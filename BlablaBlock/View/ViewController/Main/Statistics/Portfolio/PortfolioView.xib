@@ -147,7 +147,7 @@
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="2JQ-JN-Pty" secondAttribute="height" multiplier="1:1" id="2zc-a0-WtO"/>
                                                     </constraints>
-                                                    <state key="normal" image="ic_refresh"/>
+                                                    <state key="normal" image="ic_portfolio_history"/>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -272,7 +272,7 @@
         </view>
     </objects>
     <resources>
-        <image name="ic_refresh" width="12" height="11"/>
+        <image name="ic_portfolio_history" width="12" height="12"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
