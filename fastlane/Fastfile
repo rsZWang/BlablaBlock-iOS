@@ -20,11 +20,9 @@ build_dir = "builds/#{version}_#{build_number}"
 workspace = "BlablaBlock.xcworkspace"
 scheme = "BlablaBlock"
 
-review_notes = "測試連結交易所的部分，請使用
-Binance:
-API KEY:
-tuXwcjGeJC4vCpdUez0mZxJJEOSqBBSJc60MCGcXeQg0CWPvufmndvQdEwgwvNnV
-
+review_notes = "
+測試連結交易所請使用 Binance:
+API KEY: tuXwcjGeJC4vCpdUez0mZxJJEOSqBBSJc60MCGcXeQg0CWPvufmndvQdEwgwvNnV
 API Secret: CHpW8MZwBuBHuPncE2KIN78gH06tpTCJ0JIrpt7PWXcC2i6yBRkMiZaIUVspIUqL"
 
 changelog = "New features and bug fix"
@@ -93,7 +91,7 @@ platform :ios do
       clean: true,
       output_directory: build_dir,
       include_symbols: true,
-      include_bitcode: true
+      include_bitcode: false
     )
   end
 
