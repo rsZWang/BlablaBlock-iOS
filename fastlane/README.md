@@ -15,45 +15,69 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
-### ios release
-
-```sh
-[bundle exec] fastlane ios release
-```
-
-Push a new release build to the App Store
-
-### ios beta
-
-```sh
-[bundle exec] fastlane ios beta
-```
-
-Upload ipa to Testflight
-
 ### ios harry
 
 ```sh
 [bundle exec] fastlane ios harry
 ```
 
-Build, upload_to_testflight, download dsyms, upload dsyms, clear dsyms
+Clear build directory, get certificates, build and upload to testflight, download dsyms on store, upload store and local dsyms, clear
 
-### ios harry_build_testflight
-
-```sh
-[bundle exec] fastlane ios harry_build_testflight
-```
-
-Build and upload to testflight
-
-### ios harry_dsyms
+### ios clear_dir
 
 ```sh
-[bundle exec] fastlane ios harry_dsyms
+[bundle exec] fastlane ios clear_dir
 ```
 
-Download and upload and clear dsyms
+Clear build directory
+
+### ios build
+
+```sh
+[bundle exec] fastlane ios build
+```
+
+Build
+
+### ios upload_submit_testflight
+
+```sh
+[bundle exec] fastlane ios upload_submit_testflight
+```
+
+Upload to testflight and submit beta review
+
+### ios upload_dsyms
+
+```sh
+[bundle exec] fastlane ios upload_dsyms
+```
+
+Upload dSYMs
+
+### ios upload_store_dsyms
+
+```sh
+[bundle exec] fastlane ios upload_store_dsyms
+```
+
+Upload store dSYMs
+
+### ios upload_local_dsyms
+
+```sh
+[bundle exec] fastlane ios upload_local_dsyms
+```
+
+Upload local dSYMs
+
+### ios notify_slack_success
+
+```sh
+[bundle exec] fastlane ios notify_slack_success
+```
+
+Notify slack build uploaded successfully message
 
 ----
 
