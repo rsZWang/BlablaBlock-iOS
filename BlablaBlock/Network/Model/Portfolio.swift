@@ -160,7 +160,7 @@ public struct PortfolioApiData: Decodable {
                     balance: data.balance.toPrettyPrecisedString(),
                     value: "$\(data.value.toPrettyPrecisedString())",
                     dayChange: dayChange!,
-                    percentage: "(\(data.percentage.toPrettyPrecisedString())%)"
+                    percentage: "(\(Double(data.percentage)?.toPrettyPrecisedString() ?? "0")%)"
                 )
             )
         }
@@ -174,7 +174,7 @@ public struct PortfolioApiDataAsset: Decodable, Equatable {
     let balance: Double
     let value: Double
     let dayChange: String
-    let percentage: Double
+    let percentage: String
 }
 
 public struct PortfolioViewData: Equatable {
