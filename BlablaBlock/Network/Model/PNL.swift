@@ -54,14 +54,21 @@ public struct PNLApiData: Decodable {
         let minX = getMinX()
         let maxX = getMaxX()
         let diff = maxX - minX
-        let distance = Int(Double(diff)/Double(chunk))
-        
         var values = [Int]()
-        for i in stride(from: minX, through: maxX, by: distance) {
-            values.append(i)
-        }
-        if values.count == chunk {
-            values.append(maxX + distance)
+        
+        if chartData.count >= 5 {
+            let distance = Int(Double(diff)/Double(chunk))
+            for i in stride(from: minX, through: maxX, by: distance) {
+                values.append(i)
+            }
+            if values.count == chunk {
+                values.append(maxX + distance)
+            }
+        } else {
+            let distance = diff
+            for i in stride(from: minX, through: maxX, by: distance) {
+                values.append(i)
+            }
         }
         return values
     }
@@ -78,15 +85,34 @@ public struct PNLApiData: Decodable {
         
         let minY = roundUp(getMinY())
         let maxY = roundUp(getMaxY())
-        let diff = minY - maxY
-        let distance = abs(diff/10)
-        
         var values = [Double]()
-        for i in stride(from: minY, through: maxY, by: distance) {
-            values.append(i)
-        }
-        if values.count == 10 {
-            values.append((values.last ?? 0) + distance)
+        
+        if minY == maxY && minY == 0 {
+            for i in stride(from: 5, through: 1, by: -1) {
+                values.append(minY - Double(i))
+            }
+            values.append(minY)
+            for i in 1 ... 5 {
+                values.append(minY + Double(i))
+            }
+        } else if minY == maxY {
+            for i in stride(from: 5, through: 1, by: -1) {
+                values.append(minY - minY * Double(i))
+            }
+            values.append(minY)
+            for i in 1 ... 5 {
+                values.append(minY + minY * Double(i))
+            }
+        } else {
+            let diff = minY - maxY
+            let distance = abs(diff/10)
+            
+            for i in stride(from: minY, through: maxY, by: distance) {
+                values.append(i)
+            }
+            if values.count == 10 {
+                values.append((values.last ?? 0) + distance)
+            }
         }
         return values.map { round($0*100)/100 }
     }

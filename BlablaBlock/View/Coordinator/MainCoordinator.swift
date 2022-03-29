@@ -92,7 +92,7 @@ final class MainCoordinator: NSObject, Coordinator {
     }
     
     func showPortfolioBy(user: UserApiData) {
-        let vc = mainSB.instantiateViewController(withIdentifier: "StatisticsViewController") as! StatisticsViewController
+        let vc = mainSB.instantiateViewController(withIdentifier: "PortfolioViewController") as! PortfolioViewController
         vc.user = user
         navigationController.pushViewController(vc, animated: true)
     }

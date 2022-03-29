@@ -42,7 +42,7 @@
 		4A7744BB276F95910087A447 /* StatisticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7744BA276F95910087A447 /* StatisticsService.swift */; };
 		4A7744BD276F96170087A447 /* Portfolio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7744BC276F96170087A447 /* Portfolio.swift */; };
 		4A7744BF276F97520087A447 /* PNL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7744BE276F97520087A447 /* PNL.swift */; };
-		4A7744C5276FA1B50087A447 /* StatisticsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7744C4276FA1B50087A447 /* StatisticsViewModel.swift */; };
+		4A7744C5276FA1B50087A447 /* PortfolioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7744C4276FA1B50087A447 /* PortfolioViewModel.swift */; };
 		4A7A18FB27D2F68B00AF24A8 /* FollowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7A18FA27D2F68B00AF24A8 /* FollowViewController.swift */; };
 		4A7A18FE27D2FA6400AF24A8 /* BaseTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7A18FD27D2FA6400AF24A8 /* BaseTabViewController.swift */; };
 		4A7A190027D2FAF600AF24A8 /* FollowListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7A18FF27D2FAF600AF24A8 /* FollowListViewController.swift */; };
@@ -162,7 +162,7 @@
 		4A7744BA276F95910087A447 /* StatisticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsService.swift; sourceTree = "<group>"; };
 		4A7744BC276F96170087A447 /* Portfolio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Portfolio.swift; sourceTree = "<group>"; };
 		4A7744BE276F97520087A447 /* PNL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PNL.swift; sourceTree = "<group>"; };
-		4A7744C4276FA1B50087A447 /* StatisticsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewModel.swift; sourceTree = "<group>"; };
+		4A7744C4276FA1B50087A447 /* PortfolioViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewModel.swift; sourceTree = "<group>"; };
 		4A7A18FA27D2F68B00AF24A8 /* FollowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowViewController.swift; sourceTree = "<group>"; };
 		4A7A18FD27D2FA6400AF24A8 /* BaseTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabViewController.swift; sourceTree = "<group>"; };
 		4A7A18FF27D2FAF600AF24A8 /* FollowListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowListViewController.swift; sourceTree = "<group>"; };
@@ -311,7 +311,7 @@
 			path = TradeHistory;
 			sourceTree = "<group>";
 		};
-		4A7744C0276FA07D0087A447 /* Statistics */ = {
+		4A7744C0276FA07D0087A447 /* Portfolio */ = {
 			isa = PBXGroup;
 			children = (
 				A0290E2E272319DE00A07224 /* StatisticsViewController.swift */,
@@ -320,7 +320,7 @@
 				4A741C0827CB45A500594A5D /* TradeHistory */,
 				4A7A18F927D2F66B00AF24A8 /* FollowList */,
 			);
-			path = Statistics;
+			path = Portfolio;
 			sourceTree = "<group>";
 		};
 		4A7744C1276FA0AA0087A447 /* Auth */ = {
@@ -345,7 +345,7 @@
 			children = (
 				4A6C9F0D27CD09D4003B42F8 /* Home */,
 				4A581C9427CBC53F00276BA9 /* Search */,
-				4A7744C0276FA07D0087A447 /* Statistics */,
+				4A7744C0276FA07D0087A447 /* Portfolio */,
 				4A7744C2276FA0B80087A447 /* Setting */,
 			);
 			path = Main;
@@ -378,7 +378,7 @@
 				4ABA209E273BDC5000F66DB9 /* AuthViewModel.swift */,
 				4A6C9F1F27CD2EFD003B42F8 /* HomeViewModel.swift */,
 				4A7A190927D331D400AF24A8 /* UserViewModel.swift */,
-				4A7744C4276FA1B50087A447 /* StatisticsViewModel.swift */,
+				4A7744C4276FA1B50087A447 /* PortfolioViewModel.swift */,
 				4AEE577B27D7B841006D8313 /* UserStatisticsViewModel.swift */,
 				4A741C1127CB597500594A5D /* TradeHistoryViewModel.swift */,
 				4A7A190527D3098C00AF24A8 /* FollowViewModel.swift */,
@@ -940,7 +940,7 @@
 				4A6C9F1827CD28D8003B42F8 /* Follow.swift in Sources */,
 				4AFC6577276E7E3900ADEDA7 /* InputAlertBuilder.swift in Sources */,
 				4A7A190027D2FAF600AF24A8 /* FollowListViewController.swift in Sources */,
-				4A7744C5276FA1B50087A447 /* StatisticsViewModel.swift in Sources */,
+				4A7744C5276FA1B50087A447 /* PortfolioViewModel.swift in Sources */,
 				4AA9F814276E473800D775F0 /* BaseViewModel.swift in Sources */,
 				4A741C0A27CB45D300594A5D /* TradeHistoryViewController.swift in Sources */,
 				4A7A190427D2FBAC00AF24A8 /* FollowListTableViewCell.swift in Sources */,

@@ -35,7 +35,6 @@ public struct FollowingPortfolioApi: Decodable {
         }
         return assetsViewData
     }
-    
 }
 
 public struct FollowingPortfolioApiAsset: Decodable, Equatable {

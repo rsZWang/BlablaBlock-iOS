@@ -26,7 +26,7 @@ extension Resolver: ResolverRegistering {
         register { FollowViewModel() as FollowViewModelType }.scope(.unique)
         
         // Statistics
-        register { StatisticsViewModel() as StatisticsViewModelType }.scope(.unique)
+        register { PortfolioViewModel() as PortfolioViewModelType }.scope(.unique)
         
         // TradeHistory
         register { TradeHistoryViewModel() as TradeHistoryViewModelType }.scope(.unique)

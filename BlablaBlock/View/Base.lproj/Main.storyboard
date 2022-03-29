@@ -323,7 +323,7 @@
         <!--Back-->
         <scene sceneID="EAZ-vw-ubg">
             <objects>
-                <viewController storyboardIdentifier="StatisticsViewController" title="Back" id="Csa-qC-qwM" customClass="StatisticsViewController" customModule="BlablaBlock" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PortfolioViewController" title="Back" id="Csa-qC-qwM" customClass="PortfolioViewController" customModule="BlablaBlock" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="x2y-ff-1rG">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -923,6 +923,9 @@
         </designable>
         <designable name="k4r-84-K8l">
             <size key="intrinsicContentSize" width="82" height="32"/>
+        </designable>
+        <designable name="stJ-Zh-Y08">
+            <size key="intrinsicContentSize" width="49" height="32"/>
         </designable>
     </designables>
     <resources>

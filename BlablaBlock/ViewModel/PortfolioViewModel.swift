@@ -1,5 +1,5 @@
 //
-//  StatisticsViewModel.swift
+//  PortfolioViewModel.swift
 //  BlablaBlock
 //
 //  Created by Harry on 2021/12/20.
@@ -9,7 +9,7 @@ import Resolver
 import RxCocoa
 import RxSwift
 
-public protocol StatisticsViewModelInputs {
+public protocol PortfolioViewModelInputs {
     var historyBtnTap: PublishRelay<()> { get }
     var exchangeFilter: BehaviorRelay<ExchangeType> { get }
     var portfolioType: BehaviorRelay<PortfolioType> { get }
@@ -20,7 +20,7 @@ public protocol StatisticsViewModelInputs {
     var followingPortfolioPull: PublishRelay<()> { get }
 }
 
-public protocol StatisticsViewModelOutputs {
+public protocol PortfolioViewModelOutputs {
     var user: BehaviorRelay<UserApiData?> { get }
     var portfolio: Driver<PortfolioViewData> { get }
     var pnl: Signal<PNLApiData> { get }
@@ -28,24 +28,24 @@ public protocol StatisticsViewModelOutputs {
     var portfolioRefresh: Signal<Bool> { get }
     var pnlRefresh: Signal<Bool> { get }
     var followingPortfolioRefresh: Signal<Bool> { get }
-    var uiEvent: PublishRelay<StatisticsViewUiEvent> { get }
+    var uiEvent: PublishRelay<PortfolioViewUiEvent> { get }
 }
 
-public protocol StatisticsViewModelType {
-    var inputs: StatisticsViewModelInputs { get }
-    var outputs: StatisticsViewModelOutputs { get }
+public protocol PortfolioViewModelType {
+    var inputs: PortfolioViewModelInputs { get }
+    var outputs: PortfolioViewModelOutputs { get }
 }
 
-public enum StatisticsViewUiEvent {
+public enum PortfolioViewUiEvent {
     case back
     case history
 }
 
-final class StatisticsViewModel:
+final class PortfolioViewModel:
     BaseViewModel,
-    StatisticsViewModelInputs,
-    StatisticsViewModelOutputs,
-    StatisticsViewModelType
+    PortfolioViewModelInputs,
+    PortfolioViewModelOutputs,
+    PortfolioViewModelType
 {
     // MARK: - inputs
     var historyBtnTap: PublishRelay<()>
@@ -65,10 +65,10 @@ final class StatisticsViewModel:
     var portfolioRefresh: Signal<Bool>
     var pnlRefresh: Signal<Bool>
     var followingPortfolioRefresh: Signal<Bool>
-    var uiEvent: PublishRelay<StatisticsViewUiEvent>
+    var uiEvent: PublishRelay<PortfolioViewUiEvent>
     
-    var inputs: StatisticsViewModelInputs { self }
-    var outputs: StatisticsViewModelOutputs { self }
+    var inputs: PortfolioViewModelInputs { self }
+    var outputs: PortfolioViewModelOutputs { self }
     
     // MARK: - internals
     private let portfolioViewDataCache = BehaviorRelay<PortfolioApiData?>(value: nil)
@@ -95,7 +95,7 @@ final class StatisticsViewModel:
         let portfolioRefresh = PublishRelay<Bool>()
         let pnlRefresh = PublishRelay<Bool>()
         let followingPortfolioRefresh = PublishRelay<Bool>()
-        let uiEvent = PublishRelay<StatisticsViewUiEvent>()
+        let uiEvent = PublishRelay<PortfolioViewUiEvent>()
         
         self.historyBtnTap = historyBtnTap
         self.exchangeFilter = exchangeFilter
@@ -232,58 +232,82 @@ final class StatisticsViewModel:
     }
 }
 
-private extension StatisticsViewModel {    
+private extension PortfolioViewModel {    
     func getPortfolio(
         portfolioRefresh: PublishRelay<Bool>,
         exchange: String
     ) {
-        if let userId = user.value?.userId {
-            UserService.getPortfolioByID(userId: userId, exchange: exchange)
-                .request()
-                .subscribe(
-                    onSuccess: { [weak self] response in
-                        switch response {
-                        case let .success(portfolio):
-                            self?.portfolioViewDataCache.accept(portfolio.data)
-                        case let .failure(responseFailure):
-                            if responseFailure.code == 1006 {
-                                self?.portfolioViewDataCache.accept(nil)
-                            } else {
-                                self?.errorCodeHandler(responseFailure)
-                            }
+        let userId = user.value?.userId ?? Int(keychainUser[.userId]!)!
+        UserService.getPortfolioByID(userId: userId, exchange: exchange)
+            .request()
+            .subscribe(
+                onSuccess: { [weak self] response in
+                    switch response {
+                    case let .success(portfolio):
+                        self?.portfolioViewDataCache.accept(portfolio.data)
+                    case let .failure(responseFailure):
+                        if responseFailure.code == 1006 {
+                            self?.portfolioViewDataCache.accept(nil)
+                        } else {
+                            self?.errorCodeHandler(responseFailure)
                         }
-                        portfolioRefresh.accept(false)
-                    },
-                    onFailure: { [weak self] error in
-                        self?.errorHandler(error: error)
-                        portfolioRefresh.accept(false)
                     }
-                )
-                .disposed(by: disposeBag)
-        } else {
-            StatisticsService.getPortfolio(exchange: exchange)
-                .request()
-                .subscribe(
-                    onSuccess: { [weak self] response in
-                        switch response {
-                        case let .success(portfolio):
-                            self?.portfolioViewDataCache.accept(portfolio.data)
-                        case let .failure(responseFailure):
-                            if responseFailure.code == 1006 {
-                                self?.portfolioViewDataCache.accept(nil)
-                            } else {
-                                self?.errorCodeHandler(responseFailure)
-                            }
-                        }
-                        portfolioRefresh.accept(false)
-                    },
-                    onFailure: { [weak self] error in
-                        self?.errorHandler(error: error)
-                        portfolioRefresh.accept(false)
-                    }
-                )
-                .disposed(by: disposeBag)
-        }
+                    portfolioRefresh.accept(false)
+                },
+                onFailure: { [weak self] error in
+                    self?.errorHandler(error: error)
+                    portfolioRefresh.accept(false)
+                }
+            )
+            .disposed(by: disposeBag)
+        
+//        if let userId = user.value?.userId {
+//            UserService.getPortfolioByID(userId: userId, exchange: exchange)
+//                .request()
+//                .subscribe(
+//                    onSuccess: { [weak self] response in
+//                        switch response {
+//                        case let .success(portfolio):
+//                            self?.portfolioViewDataCache.accept(portfolio.data)
+//                        case let .failure(responseFailure):
+//                            if responseFailure.code == 1006 {
+//                                self?.portfolioViewDataCache.accept(nil)
+//                            } else {
+//                                self?.errorCodeHandler(responseFailure)
+//                            }
+//                        }
+//                        portfolioRefresh.accept(false)
+//                    },
+//                    onFailure: { [weak self] error in
+//                        self?.errorHandler(error: error)
+//                        portfolioRefresh.accept(false)
+//                    }
+//                )
+//                .disposed(by: disposeBag)
+//        } else {
+//            StatisticsService.getPortfolio(exchange: exchange)
+//                .request()
+//                .subscribe(
+//                    onSuccess: { [weak self] response in
+//                        switch response {
+//                        case let .success(portfolio):
+//                            self?.portfolioViewDataCache.accept(portfolio.data)
+//                        case let .failure(responseFailure):
+//                            if responseFailure.code == 1006 {
+//                                self?.portfolioViewDataCache.accept(nil)
+//                            } else {
+//                                self?.errorCodeHandler(responseFailure)
+//                            }
+//                        }
+//                        portfolioRefresh.accept(false)
+//                    },
+//                    onFailure: { [weak self] error in
+//                        self?.errorHandler(error: error)
+//                        portfolioRefresh.accept(false)
+//                    }
+//                )
+//                .disposed(by: disposeBag)
+//        }
     }
     
     func getPNL(
@@ -342,12 +366,7 @@ private extension StatisticsViewModel {
         followingPortfolioRefresh: PublishRelay<Bool>,
         exchange: String
     ) {
-        let userId: Int
-        if let id = user.value?.userId {
-            userId = id
-        } else {
-            userId = Int(keychainUser[.userId]!)!
-        }
+        let userId = user.value?.userId ?? Int(keychainUser[.userId]!)!
         UserService.getFollowPortfolioByID(userId: userId, exchange: exchange)
             .request()
             .subscribe(

@@ -1,5 +1,5 @@
 //
-//  StatisticsViewController.swift
+//  PortfolioViewController.swift
 //  BlablaBlock
 //
 //  Created by YINGHAO WANG on 2021/10/23.
@@ -11,10 +11,10 @@ import RxCocoa
 import RxSwift
 import RxDataSources
 
-final class StatisticsViewController: BaseViewController {
+final class PortfolioViewController: BaseViewController {
     
     @Injected var mainCoordinator: MainCoordinator
-    @Injected var viewModel: StatisticsViewModelType
+    @Injected var viewModel: PortfolioViewModelType
     @Injected var followViewModel: FollowViewModelType
     var user: UserApiData!
 
@@ -101,7 +101,7 @@ final class StatisticsViewController: BaseViewController {
             backButton.rx
                 .tap
                 .asSignal()
-                .map { StatisticsViewUiEvent.back }
+                .map { PortfolioViewUiEvent.back }
                 .emit(to: viewModel.outputs.uiEvent)
                 .disposed(by: disposeBag)
         }
@@ -294,8 +294,8 @@ final class StatisticsViewController: BaseViewController {
     }
 }
 
-extension StatisticsViewController {
-    func handleUiEvent(_ event: StatisticsViewUiEvent) {
+extension PortfolioViewController {
+    func handleUiEvent(_ event: PortfolioViewUiEvent) {
         switch event {
         case .history:
             mainCoordinator.showTradeHistoryBy(userId: user?.userId)
@@ -305,7 +305,7 @@ extension StatisticsViewController {
     }
 }
 
-extension StatisticsViewController: PortfolioViewDelegate {
+extension PortfolioViewController: PortfolioViewDelegate {
     func onExchangeFiltered(_ view: PortfolioView, exchange: String) {
         let exchangeType = ExchangeType.init(rawValue: exchange)!
         if view == portfolioView {
@@ -333,13 +333,13 @@ extension StatisticsViewController: PortfolioViewDelegate {
     }
 }
 
-extension StatisticsViewController: PNLViewDelegate {
+extension PortfolioViewController: PNLViewDelegate {
     func onPeriodFiltered(period: String) {
         viewModel.inputs.pnlPeriod.accept(PNLPeriod.init(rawValue: period)!)
     }
 }
 
-extension StatisticsViewController: RadioButtonGroupDelegate {
+extension PortfolioViewController: RadioButtonGroupDelegate {
     func onClicked(radioButton: RadioButton) {
         if radioButton == protfolioButton {
             pagedView.moveToPage(at: 0)
