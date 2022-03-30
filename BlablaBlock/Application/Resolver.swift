@@ -11,30 +11,32 @@ extension Resolver: ResolverRegistering {
     
     public static func registerAllServices() {
         
-        register { MainCoordinator() }.scope(.application)
+        register { NewMainCoordinator() }.scope(.application)
+//        register { MainCoordinator() }.scope(.application)
         
+        // Launcher
         register { LauncherViewModel() as LauncherViewModelType }.scope(.unique)
         
         // Auth
         register { AuthViewModel() }.scope(.shared)
         
-        // Home
-        register { HomeViewModel() as HomeViewModelType }.scope(.unique)
-        
-        // Search user
-        register { UserViewModel() as UserViewModelType }.scope(.unique)
-        
-        // Follow
-        register { FollowViewModel() as FollowViewModelType }.scope(.unique)
-        
-        // Statistics
-        register { PortfolioViewModel() as PortfolioViewModelType }.scope(.unique)
-        
-        // TradeHistory
-        register { TradeHistoryViewModel() as TradeHistoryViewModelType }.scope(.unique)
-        
-        // Exchange Setting
-        register { ExchangeApiViewModel() }.scope(.shared)
+//        // Home
+//        register { HomeViewModel() as HomeViewModelType }.scope(.unique)
+//
+//        // Search
+//        register { UserViewModel() as UserViewModelType }.scope(.unique)
+//
+//        // Portfolio
+//        register { PortfolioViewModel() as PortfolioViewModelType }.scope(.unique)
+//
+//        // Follow
+//        register { FollowViewModel() as FollowViewModelType }.scope(.unique)
+//
+//        // TradeHistory
+//        register { TradeHistoryViewModel() }.scope(.unique)
+//
+//        // Exchange Setting
+//        register { ExchangeApiViewModel() }.scope(.shared)
     }
     
 }

@@ -216,10 +216,23 @@ public extension UITableView {
     }
 }
 
+
 public extension Sequence where Iterator.Element: Hashable {
-    
     func unique() -> [Iterator.Element] {
         var seen: Set<Iterator.Element> = []
         return filter { seen.insert($0).inserted }
+    }
+}
+
+public extension UIImage {
+    
+    func resize(scale: CGFloat) -> UIImage {
+        let newWidth = self.size.width * scale
+        let newHeight = self.size.height * scale
+        UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
+        self.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage!
     }
 }

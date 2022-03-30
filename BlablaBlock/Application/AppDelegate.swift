@@ -12,17 +12,14 @@ import Resolver
 class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UISceneDelegate {
 
     var window: UIWindow?
-    @Injected var mainCoordinator: MainCoordinator
+    @Injected var mainCoordinator: NewMainCoordinator
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        EventTracker.initialize()
         Resolver.registerAllServices()
+        EventTracker.initialize()
         
-        if #available(iOS 13, *) {
-            
-        } else {
-            mainCoordinator.start()
+        if #available(iOS 13, *) { } else {
             let window = UIWindow(frame: UIScreen.main.bounds)
             window.rootViewController = mainCoordinator.navigationController
             window.makeKeyAndVisible()

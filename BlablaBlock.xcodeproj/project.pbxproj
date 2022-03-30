@@ -61,6 +61,11 @@
 		4AA9F814276E473800D775F0 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA9F813276E473800D775F0 /* BaseViewModel.swift */; };
 		4ABA209F273BDC5000F66DB9 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABA209E273BDC5000F66DB9 /* AuthViewModel.swift */; };
 		4ABA20A1273BDCB500F66DB9 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABA20A0273BDCB500F66DB9 /* String.swift */; };
+		4ABDAD9A27F4B90000BC94B6 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABDAD9927F4B90000BC94B6 /* Colors.swift */; };
+		4ABDAD9E27F4BA1C00BC94B6 /* NewMainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABDAD9D27F4BA1C00BC94B6 /* NewMainCoordinator.swift */; };
+		4ABDADA327F4BA5000BC94B6 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABDADA227F4BA5000BC94B6 /* MainTabBarController.swift */; };
+		4ABDADA527F4BACC00BC94B6 /* NewUI.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4ABDADA427F4BACC00BC94B6 /* NewUI.xcassets */; };
+		4ABDADAF27F4BF8700BC94B6 /* OrangeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABDADAE27F4BF8700BC94B6 /* OrangeButton.swift */; };
 		4AC2F35227E6E60700E187FE /* CurrencyIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AC2F35127E6E60700E187FE /* CurrencyIcon.xcassets */; };
 		4AF1CC5F27E836AD0035A4F7 /* FollowingPortfolio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF1CC5E27E836AD0035A4F7 /* FollowingPortfolio.swift */; };
 		4AFC6577276E7E3900ADEDA7 /* InputAlertBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFC6576276E7E3900ADEDA7 /* InputAlertBuilder.swift */; };
@@ -182,6 +187,11 @@
 		4AA9F813276E473800D775F0 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		4ABA209E273BDC5000F66DB9 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		4ABA20A0273BDCB500F66DB9 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		4ABDAD9927F4B90000BC94B6 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		4ABDAD9D27F4BA1C00BC94B6 /* NewMainCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewMainCoordinator.swift; sourceTree = "<group>"; };
+		4ABDADA227F4BA5000BC94B6 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		4ABDADA427F4BACC00BC94B6 /* NewUI.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = NewUI.xcassets; sourceTree = "<group>"; };
+		4ABDADAE27F4BF8700BC94B6 /* OrangeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrangeButton.swift; sourceTree = "<group>"; };
 		4AC2F35127E6E60700E187FE /* CurrencyIcon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CurrencyIcon.xcassets; sourceTree = "<group>"; };
 		4AF1CC5E27E836AD0035A4F7 /* FollowingPortfolio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingPortfolio.swift; sourceTree = "<group>"; };
 		4AFC6576276E7E3900ADEDA7 /* InputAlertBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputAlertBuilder.swift; sourceTree = "<group>"; };
@@ -283,110 +293,14 @@
 			path = ViewPager;
 			sourceTree = "<group>";
 		};
-		4A581C9427CBC53F00276BA9 /* Search */ = {
-			isa = PBXGroup;
-			children = (
-				4A581C9527CBC94C00276BA9 /* SearchUserViewController.swift */,
-				4A581C9927CBD25F00276BA9 /* SearchUserCollectionView.swift */,
-				4A581C9B27CBD28200276BA9 /* SearchUserCollectionViewCell.swift */,
-			);
-			path = Search;
-			sourceTree = "<group>";
-		};
-		4A6C9F0D27CD09D4003B42F8 /* Home */ = {
-			isa = PBXGroup;
-			children = (
-				4A6C9F0E27CD09F3003B42F8 /* HomePageViewController.swift */,
-				4A6C9F1127CD1209003B42F8 /* HomePageTableView.swift */,
-				4A6C9F1327CD1277003B42F8 /* HomePageTableViewCell.swift */,
-			);
-			path = Home;
-			sourceTree = "<group>";
-		};
-		4A741C0827CB45A500594A5D /* TradeHistory */ = {
-			isa = PBXGroup;
-			children = (
-				4A741C0927CB45D300594A5D /* TradeHistoryViewController.swift */,
-				4A741C0B27CB468500594A5D /* TradeHistoryTableView.swift */,
-				4A741C0D27CB46B300594A5D /* TradeHistoryTableViewCell.swift */,
-			);
-			path = TradeHistory;
-			sourceTree = "<group>";
-		};
-		4A7744C0276FA07D0087A447 /* Portfolio */ = {
-			isa = PBXGroup;
-			children = (
-				A0290E2E272319DE00A07224 /* PortfolioViewController.swift */,
-				A092DEB327738C8600E98A2B /* Portfolio */,
-				A092DEAE27738B9300E98A2B /* PNL */,
-				4A741C0827CB45A500594A5D /* TradeHistory */,
-				4A7A18F927D2F66B00AF24A8 /* FollowList */,
-			);
-			path = Portfolio;
-			sourceTree = "<group>";
-		};
-		4A7744C1276FA0AA0087A447 /* Auth */ = {
-			isa = PBXGroup;
-			children = (
-				A0C8E58A271FFAEE00848FCB /* SignInViewController.swift */,
-			);
-			path = Auth;
-			sourceTree = "<group>";
-		};
-		4A7744C2276FA0B80087A447 /* Setting */ = {
-			isa = PBXGroup;
-			children = (
-				A09D70E627251C3500ACE44A /* SettingViewController.swift */,
-				4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */,
-			);
-			path = Setting;
-			sourceTree = "<group>";
-		};
-		4A7744C3276FA0C30087A447 /* Main */ = {
-			isa = PBXGroup;
-			children = (
-				4A6C9F0D27CD09D4003B42F8 /* Home */,
-				4A581C9427CBC53F00276BA9 /* Search */,
-				4A7744C0276FA07D0087A447 /* Portfolio */,
-				4A7744C2276FA0B80087A447 /* Setting */,
-			);
-			path = Main;
-			sourceTree = "<group>";
-		};
-		4A7A18F927D2F66B00AF24A8 /* FollowList */ = {
-			isa = PBXGroup;
-			children = (
-				4A7A18FA27D2F68B00AF24A8 /* FollowViewController.swift */,
-				4A7A18FF27D2FAF600AF24A8 /* FollowListViewController.swift */,
-				4A7A190127D2FB4D00AF24A8 /* FollowListTableView.swift */,
-				4A7A190327D2FBAC00AF24A8 /* FollowListTableViewCell.swift */,
-			);
-			path = FollowList;
-			sourceTree = "<group>";
-		};
 		4A7A18FC27D2FA4D00AF24A8 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				4AA9F813276E473800D775F0 /* BaseViewModel.swift */,
 				4AA9F811276DD6A200D775F0 /* BaseViewController.swift */,
 				4A7A18FD27D2FA6400AF24A8 /* BaseTabViewController.swift */,
 			);
 			path = Base;
-			sourceTree = "<group>";
-		};
-		4A7AFE2027393CE8005E0A72 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				4AA9F813276E473800D775F0 /* BaseViewModel.swift */,
-				4A8B9CCB27F44B9C001A80CE /* LauncherViewModel.swift */,
-				4ABA209E273BDC5000F66DB9 /* AuthViewModel.swift */,
-				4A6C9F1F27CD2EFD003B42F8 /* HomeViewModel.swift */,
-				4A7A190927D331D400AF24A8 /* UserViewModel.swift */,
-				4A7744C4276FA1B50087A447 /* PortfolioViewModel.swift */,
-				4A741C1127CB597500594A5D /* TradeHistoryViewModel.swift */,
-				4A7A190527D3098C00AF24A8 /* FollowViewModel.swift */,
-				4A7B8AA3276FBEB200756E05 /* ExchangeApiViewModel.swift */,
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		4ABA20A2273BDDA800F66DB9 /* Extension */ = {
@@ -398,6 +312,116 @@
 				4A252CCF273F9751005E4C93 /* ViewController.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		4ABDAD9C27F4B9E200BC94B6 /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				A0C8E55E271FF18900848FCB /* Main.storyboard */,
+				4ABDADA627F4BB5300BC94B6 /* Launcher */,
+				4ABDADAB27F4BE6200BC94B6 /* Auth */,
+				4ABDADA127F4BA5000BC94B6 /* MainTab */,
+				4ABDADA727F4BBF700BC94B6 /* Home */,
+				4ABDADA827F4BDA000BC94B6 /* Explore */,
+				4ABDADA927F4BDFB00BC94B6 /* Portfolio */,
+				4ABDADAA27F4BE1900BC94B6 /* TradeHistory */,
+				4ABDADAC27F4BE8C00BC94B6 /* Follow */,
+				4ABDADAD27F4BEA600BC94B6 /* Setting */,
+			);
+			path = Module;
+			sourceTree = "<group>";
+		};
+		4ABDADA127F4BA5000BC94B6 /* MainTab */ = {
+			isa = PBXGroup;
+			children = (
+				4ABDADA227F4BA5000BC94B6 /* MainTabBarController.swift */,
+			);
+			path = MainTab;
+			sourceTree = "<group>";
+		};
+		4ABDADA627F4BB5300BC94B6 /* Launcher */ = {
+			isa = PBXGroup;
+			children = (
+				4A8B9CCB27F44B9C001A80CE /* LauncherViewModel.swift */,
+				A0C8E563271FF19000848FCB /* LaunchScreen.storyboard */,
+				A0DAD58E2778441C00CD8760 /* LauncherViewController.swift */,
+			);
+			path = Launcher;
+			sourceTree = "<group>";
+		};
+		4ABDADA727F4BBF700BC94B6 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				4A6C9F1F27CD2EFD003B42F8 /* HomeViewModel.swift */,
+				4A6C9F0E27CD09F3003B42F8 /* HomePageViewController.swift */,
+				4A6C9F1127CD1209003B42F8 /* HomePageTableView.swift */,
+				4A6C9F1327CD1277003B42F8 /* HomePageTableViewCell.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		4ABDADA827F4BDA000BC94B6 /* Explore */ = {
+			isa = PBXGroup;
+			children = (
+				4A7A190927D331D400AF24A8 /* UserViewModel.swift */,
+				4A581C9527CBC94C00276BA9 /* SearchUserViewController.swift */,
+				4A581C9927CBD25F00276BA9 /* SearchUserCollectionView.swift */,
+				4A581C9B27CBD28200276BA9 /* SearchUserCollectionViewCell.swift */,
+			);
+			path = Explore;
+			sourceTree = "<group>";
+		};
+		4ABDADA927F4BDFB00BC94B6 /* Portfolio */ = {
+			isa = PBXGroup;
+			children = (
+				4A7744C4276FA1B50087A447 /* PortfolioViewModel.swift */,
+				A0290E2E272319DE00A07224 /* PortfolioViewController.swift */,
+				A092DEB327738C8600E98A2B /* Portfolio */,
+				A092DEAE27738B9300E98A2B /* PNL */,
+			);
+			path = Portfolio;
+			sourceTree = "<group>";
+		};
+		4ABDADAA27F4BE1900BC94B6 /* TradeHistory */ = {
+			isa = PBXGroup;
+			children = (
+				4A741C1127CB597500594A5D /* TradeHistoryViewModel.swift */,
+				4A741C0927CB45D300594A5D /* TradeHistoryViewController.swift */,
+				4A741C0B27CB468500594A5D /* TradeHistoryTableView.swift */,
+				4A741C0D27CB46B300594A5D /* TradeHistoryTableViewCell.swift */,
+			);
+			path = TradeHistory;
+			sourceTree = "<group>";
+		};
+		4ABDADAB27F4BE6200BC94B6 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				4ABA209E273BDC5000F66DB9 /* AuthViewModel.swift */,
+				A0C8E58A271FFAEE00848FCB /* SignInViewController.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		4ABDADAC27F4BE8C00BC94B6 /* Follow */ = {
+			isa = PBXGroup;
+			children = (
+				4A7A190527D3098C00AF24A8 /* FollowViewModel.swift */,
+				4A7A18FA27D2F68B00AF24A8 /* FollowViewController.swift */,
+				4A7A18FF27D2FAF600AF24A8 /* FollowListViewController.swift */,
+				4A7A190127D2FB4D00AF24A8 /* FollowListTableView.swift */,
+				4A7A190327D2FBAC00AF24A8 /* FollowListTableViewCell.swift */,
+			);
+			path = Follow;
+			sourceTree = "<group>";
+		};
+		4ABDADAD27F4BEA600BC94B6 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				4A7B8AA3276FBEB200756E05 /* ExchangeApiViewModel.swift */,
+				A09D70E627251C3500ACE44A /* SettingViewController.swift */,
+				4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */,
+			);
+			path = Setting;
 			sourceTree = "<group>";
 		};
 		4AFC6578276E7E4300ADEDA7 /* Alert */ = {
@@ -438,21 +462,12 @@
 			path = Portfolio;
 			sourceTree = "<group>";
 		};
-		A09D70DF2725180600ACE44A /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				A0DAD58E2778441C00CD8760 /* LauncherViewController.swift */,
-				4A7744C1276FA0AA0087A447 /* Auth */,
-				4A7744C3276FA0C30087A447 /* Main */,
-			);
-			path = ViewController;
-			sourceTree = "<group>";
-		};
 		A09D70E02725182B00ACE44A /* ColorButton */ = {
 			isa = PBXGroup;
 			children = (
 				A0C8E59527200ED300848FCB /* ColorButton.swift */,
 				A0C8E5972720125800848FCB /* ColorTextButton.swift */,
+				4ABDADAE27F4BF8700BC94B6 /* OrangeButton.swift */,
 			);
 			path = ColorButton;
 			sourceTree = "<group>";
@@ -547,14 +562,15 @@
 				4A61598627D4CEDE0085BF4D /* BlablaBlock.entitlements */,
 				A0C8E561271FF19000848FCB /* Assets.xcassets */,
 				A0290E232722F55B00A07224 /* Colors.xcassets */,
+				4ABDADA427F4BACC00BC94B6 /* NewUI.xcassets */,
 				4AC2F35127E6E60700E187FE /* CurrencyIcon.xcassets */,
 				A0C8E566271FF19000848FCB /* Info.plist */,
 				4A7AFE2127393ED4005E0A72 /* GoogleService-Info.plist */,
 				A0C8E589271FF1B200848FCB /* Application */,
 				A0C8E58C271FFCA200848FCB /* Utility */,
 				A0C1FB6B27647CB000C4201A /* Network */,
-				4A7AFE2027393CE8005E0A72 /* ViewModel */,
-				A0C8E588271FF1A900848FCB /* View */,
+				A0C8E588271FF1A900848FCB /* UI */,
+				4ABDAD9C27F4B9E200BC94B6 /* Module */,
 			);
 			path = BlablaBlock;
 			sourceTree = "<group>";
@@ -577,17 +593,15 @@
 			path = BlablaBlockUITests;
 			sourceTree = "<group>";
 		};
-		A0C8E588271FF1A900848FCB /* View */ = {
+		A0C8E588271FF1A900848FCB /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				A0C8E563271FF19000848FCB /* LaunchScreen.storyboard */,
-				A0C8E55E271FF18900848FCB /* Main.storyboard */,
-				A0DAD5B6277861B600CD8760 /* Coordinator */,
-				A09D70DF2725180600ACE44A /* ViewController */,
 				4A7A18FC27D2FA4D00AF24A8 /* Base */,
+				A0DAD5B6277861B600CD8760 /* Coordinator */,
 				A0C8E58F272006BB00848FCB /* Widget */,
+				4ABDAD9927F4B90000BC94B6 /* Colors.swift */,
 			);
-			path = View;
+			path = UI;
 			sourceTree = "<group>";
 		};
 		A0C8E589271FF1B200848FCB /* Application */ = {
@@ -640,6 +654,7 @@
 		A0DAD5B6277861B600CD8760 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
+				4ABDAD9D27F4BA1C00BC94B6 /* NewMainCoordinator.swift */,
 				A0DAD5BB2778627000CD8760 /* Storyboarded.swift */,
 				A0DAD5B9277861FD00CD8760 /* Coordinator.swift */,
 				A0DAD5B7277861D600CD8760 /* MainCoordinator.swift */,
@@ -771,6 +786,7 @@
 			files = (
 				4AC2F35227E6E60700E187FE /* CurrencyIcon.xcassets in Resources */,
 				A0290E242722F55B00A07224 /* Colors.xcassets in Resources */,
+				4ABDADA527F4BACC00BC94B6 /* NewUI.xcassets in Resources */,
 				A0C8E5922720075A00848FCB /* NormalInputView.xib in Resources */,
 				A0C8E565271FF19000848FCB /* LaunchScreen.storyboard in Resources */,
 				A09D70E52725194B00ACE44A /* LinkCardView.xib in Resources */,
@@ -955,6 +971,7 @@
 				A0859AE5272DBE8100CF936E /* ExchangeListTableView.swift in Sources */,
 				4A6C9F2227CD39DF003B42F8 /* HttpError.swift in Sources */,
 				4ABA209F273BDC5000F66DB9 /* AuthViewModel.swift in Sources */,
+				4ABDADAF27F4BF8700BC94B6 /* OrangeButton.swift in Sources */,
 				A092DEB027738BEC00E98A2B /* PNLView.swift in Sources */,
 				4A252CCE273F9737005E4C93 /* View.swift in Sources */,
 				4A4B4DED2770E0B600075933 /* PagedView.swift in Sources */,
@@ -964,6 +981,7 @@
 				4A6C9F2027CD2EFD003B42F8 /* HomeViewModel.swift in Sources */,
 				4A7744B9276F8E3C0087A447 /* ExchangeApiService.swift in Sources */,
 				4A8B9CC827F44AFC001A80CE /* EventTracker.swift in Sources */,
+				4ABDADA327F4BA5000BC94B6 /* MainTabBarController.swift in Sources */,
 				4A7A190627D3098C00AF24A8 /* FollowViewModel.swift in Sources */,
 				4A581C9827CBCFB200276BA9 /* PaddingTextField.swift in Sources */,
 				4A4B4DEF2770E10E00075933 /* PagedViewCell.swift in Sources */,
@@ -979,6 +997,7 @@
 				A0290E2B27230E5800A07224 /* Timber.swift in Sources */,
 				4AF1CC5F27E836AD0035A4F7 /* FollowingPortfolio.swift in Sources */,
 				4A741C0C27CB468500594A5D /* TradeHistoryTableView.swift in Sources */,
+				4ABDAD9E27F4BA1C00BC94B6 /* NewMainCoordinator.swift in Sources */,
 				4ABA20A1273BDCB500F66DB9 /* String.swift in Sources */,
 				4AA9F812276DD6A200D775F0 /* BaseViewController.swift in Sources */,
 				4A7744B7276F8A350087A447 /* ResponseFailure.swift in Sources */,
@@ -991,6 +1010,7 @@
 				4A252CCC273F96A4005E4C93 /* Utils.swift in Sources */,
 				4A7744BB276F95910087A447 /* StatisticsService.swift in Sources */,
 				A09D70E3272518F700ACE44A /* LinkCardView.swift in Sources */,
+				4ABDAD9A27F4B90000BC94B6 /* Colors.swift in Sources */,
 				4A741C0E27CB46B300594A5D /* TradeHistoryTableViewCell.swift in Sources */,
 				4A252CCA273F9209005E4C93 /* AlertBuilder.swift in Sources */,
 				4A6C9F1627CD288C003B42F8 /* FollowService.swift in Sources */,
