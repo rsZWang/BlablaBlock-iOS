@@ -10,10 +10,10 @@ import RxDataSources
 public struct FollowingPortfolioApi: Decodable {
 
     let code: Int
-    let assets: [FollowingPortfolioApiAsset]
+    let assets: [PortfolioApiDataAsset]
     
-    func getAssetsViewData() -> [FollowingPortfolioAssetViewData] {
-        var assetsViewData = [FollowingPortfolioAssetViewData]()
+    func getAssetsViewData() -> [PortfolioAssetViewData] {
+        var assetsViewData = [PortfolioAssetViewData]()
         var sortedAssets = assets
         sortedAssets.sort { $0.value > $1.value }
         for data in sortedAssets {
@@ -24,7 +24,7 @@ public struct FollowingPortfolioApi: Decodable {
                 dayChange = "N/A"
             }
             assetsViewData.append(
-                FollowingPortfolioAssetViewData(
+                PortfolioAssetViewData(
                     currency: data.currency,
                     balance: data.balance.toPrettyPrecisedString(),
                     value: "$\(data.value.toPrettyPrecisedString())",
@@ -35,24 +35,4 @@ public struct FollowingPortfolioApi: Decodable {
         }
         return assetsViewData
     }
-}
-
-public struct FollowingPortfolioApiAsset: Decodable, Equatable {
-
-    let currency: String
-    let balance: Double
-    let value: Double
-    let dayChange: Double
-    let percentage: Double
-}
-
-public struct FollowingPortfolioAssetViewData: IdentifiableType, Equatable {
-    
-    public var identity: String { balance }
-    
-    let currency: String
-    let balance: String
-    let value: String
-    let dayChange: String
-    let percentage: String
 }

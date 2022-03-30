@@ -83,12 +83,6 @@ final class AuthViewModel: BaseViewModel {
             .request()
             .subscribe(
                 onSuccess: { [weak self] response in
-//                    switch response {
-//                    case .success:
-//                        self?.doSignOut()
-//                    case let .failure(responseFailure):
-//                        self?.errorCodeHandler(responseFailure)
-//                    }
                     self?.doSignOut()
                 },
                 onFailure: { [weak self] error in

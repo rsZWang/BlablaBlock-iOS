@@ -13,20 +13,23 @@ public protocol PortfolioViewModelInputs {
     var historyBtnTap: PublishRelay<()> { get }
     var exchangeFilter: BehaviorRelay<ExchangeType> { get }
     var portfolioType: BehaviorRelay<PortfolioType> { get }
+    var portfolioPull: PublishRelay<()> { get }
     var pnlPeriod: BehaviorRelay<PNLPeriod> { get }
+    var pnlPull: PublishRelay<()> { get }
     var followingPortfolioExchangeFilter: BehaviorRelay<ExchangeType> { get }
     var followingPortfolioType: BehaviorRelay<PortfolioType> { get }
-    var refresh: PublishRelay<()> { get }
     var followingPortfolioPull: PublishRelay<()> { get }
 }
 
 public protocol PortfolioViewModelOutputs {
     var user: BehaviorRelay<UserApiData?> { get }
-    var portfolio: Driver<PortfolioViewData> { get }
-    var pnl: Signal<PNLApiData> { get }
-    var followingPortfolio: Driver<[FollowingPortfolioAssetViewData]> { get }
+    var profit: Signal<NSAttributedString> { get }
+    var sum: Signal<NSAttributedString> { get }
+    var portfolio: Driver<[PortfolioAssetViewData]> { get }
     var portfolioRefresh: Signal<Bool> { get }
+    var pnl: Signal<PNLApiData> { get }
     var pnlRefresh: Signal<Bool> { get }
+    var followingPortfolio: Driver<[PortfolioAssetViewData]> { get }
     var followingPortfolioRefresh: Signal<Bool> { get }
     var uiEvent: PublishRelay<PortfolioViewUiEvent> { get }
 }
@@ -51,19 +54,22 @@ final class PortfolioViewModel:
     var historyBtnTap: PublishRelay<()>
     var exchangeFilter: BehaviorRelay<ExchangeType>
     var portfolioType: BehaviorRelay<PortfolioType>
+    var portfolioPull: PublishRelay<()>
     var pnlPeriod: BehaviorRelay<PNLPeriod>
+    var pnlPull: PublishRelay<()>
     var followingPortfolioExchangeFilter: BehaviorRelay<ExchangeType>
     var followingPortfolioType: BehaviorRelay<PortfolioType>
-    var refresh: PublishRelay<()>
     var followingPortfolioPull: PublishRelay<()>
     
     // MARK: - outpus
     var user: BehaviorRelay<UserApiData?>
-    var portfolio: Driver<PortfolioViewData>
-    var pnl: Signal<PNLApiData>
-    var followingPortfolio: Driver<[FollowingPortfolioAssetViewData]>
+    var profit: Signal<NSAttributedString>
+    var sum: Signal<NSAttributedString>
+    var portfolio: Driver<[PortfolioAssetViewData]>
     var portfolioRefresh: Signal<Bool>
+    var pnl: Signal<PNLApiData>
     var pnlRefresh: Signal<Bool>
+    var followingPortfolio: Driver<[PortfolioAssetViewData]>
     var followingPortfolioRefresh: Signal<Bool>
     var uiEvent: PublishRelay<PortfolioViewUiEvent>
     
@@ -71,8 +77,10 @@ final class PortfolioViewModel:
     var outputs: PortfolioViewModelOutputs { self }
     
     // MARK: - internals
-    private let portfolioViewDataCache = BehaviorRelay<PortfolioApiData?>(value: nil)
-    private let followingPortfolioViewDataCache = BehaviorRelay<FollowingPortfolioApi?>(value: nil)
+//    private let portfolioViewDataCache = BehaviorRelay<PortfolioApiData?>(value: nil)
+//    private let pnlCache = BehaviorRelay<PNLApiData?>(value: nil)
+//    private let followingPortfolioViewDataCache = BehaviorRelay<FollowingPortfolioApi?>(value: nil)
+    private lazy var isSelf: Bool = { user.value == nil }()
     
     deinit {
         Timber.i("\(type(of: self)) deinit")
@@ -85,17 +93,22 @@ final class PortfolioViewModel:
         let pnlPeriod = BehaviorRelay<PNLPeriod>(value: .all)
         let followingPortfolioExchangeFilter = BehaviorRelay<ExchangeType>(value: .all)
         let followingPortfolioType = BehaviorRelay<PortfolioType>(value: .all)
-        let refresh = PublishRelay<()>()
+        let portfolioPull = PublishRelay<()>()
+        let pnlPull = PublishRelay<()>()
         let followingPortfolioPull = PublishRelay<()>()
         
         let user = BehaviorRelay<UserApiData?>(value: nil)
-        let portfolio = PublishRelay<PortfolioViewData>()
-        let pnl = PublishRelay<PNLApiData>()
-        let followingPortfolio = PublishRelay<[FollowingPortfolioAssetViewData]>()
+        let sum = PublishRelay<NSAttributedString>()
+        let profit = PublishRelay<NSAttributedString>()
+        let portfolio = PublishRelay<[PortfolioAssetViewData]>()
         let portfolioRefresh = PublishRelay<Bool>()
+        let pnl = PublishRelay<PNLApiData>()
         let pnlRefresh = PublishRelay<Bool>()
+        let followingPortfolio = PublishRelay<[PortfolioAssetViewData]>()
         let followingPortfolioRefresh = PublishRelay<Bool>()
         let uiEvent = PublishRelay<PortfolioViewUiEvent>()
+        
+        let refreshPortfolioAndPNL = PublishRelay<()>()
         
         self.historyBtnTap = historyBtnTap
         self.exchangeFilter = exchangeFilter
@@ -103,139 +116,126 @@ final class PortfolioViewModel:
         self.pnlPeriod = pnlPeriod
         self.followingPortfolioExchangeFilter = followingPortfolioExchangeFilter
         self.followingPortfolioType = followingPortfolioType
-        self.refresh = refresh
+        self.portfolioPull = portfolioPull
+        self.pnlPull = pnlPull
         self.followingPortfolioPull = followingPortfolioPull
         
         self.user = user
-        self.portfolio = portfolio.asDriver(onErrorJustReturn: PortfolioViewData(
-                                                profit: PortfolioApiData.defaultProfitString,
-                                                sum: PortfolioApiData.defaultAssetSumString,
-                                                assets: []))
-        self.pnl = pnl.asSignal()
-        self.followingPortfolio = followingPortfolio.asDriver(onErrorJustReturn: [])
+        self.sum = sum.asSignal()
+        self.profit = profit.asSignal()
+        self.portfolio = portfolio.asDriver(onErrorJustReturn: [])
         self.portfolioRefresh = portfolioRefresh.asSignal()
+        self.pnl = pnl.asSignal()
         self.pnlRefresh = pnlRefresh.asSignal()
+        self.followingPortfolio = followingPortfolio.asDriver(onErrorJustReturn: [])
         self.followingPortfolioRefresh = followingPortfolioRefresh.asSignal()
         self.uiEvent = uiEvent
         
         super.init()
         
         user
-            .subscribe(onNext: { _ in
-                refresh.accept(())
-                followingPortfolioPull.accept(())
+            .subscribe(onNext: { [weak self] _ in
+                portfolioRefresh.accept(true)
+                pnlRefresh.accept(true)
+                followingPortfolioRefresh.accept(true)
+                refreshPortfolioAndPNL.accept(())
+                self?.getFollowingPortfolio(
+                    followingProtfolioExchange: followingPortfolioExchangeFilter.value.rawValue,
+                    followingProtfolio: followingPortfolio,
+                    followingPortfolioRefresh: followingPortfolioRefresh
+                )
             })
             .disposed(by: disposeBag)
         
-        refresh
-            .map { true }
-            .bind(to: portfolioRefresh, pnlRefresh)
-            .disposed(by: disposeBag)
-        
-        portfolioRefresh
-            .subscribe(onNext: { [weak self] bool in
-                if bool {
-                    self?.getPortfolio(
-                        portfolioRefresh: portfolioRefresh,
-                        exchange: exchangeFilter.value.rawValue
-                    )
+        historyBtnTap
+            .subscribe(onNext: {
+                if let user = user.value {
+                    Timber.i("WTF here")
+                    EventTracker.Builder()
+                        .setProperty(name: .USER_B, value: user.userId)
+                        .logEvent(.CHECK_OTHERS_PROFILE_TRADE_RECORD)
+                } else {
+                    EventTracker.Builder()
+                        .logEvent(.CHECK_PERSONAL_PAGE_TRADE_RECORD)
                 }
+                uiEvent.accept(.history)
             })
             .disposed(by: disposeBag)
-
+        
         exchangeFilter
             .skip(1)
-            .subscribe(onNext: { _ in
-                portfolioRefresh.accept(true)
+            .map { _ in () }
+            .bind(to: portfolioPull)
+            .disposed(by: disposeBag)
+        
+        portfolioPull
+            .subscribe(onNext: {
+                EventTracker.Builder()
+                    .logEvent(.REFRESH_PERSONAL_PAGE_PORTFOLIO)
+                refreshPortfolioAndPNL.accept(())
             })
             .disposed(by: disposeBag)
         
-        Observable.combineLatest(
-            portfolioType,
-            portfolioViewDataCache,
-            resultSelector: { (portfolioFilter, portfolioData) in
-                if let portfolioData = portfolioData {
-                    let assetsViewData: [PortfolioAssetViewData] = portfolioData.getAssetsViewData()
-        //            if exchangeFilter != .all {
-        //                assetsViewData = assetsViewData.filter { $0.exchange == exchangeFilter }
-        //            }
-        //            if portfolioFilter != .all {
-        //                assetsViewData = assetsViewData.filter { $0.type == portfolioFilter }
-        //            }
-                    return PortfolioViewData(
-                        profit: portfolioData.getProfitString(),
-                        sum: portfolioData.getAssetSumString(),
-                        assets: assetsViewData
-                    )
-                } else {
-                    return PortfolioViewData(
-                        profit: PortfolioApiData.defaultProfitString,
-                        sum: PortfolioApiData.defaultAssetSumString,
-                        assets: []
-                    )
-                }
-            }
-        )
-        .bind(to: portfolio)
-        .disposed(by: disposeBag)
+        pnlPeriod
+            .skip(1)
+            .map { _ in () }
+            .bind(to: pnlPull)
+            .disposed(by: disposeBag)
         
-        Observable.combineLatest(
-            pnlRefresh.filter { $0 },
-            pnlPeriod,
-            resultSelector: { (_, period: PNLPeriod) in
-                period.rawValue
-            }
-        )
-        .subscribe(onNext: { [weak self] period in
-            self?.getPNL(period: period, pnl: pnl, pnlRefresh: pnlRefresh)
-        })
-        .disposed(by: disposeBag)
+        pnlPull
+            .subscribe(onNext: {
+                EventTracker.Builder()
+                    .logEvent(.REFRESH_PERSONAL_PAGE_PERFORMANCE)
+                refreshPortfolioAndPNL.accept(())
+            })
+            .disposed(by: disposeBag)
+        
+        refreshPortfolioAndPNL
+            .subscribe(onNext: { [weak self] in
+                self?.getPortfolio(
+                    exchange: exchangeFilter.value.rawValue,
+                    profit: profit,
+                    sum: sum,
+                    protfolio: portfolio,
+                    portfolioRefresh: portfolioRefresh
+                )
+                self?.getPNL(
+                    period: pnlPeriod.value.rawValue,
+                    pnl: pnl,
+                    pnlRefresh: pnlRefresh
+                )
+            })
+            .disposed(by: disposeBag)
         
         // MARK: - following
         
         followingPortfolioPull
-            .map { true }
-            .bind(to: followingPortfolioRefresh)
-            .disposed(by: disposeBag)
-        
-        followingPortfolioRefresh
-            .subscribe(onNext: { [weak self] bool in
-                if bool {
-                    self?.getFollowingPortfolio(
-                        followingPortfolioRefresh: followingPortfolioRefresh,
-                        exchange: followingPortfolioExchangeFilter.value.rawValue
-                    )
-                }
+            .subscribe(onNext: { [weak self] in
+                EventTracker.Builder()
+                    .logEvent(.REFRESH_PERSONAL_PAGE_FOLLOWED_PORTFOLIO)
+                self?.getFollowingPortfolio(
+                    followingProtfolioExchange: followingPortfolioExchangeFilter.value.rawValue,
+                    followingProtfolio: followingPortfolio,
+                    followingPortfolioRefresh: followingPortfolioRefresh
+                )
             })
             .disposed(by: disposeBag)
         
         followingPortfolioExchangeFilter
             .skip(1)
-            .subscribe(onNext: { _ in
-                followingPortfolioRefresh.accept(true)
-            })
+            .map { _ in () }
+            .bind(to: followingPortfolioPull)
             .disposed(by: disposeBag)
-        
-        Observable.combineLatest(
-            followingPortfolioType,
-            followingPortfolioViewDataCache,
-            resultSelector: { (portfolioFilter, followingPortfolioApi) in
-                if let followingPortfolioApi = followingPortfolioApi {
-                    return followingPortfolioApi.getAssetsViewData()
-                } else {
-                    return []
-                }
-            }
-        )
-        .bind(to: followingPortfolio)
-        .disposed(by: disposeBag)
     }
 }
 
 private extension PortfolioViewModel {    
     func getPortfolio(
-        portfolioRefresh: PublishRelay<Bool>,
-        exchange: String
+        exchange: String,
+        profit: PublishRelay<NSAttributedString>,
+        sum: PublishRelay<NSAttributedString>,
+        protfolio: PublishRelay<[PortfolioAssetViewData]>,
+        portfolioRefresh: PublishRelay<Bool>
     ) {
         let userId = user.value?.userId ?? Int(keychainUser[.userId]!)!
         UserService.getPortfolioByID(userId: userId, exchange: exchange)
@@ -244,10 +244,12 @@ private extension PortfolioViewModel {
                 onSuccess: { [weak self] response in
                     switch response {
                     case let .success(portfolio):
-                        self?.portfolioViewDataCache.accept(portfolio.data)
+                        profit.accept(portfolio.data.getAssetProfitString())
+                        sum.accept(portfolio.data.getAssetSumString())
+                        protfolio.accept(portfolio.data.getAssetsViewData())
                     case let .failure(responseFailure):
                         if responseFailure.code == 1006 {
-                            self?.portfolioViewDataCache.accept(nil)
+                            
                         } else {
                             self?.errorCodeHandler(responseFailure)
                         }
@@ -260,54 +262,6 @@ private extension PortfolioViewModel {
                 }
             )
             .disposed(by: disposeBag)
-        
-//        if let userId = user.value?.userId {
-//            UserService.getPortfolioByID(userId: userId, exchange: exchange)
-//                .request()
-//                .subscribe(
-//                    onSuccess: { [weak self] response in
-//                        switch response {
-//                        case let .success(portfolio):
-//                            self?.portfolioViewDataCache.accept(portfolio.data)
-//                        case let .failure(responseFailure):
-//                            if responseFailure.code == 1006 {
-//                                self?.portfolioViewDataCache.accept(nil)
-//                            } else {
-//                                self?.errorCodeHandler(responseFailure)
-//                            }
-//                        }
-//                        portfolioRefresh.accept(false)
-//                    },
-//                    onFailure: { [weak self] error in
-//                        self?.errorHandler(error: error)
-//                        portfolioRefresh.accept(false)
-//                    }
-//                )
-//                .disposed(by: disposeBag)
-//        } else {
-//            StatisticsService.getPortfolio(exchange: exchange)
-//                .request()
-//                .subscribe(
-//                    onSuccess: { [weak self] response in
-//                        switch response {
-//                        case let .success(portfolio):
-//                            self?.portfolioViewDataCache.accept(portfolio.data)
-//                        case let .failure(responseFailure):
-//                            if responseFailure.code == 1006 {
-//                                self?.portfolioViewDataCache.accept(nil)
-//                            } else {
-//                                self?.errorCodeHandler(responseFailure)
-//                            }
-//                        }
-//                        portfolioRefresh.accept(false)
-//                    },
-//                    onFailure: { [weak self] error in
-//                        self?.errorHandler(error: error)
-//                        portfolioRefresh.accept(false)
-//                    }
-//                )
-//                .disposed(by: disposeBag)
-//        }
     }
     
     func getPNL(
@@ -315,68 +269,46 @@ private extension PortfolioViewModel {
         pnl: PublishRelay<PNLApiData>,
         pnlRefresh: PublishRelay<Bool>
     ) {
-        if let userId = user.value?.userId {
-            UserService.getPNLByID(userId: userId, exchange: "all", period: period)
-                .request()
-                .subscribe(
-                    onSuccess: { [weak self] response in
-                        switch response {
-                        case let .success(pnlData):
-                            pnl.accept(pnlData.data)
-                        case let .failure(responseFailure):
-                            if responseFailure.code == 1007 {
+        let userId = user.value?.userId ?? Int(keychainUser[.userId]!)!
+        UserService.getPNLByID(userId: userId, exchange: "all", period: period)
+            .request()
+            .subscribe(
+                onSuccess: { [weak self] response in
+                    switch response {
+                    case let .success(pnlData):
+                        pnl.accept(pnlData.data)
+                    case let .failure(responseFailure):
+                        if responseFailure.code == 1007 {
 
-                            } else {
-                                self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
-                            }
+                        } else {
+                            self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
                         }
-                        pnlRefresh.accept(false)
-                    }, onFailure: { [weak self] error in
-                        self?.errorHandler(error: error)
-                        pnlRefresh.accept(false)
                     }
-                )
-                .disposed(by: disposeBag)
-        } else {
-            StatisticsService.getPNL(exchange: "all", period: period)
-                .request()
-                .subscribe(
-                    onSuccess: { [weak self] response in
-                        switch response {
-                        case let .success(pnlData):
-                            pnl.accept(pnlData.data)
-                        case let .failure(responseFailure):
-                            if responseFailure.code == 1007 {
-
-                            } else {
-                                self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
-                            }
-                        }
-                        pnlRefresh.accept(false)
-                    }, onFailure: { [weak self] error in
-                        self?.errorHandler(error: error)
-                        pnlRefresh.accept(false)
-                    }
-                )
-                .disposed(by: disposeBag)
-        }
+                    pnlRefresh.accept(false)
+                }, onFailure: { [weak self] error in
+                    self?.errorHandler(error: error)
+                    pnlRefresh.accept(false)
+                }
+            )
+            .disposed(by: disposeBag)
     }
     
     func getFollowingPortfolio(
-        followingPortfolioRefresh: PublishRelay<Bool>,
-        exchange: String
+        followingProtfolioExchange: String,
+        followingProtfolio: PublishRelay<[PortfolioAssetViewData]>,
+        followingPortfolioRefresh: PublishRelay<Bool>
     ) {
         let userId = user.value?.userId ?? Int(keychainUser[.userId]!)!
-        UserService.getFollowPortfolioByID(userId: userId, exchange: exchange)
+        UserService.getFollowPortfolioByID(userId: userId, exchange: followingProtfolioExchange)
             .request()
             .subscribe(
                 onSuccess: { [weak self] response in
                     switch response {
                     case let .success(portfolio):
-                        self?.followingPortfolioViewDataCache.accept(portfolio)
+                        followingProtfolio.accept(portfolio.getAssetsViewData())
                     case let .failure(responseFailure):
                         if responseFailure.code == 1006 {
-                            self?.followingPortfolioViewDataCache.accept(nil)
+                            
                         } else {
                             self?.errorCodeHandler(responseFailure)
                         }

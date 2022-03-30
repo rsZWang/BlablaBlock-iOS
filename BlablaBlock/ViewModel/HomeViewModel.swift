@@ -93,6 +93,8 @@ final class HomeViewModel:
         
         refresh
             .subscribe(onNext: { [weak self] in
+                EventTracker.Builder()
+                    .logEvent(.REFRESH_HOME_PAGE)
                 self?.loadNotifications(
                     notificationsRefresh: notificationsRefresh,
                     notificationsUpdate: notificationsUpdate,

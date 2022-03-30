@@ -8,10 +8,8 @@
 import Foundation
 
 public struct PNLApi: Decodable {
-    
     let code: Int
     let data: PNLApiData
-    
 }
 
 public struct PNLApiData: Decodable {
@@ -120,22 +118,17 @@ public struct PNLApiData: Decodable {
     func getYAxisLabel() -> [Int] {
         chartData.map { Int($0.value ?? 0) }
     }
-    
 }
 
 public struct PNLCharRawData: Decodable {
-    
     let value: Double?
     let timestamp: String
-    
 }
 
 
 public struct PNLCharData {
-    
     let value: Double
     let timestamp: Int
-    
 }
 
 public enum PNLPeriod: String {

@@ -13,6 +13,8 @@ extension Resolver: ResolverRegistering {
         
         register { MainCoordinator() }.scope(.application)
         
+        register { LauncherViewModel() as LauncherViewModelType }.scope(.unique)
+        
         // Auth
         register { AuthViewModel() }.scope(.shared)
         

@@ -83,6 +83,8 @@ final class UserViewModel:
         userName
             .skip(1)
             .subscribe(onNext: { [weak self] name in
+                EventTracker.Builder()
+                    .logEvent(.REFRESH_EXPLORE_PAGE)
                 self?.getAllUsers(
                     name: name,
                     users: users,
@@ -93,10 +95,13 @@ final class UserViewModel:
             .disposed(by: disposeBag)
         
         selectedIndexPath
-            .map { indexPath in
-                users.value[indexPath.row]
-            }
-            .bind(to: selectedUser)
+            .map { users.value[$0.row] }
+            .subscribe(onNext: { user in
+                EventTracker.Builder()
+                    .setProperty(name: .USER_B, value: user.userId)
+                    .logEvent(.CHECK_OTHERS_PROFILE)
+                selectedUser.accept(user)
+            })
             .disposed(by: disposeBag)
         
         refresh
@@ -131,37 +136,6 @@ final class UserViewModel:
                 }
             )
             .disposed(by: disposeBag)
-        
-//        let mockUsers = [
-//            UserApiData(
-//                userId: "001",
-//                name: "Harry",
-//                roi: 60.11111,
-//                roiAnnual: 60.22222,
-//                mdd: 60.33333,
-//                dailyWinRate: 60.44444,
-//                sharpeRatio: 60.55555
-//            ),
-//            UserApiData(
-//                userId: "002",
-//                name: "Stacey",
-//                roi: 50.11111,
-//                roiAnnual: 50.22222,
-//                mdd: 50.33333,
-//                dailyWinRate: 50.44444,
-//                sharpeRatio: 50.55555
-//            ),
-//            UserApiData(
-//                userId: "003",
-//                name: "Angel",
-//                roi: 40.11111,
-//                roiAnnual: 40.22222,
-//                mdd: 40.33333,
-//                dailyWinRate: 40.44444,
-//                sharpeRatio: 40.55555
-//            )
-//        ]
-//        users.accept(mockUsers)
     }
 }
 

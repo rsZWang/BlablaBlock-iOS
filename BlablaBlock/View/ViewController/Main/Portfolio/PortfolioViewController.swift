@@ -157,12 +157,12 @@ final class PortfolioViewController: BaseViewController {
 
         portfolioView.refreshControl.rx
             .controlEvent(.valueChanged)
-            .bind(to: viewModel.inputs.refresh)
+            .bind(to: viewModel.inputs.portfolioPull)
             .disposed(by: disposeBag)
 
         pnlView.refreshControl.rx
             .controlEvent(.valueChanged)
-            .bind(to: viewModel.inputs.refresh)
+            .bind(to: viewModel.inputs.pnlPull)
             .disposed(by: disposeBag)
         
         followingPortfolioView.refreshControl.rx
@@ -170,9 +170,18 @@ final class PortfolioViewController: BaseViewController {
             .bind(to: viewModel.inputs.followingPortfolioPull)
             .disposed(by: disposeBag)
         
+        viewModel.outputs
+            .profit
+            .emit(to: assetProfitLabel.rx.attributedText)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs
+            .sum
+            .emit(to: assetSumLabel.rx.attributedText)
+            .disposed(by: disposeBag)
+        
         followViewModel.outputs
             .user
-            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] user in
                 self?.setupUser(user: user)
             })
@@ -192,36 +201,18 @@ final class PortfolioViewController: BaseViewController {
 
         viewModel.outputs
             .portfolio
-            .map { $0.profit }
-            .drive(assetProfitLabel.rx.attributedText)
-            .disposed(by: disposeBag)
-
-        viewModel.outputs
-            .portfolio
-            .map { $0.sum }
-            .drive(assetSumLabel.rx.attributedText)
-            .disposed(by: disposeBag)
-
-        viewModel.outputs
-            .portfolio
-            .map { [AnimatableSectionModel<String, PortfolioAssetViewData>(model: "", items: $0.assets)] }
-            .drive(portfolioView.tableView.rx.items(dataSource: RxTableViewSectionedAnimatedDataSource<AnimatableSectionModel<String, PortfolioAssetViewData>>(
-                configureCell: { dataSource, tableView, indexPath, item in
-                    let cell = tableView.dequeueReusableCell(withIdentifier: ExchangeListTableViewCell.identifier, for: indexPath) as! ExchangeListTableViewCell
-                    cell.bind(item)
-                    return cell
-                }
-            )))
-//            .map { $0.assets }
-//            .drive(
-//                portfolioView.tableView.rx.items(
-//                    cellIdentifier: ExchangeListTableViewCell.identifier,
-//                    cellType: ExchangeListTableViewCell.self
-//                ),
-//                curriedArgument: { (row, element, cell) in
-//                    cell.bind(element)
-//                }
-//            )
+            .map { [AnimatableSectionModel<String, PortfolioAssetViewData>(model: "", items: $0)] }
+            .drive(
+                portfolioView.tableView.rx.items(
+                    dataSource: RxTableViewSectionedAnimatedDataSource<AnimatableSectionModel<String, PortfolioAssetViewData>>(
+                        configureCell: { dataSource, tableView, indexPath, item in
+                            let cell = tableView.dequeueReusableCell(withIdentifier: ExchangeListTableViewCell.identifier, for: indexPath) as! ExchangeListTableViewCell
+                            cell.bind(item)
+                            return cell
+                        }
+                    )
+                )
+            )
             .disposed(by: disposeBag)
 
         viewModel.outputs
@@ -231,23 +222,18 @@ final class PortfolioViewController: BaseViewController {
         
         viewModel.outputs
             .followingPortfolio
-            .map { [AnimatableSectionModel<String, FollowingPortfolioAssetViewData>(model: "", items: $0)] }
-            .drive(followingPortfolioView.tableView.rx.items(dataSource: RxTableViewSectionedAnimatedDataSource<AnimatableSectionModel<String, FollowingPortfolioAssetViewData>>(
-                configureCell: { dataSource, tableView, indexPath, item in
-                    let cell = tableView.dequeueReusableCell(withIdentifier: ExchangeListTableViewCell.identifier, for: indexPath) as! ExchangeListTableViewCell
-                    cell.bind(item)
-                    return cell
-                }
-            )))
-//            .drive(
-//                followingPortfolioView.tableView.rx.items(
-//                    cellIdentifier: ExchangeListTableViewCell.identifier,
-//                    cellType: ExchangeListTableViewCell.self
-//                ),
-//                curriedArgument: { (row, element, cell) in
-//                    cell.bind(element)
-//                }
-//            )
+            .map { [AnimatableSectionModel<String, PortfolioAssetViewData>(model: "", items: $0)] }
+            .drive(
+                followingPortfolioView.tableView.rx.items(
+                    dataSource: RxTableViewSectionedAnimatedDataSource<AnimatableSectionModel<String, PortfolioAssetViewData>>(
+                        configureCell: { dataSource, tableView, indexPath, item in
+                            let cell = tableView.dequeueReusableCell(withIdentifier: ExchangeListTableViewCell.identifier, for: indexPath) as! ExchangeListTableViewCell
+                            cell.bind(item)
+                            return cell
+                        }
+                    )
+                )
+            )
             .disposed(by: disposeBag)
 
         viewModel.outputs
@@ -309,24 +295,34 @@ extension PortfolioViewController: PortfolioViewDelegate {
     func onExchangeFiltered(_ view: PortfolioView, exchange: String) {
         let exchangeType = ExchangeType.init(rawValue: exchange)!
         if view == portfolioView {
-            viewModel.inputs.exchangeFilter.accept(exchangeType)
+            viewModel.inputs
+                .exchangeFilter
+                .accept(exchangeType)
         } else {
-            viewModel.inputs.followingPortfolioExchangeFilter.accept(exchangeType)
+            viewModel.inputs
+                .followingPortfolioExchangeFilter
+                .accept(exchangeType)
         }
     }
     
     func onPortfolioTypeFiltered(_ view: PortfolioView, type: String) {
         let filterType = PortfolioType.init(rawValue: type)!
         if view == portfolioView {
-            viewModel.inputs.portfolioType.accept(filterType)
+            viewModel.inputs
+                .portfolioType
+                .accept(filterType)
         } else {
-            viewModel.inputs.followingPortfolioType.accept(filterType)
+            viewModel.inputs
+                .followingPortfolioType
+                .accept(filterType)
         }
     }
     
     func onTapHistory(_ view: PortfolioView) {
         if view == portfolioView {
-            viewModel.outputs.uiEvent.accept(.history)
+            viewModel.inputs
+                .historyBtnTap
+                .accept(())
         } else {
             
         }

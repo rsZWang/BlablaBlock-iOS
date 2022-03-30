@@ -13,6 +13,7 @@ import RxSwift
 final class LauncherViewController: BaseViewController {
     
     @Injected var mainCoordinator: MainCoordinator
+    @Injected var viewModel: LauncherViewModelType
     @Injected var exchangeApiViewModel: ExchangeApiViewModel
 
     override func viewDidLoad() {
@@ -23,7 +24,8 @@ final class LauncherViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let _ = keychainUser[.userToken], let _ = keychainUser[.userId] {
+        if let _ = keychainUser[.userToken], let userId = keychainUser[.userId] {
+            viewModel.inputs.onLogin.accept(userId)
             preload()
         } else {
             mainCoordinator.signIn()

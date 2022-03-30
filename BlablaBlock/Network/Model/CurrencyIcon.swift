@@ -8,7 +8,6 @@
 public struct CurrencyIconApi: Decodable {
     let code: Int
     let data: [CurrencyIconApiData]
-    
 }
 
 public struct CurrencyIconApiData: Decodable {

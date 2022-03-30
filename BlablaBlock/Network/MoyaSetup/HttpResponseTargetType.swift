@@ -160,13 +160,13 @@ public extension HttpResponseTargetType {
 fileprivate final class ApiProvider {
     
     static let requestQueue = DispatchQueue(
-        label: "com.wuchi.request_queue",
+        label: "com.wuchi.blablablock.request_queue",
         qos: .background,
         attributes: .concurrent
     )
     
     static let refreshTokenQueue = DispatchQueue(
-        label: "com.wuchi.refresh_token_queue",
+        label: "com.wuchi.blablablock.refresh_token_queue",
         qos: .background
     )
     

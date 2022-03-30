@@ -10,10 +10,8 @@ import UIKit
 import RxDataSources
 
 public struct PortfolioApi: Decodable {
-
     let code: Int
     let data: PortfolioApiData
-    
 }
 
 public struct PortfolioApiData: Decodable {
@@ -22,7 +20,7 @@ public struct PortfolioApiData: Decodable {
     let totalValue: String
     let assets: [PortfolioApiDataAsset]
     
-    static var defaultProfitString: NSAttributedString {
+    static var defaultAssetProfitString: NSAttributedString {
         let rate = "+0%"
         let attribuedString = NSMutableAttributedString()
         attribuedString.append(NSAttributedString(
@@ -64,7 +62,7 @@ public struct PortfolioApiData: Decodable {
         return attribuedString
     }
     
-    func getProfitString() -> NSAttributedString {
+    func getAssetProfitString() -> NSAttributedString {
         if let percentage = percentage {
             let sign: String
             let color: UIColor
@@ -98,7 +96,7 @@ public struct PortfolioApiData: Decodable {
             ))
             return attribuedString
         } else {
-            return Self.defaultProfitString
+            return Self.defaultAssetProfitString
         }
     }
     
@@ -126,29 +124,7 @@ public struct PortfolioApiData: Decodable {
         var sortedAssets = assets
         sortedAssets.sort { $0.value > $1.value }
         for data in sortedAssets {
-//            let unrealizedProfit: String
-//            if let profit = data.unrealizedProfit {
-//                let doubleValue = profit.double
-//                let roundedValue = round(100 * doubleValue) / 100
-//                unrealizedProfit = roundedValue.toPrecisedString()
-//            } else {
-//                unrealizedProfit = "N/A"
-//            }
-//            let exchange = ExchangeType.init(rawValue: data.exchange)!
-//            let type = PortfolioType.init(rawValue: data.type) ?? .management
-//            assetsViewData.append(
-//                PortfolioAssetViewData(
-//                    identity: "\(exchange.rawValue)_\(type.rawValue)",
-//                    exchange: exchange,
-//                    type: type,
-//                    currency: data.currency,
-//                    valueWeight: data.percentage.double.toPrettyPrecisedString().appendTo2Precision(),
-//                    balance: data.balance.double.toPrettyPrecisedString().appendTo2Precision(),
-//                    value: data.value.double.toPrettyPrecisedString().appendTo2Precision(),
-//                    unrealizedProfit: unrealizedProfit
-//                )
-//            )
-            var dayChange: String? = Double(data.dayChange)?.toPrettyPrecisedString()
+            var dayChange: String? = data.dayChange.toPrettyPrecisedString()
             if let change = dayChange, !change.isEmpty {
                 dayChange = "\(change)％"
             } else {
@@ -160,7 +136,7 @@ public struct PortfolioApiData: Decodable {
                     balance: data.balance.toPrettyPrecisedString(),
                     value: "$\(data.value.toPrettyPrecisedString())",
                     dayChange: dayChange!,
-                    percentage: "(\(Double(data.percentage)?.toPrettyPrecisedString() ?? "0")%)"
+                    percentage: "(\(data.percentage.toPrettyPrecisedString())%)"
                 )
             )
         }
@@ -173,8 +149,8 @@ public struct PortfolioApiDataAsset: Decodable, Equatable {
     let currency: String
     let balance: Double
     let value: Double
-    let dayChange: String
-    let percentage: String
+    let dayChange: Double
+    let percentage: Double
 }
 
 public struct PortfolioViewData: Equatable {
@@ -186,7 +162,7 @@ public struct PortfolioViewData: Equatable {
 
 public struct PortfolioAssetViewData: IdentifiableType, Equatable {
     
-    public var identity: String { balance }
+    public var identity: String { currency }
     
     let currency: String
     let balance: String
