@@ -76,9 +76,8 @@ platform :ios do
 
   desc "Clear build directory"
   lane :clear_dir do
-    sh "pwd"
     sh "rm -r ./../#{build_dir} | echo"
-    sh "mkdir ./../#{build_dir}"
+    sh "mkdir -p ./../#{build_dir}"
   end
 
   desc "Build"
