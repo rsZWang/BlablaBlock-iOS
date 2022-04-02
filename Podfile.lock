@@ -97,6 +97,9 @@ PODS:
     - GoogleUtilities/Logger
   - IQKeyboardManager (6.5.9)
   - KeychainAccess (4.2.2)
+  - Mixpanel-swift (3.1.7):
+    - Mixpanel-swift/Complete (= 3.1.7)
+  - Mixpanel-swift/Complete (3.1.7)
   - Moya/Core (15.0.0):
     - Alamofire (~> 5.0)
   - Moya/RxSwift (15.0.0):
@@ -136,6 +139,7 @@ DEPENDENCIES:
   - Firebase/Crashlytics
   - IQKeyboardManager
   - KeychainAccess
+  - Mixpanel-swift
   - Moya/RxSwift
   - Resolver
   - RxCocoa
@@ -164,6 +168,7 @@ SPEC REPOS:
     - GoogleUtilities
     - IQKeyboardManager
     - KeychainAccess
+    - Mixpanel-swift
     - Moya
     - nanopb
     - Pageboy
@@ -195,6 +200,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   IQKeyboardManager: 241cc94ccabc9deb8f8bd7d12f00d73288d13ecc
   KeychainAccess: c0c4f7f38f6fc7bbe58f5702e25f7bd2f65abf51
+  Mixpanel-swift: ef23b580149b352a3d6f383cdb767ed44f62a3ea
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   Pageboy: cf121b9dd48c63f3f281b2a9ec93d02e0f23879b
@@ -210,6 +216,6 @@ SPEC CHECKSUMS:
   Tabman: 447a50447ed2869c39ab3b1a779327e43e067c4e
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
 
-PODFILE CHECKSUM: 70249c491508308ddda8fddc4fe695243dd0bd90
+PODFILE CHECKSUM: e83ac86dd4edcf702109fd89f852d4277ceaf1ac
 
 COCOAPODS: 1.11.3

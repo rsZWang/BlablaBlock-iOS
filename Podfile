@@ -12,6 +12,7 @@ target 'BlablaBlock' do
   pod 'Defaults'
   pod 'Firebase/Analytics'
   pod 'Firebase/Crashlytics'
+  pod 'Mixpanel-swift'
 
   # UI
   pod 'SnapKit', '~> 5.0.0'

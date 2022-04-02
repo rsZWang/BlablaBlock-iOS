@@ -9,6 +9,7 @@ import RxCocoa
 import RxSwift
 
 public protocol HomeViewModelInputs: NSObject {
+    var viewDidLoad: PublishRelay<()> { get }
     var viewWillAppear: PublishRelay<()> { get }
     var refresh: PublishRelay<()> { get }
     var followBtnTap: PublishRelay<Int> { get }
@@ -34,6 +35,7 @@ final class HomeViewModel:
 {
     // MARK: - Inputs
     
+    var viewDidLoad: PublishRelay<()>
     var viewWillAppear: PublishRelay<()>
     var refresh: PublishRelay<()>
     var followBtnTap: PublishRelay<Int>
@@ -57,6 +59,7 @@ final class HomeViewModel:
     }
     
     override init() {
+        let viewDidLoad = PublishRelay<()>()
         let viewWillAppear = PublishRelay<()>()
         let refresh = PublishRelay<()>()
         let followBtnTap = PublishRelay<Int>()
@@ -66,6 +69,7 @@ final class HomeViewModel:
         let isNotEmpty = PublishRelay<Bool>()
         let isRefreshing = PublishRelay<Bool>()
         
+        self.viewDidLoad = viewDidLoad
         self.viewWillAppear = viewWillAppear
         self.refresh = refresh
         self.followBtnTap = followBtnTap
@@ -76,6 +80,14 @@ final class HomeViewModel:
         self.isRefreshing = isRefreshing.asSignal()
         
         super.init()
+        
+        viewDidLoad
+            .subscribe(onNext: {
+                if let userId = keychainUser[.userId] {
+                    EventTracker.setUser(id: userId)
+                }
+            })
+            .disposed(by: disposeBag)
         
         viewWillAppear
             .subscribe(onNext: { [weak self] in

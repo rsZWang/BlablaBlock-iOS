@@ -597,6 +597,7 @@
 				A0DAD5B027784BEA00CD8760 /* SceneDelegate.swift */,
 				4AA9F80F276DD68B00D775F0 /* Resolver.swift */,
 				A0921266277F56B40083BBBF /* KeychainAccess.swift */,
+				4A8B9CC727F44AFC001A80CE /* EventTracker.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -608,7 +609,6 @@
 				A0290E2A27230E5800A07224 /* Timber.swift */,
 				4A252CCB273F96A4005E4C93 /* Utils.swift */,
 				A0DAD5B22778510100CD8760 /* UserDefaults.swift */,
-				4A8B9CC727F44AFC001A80CE /* EventTracker.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";

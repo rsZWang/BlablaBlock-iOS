@@ -5,11 +5,30 @@
 //  Created by Harry on 2022/3/30.
 //
 
+import Firebase
 import FirebaseAnalytics
+import Mixpanel
 
 public final class EventTracker {
     
+    private static var mixpanel = Mixpanel.mainInstance()
+    
+    static func initialize() {
+        Mixpanel.initialize(token: "90848c9a3b00a87eff0716385e4755a8")
+        #if DEBUG
+        mixpanel.optOutTracking()
+        #else
+        mixpanel.optInTracking()
+        #endif
+        FirebaseApp.configure()
+    }
+    
     static func setUser(id: String) {
+        mixpanel.identify(distinctId: id)
+        mixpanel.people.set(properties: [
+            "user_name" : keychainUser[.userName],
+            "user_email" : keychainUser[.userEmail]
+        ])
         Analytics.setUserID(id)
     }
     
@@ -21,7 +40,7 @@ public final class EventTracker {
     
     class Builder {
         
-        private var properties = [String : Any]()
+        private var properties: [String: Any] = [:]
 
         func setProperty(name: EventTracker.Property, value: Any) -> Builder {
             properties[name.rawValue] = value
@@ -30,7 +49,19 @@ public final class EventTracker {
         
         func logEvent(_ name: EventTracker.Event) {
             let properties = self.properties
-            eventTrackingQueue.async {  
+            eventTrackingQueue.async {
+                var mixpanelProperties: [String: MixpanelType] = [:]
+                properties.forEach {
+                    mixpanelProperties[$0.key] = $0.value as? MixpanelType
+                }
+                EventTracker.mixpanel.track(
+                    event: name.rawValue,
+                    properties: properties.mapValues {
+                        $0 as? MixpanelType
+                    }
+                )
+            }
+            eventTrackingQueue.async {
                 Analytics.logEvent(name.rawValue, parameters: properties)
             }
         }

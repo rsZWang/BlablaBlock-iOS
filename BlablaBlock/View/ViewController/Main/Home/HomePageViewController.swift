@@ -19,6 +19,7 @@ final class HomePageViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.inputs.viewDidLoad.accept(())
         tableView.separatorStyle = .none
         setupLayout()
         setupBinding()

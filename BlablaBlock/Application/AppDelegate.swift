@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Firebase
 import Resolver
 
 @main
@@ -16,6 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UI
     @Injected var mainCoordinator: MainCoordinator
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        EventTracker.initialize()
+        Resolver.registerAllServices()
         
         if #available(iOS 13, *) {
             
@@ -27,11 +29,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UI
             self.window = window
         }
         
-        FirebaseApp.configure()
-        Resolver.registerAllServices()
-        
         return true
     }
-    
-    
 }

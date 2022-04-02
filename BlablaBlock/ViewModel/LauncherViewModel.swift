@@ -10,7 +10,7 @@ import RxCocoa
 import RxSwift
 
 public protocol LauncherViewModelInputs {
-    var onLogin: PublishRelay<String> { get }
+    
 }
 
 public protocol LauncherViewModelOutputs {
@@ -31,19 +31,10 @@ final class LauncherViewModel:
     
     // MARK: - inputs
     
-    var onLogin: PublishRelay<String> = PublishRelay<String>()
-    
     var inputs: LauncherViewModelInputs { self }
     var outputs: LauncherViewModelOutputs { self }
     
     override init() {
-        
         super.init()
-        
-        onLogin
-            .subscribe(onNext: { userId in
-                EventTracker.setUser(id: userId)
-            })
-            .disposed(by: disposeBag)
     }
 }

@@ -24,8 +24,7 @@ final class LauncherViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let _ = keychainUser[.userToken], let userId = keychainUser[.userId] {
-            viewModel.inputs.onLogin.accept(userId)
+        if let _ = keychainUser[.userToken], let _ = keychainUser[.userId] {
             preload()
         } else {
             mainCoordinator.signIn()
