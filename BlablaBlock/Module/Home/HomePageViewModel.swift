@@ -1,5 +1,5 @@
 //
-//  HomeViewModel.swift
+//  HomePageViewModel.swift
 //  BlablaBlock
 //
 //  Created by Harry on 2022/3/1.
@@ -8,7 +8,7 @@
 import RxCocoa
 import RxSwift
 
-public protocol HomeViewModelInputs: NSObject {
+public protocol HomePageViewModelInputs: NSObject {
     var viewDidLoad: PublishRelay<()> { get }
     var viewWillAppear: PublishRelay<()> { get }
     var currencySelected: BehaviorRelay<String> { get }
@@ -16,25 +16,25 @@ public protocol HomeViewModelInputs: NSObject {
     var followBtnTap: PublishRelay<Int> { get }
 }
 
-public protocol HomeViewModelOutputs: NSObject {
+public protocol HomePageViewModelOutputs: NSObject {
     var currencyList: Signal<[String]> { get }
     var selectedCurrency: Signal<String> { get }
     var notificationsRefresh: Signal<[NotificationApiData]> { get }
     var notificationsUpdate: Signal<[NotificationApiData]> { get }
     var isNotEmpty: Signal<Bool> { get }
-    var isRefreshing: Signal<Bool> { get }
+    var refreshControl: Signal<Bool> { get }
 }
 
-public protocol HomeViewModelType: NSObject {
-    var inputs: HomeViewModelInputs { get }
-    var outputs: HomeViewModelOutputs { get }
+public protocol HomePageViewModelType: NSObject {
+    var inputs: HomePageViewModelInputs { get }
+    var outputs: HomePageViewModelOutputs { get }
 }
 
-final class HomeViewModel:
+final class HomePageViewModel:
     BaseViewModel,
-    HomeViewModelInputs,
-    HomeViewModelOutputs,
-    HomeViewModelType
+    HomePageViewModelInputs,
+    HomePageViewModelOutputs,
+    HomePageViewModelType
 {
     // MARK: - Inputs
     
@@ -51,15 +51,15 @@ final class HomeViewModel:
     var notificationsRefresh: Signal<[NotificationApiData]>
     var notificationsUpdate: Signal<[NotificationApiData]>
     var isNotEmpty: Signal<Bool>
-    var isRefreshing: Signal<Bool>
+    var refreshControl: Signal<Bool>
     
     // MARK: - internals
     
     private let notificationsCache = BehaviorRelay<[NotificationApiData]>(value: [])
     private let currencyListCache = BehaviorRelay<[String]>(value: [])
     
-    var inputs: HomeViewModelInputs { self }
-    var outputs: HomeViewModelOutputs { self }
+    var inputs: HomePageViewModelInputs { self }
+    var outputs: HomePageViewModelOutputs { self }
     
     deinit {
         Timber.i("\(type(of: self)) deinit")
@@ -77,7 +77,7 @@ final class HomeViewModel:
         let notificationsRefresh = PublishRelay<[NotificationApiData]>()
         let notificationsUpdate = PublishRelay<[NotificationApiData]>()
         let isNotEmpty = PublishRelay<Bool>()
-        let isRefreshing = PublishRelay<Bool>()
+        let refreshControl = PublishRelay<Bool>()
         
         self.viewDidLoad = viewDidLoad
         self.viewWillAppear = viewWillAppear
@@ -90,12 +90,12 @@ final class HomeViewModel:
         self.notificationsRefresh = notificationsRefresh.asSignal()
         self.notificationsUpdate = notificationsUpdate.asSignal()
         self.isNotEmpty = isNotEmpty.asSignal()
-        self.isRefreshing = isRefreshing.asSignal()
+        self.refreshControl = refreshControl.asSignal()
         
         super.init()
         
         viewDidLoad
-            .subscribe(onNext: {
+            .subscribe(onNext: { [weak self] in
                 if let userId = keychainUser[.userId] {
                     EventTracker.setUser(id: userId)
                 }
@@ -106,7 +106,6 @@ final class HomeViewModel:
         viewWillAppear
             .subscribe(onNext: { [weak self] in
                 if self?.notificationsCache.value.isEmpty == true {
-                    isRefreshing.accept(true)
                     self?.loadNotifications(
                         currencySelected: currencySelected,
                         currencyList: currencyList,
@@ -114,9 +113,16 @@ final class HomeViewModel:
                         notificationsRefresh: notificationsRefresh,
                         notificationsUpdate: notificationsUpdate,
                         isNotEmpty: isNotEmpty,
-                        isRefreshing: isRefreshing
+                        refreshControl: refreshControl
                     )
                 }
+//                refreshControl.accept(true)
+//                self?.loadNotifications(
+//                    notificationsRefresh: notificationsRefresh,
+//                    notificationsUpdate: notificationsUpdate,
+//                    isNotEmpty: isNotEmpty,
+//                    refreshControl: refreshControl
+//                )
             })
             .disposed(by: disposeBag)
         
@@ -144,7 +150,7 @@ final class HomeViewModel:
                     notificationsRefresh: notificationsRefresh,
                     notificationsUpdate: notificationsUpdate,
                     isNotEmpty: isNotEmpty,
-                    isRefreshing: isRefreshing
+                    refreshControl: refreshControl
                 )
             })
             .disposed(by: disposeBag)
@@ -164,7 +170,7 @@ final class HomeViewModel:
     }
 }
 
-private extension HomeViewModel {
+private extension HomePageViewModel {
     
     func loadNotifications(
         currencySelected: BehaviorRelay<String>,
@@ -173,13 +179,13 @@ private extension HomeViewModel {
         notificationsRefresh: PublishRelay<[NotificationApiData]>,
         notificationsUpdate: PublishRelay<[NotificationApiData]>,
         isNotEmpty: PublishRelay<Bool>,
-        isRefreshing: PublishRelay<Bool>
+        refreshControl: PublishRelay<Bool>
     ) {
         UserService.getNotifications()
             .request()
             .subscribe(
                 onSuccess: { [weak self] response in
-                    isRefreshing.accept(false)
+                    refreshControl.accept(false)
                     switch response {
                     case let .success(historyApiResponse):
                         self?.refreshOrUpdate(
@@ -196,7 +202,7 @@ private extension HomeViewModel {
                     }
                 },
                 onFailure: { [weak self] error in
-                    isRefreshing.accept(false)
+                    refreshControl.accept(false)
                     self?.errorHandler(error: error)
                 }
             )

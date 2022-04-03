@@ -24,7 +24,7 @@ extension Resolver: ResolverRegistering {
 //        register { HomeViewModel() as HomeViewModelType }.scope(.unique)
 //
 //        // Search
-//        register { UserViewModel() as UserViewModelType }.scope(.unique)
+//        register { UserViewModel() as ExploreViewModelType }.scope(.unique)
 //
 //        // Portfolio
 //        register { PortfolioViewModel() as PortfolioViewModelType }.scope(.unique)

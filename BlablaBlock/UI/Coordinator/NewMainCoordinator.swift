@@ -20,10 +20,9 @@ final class NewMainCoordinator: NSObject, Coordinator {
     }
     
     func start() {
-        Timber.i("start")
         let vc = LauncherViewController(
-            homeViewModel: HomeViewModel(),
-            userViewModel: UserViewModel(),
+            homePageViewModel: HomePageViewModel(),
+            exploreUserViewModel: ExploreUserViewModel(),
             portfolioViewModel: PortfolioViewModel(),
             exchangeViewModel: ExchangeApiViewModel()
         )
@@ -35,14 +34,14 @@ final class NewMainCoordinator: NSObject, Coordinator {
     }
     
     func main(
-        homeViewModel: HomeViewModelType,
-        userViewModel: UserViewModelType,
+        homePageViewModel: HomePageViewModelType,
+        exploreUserViewModel: ExploreUserViewModelType,
         portfolioViewModel: PortfolioViewModelType,
         exchangeViewModel: ExchangeApiViewModel
     ) {
         let vc = MainTabBarController(
-            homeViewModel: homeViewModel,
-            userViewModel: userViewModel,
+            homePageViewModel: homePageViewModel,
+            exploreUserViewModel: exploreUserViewModel,
             portfolioViewModel: portfolioViewModel,
             exchangeViewModel: exchangeViewModel
         )

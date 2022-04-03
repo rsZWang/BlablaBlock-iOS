@@ -1,5 +1,5 @@
 //
-//  UserViewModel.swift
+//  ExploreUserViewModel.swift
 //  BlablaBlock
 //
 //  Created by Harry on 2022/3/5.
@@ -8,30 +8,30 @@
 import Foundation
 import RxCocoa
 
-public protocol UserViewModelInputs {
+public protocol ExploreUserViewModelInputs {
     var viewDidLoad: PublishRelay<()> { get }
     var userName: BehaviorRelay<String> { get }
     var selectedIndexPath: PublishRelay<IndexPath> { get }
     var refresh: PublishRelay<()> { get }
 }
 
-public protocol UserViewModelOutputs {
+public protocol ExploreUserViewModelOutputs {
     var users: Driver<[UserApiData]> { get }
     var isNotEmpty: Driver<Bool> { get }
     var selectedUser: Signal<UserApiData> { get }
-    var finishLoading: Signal<Bool> { get }
+    var refreshControl: Signal<Bool> { get }
 }
 
-public protocol UserViewModelType {
-    var inputs: UserViewModelInputs { get }
-    var outputs: UserViewModelOutputs { get }
+public protocol ExploreUserViewModelType {
+    var inputs: ExploreUserViewModelInputs { get }
+    var outputs: ExploreUserViewModelOutputs { get }
 }
 
-final class UserViewModel:
+final class ExploreUserViewModel:
     BaseViewModel,
-    UserViewModelInputs,
-    UserViewModelOutputs,
-    UserViewModelType
+    ExploreUserViewModelInputs,
+    ExploreUserViewModelOutputs,
+    ExploreUserViewModelType
 {
 
     // MARK: - inputs
@@ -46,10 +46,13 @@ final class UserViewModel:
     var users: Driver<[UserApiData]>
     var isNotEmpty: Driver<Bool>
     var selectedUser: Signal<UserApiData>
-    var finishLoading: Signal<Bool>
+    var refreshControl: Signal<Bool>
+    
+    // MARK: - internals
+    private let name: PublishRelay<String>
 
-    var inputs: UserViewModelInputs { self }
-    var outputs: UserViewModelOutputs { self }
+    var inputs: ExploreUserViewModelInputs { self }
+    var outputs: ExploreUserViewModelOutputs { self }
     
     override init() {
         let viewDidLoad = PublishRelay<()>()
@@ -60,7 +63,9 @@ final class UserViewModel:
         let users = BehaviorRelay<[UserApiData]>(value: [])
         let isNotEmpty = BehaviorRelay<Bool>(value: true)
         let selectedUser = PublishRelay<UserApiData>()
-        let finishLoading = PublishRelay<Bool>()
+        let refreshControl = PublishRelay<Bool>()
+        
+        let name = PublishRelay<String>()
         
         self.refresh = refresh
         self.viewDidLoad = viewDidLoad
@@ -70,27 +75,24 @@ final class UserViewModel:
         self.users = users.asDriver()
         self.isNotEmpty = isNotEmpty.asDriver()
         self.selectedUser = selectedUser.asSignal()
-        self.finishLoading = finishLoading.asSignal()
+        self.refreshControl = refreshControl.asSignal()
+        
+        self.name = name
         
         super.init()
         
         viewDidLoad
             .subscribe(onNext: {
-
+                refreshControl.accept(true)
+                name.accept("")
             })
             .disposed(by: disposeBag)
         
         userName
-            .skip(1)
-            .subscribe(onNext: { [weak self] name in
+            .subscribe(onNext: { userName in
                 EventTracker.Builder()
                     .logEvent(.REFRESH_EXPLORE_PAGE)
-                self?.getAllUsers(
-                    name: name,
-                    users: users,
-                    isNotEmpty: isNotEmpty,
-                    finishLoading: finishLoading
-                )
+                name.accept(userName)
             })
             .disposed(by: disposeBag)
         
@@ -105,8 +107,22 @@ final class UserViewModel:
             .disposed(by: disposeBag)
         
         refresh
-            .subscribe(onNext: { 
-                userName.accept(userName.value)
+            .subscribe(onNext: {
+                Timber.i("refresh refresh refresh")
+                EventTracker.Builder()
+                    .logEvent(.REFRESH_EXPLORE_PAGE)
+                name.accept(userName.value)
+            })
+            .disposed(by: disposeBag)
+        
+        name
+            .subscribe(onNext: { [weak self] name in
+                self?.getAllUsers(
+                    name: name,
+                    users: users,
+                    isNotEmpty: isNotEmpty,
+                    refreshControl: refreshControl
+                )
             })
             .disposed(by: disposeBag)
     }
@@ -115,13 +131,13 @@ final class UserViewModel:
         name: String,
         users: BehaviorRelay<[UserApiData]>,
         isNotEmpty: BehaviorRelay<Bool>,
-        finishLoading: PublishRelay<Bool>
+        refreshControl: PublishRelay<Bool>
     ) {
         UserService.getUsers(name: name)
             .request()
             .subscribe(
                 onSuccess: { [weak self] response in
-                    finishLoading.accept(false)
+                    refreshControl.accept(false)
                     switch response {
                     case let .success(userApiResponse):
                         users.accept(userApiResponse.data.shuffled())
@@ -131,7 +147,7 @@ final class UserViewModel:
                     }
                 },
                 onFailure: { [weak self] error in
-                    finishLoading.accept(false)
+                    refreshControl.accept(false)
                     self?.errorHandler(error: error)
                 }
             )

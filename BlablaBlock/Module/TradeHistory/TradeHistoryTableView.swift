@@ -5,7 +5,6 @@
 //  Created by Harry on 2022/2/27.
 //
 
-import Foundation
 import UIKit
 
 final class TradeHistoryTableView: UITableView {

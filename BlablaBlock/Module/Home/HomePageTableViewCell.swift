@@ -165,7 +165,7 @@ final class HomePageTableViewCell: UITableViewCell {
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = "ic_profile_avatar_placeholder".image()
-        imageView.layer.cornerRadius = 15
+        imageView.layer.cornerRadius = 17.5
         imageView.clipsToBounds = true
         return imageView
     }()
@@ -286,13 +286,7 @@ extension HomePageTableViewCell {
     
     func bind(notification: NotificationApiData, followBtnTap: PublishRelay<Int>?) {
         currencyImageView.currency(name: notification.baseCurrency)
-        if notification.isFollow {
-            followButton.setTitle("追蹤中", for: .normal)
-            followButton.isSelected = true
-        } else {
-            followButton.setTitle("追蹤", for: .normal)
-            followButton.isSelected = false
-        }
+        followButton.isSelected = notification.isFollow
         nameLabel.text = notification.name
         timestampCounterLabel.text = notification.timestamp.ago()
         currencyLabel.text = notification.currency

@@ -23,19 +23,19 @@ final class MainTabBarController: BaseViewController {
     private let pageViewController = PageboyViewController()
     private var viewControllers: [UIViewController] = []
     
-    private let homeViewModel: HomeViewModelType
-    private let userViewModel: UserViewModelType
+    private let homePageViewModel: HomePageViewModelType
+    private let exploreUserViewModel: ExploreUserViewModelType
     private let portfolioViewModel: PortfolioViewModelType
     private let exchangeViewModel: ExchangeApiViewModel
     
     init(
-        homeViewModel: HomeViewModelType,
-        userViewModel: UserViewModelType,
+        homePageViewModel: HomePageViewModelType,
+        exploreUserViewModel: ExploreUserViewModelType,
         portfolioViewModel: PortfolioViewModelType,
         exchangeViewModel: ExchangeApiViewModel
     ) {
-        self.homeViewModel = homeViewModel
-        self.userViewModel = userViewModel
+        self.homePageViewModel = homePageViewModel
+        self.exploreUserViewModel = exploreUserViewModel
         self.portfolioViewModel = portfolioViewModel
         self.exchangeViewModel = exchangeViewModel
         super.init(nibName: nil, bundle: nil)
@@ -119,8 +119,8 @@ final class MainTabBarController: BaseViewController {
     }
     
     private func setupContainer() {
-        viewControllers.append(HomePageViewController(viewModel: homeViewModel))
-        viewControllers.append(UIViewController())
+        viewControllers.append(HomePageViewController(viewModel: homePageViewModel))
+        viewControllers.append(ExploreUserViewController(viewModel: exploreUserViewModel))
         viewControllers.append(UIViewController())
         viewControllers.append(UIViewController())
         pageViewController.dataSource = self

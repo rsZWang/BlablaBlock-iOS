@@ -11,9 +11,9 @@ import RxDataSources
 
 final class HomePageViewController: BaseViewController {
     
-    private let viewModel: HomeViewModelType
+    private let viewModel: HomePageViewModelType
     
-    init(viewModel: HomeViewModelType) {
+    init(viewModel: HomePageViewModelType) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -144,7 +144,7 @@ final class HomePageViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         viewModel.outputs
-            .isRefreshing
+            .refreshControl
             .emit(to: refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
         
@@ -157,27 +157,6 @@ final class HomePageViewController: BaseViewController {
             .notificationsUpdate
             .emit(onNext: tableView.update)
             .disposed(by: disposeBag)
-        
-//        viewModel.outputs
-//            .notifications
-//            .map { [AnimatableSectionModel<String, NotificationApiData>(model: "", items: $0)] }
-//            .drive(tableView.rx.items(dataSource: RxTableViewSectionedAnimatedDataSource<AnimatableSectionModel<String, NotificationApiData>>(
-//                configureCell: { [weak self] dataSource, tableView, indexPath, item in
-//                    let cell = tableView.dequeueReusableCell(withIdentifier: HomePageTableViewCell.reuseIdentifier, for: indexPath) as! HomePageTableViewCell
-//                    cell.bind(notification: item, followBtnTap: self?.viewModel.inputs.followBtnTap)
-//                    return cell
-//                }
-//            )))
-//            .drive(
-//                tableView.rx.items(
-//                    cellIdentifier: HomePageTableViewCell.reuseIdentifier,
-//                    cellType: HomePageTableViewCell.self
-//                ),
-//                curriedArgument: { [weak self] (row, element, cell) in
-//                    cell.bind(notification: element, followBtnTap: self?.viewModel.inputs.followBtnTap)
-//                }
-//            )
-//            .disposed(by: disposeBag)
         
         viewModel.outputs
             .isNotEmpty

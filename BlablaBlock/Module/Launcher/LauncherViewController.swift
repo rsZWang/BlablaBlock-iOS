@@ -14,19 +14,19 @@ final class LauncherViewController: BaseViewController {
     
     @Injected var mainCoordinator: NewMainCoordinator
     @Injected var viewModel: LauncherViewModelType
-    private let homeViewModel: HomeViewModelType
-    private let userViewModel: UserViewModelType
+    private let homePageViewModel: HomePageViewModelType
+    private let exploreUserViewModel: ExploreUserViewModelType
     private let portfolioViewModel: PortfolioViewModelType
     private let exchangeViewModel: ExchangeApiViewModel
     
     init(
-        homeViewModel: HomeViewModelType,
-        userViewModel: UserViewModelType,
+        homePageViewModel: HomePageViewModelType,
+        exploreUserViewModel: ExploreUserViewModelType,
         portfolioViewModel: PortfolioViewModelType,
         exchangeViewModel: ExchangeApiViewModel
     ) {
-        self.homeViewModel = homeViewModel
-        self.userViewModel = userViewModel
+        self.homePageViewModel = homePageViewModel
+        self.exploreUserViewModel = exploreUserViewModel
         self.portfolioViewModel = portfolioViewModel
         self.exchangeViewModel = exchangeViewModel
         super.init(nibName: nil, bundle: nil)
@@ -92,8 +92,8 @@ final class LauncherViewController: BaseViewController {
     
     private func preload() {
         mainCoordinator.main(
-            homeViewModel: homeViewModel,
-            userViewModel: userViewModel,
+            homePageViewModel: homePageViewModel,
+            exploreUserViewModel: exploreUserViewModel,
             portfolioViewModel: portfolioViewModel,
             exchangeViewModel: exchangeViewModel
         )
