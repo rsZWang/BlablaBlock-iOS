@@ -85,7 +85,7 @@ public final class PortfolioView: UIView, NibOwnerLoadable {
 }
 
 extension PortfolioView: PickerViewDelegate {
-    func onSelected(index: Int, item: String) {
+    public func onSelected(index: Int, item: String) {
         if selector == 0 {
             delegate?.onExchangeFiltered(self, exchange: ExchangeType.typeList[index])
         } else {

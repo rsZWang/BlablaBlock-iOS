@@ -7,11 +7,11 @@
 
 import UIKit
 
-protocol PickerViewDelegate: NSObject {
+public protocol PickerViewDelegate: NSObject {
     func onSelected(index: Int, item: String)
 }
 
-class PickerView: UIPickerView, UIPickerViewDataSource, UIPickerViewDelegate {
+final class PickerView: UIPickerView, UIPickerViewDataSource, UIPickerViewDelegate {
     
     public private(set) var toolbar: UIToolbar?
     private weak var textField: UITextField?

@@ -11,11 +11,14 @@ import RxSwift
 public protocol HomeViewModelInputs: NSObject {
     var viewDidLoad: PublishRelay<()> { get }
     var viewWillAppear: PublishRelay<()> { get }
+    var currencySelected: BehaviorRelay<String> { get }
     var refresh: PublishRelay<()> { get }
     var followBtnTap: PublishRelay<Int> { get }
 }
 
 public protocol HomeViewModelOutputs: NSObject {
+    var currencyList: Signal<[String]> { get }
+    var selectedCurrency: Signal<String> { get }
     var notificationsRefresh: Signal<[NotificationApiData]> { get }
     var notificationsUpdate: Signal<[NotificationApiData]> { get }
     var isNotEmpty: Signal<Bool> { get }
@@ -37,11 +40,14 @@ final class HomeViewModel:
     
     var viewDidLoad: PublishRelay<()>
     var viewWillAppear: PublishRelay<()>
+    var currencySelected: BehaviorRelay<String>
     var refresh: PublishRelay<()>
     var followBtnTap: PublishRelay<Int>
     
     // MARK: - Outputs
     
+    var currencyList: Signal<[String]>
+    var selectedCurrency: Signal<String>
     var notificationsRefresh: Signal<[NotificationApiData]>
     var notificationsUpdate: Signal<[NotificationApiData]>
     var isNotEmpty: Signal<Bool>
@@ -50,6 +56,7 @@ final class HomeViewModel:
     // MARK: - internals
     
     private let notificationsCache = BehaviorRelay<[NotificationApiData]>(value: [])
+    private let currencyListCache = BehaviorRelay<[String]>(value: [])
     
     var inputs: HomeViewModelInputs { self }
     var outputs: HomeViewModelOutputs { self }
@@ -61,9 +68,12 @@ final class HomeViewModel:
     override init() {
         let viewDidLoad = PublishRelay<()>()
         let viewWillAppear = PublishRelay<()>()
+        let currencySelected = BehaviorRelay<String>(value: "all")
         let refresh = PublishRelay<()>()
         let followBtnTap = PublishRelay<Int>()
         
+        let currencyList = PublishRelay<[String]>()
+        let selectedCurrency = PublishRelay<String>()
         let notificationsRefresh = PublishRelay<[NotificationApiData]>()
         let notificationsUpdate = PublishRelay<[NotificationApiData]>()
         let isNotEmpty = PublishRelay<Bool>()
@@ -71,9 +81,12 @@ final class HomeViewModel:
         
         self.viewDidLoad = viewDidLoad
         self.viewWillAppear = viewWillAppear
+        self.currencySelected = currencySelected
         self.refresh = refresh
         self.followBtnTap = followBtnTap
         
+        self.currencyList = currencyList.asSignal()
+        self.selectedCurrency = selectedCurrency.asSignal()
         self.notificationsRefresh = notificationsRefresh.asSignal()
         self.notificationsUpdate = notificationsUpdate.asSignal()
         self.isNotEmpty = isNotEmpty.asSignal()
@@ -86,6 +99,7 @@ final class HomeViewModel:
                 if let userId = keychainUser[.userId] {
                     EventTracker.setUser(id: userId)
                 }
+                selectedCurrency.accept("all")
             })
             .disposed(by: disposeBag)
         
@@ -94,6 +108,9 @@ final class HomeViewModel:
                 if self?.notificationsCache.value.isEmpty == true {
                     isRefreshing.accept(true)
                     self?.loadNotifications(
+                        currencySelected: currencySelected,
+                        currencyList: currencyList,
+                        selectedCurrency: selectedCurrency,
                         notificationsRefresh: notificationsRefresh,
                         notificationsUpdate: notificationsUpdate,
                         isNotEmpty: isNotEmpty,
@@ -103,11 +120,27 @@ final class HomeViewModel:
             })
             .disposed(by: disposeBag)
         
+        currencySelected
+            .subscribe(onNext: { [weak self] currency in
+                selectedCurrency.accept(currency)
+                if let notifications = self?.notificationsCache.value {
+                    if currency == "所有幣種" {
+                        notificationsRefresh.accept(notifications)
+                    } else {
+                        notificationsRefresh.accept(notifications.filter({ $0.currency == currency }))
+                    }
+                }
+            })
+            .disposed(by: disposeBag)
+        
         refresh
             .subscribe(onNext: { [weak self] in
                 EventTracker.Builder()
                     .logEvent(.REFRESH_HOME_PAGE)
                 self?.loadNotifications(
+                    currencySelected: currencySelected,
+                    currencyList: currencyList,
+                    selectedCurrency: selectedCurrency,
                     notificationsRefresh: notificationsRefresh,
                     notificationsUpdate: notificationsUpdate,
                     isNotEmpty: isNotEmpty,
@@ -119,6 +152,9 @@ final class HomeViewModel:
         followBtnTap
             .subscribe(onNext: { [weak self] userId in
                 self?.follow(
+                    currencySelected: currencySelected,
+                    currencyList: currencyList,
+                    selectedCurrency: selectedCurrency,
                     userId: userId,
                     notificationsRefresh: notificationsRefresh,
                     notificationsUpdate: notificationsUpdate
@@ -131,6 +167,9 @@ final class HomeViewModel:
 private extension HomeViewModel {
     
     func loadNotifications(
+        currencySelected: BehaviorRelay<String>,
+        currencyList: PublishRelay<[String]>,
+        selectedCurrency: PublishRelay<String>,
         notificationsRefresh: PublishRelay<[NotificationApiData]>,
         notificationsUpdate: PublishRelay<[NotificationApiData]>,
         isNotEmpty: PublishRelay<Bool>,
@@ -144,6 +183,9 @@ private extension HomeViewModel {
                     switch response {
                     case let .success(historyApiResponse):
                         self?.refreshOrUpdate(
+                            currencySelected: currencySelected,
+                            currencyList: currencyList,
+                            selectedCurrency: selectedCurrency,
                             newNotifications: historyApiResponse.data,
                             notificationsRefresh: notificationsRefresh,
                             notificationsUpdate: notificationsUpdate
@@ -162,6 +204,9 @@ private extension HomeViewModel {
     }
     
     func follow(
+        currencySelected: BehaviorRelay<String>,
+        currencyList: PublishRelay<[String]>,
+        selectedCurrency: PublishRelay<String>,
         userId: Int,
         notificationsRefresh: PublishRelay<[NotificationApiData]>,
         notificationsUpdate: PublishRelay<[NotificationApiData]>
@@ -175,6 +220,9 @@ private extension HomeViewModel {
                         case .success(_):
                             if let newNotifications = self?.updateFollow(userId: userId, isFollow: false) {
                                 self?.refreshOrUpdate(
+                                    currencySelected: currencySelected,
+                                    currencyList: currencyList,
+                                    selectedCurrency: selectedCurrency,
                                     newNotifications: newNotifications,
                                     notificationsRefresh: notificationsRefresh,
                                     notificationsUpdate: notificationsUpdate
@@ -198,6 +246,9 @@ private extension HomeViewModel {
                         case .success(_):
                             if let newNotifications = self?.updateFollow(userId: userId, isFollow: true) {
                                 self?.refreshOrUpdate(
+                                    currencySelected: currencySelected,
+                                    currencyList: currencyList,
+                                    selectedCurrency: selectedCurrency,
                                     newNotifications: newNotifications,
                                     notificationsRefresh: notificationsRefresh,
                                     notificationsUpdate: notificationsUpdate
@@ -230,15 +281,36 @@ private extension HomeViewModel {
     }
     
     func refreshOrUpdate(
+        currencySelected: BehaviorRelay<String>,
+        currencyList: PublishRelay<[String]>,
+        selectedCurrency: PublishRelay<String>,
         newNotifications: [NotificationApiData],
         notificationsRefresh: PublishRelay<[NotificationApiData]>,
         notificationsUpdate: PublishRelay<[NotificationApiData]>
     ) {
-        let notifications = newNotifications.sorted(by: { $0.timestamp > $1.timestamp })
-        if notifications.count != notificationsCache.value.count {
+        var newCurrencyList = newNotifications.map { $0.currency }.unique()
+        newCurrencyList.insert("all", at: 0)
+        if !newCurrencyList.contains(currencySelected.value) {
+            currencySelected.accept("all")
+            selectedCurrency.accept("all")
+        }
+        currencyList.accept(newCurrencyList)
+        
+        let sortedNotifications = newNotifications.sorted(by: { $0.timestamp > $1.timestamp })
+        
+        let cachedNotifications: [NotificationApiData]
+        let notifications: [NotificationApiData]
+        if currencySelected.value != "all" {
+            cachedNotifications = notificationsCache.value.filter({ $0.currency == currencySelected.value })
+            notifications = sortedNotifications.filter({ $0.currency == currencySelected.value })
+        } else {
+            cachedNotifications = notificationsCache.value
+            notifications = sortedNotifications
+        }
+        
+        if notifications.count != cachedNotifications.count {
             notificationsRefresh.accept(notifications)
         } else {
-            let cachedNotifications = notificationsCache.value
             var isNotSame = false
             for i in 0 ..< notifications.count {
                 if notifications[i].identity != cachedNotifications[i].identity {
@@ -252,6 +324,7 @@ private extension HomeViewModel {
                 notificationsUpdate.accept(notifications)
             }
         }
-        notificationsCache.accept(notifications)
+        
+        notificationsCache.accept(sortedNotifications)
     }
 }

@@ -295,7 +295,7 @@ final class HomePageTableViewCell: UITableViewCell {
         }
         exchangeLabel.text = notification.exchange.uppercased()
         priceTitleLabel.text = "價格"
-        priceLabel.text = notification.price.toPrettyPrecisedString()
+        priceLabel.text = notification.price?.toPrettyPrecisedString()
         amountTitleLabel.text = "成交數量"
         amountLabel.text = notification.executedQty.toPrettyPrecisedString()
         

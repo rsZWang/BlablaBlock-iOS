@@ -27,7 +27,7 @@ public struct NotificationApiData: Decodable, IdentifiableType, Equatable {
     let type: String
     let timestamp: TimeInterval
     let side: String
-    let price: Double
+    let price: Double?
     let executedQty: Double
     var isFollow: Bool
     

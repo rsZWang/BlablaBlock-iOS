@@ -19,15 +19,21 @@ final class HomePageViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.inputs.viewDidLoad.accept(())
-        tableView.separatorStyle = .none
+        setupUI()
         setupLayout()
         setupBinding()
+        viewModel.inputs.viewDidLoad.accept(())
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.inputs.viewWillAppear.accept(())
+    }
+    
+    private func setupUI() {
+        pickerView.bind(textField: selectorTextField)
+        pickerView.pickerViewDelegate = self
+        tableView.separatorStyle = .none
     }
     
     private func setupLayout() {
@@ -51,6 +57,34 @@ final class HomePageViewController: BaseViewController {
             make.leading.equalToSuperview().offset(30)
         }
         
+        currencySelectorSection.addSubview(selectorTextField)
+        currencySelectorSection.addSubview(selectorItemLabel)
+        currencySelectorSection.addSubview(selectorSeparatorView)
+        currencySelectorSection.addSubview(selectorDropLabel)
+        
+        selectorDropLabel.snp.makeConstraints { make in
+            make.height.width.equalTo(20)
+            make.top.trailing.bottom.equalToSuperview()
+        }
+        
+        selectorSeparatorView.snp.makeConstraints { make in
+            make.width.equalTo(1)
+            make.top.bottom.equalToSuperview()
+            make.trailing.equalTo(selectorDropLabel.snp.leading)
+        }
+        
+        selectorItemLabel.snp.makeConstraints { make in
+            make.leading.top.bottom.equalToSuperview()
+            make.trailing.equalTo(selectorSeparatorView.snp.leading)
+        }
+        
+        topSectionView.addSubview(currencySelectorSection)
+        currencySelectorSection.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.equalToSuperview().offset(-18)
+            make.width.equalTo(90)
+        }
+        
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.top.equalTo(topSectionView.snp.bottom)
@@ -68,11 +102,45 @@ final class HomePageViewController: BaseViewController {
     }
     
     private func setupBinding() {
+        
+        currencySelectorSection.rx
+            .tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                Timber.i("show selector")
+                self?.selectorTextField.becomeFirstResponder()
+            })
+            .disposed(by: disposeBag)
+        
         tableView.followBtnTap = viewModel.inputs.followBtnTap
         
         refreshControl.rx
             .controlEvent(.valueChanged)
             .bind(to: viewModel.inputs.refresh)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs
+            .currencyList
+            .emit(onNext: { [weak self] list in
+                self?.pickerView.itemList = list.map { currency in
+                    if currency == "all" {
+                        return "所有幣別"
+                    } else {
+                        return currency
+                    }
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs
+            .selectedCurrency
+            .emit(onNext: { [weak self] currency in
+                if currency == "all" {
+                    self?.selectorItemLabel.text = "所有幣別"
+                } else {
+                    self?.selectorItemLabel.text = currency
+                }
+            })
             .disposed(by: disposeBag)
         
         viewModel.outputs
@@ -130,6 +198,42 @@ final class HomePageViewController: BaseViewController {
         return view
     }()
     
+    private let currencySelectorSection: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 4
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.black.cgColor
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    private let selectorItemLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.font = .systemFont(ofSize: 13)
+        label.numberOfLines = 1
+        label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .center
+        return label
+    }()
+    
+    private let selectorSeparatorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+        return view
+    }()
+    
+    private let selectorDropLabel: UILabel = {
+        let label = UILabel()
+        label.text = " V"
+        label.font = .boldSystemFont(ofSize: 13)
+        label.textColor = .black
+        return label
+    }()
+    
+    private let selectorTextField = UITextField()
+    private let pickerView = PickerView()
+    
     private let appNameLabel: UILabel = {
         let label = UILabel()
         label.text = "BlablaBlock"
@@ -150,5 +254,12 @@ final class HomePageViewController: BaseViewController {
         label.isHidden = true
         return label
     }()
-    
+}
+
+extension HomePageViewController: PickerViewDelegate {
+    func onSelected(index: Int, item: String) {
+        viewModel.inputs
+            .currencySelected
+            .accept(item)
+    }
 }
