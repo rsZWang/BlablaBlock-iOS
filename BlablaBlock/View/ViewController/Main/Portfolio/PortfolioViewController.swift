@@ -182,6 +182,7 @@ final class PortfolioViewController: BaseViewController {
         
         followViewModel.outputs
             .user
+            .subscribe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] user in
                 self?.setupUser(user: user)
             })
@@ -265,7 +266,8 @@ final class PortfolioViewController: BaseViewController {
 
         viewModel.outputs
             .uiEvent
-            .subscribe(onNext: { [weak self] event in
+            .asSignal()
+            .emit(onNext: { [weak self] event in
                 self?.handleUiEvent(event)
             })
             .disposed(by: disposeBag)
@@ -340,8 +342,24 @@ extension PortfolioViewController: RadioButtonGroupDelegate {
         if radioButton == protfolioButton {
             pagedView.moveToPage(at: 0)
         } else if radioButton == pnlButton {
+            if let user = user {
+                EventTracker.Builder()
+                    .setProperty(name: .USER_B, value: user.userId)
+                    .logEvent(.CHECK_OTHERS_PROFILE_PERFORMANCE)
+            } else {
+                EventTracker.Builder()
+                    .logEvent(.CHECK_PERSONAL_PAGE_PERFORMANCE)
+            }
             pagedView.moveToPage(at: 1)
         } else {
+            if let user = user {
+                EventTracker.Builder()
+                    .setProperty(name: .USER_B, value: user.userId)
+                    .logEvent(.CHECK_OTHERS_PROFILE_FOLLOWED_PORTFOLIO)
+            } else {
+                EventTracker.Builder()
+                    .logEvent(.CHECK_PERSONAL_PAGE_FOLLOWED_PORTFOLIO)
+            }
             pagedView.moveToPage(at: 2)
         }
     }

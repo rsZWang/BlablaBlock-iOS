@@ -74,8 +74,9 @@ final class HomePageViewController: BaseViewController {
         }
         
         selectorItemLabel.snp.makeConstraints { make in
-            make.leading.top.bottom.equalToSuperview()
-            make.trailing.equalTo(selectorSeparatorView.snp.leading)
+            make.leading.equalToSuperview().offset(6)
+            make.top.bottom.equalToSuperview()
+            make.trailing.equalTo(selectorSeparatorView.snp.leading).offset(-6)
         }
         
         topSectionView.addSubview(currencySelectorSection)
@@ -107,7 +108,6 @@ final class HomePageViewController: BaseViewController {
             .tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
-                Timber.i("show selector")
                 self?.selectorTextField.becomeFirstResponder()
             })
             .disposed(by: disposeBag)
@@ -122,24 +122,14 @@ final class HomePageViewController: BaseViewController {
         viewModel.outputs
             .currencyList
             .emit(onNext: { [weak self] list in
-                self?.pickerView.itemList = list.map { currency in
-                    if currency == "all" {
-                        return "所有幣別"
-                    } else {
-                        return currency
-                    }
-                }
+                self?.pickerView.itemList = list
             })
             .disposed(by: disposeBag)
         
         viewModel.outputs
             .selectedCurrency
             .emit(onNext: { [weak self] currency in
-                if currency == "all" {
-                    self?.selectorItemLabel.text = "所有幣別"
-                } else {
-                    self?.selectorItemLabel.text = currency
-                }
+                self?.selectorItemLabel.text = currency
             })
             .disposed(by: disposeBag)
         

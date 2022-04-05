@@ -71,6 +71,7 @@ public final class EventTracker {
 public extension EventTracker {
     
     enum Event: String {
+        // v1.0/34
         case REFRESH_HOME_PAGE = "refresh_HomePage"
         case REFRESH_EXPLORE_PAGE = "refresh_ExplorePage"
         case REFRESH_PERSONAL_PAGE_PORTFOLIO = "refresh_PersonalPage_Portfolio"
@@ -79,6 +80,12 @@ public extension EventTracker {
         case CHECK_PERSONAL_PAGE_TRADE_RECORD = "check_PersonalPage_TradeRecord"
         case CHECK_OTHERS_PROFILE = "check_OthersProfile"
         case CHECK_OTHERS_PROFILE_TRADE_RECORD = "check_OthersProfile_TradeRecord"
+        
+        // v1.0/36
+        case CHECK_PERSONAL_PAGE_PERFORMANCE = "check_PersonalPage_Performance"
+        case CHECK_PERSONAL_PAGE_FOLLOWED_PORTFOLIO = "check_PersonalPage_FollowedPortfolio"
+        case CHECK_OTHERS_PROFILE_PERFORMANCE = "check_OthersProfile_Performance"
+        case CHECK_OTHERS_PROFILE_FOLLOWED_PORTFOLIO = "check_OthersProfile_FollowedPortfolio"
     }
     
     enum Property: String {

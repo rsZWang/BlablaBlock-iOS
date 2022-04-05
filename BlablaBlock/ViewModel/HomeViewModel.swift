@@ -68,7 +68,7 @@ final class HomeViewModel:
     override init() {
         let viewDidLoad = PublishRelay<()>()
         let viewWillAppear = PublishRelay<()>()
-        let currencySelected = BehaviorRelay<String>(value: "all")
+        let currencySelected = BehaviorRelay<String>(value: "所有幣別")
         let refresh = PublishRelay<()>()
         let followBtnTap = PublishRelay<Int>()
         
@@ -99,7 +99,7 @@ final class HomeViewModel:
                 if let userId = keychainUser[.userId] {
                     EventTracker.setUser(id: userId)
                 }
-                selectedCurrency.accept("all")
+                selectedCurrency.accept("所有幣別")
             })
             .disposed(by: disposeBag)
         
@@ -124,7 +124,7 @@ final class HomeViewModel:
             .subscribe(onNext: { [weak self] currency in
                 selectedCurrency.accept(currency)
                 if let notifications = self?.notificationsCache.value {
-                    if currency == "所有幣種" {
+                    if currency == "所有幣別" {
                         notificationsRefresh.accept(notifications)
                     } else {
                         notificationsRefresh.accept(notifications.filter({ $0.currency == currency }))
@@ -288,11 +288,11 @@ private extension HomeViewModel {
         notificationsRefresh: PublishRelay<[NotificationApiData]>,
         notificationsUpdate: PublishRelay<[NotificationApiData]>
     ) {
-        var newCurrencyList = newNotifications.map { $0.currency }.unique()
-        newCurrencyList.insert("all", at: 0)
+        var newCurrencyList = newNotifications.map { $0.currency }.unique().sorted(by: { $0 < $1 })
+        newCurrencyList.insert("所有幣別", at: 0)
         if !newCurrencyList.contains(currencySelected.value) {
-            currencySelected.accept("all")
-            selectedCurrency.accept("all")
+            currencySelected.accept("所有幣別")
+            selectedCurrency.accept("所有幣別")
         }
         currencyList.accept(newCurrencyList)
         
@@ -300,7 +300,7 @@ private extension HomeViewModel {
         
         let cachedNotifications: [NotificationApiData]
         let notifications: [NotificationApiData]
-        if currencySelected.value != "all" {
+        if currencySelected.value != "所有幣別" {
             cachedNotifications = notificationsCache.value.filter({ $0.currency == currencySelected.value })
             notifications = sortedNotifications.filter({ $0.currency == currencySelected.value })
         } else {
