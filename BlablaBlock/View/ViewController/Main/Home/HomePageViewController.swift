@@ -103,7 +103,6 @@ final class HomePageViewController: BaseViewController {
     }
     
     private func setupBinding() {
-        
         currencySelectorSection.rx
             .tapGesture()
             .when(.recognized)
