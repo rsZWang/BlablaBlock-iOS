@@ -127,7 +127,7 @@ final class HomeViewModel:
                     if currency == "所有幣別" {
                         notificationsRefresh.accept(notifications)
                     } else {
-                        notificationsRefresh.accept(notifications.filter({ $0.currency == currency }))
+                        notificationsRefresh.accept(notifications.filter({ $0.baseCurrency == currency }))
                     }
                 }
             })
@@ -288,7 +288,7 @@ private extension HomeViewModel {
         notificationsRefresh: PublishRelay<[NotificationApiData]>,
         notificationsUpdate: PublishRelay<[NotificationApiData]>
     ) {
-        var newCurrencyList = newNotifications.map { $0.currency }.unique().sorted(by: { $0 < $1 })
+        var newCurrencyList = newNotifications.map { $0.baseCurrency }.unique().sorted(by: { $0 < $1 })
         newCurrencyList.insert("所有幣別", at: 0)
         if !newCurrencyList.contains(currencySelected.value) {
             currencySelected.accept("所有幣別")
