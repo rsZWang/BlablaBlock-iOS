@@ -133,7 +133,7 @@ public struct PortfolioApiData: Decodable {
             assetsViewData.append(
                 PortfolioAssetViewData(
                     currency: data.currency,
-                    balance: data.balance.toPrettyPrecisedString(),
+                    balance: data.balance.toPrettyPrecisedString(precision: 6),
                     value: "$\(data.value.toPrettyPrecisedString())",
                     dayChange: dayChange!,
                     percentage: "(\(data.percentage.toPrettyPrecisedString())%)"

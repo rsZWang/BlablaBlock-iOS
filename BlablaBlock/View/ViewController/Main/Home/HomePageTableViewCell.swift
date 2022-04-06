@@ -297,7 +297,7 @@ final class HomePageTableViewCell: UITableViewCell {
         priceTitleLabel.text = "價格"
         priceLabel.text = notification.price?.toPrettyPrecisedString()
         amountTitleLabel.text = "成交數量"
-        amountLabel.text = notification.executedQty.toPrettyPrecisedString()
+        amountLabel.text = notification.executedQty.toPrettyPrecisedString(precision: 6)
         
         followButton.rx
             .tap

@@ -142,5 +142,4 @@ public extension String {
         }
         return string
     }
-    
 }

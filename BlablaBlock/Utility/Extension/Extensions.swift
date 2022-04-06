@@ -129,24 +129,17 @@ public extension Double {
         String(self)
     }
     
-    var formatted: String {
-        withCommas()
-    }
-    
-    func toPrecisedString(percision: Int = 2) -> String {
-        String(format: "%.\(percision)f", self)
-    }
-    
     func toPrettyPrecisedString(precision: Int = 2) -> String {
-        toPrecisedString(percision: precision).double.withCommas()
-    }
-    
-    func withCommas() -> String {
         let numberFormatter = NumberFormatter()
+        numberFormatter.maximumFractionDigits = precision
         numberFormatter.numberStyle = .decimal
-        return numberFormatter.string(from: NSNumber(value: self)) ?? ""
+        return numberFormatter.string(from: NSNumber(value: rounded(toPlaces: precision)))!
     }
     
+    func rounded(toPlaces places: Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return (self * divisor).rounded() / divisor
+    }
 }
 
 public extension NSError {
