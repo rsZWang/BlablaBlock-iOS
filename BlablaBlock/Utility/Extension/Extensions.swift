@@ -133,7 +133,7 @@ public extension Double {
         let numberFormatter = NumberFormatter()
         numberFormatter.maximumFractionDigits = precision
         numberFormatter.numberStyle = .decimal
-        return numberFormatter.string(from: NSNumber(value: rounded(toPlaces: precision)))!
+        return numberFormatter.string(from: NSNumber(value: rounded(toPlaces: precision))) ?? "\(self)"
     }
     
     func rounded(toPlaces places: Int) -> Double {
