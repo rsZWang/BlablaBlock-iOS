@@ -182,7 +182,7 @@ final class PortfolioViewController: BaseViewController {
         
         followViewModel.outputs
             .user
-            .subscribe(on: MainScheduler.asyncInstance)
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] user in
                 self?.setupUser(user: user)
             })
