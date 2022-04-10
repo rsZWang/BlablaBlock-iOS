@@ -1,28 +1,27 @@
 //
-//  PortfolioView.swift
+//  FollowingPortfolio.swift
 //  BlablaBlock
 //
-//  Created by Harry on 2021/12/21.
+//  Created by Harry on 2022/4/10.
 //
 
 import UIKit
 import RxSwift
 import RxGesture
 
-public protocol PortfolioViewDelegate: NSObject {
-    func portfolioView(_ view: PortfolioView, filteredExchange exchange: String)
-    func portfolioView(_ view: PortfolioView, filteredType type: String)
-    func onTapHistory(_ view: PortfolioView)
+public protocol FollowingPortfolioViewDelegate: NSObject {
+    func followingPortfolioView(_ view: FollowingPortfolioView, filteredExchange exchange: String)
+    func followingPortfolioView(_ view: FollowingPortfolioView, filteredType type: String)
 }
 
-public final class PortfolioView: UIView, NibOwnerLoadable {
+public final class FollowingPortfolioView: UIView, NibOwnerLoadable {
 
     @IBOutlet weak var exchangeFilterView: UIView!
     @IBOutlet weak var exchangeFilterTextField: UITextField!
     @IBOutlet weak var typeFilterView: UIView!
     @IBOutlet weak var typeFilterTextField: UITextField!
-    @IBOutlet weak var historyButton: UIButton!
-    @IBOutlet weak var tableView: PortfolioAssetTableView!
+    @IBOutlet weak var adjustWeightLabel: UILabel!
+    @IBOutlet weak var tableView: FollowingPortfolioAssetTableView!
     private lazy var pickerView: PickerView = {
         let pickerView = PickerView()
         pickerView.pickerViewDelegate = self
@@ -32,7 +31,7 @@ public final class PortfolioView: UIView, NibOwnerLoadable {
     
     private let disposeBag = DisposeBag()
     private var selector = 0
-    weak var delegate: PortfolioViewDelegate?
+    weak var delegate: FollowingPortfolioViewDelegate?
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -73,23 +72,15 @@ public final class PortfolioView: UIView, NibOwnerLoadable {
                 typeFilterTextField.becomeFirstResponder()
             })
             .disposed(by: disposeBag)
-        
-        historyButton.rx
-            .tapGesture()
-            .when(.recognized)
-            .subscribe(onNext: { [unowned self] _ in
-                delegate?.onTapHistory(self)
-            })
-            .disposed(by: disposeBag)
     }
 }
 
-extension PortfolioView: PickerViewDelegate {
+extension FollowingPortfolioView: PickerViewDelegate {
     public func onSelected(index: Int, item: String) {
         if selector == 0 {
-            delegate?.portfolioView(self, filteredExchange: ExchangeType.typeList[index])
+            delegate?.followingPortfolioView(self, filteredExchange: ExchangeType.typeList[index])
         } else {
-            delegate?.portfolioView(self, filteredType: PortfolioType.typeList[index])
+            delegate?.followingPortfolioView(self, filteredType: PortfolioType.typeList[index])
         }
     }
 }

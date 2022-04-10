@@ -4,17 +4,16 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PortfolioView" customModule="BlablaBlock" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FollowingPortfolioView" customModule="BlablaBlock" customModuleProvider="target">
             <connections>
+                <outlet property="adjustWeightLabel" destination="KNy-jp-tv4" id="Rrk-0B-cel"/>
                 <outlet property="exchangeFilterTextField" destination="pcp-Va-OcG" id="0Ve-l3-cRh"/>
                 <outlet property="exchangeFilterView" destination="ev5-Ln-M3V" id="YjW-bm-Isv"/>
-                <outlet property="historyButton" destination="2JQ-JN-Pty" id="hJq-R0-IS1"/>
                 <outlet property="tableView" destination="3QM-8f-vj7" id="ZeS-Ze-9kX"/>
                 <outlet property="typeFilterTextField" destination="PBn-yB-K2f" id="AZL-9y-LHD"/>
                 <outlet property="typeFilterView" destination="Yee-hK-xVv" id="lpC-5c-vo9"/>
@@ -143,30 +142,37 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
-                                                <button opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2JQ-JN-Pty" userLabel="History Button">
-                                                    <rect key="frame" x="360" y="8" width="24" height="24"/>
-                                                    <color key="backgroundColor" name="bg_gray"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="調整權重" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KNy-jp-tv4">
+                                                    <rect key="frame" x="314" y="10" width="70" height="20"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" secondItem="2JQ-JN-Pty" secondAttribute="height" multiplier="1:1" id="2zc-a0-WtO"/>
-                                                        <constraint firstAttribute="width" constant="24" id="4oW-eH-que"/>
+                                                        <constraint firstAttribute="width" constant="70" id="wAZ-5p-8fk"/>
                                                     </constraints>
-                                                    <state key="normal" image="ic_portfolio_history"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                                             <real key="value" value="4"/>
                                                         </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                            <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                            <real key="value" value="1"/>
+                                                        </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
-                                                </button>
+                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
                                                 <constraint firstItem="Yee-hK-xVv" firstAttribute="top" secondItem="xMH-sv-3Hm" secondAttribute="top" constant="10" id="1yY-co-Np5"/>
-                                                <constraint firstAttribute="trailing" secondItem="2JQ-JN-Pty" secondAttribute="trailing" id="GpP-O6-jxh"/>
+                                                <constraint firstAttribute="bottom" secondItem="KNy-jp-tv4" secondAttribute="bottom" constant="10" id="74v-AG-GOp"/>
+                                                <constraint firstAttribute="trailing" secondItem="KNy-jp-tv4" secondAttribute="trailing" id="LdZ-oF-duB"/>
                                                 <constraint firstAttribute="bottom" secondItem="ev5-Ln-M3V" secondAttribute="bottom" constant="10" id="OmR-S7-ky1"/>
                                                 <constraint firstItem="ev5-Ln-M3V" firstAttribute="top" secondItem="xMH-sv-3Hm" secondAttribute="top" constant="10" id="aYy-Te-uBc"/>
                                                 <constraint firstItem="Yee-hK-xVv" firstAttribute="leading" secondItem="ev5-Ln-M3V" secondAttribute="trailing" constant="10" id="cs8-wF-gTF"/>
                                                 <constraint firstAttribute="bottom" secondItem="Yee-hK-xVv" secondAttribute="bottom" constant="10" id="gnr-p4-iVy"/>
-                                                <constraint firstItem="2JQ-JN-Pty" firstAttribute="centerY" secondItem="xMH-sv-3Hm" secondAttribute="centerY" id="jIY-pf-oXr"/>
+                                                <constraint firstItem="KNy-jp-tv4" firstAttribute="top" secondItem="xMH-sv-3Hm" secondAttribute="top" constant="10" id="kU7-72-g2r"/>
                                                 <constraint firstItem="ev5-Ln-M3V" firstAttribute="leading" secondItem="xMH-sv-3Hm" secondAttribute="leading" id="xbs-Ay-pks"/>
                                             </constraints>
                                         </view>
@@ -215,7 +221,7 @@
                                                 <constraint firstAttribute="height" constant="1" id="YYd-Kc-THX"/>
                                             </constraints>
                                         </view>
-                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3QM-8f-vj7" customClass="PortfolioAssetTableView" customModule="BlablaBlock" customModuleProvider="target">
+                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3QM-8f-vj7" customClass="FollowingPortfolioAssetTableView" customModule="BlablaBlock" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="58" width="379" height="760"/>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         </tableView>
@@ -279,10 +285,6 @@
         </view>
     </objects>
     <resources>
-        <image name="ic_portfolio_history" width="12" height="12"/>
-        <namedColor name="bg_gray">
-            <color red="0.86699998378753662" green="0.86699998378753662" blue="0.86699998378753662" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

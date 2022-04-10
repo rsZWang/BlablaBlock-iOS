@@ -46,7 +46,7 @@ final class PortfolioViewController: BaseViewController {
         cell.setView(view: pnlView)
         return cell
     }()
-    private lazy var followingPortfolioView = PortfolioView()
+    private lazy var followingPortfolioView = FollowingPortfolioView()
     private lazy var followingPortfolioViewCell: PagedViewCell = {
         let cell = PagedViewCell()
         cell.setView(view: followingPortfolioView)
@@ -82,7 +82,6 @@ final class PortfolioViewController: BaseViewController {
         portfolioView.delegate = self
         pnlView.delegate = self
         followingPortfolioView.delegate = self
-        followingPortfolioView.historyButton.isHidden = true
         radioGroup.delegate = self
         radioGroup.add(protfolioButton)
         radioGroup.add(pnlButton)
@@ -207,7 +206,9 @@ final class PortfolioViewController: BaseViewController {
                 portfolioView.tableView.rx.items(
                     dataSource: RxTableViewSectionedAnimatedDataSource<AnimatableSectionModel<String, PortfolioAssetViewData>>(
                         configureCell: { dataSource, tableView, indexPath, item in
-                            let cell = tableView.dequeueReusableCell(withIdentifier: ExchangeListTableViewCell.identifier, for: indexPath) as! ExchangeListTableViewCell
+                            let cell = tableView.dequeueReusableCell(
+                                withIdentifier: PortfolioAssetTableViewCell.identifier, for: indexPath
+                            ) as! PortfolioAssetTableViewCell
                             cell.bind(item)
                             return cell
                         }
@@ -228,7 +229,9 @@ final class PortfolioViewController: BaseViewController {
                 followingPortfolioView.tableView.rx.items(
                     dataSource: RxTableViewSectionedAnimatedDataSource<AnimatableSectionModel<String, PortfolioAssetViewData>>(
                         configureCell: { dataSource, tableView, indexPath, item in
-                            let cell = tableView.dequeueReusableCell(withIdentifier: ExchangeListTableViewCell.identifier, for: indexPath) as! ExchangeListTableViewCell
+                            let cell = tableView.dequeueReusableCell(
+                                withIdentifier: FollowingPortfolioAssetTableViewCell.identifier, for: indexPath
+                            ) as! FollowingPortfolioAssetTableViewCell
                             cell.bind(item)
                             return cell
                         }
@@ -294,46 +297,46 @@ extension PortfolioViewController {
 }
 
 extension PortfolioViewController: PortfolioViewDelegate {
-    func onExchangeFiltered(_ view: PortfolioView, exchange: String) {
+    func portfolioView(_ view: PortfolioView, filteredExchange exchange: String) {
         let exchangeType = ExchangeType.init(rawValue: exchange)!
-        if view == portfolioView {
-            viewModel.inputs
-                .exchangeFilter
-                .accept(exchangeType)
-        } else {
-            viewModel.inputs
-                .followingPortfolioExchangeFilter
-                .accept(exchangeType)
-        }
+        viewModel.inputs
+            .exchangeFilter
+            .accept(exchangeType)
     }
     
-    func onPortfolioTypeFiltered(_ view: PortfolioView, type: String) {
+    func portfolioView(_ view: PortfolioView, filteredType type: String) {
         let filterType = PortfolioType.init(rawValue: type)!
-        if view == portfolioView {
-            viewModel.inputs
-                .portfolioType
-                .accept(filterType)
-        } else {
-            viewModel.inputs
-                .followingPortfolioType
-                .accept(filterType)
-        }
+        viewModel.inputs
+            .portfolioType
+            .accept(filterType)
     }
     
     func onTapHistory(_ view: PortfolioView) {
-        if view == portfolioView {
-            viewModel.inputs
-                .historyBtnTap
-                .accept(())
-        } else {
-            
-        }
+        viewModel.inputs
+            .historyBtnTap
+            .accept(())
     }
 }
 
 extension PortfolioViewController: PNLViewDelegate {
     func onPeriodFiltered(period: String) {
         viewModel.inputs.pnlPeriod.accept(PNLPeriod.init(rawValue: period)!)
+    }
+}
+
+extension PortfolioViewController: FollowingPortfolioViewDelegate {
+    func followingPortfolioView(_ view: FollowingPortfolioView, filteredExchange exchange: String) {
+        let exchangeType = ExchangeType.init(rawValue: exchange)!
+        viewModel.inputs
+            .followingPortfolioExchangeFilter
+            .accept(exchangeType)
+    }
+    
+    func followingPortfolioView(_ view: FollowingPortfolioView, filteredType type: String) {
+        let filterType = PortfolioType.init(rawValue: type)!
+        viewModel.inputs
+            .followingPortfolioType
+            .accept(filterType)
     }
 }
 
