@@ -41,6 +41,8 @@ final class AuthViewModel: BaseViewModel {
                 onSuccess: { [weak self] response in
                     switch response {
                     case let .success(registrationApi):
+                        EventTracker.Builder()
+                            .logEvent(.SIGN_UP)
                         self?.signIn(
                             userEmail: email,
                             userPassword: password,

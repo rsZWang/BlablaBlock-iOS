@@ -86,6 +86,9 @@ public extension EventTracker {
         case CHECK_PERSONAL_PAGE_FOLLOWED_PORTFOLIO = "check_PersonalPage_FollowedPortfolio"
         case CHECK_OTHERS_PROFILE_PERFORMANCE = "check_OthersProfile_Performance"
         case CHECK_OTHERS_PROFILE_FOLLOWED_PORTFOLIO = "check_OthersProfile_FollowedPortfolio"
+        
+        // v1.0/40
+        case SIGN_UP = "signup"
     }
     
     enum Property: String {
