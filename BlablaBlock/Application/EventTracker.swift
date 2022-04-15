@@ -89,6 +89,9 @@ public extension EventTracker {
         
         // v1.0/40
         case SIGN_UP = "signup"
+        
+        // v1.0/41
+        case SORT_PORFILES_EXPLORE_PAGE = "sortProfiles_ExplorePage"
     }
     
     enum Property: String {

@@ -117,6 +117,8 @@ final class UserViewModel:
         
         filter
             .subscribe(onNext: { [weak self] filter in
+                EventTracker.Builder()
+                    .logEvent(.SORT_PORFILES_EXPLORE_PAGE)
                 self?.doFilter(data: users.value, users: users, filter: filter)
             })
             .disposed(by: disposeBag)
