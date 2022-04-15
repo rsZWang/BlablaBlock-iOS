@@ -21,9 +21,15 @@ final class SearchUserViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
         setupLayout()
         setupBinding()
         viewModel.inputs.viewDidLoad.accept(())
+    }
+    
+    private func setupUI() {
+        pickerView.bind(textField: pickerViewTextField)
+        pickerView.itemList = SearchUserFilter.titleList
     }
     
     private func setupLayout() {
@@ -46,12 +52,24 @@ final class SearchUserViewController: BaseViewController {
             make.leading.equalToSuperview().offset(30)
             make.centerY.equalToSuperview()
         }
-
+        
+        topSearchSectionView.addSubview(filterButton)
+        filterButton.snp.makeConstraints { make in
+            make.centerY.equalTo(searchTitleLabel)
+            make.trailing.equalToSuperview().offset(-26)
+        }
+        
         topSearchSectionView.addSubview(searchTextField)
         searchTextField.snp.makeConstraints { make in
             make.centerY.equalTo(searchTitleLabel)
             make.leading.equalTo(searchTitleLabel.snp.trailing).offset(40)
-            make.trailing.equalToSuperview().offset(-26)
+            make.trailing.equalTo(filterButton.snp.leading).offset(-26)
+        }
+        
+        topSearchSectionView.addSubview(pickerViewTextField)
+        pickerViewTextField.snp.makeConstraints { make in
+            make.width.height.equalTo(0)
+            make.leading.top.equalToSuperview()
         }
         
         view.addSubview(collectionView)
@@ -73,6 +91,13 @@ final class SearchUserViewController: BaseViewController {
             .text
             .orEmpty
             .bind(to: viewModel.inputs.userName)
+            .disposed(by: disposeBag)
+        
+        filterButton.rx
+            .tap
+            .subscribe(onNext: { [weak self] in
+                self?.pickerViewTextField.becomeFirstResponder()
+            })
             .disposed(by: disposeBag)
         
         collectionView.rx
@@ -144,6 +169,21 @@ final class SearchUserViewController: BaseViewController {
         return textField
     }()
     
+    private let filterButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "ic_search_user_filter"), for: .normal)
+        button.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        return button
+    }()
+    
+    private lazy var pickerView: PickerView = {
+        let pickerView = PickerView()
+        pickerView.pickerViewDelegate = self
+        return pickerView
+    }()
+    
+    private let pickerViewTextField: UITextField = UITextField()
+    
     private lazy var collectionView: SearchUserCollectionView = {
         let collectionView = SearchUserCollectionView()
         collectionView.backgroundColor = #colorLiteral(red: 0.1803734004, green: 0.1804045737, blue: 0.1803635955, alpha: 1)
@@ -162,4 +202,12 @@ final class SearchUserViewController: BaseViewController {
         label.isHidden = true
         return label
     }()
+}
+
+extension SearchUserViewController: PickerViewDelegate {
+    public func onSelected(index: Int, item: String) {
+        viewModel.inputs
+            .filter
+            .accept(SearchUserFilter.filter(index))
+    }
 }

@@ -13,6 +13,42 @@
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
+ENV["FASTLANE_USER"] = "jedi19931106@icloud.com"
+ENV["FASTLANE_TEAM_ID"] = "QRN2TFCH8G"
+ENV["MATCH_GIT_URL"] = "git@github.com:rsZWang/Blablablock-iOS-certificate.git"
+ENV["MATCH_PASSWORD"] = "blablablock2022"
+
+# Configuration to build an app
+# minimum requirment to pack an app
+Configuration = Struct.new(
+  :provisioningProfile, # file name of the provisioning profile
+  :buildConfiguration, # configuration name in xcode project
+  :appIdentifier, # the app id for this configuration
+  :exportMethod, # export methods, such as "ad-doc" or "appstore"
+  :productName, # product name of config
+  :scheme, # scheme to build ipa
+  :matchType # type to use match, type is adhoc, appstore and so on.
+) 
+
+@development = Configuration.new(
+  "match Development com.wuchi.blablablock",
+  "Debug",
+  "com.wuchi.blablablock-dev",
+  "development",
+  "BlablaBlock-dev",
+  "Development",
+  "development")
+
+@release = Configuration.new(
+  "match AppStore com.wuchi.blablablock",
+  "Release",
+  "com.wuchi.blablablock",
+  "app-store",
+  "BlablaBlock",
+  "Release",
+  "appstore"
+)
+
 proj = "BlablaBlock.xcodeproj"
 version = get_version_number(xcodeproj: proj)
 build_number = get_build_number(xcodeproj: proj)
@@ -23,9 +59,12 @@ scheme = "BlablaBlock"
 review_notes = "
 測試連結交易所請使用 Binance:
 API KEY: tuXwcjGeJC4vCpdUez0mZxJJEOSqBBSJc60MCGcXeQg0CWPvufmndvQdEwgwvNnV
-API Secret: CHpW8MZwBuBHuPncE2KIN78gH06tpTCJ0JIrpt7PWXcC2i6yBRkMiZaIUVspIUqL"
+API Secret: CHpW8MZwBuBHuPncE2KIN78gH06tpTCJ0JIrpt7PWXcC2i6yBRkMiZaIUVspIUqL
+"
 
-changelog = "New features and bug fix"
+changelog = "
+探索頁面增加過濾器
+"
 
 default_platform(:ios)
 
@@ -65,8 +104,8 @@ platform :ios do
   desc "Clear build directory, get certificates, build and upload to testflight, download dsyms on store, upload store and local dsyms, clear"
   lane :harry do
     clear_dir
-    # get_certificates
-    # get_provisioning_profile
+    get_certificates
+    get_provisioning_profile
     build
     upload_submit_testflight
     upload_store_dsyms
@@ -147,4 +186,28 @@ platform :ios do
     )
   end
 
+  desc "Fetch certificates"
+  lane :fetch_cert do
+    match_config(@development, false)
+    match_config(@release, false)
+  end
+
+  desc "Register devices and fetch certificates"
+  lane :register_fetch_cert do
+    register_devices(devices_file: "fastlane/devices.txt")
+    match_config(@development, true)
+    match_config(@release, true)
+  end
+
+  def match_config(config, isUpdateDevice)
+    match(
+      git_url: @match_git_url,
+      type: config.matchType,
+      app_identifier: config.appIdentifier,
+      # Only fetch existing certificates and profiles, don't generate new ones
+      readonly: !isUpdateDevice, 
+      # Renew the provisioning profiles if the device count on the developer portal has changed. Ignored for profile type 'appstore'
+      force_for_new_devices: isUpdateDevice
+    )
+  end
 end

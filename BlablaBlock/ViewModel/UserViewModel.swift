@@ -13,6 +13,7 @@ public protocol UserViewModelInputs {
     var userName: BehaviorRelay<String> { get }
     var selectedIndexPath: PublishRelay<IndexPath> { get }
     var refresh: PublishRelay<()> { get }
+    var filter: BehaviorRelay<SearchUserFilter> { get }
 }
 
 public protocol UserViewModelOutputs {
@@ -40,6 +41,7 @@ final class UserViewModel:
     var userName: BehaviorRelay<String>
     var selectedIndexPath: PublishRelay<IndexPath>
     var refresh: PublishRelay<()>
+    var filter: BehaviorRelay<SearchUserFilter>
     
     // MARK: - outputs
     
@@ -56,6 +58,7 @@ final class UserViewModel:
         let userName = BehaviorRelay<String>(value: "")
         let selectedIndexPath = PublishRelay<IndexPath>()
         let refresh = PublishRelay<()>()
+        let filter = BehaviorRelay<SearchUserFilter>(value: .random)
         
         let users = BehaviorRelay<[UserApiData]>(value: [])
         let isNotEmpty = BehaviorRelay<Bool>(value: true)
@@ -66,6 +69,7 @@ final class UserViewModel:
         self.viewDidLoad = viewDidLoad
         self.userName = userName
         self.selectedIndexPath = selectedIndexPath
+        self.filter = filter
         
         self.users = users.asDriver()
         self.isNotEmpty = isNotEmpty.asDriver()
@@ -89,7 +93,8 @@ final class UserViewModel:
                     name: name,
                     users: users,
                     isNotEmpty: isNotEmpty,
-                    finishLoading: finishLoading
+                    finishLoading: finishLoading,
+                    filter: filter
                 )
             })
             .disposed(by: disposeBag)
@@ -109,13 +114,20 @@ final class UserViewModel:
                 userName.accept(userName.value)
             })
             .disposed(by: disposeBag)
+        
+        filter
+            .subscribe(onNext: { [weak self] filter in
+                self?.doFilter(data: users.value, users: users, filter: filter)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func getAllUsers(
         name: String,
         users: BehaviorRelay<[UserApiData]>,
         isNotEmpty: BehaviorRelay<Bool>,
-        finishLoading: PublishRelay<Bool>
+        finishLoading: PublishRelay<Bool>,
+        filter: BehaviorRelay<SearchUserFilter>
     ) {
         UserService.getUsers(name: name)
             .request()
@@ -124,7 +136,7 @@ final class UserViewModel:
                     finishLoading.accept(false)
                     switch response {
                     case let .success(userApiResponse):
-                        users.accept(userApiResponse.data.shuffled())
+                        self?.doFilter(data: userApiResponse.data, users: users, filter: filter.value)
                         isNotEmpty.accept(userApiResponse.data.isNotEmpty)
                     case let .failure(responseFailure):
                         self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
@@ -136,6 +148,25 @@ final class UserViewModel:
                 }
             )
             .disposed(by: disposeBag)
+    }
+    
+    private func doFilter(
+        data: [UserApiData],
+        users: BehaviorRelay<[UserApiData]>,
+        filter: SearchUserFilter
+    ) {
+        switch filter {
+        case .random:
+            users.accept(data.shuffled())
+        case .asset:
+            users.accept(data.sorted(by: { $0.totalValue > $1.totalValue }))
+        case .profit:
+            users.accept(data.sorted(by: { $0.roi ?? 0 > $1.roi ?? 0 }))
+        case .winRate:
+            users.accept(data.sorted(by: { $0.dailyWinRate ?? 0 > $1.dailyWinRate ?? 0 }))
+        case .sharp:
+            users.accept(data.sorted(by: { $0.sharpeRatio ?? 0 > $1.sharpeRatio ?? 0 }))
+        }
     }
 }
 

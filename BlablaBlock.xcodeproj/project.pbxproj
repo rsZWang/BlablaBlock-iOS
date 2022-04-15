@@ -27,6 +27,7 @@
 		4A581C9A27CBD25F00276BA9 /* SearchUserCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A581C9927CBD25F00276BA9 /* SearchUserCollectionView.swift */; };
 		4A581C9C27CBD28200276BA9 /* SearchUserCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A581C9B27CBD28200276BA9 /* SearchUserCollectionViewCell.swift */; };
 		4A5FE1F827365E0F004AD836 /* LinkExchangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */; };
+		4A6178422809BAE700F00FAB /* SearchUserFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6178412809BAE700F00FAB /* SearchUserFilter.swift */; };
 		4A6C9F0F27CD09F3003B42F8 /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F0E27CD09F3003B42F8 /* HomePageViewController.swift */; };
 		4A6C9F1227CD1209003B42F8 /* HomePageTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1127CD1209003B42F8 /* HomePageTableView.swift */; };
 		4A6C9F1427CD1277003B42F8 /* HomePageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1327CD1277003B42F8 /* HomePageTableViewCell.swift */; };
@@ -152,6 +153,7 @@
 		4A581C9B27CBD28200276BA9 /* SearchUserCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkExchangeViewController.swift; sourceTree = "<group>"; };
 		4A61598627D4CEDE0085BF4D /* BlablaBlock.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BlablaBlock.entitlements; sourceTree = "<group>"; };
+		4A6178412809BAE700F00FAB /* SearchUserFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserFilter.swift; sourceTree = "<group>"; };
 		4A6C9F0E27CD09F3003B42F8 /* HomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
 		4A6C9F1127CD1209003B42F8 /* HomePageTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageTableView.swift; sourceTree = "<group>"; };
 		4A6C9F1327CD1277003B42F8 /* HomePageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageTableViewCell.swift; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 				4A581C9527CBC94C00276BA9 /* SearchUserViewController.swift */,
 				4A581C9927CBD25F00276BA9 /* SearchUserCollectionView.swift */,
 				4A581C9B27CBD28200276BA9 /* SearchUserCollectionViewCell.swift */,
+				4A6178412809BAE700F00FAB /* SearchUserFilter.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -1020,6 +1023,7 @@
 				4A6C9F1627CD288C003B42F8 /* FollowService.swift in Sources */,
 				4A581C9A27CBD25F00276BA9 /* SearchUserCollectionView.swift in Sources */,
 				4A5FE1F827365E0F004AD836 /* LinkExchangeViewController.swift in Sources */,
+				4A6178422809BAE700F00FAB /* SearchUserFilter.swift in Sources */,
 				A08E8E652778E25E0041AC61 /* Registration.swift in Sources */,
 				A0C8E559271FF18900848FCB /* AppDelegate.swift in Sources */,
 				A0DAD5BA277861FD00CD8760 /* Coordinator.swift in Sources */,
@@ -1209,7 +1213,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = BlablaBlock/BlablaBlock.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 40;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QRN2TFCH8G;
@@ -1223,6 +1228,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wuchi.blablablock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "com.wuchi.blablablock AppStore 1648096411";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1236,7 +1242,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = BlablaBlock/BlablaBlock.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 40;
 				DEVELOPMENT_TEAM = QRN2TFCH8G;
 				ENABLE_BITCODE = NO;
@@ -1249,6 +1256,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wuchi.blablablock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "com.wuchi.blablablock AppStore 1648096411";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

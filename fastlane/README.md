@@ -79,6 +79,22 @@ Upload local dSYMs
 
 Notify slack build uploaded successfully message
 
+### ios fetch_cert
+
+```sh
+[bundle exec] fastlane ios fetch_cert
+```
+
+Fetch certificates
+
+### ios register_fetch_cert
+
+```sh
+[bundle exec] fastlane ios register_fetch_cert
+```
+
+Register devices and fetch certificates
+
 ----
 
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.
