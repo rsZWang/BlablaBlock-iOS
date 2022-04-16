@@ -37,7 +37,8 @@ Configuration = Struct.new(
   "development",
   "BlablaBlock-dev",
   "Development",
-  "development")
+  "development"
+)
 
 @release = Configuration.new(
   "match AppStore com.wuchi.blablablock",
@@ -103,11 +104,14 @@ platform :ios do
 
   desc "Clear build directory, get certificates, build and upload to testflight, download dsyms on store, upload store and local dsyms, clear"
   lane :harry do
-    clear_dir
-    get_certificates
-    get_provisioning_profile
+    # clear_dir
     build
-    upload_submit_testflight
+    # upload_submit_testflight
+    # harry_post
+  end
+
+  desc "Upload dSYMs, notify slack"
+  lane :harry_post do
     upload_store_dsyms
     upload_local_dsyms
     notify_slack_success
@@ -122,14 +126,25 @@ platform :ios do
   desc "Build"
   lane :build do
     # ensure_git_status_clean
+    build(@release)
+  end
+
+  def build(type)
     build_app(
       workspace: workspace, 
-      scheme: scheme,
-      xcargs: "-allowProvisioningUpdates",
+      scheme: type.scheme,
       clean: true,
       output_directory: build_dir,
+      configuration: type.buildConfiguration,
+      silent: true,
       include_symbols: true,
-      include_bitcode: false
+      include_bitcode: false,
+      # export_method: "app-store",
+      # export_options: {
+      #   provisioningProfiles: { 
+      #     type.appIdentifier => type.provisioningProfiles
+      #   }
+      # }
     )
   end
 
@@ -194,20 +209,22 @@ platform :ios do
 
   desc "Register devices and fetch certificates"
   lane :register_fetch_cert do
-    register_devices(devices_file: "fastlane/devices.txt")
+    register_devices(
+      devices_file: "fastlane/devices.txt",
+      team_id: "QRN2TFCH8G"
+    )
     match_config(@development, true)
     match_config(@release, true)
   end
 
   def match_config(config, isUpdateDevice)
     match(
-      git_url: @match_git_url,
       type: config.matchType,
+      readonly: !isUpdateDevice,    # Only fetch existing certificates and profiles, don't generate new ones
+      generate_apple_certs: true,
       app_identifier: config.appIdentifier,
-      # Only fetch existing certificates and profiles, don't generate new ones
-      readonly: !isUpdateDevice, 
-      # Renew the provisioning profiles if the device count on the developer portal has changed. Ignored for profile type 'appstore'
-      force_for_new_devices: isUpdateDevice
+      force: true,
+      force_for_new_devices: isUpdateDevice    # Renew the provisioning profiles if the device count on the developer portal has changed. Ignored for profile type 'appstore'
     )
   end
 end

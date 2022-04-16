@@ -23,6 +23,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 Clear build directory, get certificates, build and upload to testflight, download dsyms on store, upload store and local dsyms, clear
 
+### ios harry_post
+
+```sh
+[bundle exec] fastlane ios harry_post
+```
+
+Upload dSYMs, notify slack
+
 ### ios clear_dir
 
 ```sh
