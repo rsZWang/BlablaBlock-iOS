@@ -133,10 +133,10 @@ public struct PortfolioApiData: Decodable {
             assetsViewData.append(
                 PortfolioAssetViewData(
                     currency: data.currency,
+                    percentage: "(\(data.percentage.toPrettyPrecisedString())%)",
                     balance: data.balance.toPrettyPrecisedString(),
                     value: "$\(data.value.toPrettyPrecisedString())",
-                    dayChange: dayChange!,
-                    percentage: "(\(data.percentage.toPrettyPrecisedString())%)"
+                    dayChange: dayChange!
                 )
             )
         }
@@ -165,10 +165,10 @@ public struct PortfolioAssetViewData: IdentifiableType, Equatable {
     public var identity: String { currency }
     
     let currency: String
+    let percentage: String
     let balance: String
     let value: String
     let dayChange: String
-    let percentage: String
 }
 
 public enum PortfolioType: String, Equatable {

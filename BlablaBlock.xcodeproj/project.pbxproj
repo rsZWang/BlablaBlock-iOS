@@ -16,13 +16,17 @@
 		4A4B4DEF2770E10E00075933 /* PagedViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4B4DEE2770E10E00075933 /* PagedViewCell.swift */; };
 		4A4B4DF22770E4B100075933 /* PortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4B4DF12770E4B100075933 /* PortfolioView.swift */; };
 		4A4B4DF42770E4C600075933 /* PortfolioView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A4B4DF32770E4C600075933 /* PortfolioView.xib */; };
-		4A4B4DF62770E5E300075933 /* ExchangeListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A4B4DF52770E5E300075933 /* ExchangeListTableViewCell.xib */; };
+		4A4B4DF62770E5E300075933 /* PortfolioAssetTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A4B4DF52770E5E300075933 /* PortfolioAssetTableViewCell.xib */; };
 		4A51C38927F9835000E78EE4 /* ExploreUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A51C38827F9835000E78EE4 /* ExploreUserViewController.swift */; };
 		4A51C38B27F9845D00E78EE4 /* ExploreUserTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A51C38A27F9845D00E78EE4 /* ExploreUserTableView.swift */; };
 		4A51C38D27F9859000E78EE4 /* ExploreUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A51C38C27F9859000E78EE4 /* ExploreUserTableViewCell.swift */; };
 		4A543A482779CF1700662B12 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A543A472779CF1700662B12 /* PickerView.swift */; };
 		4A581C9827CBCFB200276BA9 /* PaddingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A581C9727CBCFB200276BA9 /* PaddingTextField.swift */; };
 		4A5FE1F827365E0F004AD836 /* LinkExchangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */; };
+		4A670EC6280FFFD70052F345 /* FollowingPortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A670EC2280FFFD70052F345 /* FollowingPortfolioView.swift */; };
+		4A670EC7280FFFD70052F345 /* FollowingPortfolioView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A670EC3280FFFD70052F345 /* FollowingPortfolioView.xib */; };
+		4A670EC8280FFFD70052F345 /* FollowingPortfolioAssetTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A670EC4280FFFD70052F345 /* FollowingPortfolioAssetTableViewCell.xib */; };
+		4A670EC9280FFFD70052F345 /* FollowingPortfolioAssetTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A670EC5280FFFD70052F345 /* FollowingPortfolioAssetTableView.swift */; };
 		4A6C9F0F27CD09F3003B42F8 /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F0E27CD09F3003B42F8 /* HomePageViewController.swift */; };
 		4A6C9F1227CD1209003B42F8 /* HomePageTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1127CD1209003B42F8 /* HomePageTableView.swift */; };
 		4A6C9F1427CD1277003B42F8 /* HomePageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F1327CD1277003B42F8 /* HomePageTableViewCell.swift */; };
@@ -76,7 +80,7 @@
 		A0290E2927230AAF00A07224 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0290E2827230AAF00A07224 /* RadioButton.swift */; };
 		A0290E2B27230E5800A07224 /* Timber.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0290E2A27230E5800A07224 /* Timber.swift */; };
 		A0290E2F272319DE00A07224 /* PortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0290E2E272319DE00A07224 /* PortfolioViewController.swift */; };
-		A0859AE5272DBE8100CF936E /* ExchangeListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0859AE4272DBE8100CF936E /* ExchangeListTableView.swift */; };
+		A0859AE5272DBE8100CF936E /* PortfolioAssetTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0859AE4272DBE8100CF936E /* PortfolioAssetTableView.swift */; };
 		A08D5C1C278026FD00228ECE /* HttpApiConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08D5C1B278026FD00228ECE /* HttpApiConfig.swift */; };
 		A08E8E652778E25E0041AC61 /* Registration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E8E642778E25E0041AC61 /* Registration.swift */; };
 		A0921267277F56B40083BBBF /* KeychainAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0921266277F56B40083BBBF /* KeychainAccess.swift */; };
@@ -141,7 +145,7 @@
 		4A4B4DEE2770E10E00075933 /* PagedViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedViewCell.swift; sourceTree = "<group>"; };
 		4A4B4DF12770E4B100075933 /* PortfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioView.swift; sourceTree = "<group>"; };
 		4A4B4DF32770E4C600075933 /* PortfolioView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PortfolioView.xib; sourceTree = "<group>"; };
-		4A4B4DF52770E5E300075933 /* ExchangeListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExchangeListTableViewCell.xib; sourceTree = "<group>"; };
+		4A4B4DF52770E5E300075933 /* PortfolioAssetTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PortfolioAssetTableViewCell.xib; sourceTree = "<group>"; };
 		4A51C38827F9835000E78EE4 /* ExploreUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreUserViewController.swift; sourceTree = "<group>"; };
 		4A51C38A27F9845D00E78EE4 /* ExploreUserTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreUserTableView.swift; sourceTree = "<group>"; };
 		4A51C38C27F9859000E78EE4 /* ExploreUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreUserTableViewCell.swift; sourceTree = "<group>"; };
@@ -149,6 +153,10 @@
 		4A581C9727CBCFB200276BA9 /* PaddingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingTextField.swift; sourceTree = "<group>"; };
 		4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkExchangeViewController.swift; sourceTree = "<group>"; };
 		4A61598627D4CEDE0085BF4D /* BlablaBlock.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BlablaBlock.entitlements; sourceTree = "<group>"; };
+		4A670EC2280FFFD70052F345 /* FollowingPortfolioView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowingPortfolioView.swift; sourceTree = "<group>"; };
+		4A670EC3280FFFD70052F345 /* FollowingPortfolioView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FollowingPortfolioView.xib; sourceTree = "<group>"; };
+		4A670EC4280FFFD70052F345 /* FollowingPortfolioAssetTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FollowingPortfolioAssetTableViewCell.xib; sourceTree = "<group>"; };
+		4A670EC5280FFFD70052F345 /* FollowingPortfolioAssetTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowingPortfolioAssetTableView.swift; sourceTree = "<group>"; };
 		4A6C9F0E27CD09F3003B42F8 /* HomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
 		4A6C9F1127CD1209003B42F8 /* HomePageTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageTableView.swift; sourceTree = "<group>"; };
 		4A6C9F1327CD1277003B42F8 /* HomePageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageTableViewCell.swift; sourceTree = "<group>"; };
@@ -203,7 +211,7 @@
 		A0290E2827230AAF00A07224 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		A0290E2A27230E5800A07224 /* Timber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timber.swift; sourceTree = "<group>"; };
 		A0290E2E272319DE00A07224 /* PortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewController.swift; sourceTree = "<group>"; };
-		A0859AE4272DBE8100CF936E /* ExchangeListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeListTableView.swift; sourceTree = "<group>"; };
+		A0859AE4272DBE8100CF936E /* PortfolioAssetTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioAssetTableView.swift; sourceTree = "<group>"; };
 		A08D5C1B278026FD00228ECE /* HttpApiConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpApiConfig.swift; sourceTree = "<group>"; };
 		A08E8E642778E25E0041AC61 /* Registration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registration.swift; sourceTree = "<group>"; };
 		A0921266277F56B40083BBBF /* KeychainAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainAccess.swift; sourceTree = "<group>"; };
@@ -293,6 +301,18 @@
 			path = ViewPager;
 			sourceTree = "<group>";
 		};
+		4A670EC1280FFFD70052F345 /* FollowingPortfolio */ = {
+			isa = PBXGroup;
+			children = (
+				4A670EC2280FFFD70052F345 /* FollowingPortfolioView.swift */,
+				4A670EC3280FFFD70052F345 /* FollowingPortfolioView.xib */,
+				4A670EC5280FFFD70052F345 /* FollowingPortfolioAssetTableView.swift */,
+				4A670EC4280FFFD70052F345 /* FollowingPortfolioAssetTableViewCell.xib */,
+			);
+			name = FollowingPortfolio;
+			path = "../../../../../../BlablaBlock/BlablaBlock-iOS/BlablaBlock/View/ViewController/Main/Portfolio/FollowingPortfolio";
+			sourceTree = "<group>";
+		};
 		4A7A18FC27D2FA4D00AF24A8 /* Base */ = {
 			isa = PBXGroup;
 			children = (
@@ -378,6 +398,7 @@
 				A0290E2E272319DE00A07224 /* PortfolioViewController.swift */,
 				A092DEB327738C8600E98A2B /* Portfolio */,
 				A092DEAE27738B9300E98A2B /* PNL */,
+				4A670EC1280FFFD70052F345 /* FollowingPortfolio */,
 			);
 			path = Portfolio;
 			sourceTree = "<group>";
@@ -456,8 +477,8 @@
 			children = (
 				4A4B4DF12770E4B100075933 /* PortfolioView.swift */,
 				4A4B4DF32770E4C600075933 /* PortfolioView.xib */,
-				A0859AE4272DBE8100CF936E /* ExchangeListTableView.swift */,
-				4A4B4DF52770E5E300075933 /* ExchangeListTableViewCell.xib */,
+				A0859AE4272DBE8100CF936E /* PortfolioAssetTableView.swift */,
+				4A4B4DF52770E5E300075933 /* PortfolioAssetTableViewCell.xib */,
 			);
 			path = Portfolio;
 			sourceTree = "<group>";
@@ -791,10 +812,12 @@
 				A0C8E565271FF19000848FCB /* LaunchScreen.storyboard in Resources */,
 				A09D70E52725194B00ACE44A /* LinkCardView.xib in Resources */,
 				4A4B4DF42770E4C600075933 /* PortfolioView.xib in Resources */,
+				4A670EC8280FFFD70052F345 /* FollowingPortfolioAssetTableViewCell.xib in Resources */,
+				4A670EC7280FFFD70052F345 /* FollowingPortfolioView.xib in Resources */,
 				A0C8E562271FF19000848FCB /* Assets.xcassets in Resources */,
 				A0C8E560271FF18900848FCB /* Main.storyboard in Resources */,
 				A092DEB227738BFE00E98A2B /* PNLView.xib in Resources */,
-				4A4B4DF62770E5E300075933 /* ExchangeListTableViewCell.xib in Resources */,
+				4A4B4DF62770E5E300075933 /* PortfolioAssetTableViewCell.xib in Resources */,
 				4A7AFE2227393ED4005E0A72 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -957,6 +980,7 @@
 				4A7A190A27D331D400AF24A8 /* ExploreUserViewModel.swift in Sources */,
 				4A51C38927F9835000E78EE4 /* ExploreUserViewController.swift in Sources */,
 				A0290E2F272319DE00A07224 /* PortfolioViewController.swift in Sources */,
+				4A670EC6280FFFD70052F345 /* FollowingPortfolioView.swift in Sources */,
 				4A6C9F1827CD28D8003B42F8 /* Follow.swift in Sources */,
 				4AFC6577276E7E3900ADEDA7 /* InputAlertBuilder.swift in Sources */,
 				4A7A190027D2FAF600AF24A8 /* FollowListViewController.swift in Sources */,
@@ -969,7 +993,7 @@
 				4A741C1027CB587300594A5D /* History.swift in Sources */,
 				4A7744BD276F96170087A447 /* Portfolio.swift in Sources */,
 				4A741C1227CB597500594A5D /* TradeHistoryViewModel.swift in Sources */,
-				A0859AE5272DBE8100CF936E /* ExchangeListTableView.swift in Sources */,
+				A0859AE5272DBE8100CF936E /* PortfolioAssetTableView.swift in Sources */,
 				4A6C9F2227CD39DF003B42F8 /* HttpError.swift in Sources */,
 				4ABA209F273BDC5000F66DB9 /* AuthViewModel.swift in Sources */,
 				4ABDADAF27F4BF8700BC94B6 /* OrangeButton.swift in Sources */,
@@ -999,6 +1023,7 @@
 				4A741C0C27CB468500594A5D /* TradeHistoryTableView.swift in Sources */,
 				4ABDAD9E27F4BA1C00BC94B6 /* NewMainCoordinator.swift in Sources */,
 				4ABA20A1273BDCB500F66DB9 /* String.swift in Sources */,
+				4A670EC9280FFFD70052F345 /* FollowingPortfolioAssetTableView.swift in Sources */,
 				4AA9F812276DD6A200D775F0 /* BaseViewController.swift in Sources */,
 				4A7744B7276F8A350087A447 /* ResponseFailure.swift in Sources */,
 				4A6C9F1227CD1209003B42F8 /* HomePageTableView.swift in Sources */,

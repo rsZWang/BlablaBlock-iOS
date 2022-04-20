@@ -26,10 +26,10 @@ public struct FollowingPortfolioApi: Decodable {
             assetsViewData.append(
                 PortfolioAssetViewData(
                     currency: data.currency,
+                    percentage: "\(data.percentage.toPrettyPrecisedString())%",
                     balance: data.balance.toPrettyPrecisedString(),
                     value: "$\(data.value.toPrettyPrecisedString())",
-                    dayChange: dayChange!,
-                    percentage: "(\(data.percentage.toPrettyPrecisedString())%)"
+                    dayChange: dayChange!
                 )
             )
         }
