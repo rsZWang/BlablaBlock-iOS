@@ -81,7 +81,7 @@ final class SettingViewController: BaseViewController, LinkCardViewDelegate {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        avatarImageView.makeCircle()
+//        avatarImageView.makeCircle()
     }
     
     private func refreshList(exchangeList: [ExchangeApiData]) {

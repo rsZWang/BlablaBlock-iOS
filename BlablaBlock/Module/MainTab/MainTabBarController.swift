@@ -121,7 +121,8 @@ final class MainTabBarController: BaseViewController {
     private func setupContainer() {
         viewControllers.append(HomePageViewController(viewModel: homePageViewModel))
         viewControllers.append(ExploreUserViewController(viewModel: exploreUserViewModel))
-        viewControllers.append(UIViewController())
+        viewControllers.append(PortfolioViewController(user: nil, viewModel: portfolioViewModel))
+//        viewControllers.append(UIViewController())
         viewControllers.append(UIViewController())
         pageViewController.dataSource = self
         addChild(pageViewController)

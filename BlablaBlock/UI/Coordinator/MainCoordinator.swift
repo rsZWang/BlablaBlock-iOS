@@ -68,14 +68,14 @@ final class MainCoordinator: NSObject, Coordinator {
     }
     
     func main(isSignIn: Bool, hasLinked: Bool) {
-        let tabBarController = mainSB.instantiateViewController(withIdentifier: "MainTabBarController") as! UITabBarController
-        tabBarController.tabBar.barTintColor = UIColor(named: "gray_tab_bar")!
+//        let tabBarController = mainSB.instantiateViewController(withIdentifier: "MainTabBarController") as! UITabBarController
+//        tabBarController.tabBar.barTintColor = UIColor(named: "gray_tab_bar")!
 //        tabBarController.selectedIndex = hasLinked ? 1 : 2
-        navigationController.pushViewController(tabBarController, animated: true)
-        if !isSignIn {
-            let signInViewController = SignInViewController.instantiate()
-            navigationController.viewControllers.insert(signInViewController, at: 1)
-        }
+//        navigationController.pushViewController(tabBarController, animated: true)
+//        if !isSignIn {
+//            let signInViewController = SignInViewController.instantiate()
+//            navigationController.viewControllers.insert(signInViewController, at: 1)
+//        }
     }
     
     func showFollow(isDefaultPageFollower: Bool, followViewModel: FollowViewModelType) {
@@ -93,7 +93,7 @@ final class MainCoordinator: NSObject, Coordinator {
     
     func showPortfolioBy(user: UserApiData) {
         let vc = mainSB.instantiateViewController(withIdentifier: "PortfolioViewController") as! PortfolioViewController
-        vc.user = user
+//        vc.user = user
         navigationController.pushViewController(vc, animated: true)
     }
     

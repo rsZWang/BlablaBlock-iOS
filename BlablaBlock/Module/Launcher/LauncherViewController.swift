@@ -14,21 +14,25 @@ final class LauncherViewController: BaseViewController {
     
     @Injected var mainCoordinator: NewMainCoordinator
     @Injected var viewModel: LauncherViewModelType
-    private let homePageViewModel: HomePageViewModelType
-    private let exploreUserViewModel: ExploreUserViewModelType
-    private let portfolioViewModel: PortfolioViewModelType
-    private let exchangeViewModel: ExchangeApiViewModel
+//    private let homePageViewModel: HomePageViewModelType
+//    private let exploreUserViewModel: ExploreUserViewModelType
+//    private let portfolioViewModel: PortfolioViewModelType
+//    private let exchangeViewModel: ExchangeApiViewModel
     
-    init(
-        homePageViewModel: HomePageViewModelType,
-        exploreUserViewModel: ExploreUserViewModelType,
-        portfolioViewModel: PortfolioViewModelType,
-        exchangeViewModel: ExchangeApiViewModel
-    ) {
-        self.homePageViewModel = homePageViewModel
-        self.exploreUserViewModel = exploreUserViewModel
-        self.portfolioViewModel = portfolioViewModel
-        self.exchangeViewModel = exchangeViewModel
+//    init(
+//        homePageViewModel: HomePageViewModelType,
+//        exploreUserViewModel: ExploreUserViewModelType,
+//        portfolioViewModel: PortfolioViewModelType,
+//        exchangeViewModel: ExchangeApiViewModel
+//    ) {
+//        self.homePageViewModel = homePageViewModel
+//        self.exploreUserViewModel = exploreUserViewModel
+//        self.portfolioViewModel = portfolioViewModel
+//        self.exchangeViewModel = exchangeViewModel
+//        super.init(nibName: nil, bundle: nil)
+//    }
+    
+    init() {
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -43,17 +47,12 @@ final class LauncherViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupBinding()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        if let _ = keychainUser[.userToken], let userId = keychainUser[.userId] {
-//            viewModel.inputs.onLogin.accept(userId)
-//            preload()
-//        } else {
-//            mainCoordinator.signIn()
-//        }
-        preload()
+        viewModel.inputs.viewDidAppear.accept(())
     }
     
     private func setupUI() {
@@ -90,23 +89,34 @@ final class LauncherViewController: BaseViewController {
         }
     }
     
-    private func preload() {
-        mainCoordinator.main(
-            homePageViewModel: homePageViewModel,
-            exploreUserViewModel: exploreUserViewModel,
-            portfolioViewModel: portfolioViewModel,
-            exchangeViewModel: exchangeViewModel
-        )
-//        exchangeApiViewModel.getApiStatus()
-//            .subscribe(
-//                onNext: { [weak self] hasLinked in
-//                    self?.mainCoordinator.main(isSignIn: false, hasLinked: hasLinked)
-//                },
-//                onError: { [weak self] error in
-//                    self?.mainCoordinator.signIn()
-//                }
-//            )
-//            .disposed(by: shortLifecycleOwner)
+    private func setupBinding() {
+        viewModel.outputs
+            .login
+            .subscribe(onNext: { [weak self] in
+                self?.signIn()
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs
+            .preload
+            .subscribe(onNext: { [weak self] userId in
+                self?.preload(userId: userId)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func signIn() {
+        mainCoordinator.signIn()
+    }
+    
+    private func preload(userId: String) {
+        mainCoordinator.main(userId: userId)
+//        mainCoordinator.main(
+//            homePageViewModel: homePageViewModel,
+//            exploreUserViewModel: exploreUserViewModel,
+//            portfolioViewModel: portfolioViewModel,
+//            exchangeViewModel: exchangeViewModel
+//        )
     }
     
 }

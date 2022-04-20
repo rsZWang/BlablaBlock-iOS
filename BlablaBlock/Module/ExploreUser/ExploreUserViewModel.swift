@@ -85,7 +85,6 @@ final class ExploreUserViewModel:
             .disposed(by: disposeBag)
         
         userName
-            .skip(1)
             .subscribe(onNext: { [weak self] name in
                 EventTracker.Builder()
                     .logEvent(.REFRESH_EXPLORE_PAGE)

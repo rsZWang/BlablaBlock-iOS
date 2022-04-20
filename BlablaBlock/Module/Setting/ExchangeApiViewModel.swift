@@ -102,7 +102,6 @@ final class ExchangeApiViewModel: BaseViewModel {
     private func newExchangeHandler(response: HttpResponse<ExchangeApi, ResponseFailure>) {
         switch response {
         case let .success(exchange):
-            
             exhangeListObservable.accept(exchange.data)
             completeObservable.onNext(true)
         case let .failure(responseFailure):

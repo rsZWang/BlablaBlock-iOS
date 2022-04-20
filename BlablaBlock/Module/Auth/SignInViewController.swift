@@ -13,9 +13,8 @@ import RxGesture
 
 final class SignInViewController: BaseViewController, Storyboarded {
     
-    @Injected private var mainCoordinator: MainCoordinator
+    @Injected private var mainCoordinator: NewMainCoordinator
     @Injected private var authViewModel: AuthViewModel
-    @Injected private var exchangeApiViewModel: ExchangeApiViewModel
     private let signInMode = ReplayRelay<Bool>.create(bufferSize: 1)
        
     private let radioButtonGruop = RadioButtonGroup()
@@ -177,18 +176,20 @@ final class SignInViewController: BaseViewController, Storyboarded {
     }
     
     private func preload() {
-        exchangeApiViewModel.getApiStatus()
-            .subscribe(
-                onNext: { [weak self] hasLinked in
-                    self?.mainCoordinator.main(isSignIn: false, hasLinked: hasLinked)
-                },
-                onError: { [weak self] error in
-                    self?.promptAlert(error: error) { [weak self] in
-                        self?.mainCoordinator.main(isSignIn: false, hasLinked: false)
-                    }
-                }
-            )
-            .disposed(by: shortLifecycleOwner)
+        let userId = keychainUser[.userId]!
+        mainCoordinator.main(userId: userId)
+//        exchangeApiViewModel.getApiStatus()
+//            .subscribe(
+//                onNext: { [weak self] hasLinked in
+//                    self?.mainCoordinator.main(isSignIn: false, hasLinked: hasLinked)
+//                },
+//                onError: { [weak self] error in
+//                    self?.promptAlert(error: error) { [weak self] in
+//                        self?.mainCoordinator.main(isSignIn: false, hasLinked: false)
+//                    }
+//                }
+//            )
+//            .disposed(by: shortLifecycleOwner)
     }
     
 }

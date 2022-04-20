@@ -87,7 +87,7 @@ final class LinkExchangeViewController: BaseViewController {
         super.viewDidLayoutSubviews()
         containerView.roundCorners(corners: [.topLeft, .topRight], radius: 6)
         imageView.roundCorners(corners: .allCorners, radius: 4)
-        closeLabel.makeCircle()
+//        closeLabel.makeCircle()
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -19,31 +19,47 @@ final class NewMainCoordinator: NSObject, Coordinator {
         navigationController.isNavigationBarHidden = true
     }
     
+//    func start() {
+//        let vc = LauncherViewController(
+//            homePageViewModel: HomePageViewModel(),
+//            exploreUserViewModel: ExploreUserViewModel(),
+//            portfolioViewModel: PortfolioViewModel(),
+//            exchangeViewModel: ExchangeApiViewModel()
+//        )
+//        navigationController.pushViewController(vc, animated: false)
+//    }
+    
+//    func main(
+//        homePageViewModel: HomePageViewModelType,
+//        exploreUserViewModel: ExploreUserViewModelType,
+//        portfolioViewModel: PortfolioViewModelType,
+//        exchangeViewModel: ExchangeApiViewModel
+//    ) {
+//        let vc = MainTabBarController(
+//            homePageViewModel: homePageViewModel,
+//            exploreUserViewModel: exploreUserViewModel,
+//            portfolioViewModel: portfolioViewModel,
+//            exchangeViewModel: exchangeViewModel
+//        )
+//        navigationController.pushViewController(vc, animated: true)
+//    }
+    
     func start() {
-        let vc = LauncherViewController(
-            homePageViewModel: HomePageViewModel(),
-            exploreUserViewModel: ExploreUserViewModel(),
-            portfolioViewModel: PortfolioViewModel(),
-            exchangeViewModel: ExchangeApiViewModel()
-        )
+        let vc = LauncherViewController()
         navigationController.pushViewController(vc, animated: false)
     }
     
     func signIn() {
-        
+        let vc = SignInViewController.instantiate()
+        navigationController.pushViewController(vc, animated: true)
     }
     
-    func main(
-        homePageViewModel: HomePageViewModelType,
-        exploreUserViewModel: ExploreUserViewModelType,
-        portfolioViewModel: PortfolioViewModelType,
-        exchangeViewModel: ExchangeApiViewModel
-    ) {
+    func main(userId: String) {
         let vc = MainTabBarController(
-            homePageViewModel: homePageViewModel,
-            exploreUserViewModel: exploreUserViewModel,
-            portfolioViewModel: portfolioViewModel,
-            exchangeViewModel: exchangeViewModel
+            homePageViewModel: HomePageViewModel(),
+            exploreUserViewModel: ExploreUserViewModel(),
+            portfolioViewModel: PortfolioViewModel(),
+            exchangeViewModel: ExchangeApiViewModel()
         )
         navigationController.pushViewController(vc, animated: true)
     }
