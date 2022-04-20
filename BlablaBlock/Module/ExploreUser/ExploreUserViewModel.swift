@@ -13,6 +13,7 @@ public protocol ExploreUserViewModelInputs {
     var userName: BehaviorRelay<String> { get }
     var selectedIndexPath: PublishRelay<IndexPath> { get }
     var refresh: PublishRelay<()> { get }
+    var filter: BehaviorRelay<ExploreUserFilter> { get }
 }
 
 public protocol ExploreUserViewModelOutputs {
@@ -40,6 +41,7 @@ final class ExploreUserViewModel:
     var userName: BehaviorRelay<String>
     var selectedIndexPath: PublishRelay<IndexPath>
     var refresh: PublishRelay<()>
+    var filter: BehaviorRelay<ExploreUserFilter>
     
     // MARK: - outputs
     
@@ -47,9 +49,6 @@ final class ExploreUserViewModel:
     var isNotEmpty: Driver<Bool>
     var selectedUser: Signal<UserApiData>
     var refreshControl: Signal<Bool>
-    
-    // MARK: - internals
-    private let name: PublishRelay<String>
 
     var inputs: ExploreUserViewModelInputs { self }
     var outputs: ExploreUserViewModelOutputs { self }
@@ -59,40 +58,44 @@ final class ExploreUserViewModel:
         let userName = BehaviorRelay<String>(value: "")
         let selectedIndexPath = PublishRelay<IndexPath>()
         let refresh = PublishRelay<()>()
+        let filter = BehaviorRelay<ExploreUserFilter>(value: .random)
         
         let users = BehaviorRelay<[UserApiData]>(value: [])
         let isNotEmpty = BehaviorRelay<Bool>(value: true)
         let selectedUser = PublishRelay<UserApiData>()
         let refreshControl = PublishRelay<Bool>()
         
-        let name = PublishRelay<String>()
-        
         self.refresh = refresh
         self.viewDidLoad = viewDidLoad
         self.userName = userName
         self.selectedIndexPath = selectedIndexPath
+        self.filter = filter
         
         self.users = users.asDriver()
         self.isNotEmpty = isNotEmpty.asDriver()
         self.selectedUser = selectedUser.asSignal()
         self.refreshControl = refreshControl.asSignal()
         
-        self.name = name
-        
         super.init()
         
         viewDidLoad
             .subscribe(onNext: {
-                refreshControl.accept(true)
-                name.accept("")
+
             })
             .disposed(by: disposeBag)
         
         userName
-            .subscribe(onNext: { userName in
+            .skip(1)
+            .subscribe(onNext: { [weak self] name in
                 EventTracker.Builder()
                     .logEvent(.REFRESH_EXPLORE_PAGE)
-                name.accept(userName)
+                self?.getAllUsers(
+                    name: name,
+                    users: users,
+                    isNotEmpty: isNotEmpty,
+                    refreshControl: refreshControl,
+                    filter: filter
+                )
             })
             .disposed(by: disposeBag)
         
@@ -108,21 +111,15 @@ final class ExploreUserViewModel:
         
         refresh
             .subscribe(onNext: {
-                Timber.i("refresh refresh refresh")
-                EventTracker.Builder()
-                    .logEvent(.REFRESH_EXPLORE_PAGE)
-                name.accept(userName.value)
+                userName.accept(userName.value)
             })
             .disposed(by: disposeBag)
         
-        name
-            .subscribe(onNext: { [weak self] name in
-                self?.getAllUsers(
-                    name: name,
-                    users: users,
-                    isNotEmpty: isNotEmpty,
-                    refreshControl: refreshControl
-                )
+        filter
+            .subscribe(onNext: { [weak self] filter in
+                EventTracker.Builder()
+                    .logEvent(.SORT_PORFILES_EXPLORE_PAGE)
+                self?.doFilter(data: users.value, users: users, filter: filter)
             })
             .disposed(by: disposeBag)
     }
@@ -131,7 +128,8 @@ final class ExploreUserViewModel:
         name: String,
         users: BehaviorRelay<[UserApiData]>,
         isNotEmpty: BehaviorRelay<Bool>,
-        refreshControl: PublishRelay<Bool>
+        refreshControl: PublishRelay<Bool>,
+        filter: BehaviorRelay<ExploreUserFilter>
     ) {
         UserService.getUsers(name: name)
             .request()
@@ -140,7 +138,7 @@ final class ExploreUserViewModel:
                     refreshControl.accept(false)
                     switch response {
                     case let .success(userApiResponse):
-                        users.accept(userApiResponse.data.shuffled())
+                        self?.doFilter(data: userApiResponse.data, users: users, filter: filter.value)
                         isNotEmpty.accept(userApiResponse.data.isNotEmpty)
                     case let .failure(responseFailure):
                         self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
@@ -152,6 +150,25 @@ final class ExploreUserViewModel:
                 }
             )
             .disposed(by: disposeBag)
+    }
+    
+    private func doFilter(
+        data: [UserApiData],
+        users: BehaviorRelay<[UserApiData]>,
+        filter: ExploreUserFilter
+    ) {
+        switch filter {
+        case .random:
+            users.accept(data.shuffled())
+        case .asset:
+            users.accept(data.sorted(by: { $0.totalValue > $1.totalValue }))
+        case .profit:
+            users.accept(data.sorted(by: { $0.roi ?? 0 > $1.roi ?? 0 }))
+        case .winRate:
+            users.accept(data.sorted(by: { $0.dailyWinRate ?? 0 > $1.dailyWinRate ?? 0 }))
+        case .sharp:
+            users.accept(data.sorted(by: { $0.sharpeRatio ?? 0 > $1.sharpeRatio ?? 0 }))
+        }
     }
 }
 
