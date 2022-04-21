@@ -17,7 +17,6 @@ final class PortfolioViewController: BaseViewController {
     private var viewModel: PortfolioViewModelType
     
     init(user: UserApiData?, viewModel: PortfolioViewModelType) {
-        Timber.i("PortfolioViewController PortfolioViewController")
         self.user = user
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -28,7 +27,6 @@ final class PortfolioViewController: BaseViewController {
     }
     
     deinit {
-//        pnlView.semaphore?.signal()
         Timber.i("\(type(of: self)) deinit")
     }
     
@@ -250,20 +248,22 @@ final class PortfolioViewController: BaseViewController {
             make.height.equalTo(50)
         }
         
+        // 4 + 6 + 6 + + 1 + 6 + 6 + 1 + 6 + 6 + 4
+        let allPadding = 46
         let screenWidth = UIScreen.main.bounds.width
-        let tabButtonWidth = (screenWidth - CGFloat(70)) / 3
+        let tabButtonWidth = (screenWidth - CGFloat(allPadding)) / 3
         
         tabButtonSectionView.addSubview(portfolioTabButton)
         portfolioTabButton.snp.makeConstraints { make in
             make.width.equalTo(tabButtonWidth)
-            make.leading.equalToSuperview()
+            make.leading.equalToSuperview().offset(6)
             make.top.bottom.equalToSuperview()
         }
         
         tabButtonSectionView.addSubview(tabButtonSeparatorViewLeft)
         tabButtonSeparatorViewLeft.snp.makeConstraints { make in
             make.width.equalTo(1)
-            make.leading.equalTo(portfolioTabButton.snp.trailing).offset(12)
+            make.leading.equalTo(portfolioTabButton.snp.trailing).offset(6)
             make.top.equalToSuperview().offset(13)
             make.bottom.equalToSuperview().offset(-13)
         }
@@ -271,14 +271,14 @@ final class PortfolioViewController: BaseViewController {
         tabButtonSectionView.addSubview(tradingPerformanceTabButton)
         tradingPerformanceTabButton.snp.makeConstraints { make in
             make.width.equalTo(tabButtonWidth)
-            make.leading.equalTo(tabButtonSeparatorViewLeft.snp.trailing).offset(12)
+            make.leading.equalTo(tabButtonSeparatorViewLeft.snp.trailing).offset(6)
             make.top.bottom.equalToSuperview()
         }
         
         tabButtonSectionView.addSubview(tabButtonSeparatorViewRight)
         tabButtonSeparatorViewRight.snp.makeConstraints { make in
             make.width.equalTo(1)
-            make.leading.equalTo(tradingPerformanceTabButton.snp.trailing).offset(12)
+            make.leading.equalTo(tradingPerformanceTabButton.snp.trailing).offset(6)
             make.top.equalToSuperview().offset(13)
             make.bottom.equalToSuperview().offset(-13)
         }
@@ -286,9 +286,23 @@ final class PortfolioViewController: BaseViewController {
         tabButtonSectionView.addSubview(followingPortfolioTabButton)
         followingPortfolioTabButton.snp.makeConstraints { make in
             make.width.equalTo(tabButtonWidth)
-            make.leading.equalTo(tabButtonSeparatorViewRight.snp.trailing).offset(12)
-            make.trailing.equalToSuperview()
+            make.leading.equalTo(tabButtonSeparatorViewRight.snp.trailing).offset(6)
+            make.trailing.equalToSuperview().offset(-6)
             make.top.bottom.equalToSuperview()
+        }
+        
+        portfolioSectionView.backgroundColor = .green
+        view.addSubview(portfolioSectionView)
+        portfolioSectionView.snp.makeConstraints { make in
+            make.top.equalTo(tabButtonSectionView.snp.bottom)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
+        
+        portfolioSectionView.isUserInteractionEnabled = true
+        portfolioSectionView.addSubview(portfolioView)
+        portfolioView.snp.makeConstraints { make in
+            make.leading.top.trailing.equalToSuperview()
         }
     }
     
@@ -472,6 +486,8 @@ final class PortfolioViewController: BaseViewController {
     private let tradingPerformanceTabButton = PortfolioTabButton()
     private let tabButtonSeparatorViewRight = UIView()
     private let followingPortfolioTabButton = PortfolioTabButton()
+    private let portfolioSectionView = UIView()
+    private let portfolioView = PortfolioSectionView()
 
 //    private let radioGroup = RadioButtonGroup()
 //    private lazy var portfolioView = PortfolioView()

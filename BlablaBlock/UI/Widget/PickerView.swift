@@ -8,10 +8,10 @@
 import UIKit
 
 public protocol PickerViewDelegate: NSObject {
-    func onSelected(index: Int, item: String)
+    func pickerView(_ pickerView: PickerView, selectedIndex: Int, selectedItem: String)
 }
 
-final class PickerView: UIPickerView, UIPickerViewDataSource, UIPickerViewDelegate {
+public final class PickerView: UIPickerView, UIPickerViewDataSource, UIPickerViewDelegate {
     
     public private(set) var toolbar: UIToolbar?
     private weak var textField: UITextField?
@@ -70,21 +70,20 @@ final class PickerView: UIPickerView, UIPickerViewDataSource, UIPickerViewDelega
     @objc
     private func done() {
         let index = selectedRow(inComponent: 0)
-        pickerViewDelegate?.onSelected(index: index, item: itemList[index])
+        pickerViewDelegate?.pickerView(self, selectedIndex: index, selectedItem: itemList[index])
         textField?.text = itemList[index]
         textField?.endEditing(true)
     }
     
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+    public func numberOfComponents(in pickerView: UIPickerView) -> Int {
         1
     }
     
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         itemList.count
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         itemList[row]
     }
-    
 }

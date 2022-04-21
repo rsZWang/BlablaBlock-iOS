@@ -219,11 +219,11 @@ final class HomePageViewController: BaseViewController {
 }
 
 extension HomePageViewController: PickerViewDelegate {
-    func onSelected(index: Int, item: String) {
-        if item.isNotEmpty {
+    func pickerView(_ pickerView: PickerView, selectedIndex: Int, selectedItem: String) {
+        if selectedItem.isNotEmpty {
             viewModel.inputs
                 .currencySelected
-                .accept(item)
+                .accept(selectedItem)
         }
     }
 }

@@ -148,9 +148,11 @@ final class TradeHistoryViewController: BaseViewController {
 }
 
 extension TradeHistoryViewController: PickerViewDelegate {
-    func onSelected(index: Int, item: String) {
-        viewModel.inputs
-            .currencySelected
-            .accept(item)
+    func pickerView(_ pickerView: PickerView, selectedIndex: Int, selectedItem: String) {
+        if selectedItem.isNotEmpty {
+            viewModel.inputs
+                .currencySelected
+                .accept(selectedItem)
+        }
     }
 }
