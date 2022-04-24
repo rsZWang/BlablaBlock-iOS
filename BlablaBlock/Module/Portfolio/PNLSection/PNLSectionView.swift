@@ -53,12 +53,6 @@ final class PNLSectionView: UIView {
         sharpeRatioTitleLabel.text = "Sharp ratio"
         setupLabel(sharpeRatioTitleLabel)
         setupLabel(sharpeRatioLabel)
-        
-        roiLabel.text = "99.99%"
-        roiAnnualLabel.text = "99.99%"
-        mddLabel.text = "99.99%"
-        dailyWinRateLabel.text = "99.99%"
-        sharpeRatioLabel.text = "3.69"
     }
     
     private func setupLabel(_ label: UILabel) {

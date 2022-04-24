@@ -308,8 +308,18 @@ final class PortfolioViewController: BaseViewController {
             make.top.bottom.equalToSuperview()
         }
         
-        pagerView.addSubview(pnlSectionView)
-        pnlSectionView.snp.makeConstraints { make in
+//        pagerView.addSubview(portfolioView)
+//        portfolioView.snp.makeConstraints { make in
+//            make.edges.equalTo(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
+//        }
+        
+//        pagerView.addSubview(pnlSectionView)
+//        pnlSectionView.snp.makeConstraints { make in
+//            make.edges.equalTo(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
+//        }
+//        
+        pagerView.addSubview(followingPortfolioSectionView)
+        followingPortfolioSectionView.snp.makeConstraints { make in
             make.edges.equalTo(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
         }
     }
@@ -496,8 +506,9 @@ final class PortfolioViewController: BaseViewController {
     private let followingPortfolioTabButton = PortfolioTabButton()
     private let pagerBackgroundView = UIView()
     private let pagerView = UIView()
-//    private let portfolioView = PortfolioSectionView()
+    private let portfolioView = PortfolioSectionView()
     private let pnlSectionView = PNLSectionView()
+    private let followingPortfolioSectionView = FollowingPortfolioSectionView()
     
 
 //    private let radioGroup = RadioButtonGroup()

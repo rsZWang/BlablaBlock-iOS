@@ -236,3 +236,10 @@ public extension UIImage {
         return newImage!
     }
 }
+
+public extension UILabel {
+    func autoFontSize() {
+        numberOfLines = 1
+        adjustsFontSizeToFitWidth = true
+    }
+}

@@ -1,5 +1,5 @@
 //
-//  PortfolioTableViewCell.swift
+//  FollowingPortfolioTableViewCell.swift
 //  BlablaBlock
 //
 //  Created by Harry on 2022/4/24.
@@ -9,9 +9,9 @@ import UIKit
 import SnapKit
 import RxSwift
 
-final class PortfolioTableViewCell: UITableViewCell {
+final class FollowingPortfolioTableViewCell: UITableViewCell {
     
-    static let identifier = "PortfolioTableViewCell"
+    static let identifier = "FollowingPortfolioTableViewCell"
     
     private var disposeBag = DisposeBag()
 
@@ -34,59 +34,46 @@ final class PortfolioTableViewCell: UITableViewCell {
         currencyImageView.makeCircle(base: 11)
         separatorView.backgroundColor = .gray2D2D2D_40
         
-        setupBlackLabel(currencyLabel)
+        setupLabel(currencyLabel)
         currencyLabel.textAlignment = .left
         
-        setupGrayLabel(percentageLabel)
-        percentageLabel.textAlignment = .left
-        
-        setupBlackLabel(balanceLabel)
+        setupLabel(balanceLabel)
         balanceLabel.textAlignment = .right
-        
-        setupGrayLabel(valueLabel)
-        valueLabel.textAlignment = .right
-        
+
         dayChangeLabel.font = .systemFont(ofSize: 14, weight: .semibold)
         dayChangeLabel.textAlignment = .right
-        dayChangeLabel.numberOfLines = 1
-        dayChangeLabel.adjustsFontSizeToFitWidth = true
+        dayChangeLabel.autoFontSize()
     }
     
-    private func setupBlackLabel(_ label: UILabel) {
+    private func setupLabel(_ label: UILabel) {
         label.textColor = .black2D2D2D
         label.font = .boldSystemFont(ofSize: 14)
         label.autoFontSize()
     }
     
-    private func setupGrayLabel(_ label: UILabel) {
-        label.textColor = .gray2D2D2D_40
-        label.font = .boldSystemFont(ofSize: 14)
-        label.autoFontSize()
-    }
-    
     private func setupLayout() {
-        contentView.addSubview(contentParentView)
-        contentParentView.snp.makeConstraints { make in
+        contentView.addSubview(containerView)
+        containerView.snp.makeConstraints { make in
             make.edges.equalTo(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
         }
         
-        contentParentView.addSubview(separatorView)
+        containerView.addSubview(separatorView)
         separatorView.snp.makeConstraints { make in
             make.height.equalTo(1)
             make.leading.trailing.bottom.equalToSuperview()
         }
         
-        contentParentView.addSubview(contentPaddingView)
-        contentPaddingView.snp.makeConstraints { make in
+        containerView.addSubview(subContainerView)
+        subContainerView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalToSuperview().offset(8)
             make.bottom.equalTo(separatorView.snp.top).offset(-8)
         }
         
-        contentPaddingView.addSubview(currencySectionView)
+        subContainerView.addSubview(currencySectionView)
         currencySectionView.snp.makeConstraints { make in
             make.leading.top.bottom.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(PortfolioSectionView.currencySectionWidth)
+            make.width.equalToSuperview().multipliedBy(FollowingPortfolioSectionView.currencySectionWidth)
         }
         
         currencySectionView.addSubview(currencyImageView)
@@ -100,66 +87,47 @@ final class PortfolioTableViewCell: UITableViewCell {
         currencyLabel.snp.makeConstraints { make in
             make.height.equalTo(20)
             make.leading.equalTo(currencyImageView.snp.trailing).offset(8)
-            make.top.equalToSuperview()
             make.trailing.equalToSuperview().offset(-8)
+            make.centerY.equalToSuperview()
         }
 
-        currencySectionView.addSubview(percentageLabel)
-        percentageLabel.snp.makeConstraints { make in
-            make.height.equalTo(20)
-            make.leading.equalTo(currencyImageView.snp.trailing).offset(8)
-            make.top.equalTo(currencyLabel.snp.bottom)
-            make.bottom.equalToSuperview()
-            make.trailing.equalToSuperview().offset(-8)
-        }
-
-        contentPaddingView.addSubview(balanceSectionView)
+        subContainerView.addSubview(balanceSectionView)
         balanceSectionView.snp.makeConstraints { make in
             make.leading.equalTo(currencySectionView.snp.trailing)
             make.top.bottom.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(PortfolioSectionView.balanceSectionWidth)
+            make.width.equalToSuperview().multipliedBy(FollowingPortfolioSectionView.balanceSectionWidth)
         }
 
         balanceSectionView.addSubview(balanceLabel)
         balanceLabel.snp.makeConstraints { make in
             make.height.equalTo(20)
             make.leading.equalToSuperview().offset(8)
-            make.top.equalToSuperview()
             make.trailing.equalToSuperview()
+            make.centerY.equalToSuperview()
         }
 
-        balanceSectionView.addSubview(valueLabel)
-        valueLabel.snp.makeConstraints { make in
-            make.height.equalTo(20)
-            make.leading.equalToSuperview().offset(8)
-            make.top.equalTo(currencyLabel.snp.bottom)
-            make.trailing.bottom.equalToSuperview()
-        }
-
-        contentPaddingView.addSubview(dayChangeLabel)
+        subContainerView.addSubview(dayChangeLabel)
         dayChangeLabel.snp.makeConstraints { make in
             make.leading.equalTo(balanceSectionView.snp.trailing)
             make.top.trailing.bottom.equalToSuperview()
         }
     }
     
-    private let contentParentView = UIView()
-    private let contentPaddingView = UIView()
+    private let containerView = UIView()
+    private let subContainerView = UIView()
     
     private let currencySectionView = UIView()
     private let currencyImageView = UIImageView()
     private let currencyLabel = UILabel()
-    private let percentageLabel = UILabel()
     
     private let balanceSectionView = UIView()
     private let balanceLabel = UILabel()
-    private let valueLabel = UILabel()
     
     private let dayChangeLabel = UILabel()
     private let separatorView = UIView()
 }
 
-extension PortfolioTableViewCell {
+extension FollowingPortfolioTableViewCell {
     func bind() {
         
     }

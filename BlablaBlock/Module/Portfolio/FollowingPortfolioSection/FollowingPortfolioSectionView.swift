@@ -1,5 +1,5 @@
 //
-//  PortfolioSectionView.swift
+//  FollowingPortfolioSectionView.swift
 //  BlablaBlock
 //
 //  Created by Harry on 2022/4/21.
@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-public final class PortfolioSectionView: UIView {
+public final class FollowingPortfolioSectionView: UIView {
     
     static let currencySectionWidth = 0.38
     static let balanceSectionWidth = 0.38
@@ -39,13 +39,16 @@ public final class PortfolioSectionView: UIView {
         balanceTitleLabel.text = "曝險"
         balanceTitleLabel.textAlignment = .right
         
-        setupLabel(dayChangeTitleLabel)
+        setupLabel(balanceTitleLabel)
         dayChangeTitleLabel.text = "24h漲跌"
         dayChangeTitleLabel.textAlignment = .right
-       
-        historyButton.backgroundColor = .grayEDEDED
-        historyButton.layer.cornerRadius = 4
-        historyButton.setImage("ic_portfolio_history".image(), for: .normal)
+        
+        adjustWeightButton.setTitle("調整權重", for: .normal)
+        adjustWeightButton.setTitleColor(.black2D2D2D, for: .normal)
+        adjustWeightButton.titleLabel?.font = .systemFont(ofSize: 12, weight: .medium)
+        adjustWeightButton.titleLabel?.autoFontSize()
+        adjustWeightButton.layer.cornerRadius = 4
+        adjustWeightButton.backgroundColor = .grayEDEDED
     }
     
     private func setupLabel(_ label: UILabel) {
@@ -74,9 +77,10 @@ public final class PortfolioSectionView: UIView {
             make.centerY.equalToSuperview()
         }
         
-        pickerSectionView.addSubview(historyButton)
-        historyButton.snp.makeConstraints { make in
-            make.width.height.equalTo(24)
+        pickerSectionView.addSubview(adjustWeightButton)
+        adjustWeightButton.snp.makeConstraints { make in
+            make.width.equalTo(64)
+            make.height.equalTo(24)
             make.trailing.equalToSuperview()
             make.centerY.equalToSuperview()
         }
@@ -90,14 +94,14 @@ public final class PortfolioSectionView: UIView {
         
         headerSectionView.addSubview(currencyTitleLabel)
         currencyTitleLabel.snp.makeConstraints { make in
-            make.width.equalToSuperview().multipliedBy(PortfolioSectionView.currencySectionWidth)
+            make.width.equalToSuperview().multipliedBy(FollowingPortfolioSectionView.currencySectionWidth)
             make.leading.equalToSuperview()
             make.centerY.equalToSuperview()
         }
         
         headerSectionView.addSubview(balanceTitleLabel)
         balanceTitleLabel.snp.makeConstraints { make in
-            make.width.equalToSuperview().multipliedBy(PortfolioSectionView.balanceSectionWidth)
+            make.width.equalToSuperview().multipliedBy(FollowingPortfolioSectionView.balanceSectionWidth)
             make.leading.equalTo(currencyTitleLabel.snp.trailing)
             make.centerY.equalToSuperview()
         }
@@ -132,6 +136,6 @@ public final class PortfolioSectionView: UIView {
     
     let exchangePicker = BlablaBlockPickerView()
     let typePicker = BlablaBlockPickerView()
-    let historyButton = UIButton()
-    let tableView = PortfolioTableView()
+    let adjustWeightButton = UIButton()
+    let tableView = FollowingPortfolioTableView()
 }
