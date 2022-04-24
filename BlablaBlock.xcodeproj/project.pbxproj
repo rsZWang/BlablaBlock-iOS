@@ -55,6 +55,9 @@
 		4A7A190E27D332DC00AF24A8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7A190D27D332DC00AF24A8 /* User.swift */; };
 		4A7AFE2227393ED4005E0A72 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4A7AFE2127393ED4005E0A72 /* GoogleService-Info.plist */; };
 		4A7B8AA4276FBEB200756E05 /* ExchangeApiViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7B8AA3276FBEB200756E05 /* ExchangeApiViewModel.swift */; };
+		4A7FBFB6281537120087DA49 /* PortfolioTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7FBFB5281537120087DA49 /* PortfolioTableView.swift */; };
+		4A7FBFB82815373E0087DA49 /* PortfolioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7FBFB72815373E0087DA49 /* PortfolioTableViewCell.swift */; };
+		4A7FBFBB28155F400087DA49 /* PNLSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7FBFBA28155F400087DA49 /* PNLSectionView.swift */; };
 		4A8B9CC827F44AFC001A80CE /* EventTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9CC727F44AFC001A80CE /* EventTracker.swift */; };
 		4A8B9CCC27F44B9C001A80CE /* LauncherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9CCB27F44B9C001A80CE /* LauncherViewModel.swift */; };
 		4AA9F810276DD68B00D775F0 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA9F80F276DD68B00D775F0 /* Resolver.swift */; };
@@ -179,6 +182,9 @@
 		4A7A190D27D332DC00AF24A8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		4A7AFE2127393ED4005E0A72 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4A7B8AA3276FBEB200756E05 /* ExchangeApiViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeApiViewModel.swift; sourceTree = "<group>"; };
+		4A7FBFB5281537120087DA49 /* PortfolioTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTableView.swift; sourceTree = "<group>"; };
+		4A7FBFB72815373E0087DA49 /* PortfolioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTableViewCell.swift; sourceTree = "<group>"; };
+		4A7FBFBA28155F400087DA49 /* PNLSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PNLSectionView.swift; sourceTree = "<group>"; };
 		4A8B9CC727F44AFC001A80CE /* EventTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTracker.swift; sourceTree = "<group>"; };
 		4A8B9CCB27F44B9C001A80CE /* LauncherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LauncherViewModel.swift; sourceTree = "<group>"; };
 		4AA9F80F276DD68B00D775F0 /* Resolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
@@ -292,6 +298,8 @@
 			isa = PBXGroup;
 			children = (
 				4A361A2028111796001B772F /* PortfolioSectionView.swift */,
+				4A7FBFB5281537120087DA49 /* PortfolioTableView.swift */,
+				4A7FBFB72815373E0087DA49 /* PortfolioTableViewCell.swift */,
 			);
 			path = PortfolioSection;
 			sourceTree = "<group>";
@@ -320,6 +328,14 @@
 				4A7A18FD27D2FA6400AF24A8 /* BaseTabViewController.swift */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		4A7FBFB928155F2A0087DA49 /* PNLSection */ = {
+			isa = PBXGroup;
+			children = (
+				4A7FBFBA28155F400087DA49 /* PNLSectionView.swift */,
+			);
+			path = PNLSection;
 			sourceTree = "<group>";
 		};
 		4ABA20A2273BDDA800F66DB9 /* Extension */ = {
@@ -398,6 +414,7 @@
 				A0290E2E272319DE00A07224 /* PortfolioViewController.swift */,
 				4A361A23281119FA001B772F /* Picker */,
 				4A361A22281117ED001B772F /* PortfolioSection */,
+				4A7FBFB928155F2A0087DA49 /* PNLSection */,
 			);
 			path = Portfolio;
 			sourceTree = "<group>";
@@ -973,15 +990,18 @@
 				4A6C9F2227CD39DF003B42F8 /* HttpError.swift in Sources */,
 				4ABA209F273BDC5000F66DB9 /* AuthViewModel.swift in Sources */,
 				4ABDADAF27F4BF8700BC94B6 /* OrangeButton.swift in Sources */,
+				4A7FBFB82815373E0087DA49 /* PortfolioTableViewCell.swift in Sources */,
 				4A361A2528111A3A001B772F /* BlablaBlockPickerView.swift in Sources */,
 				4A252CCE273F9737005E4C93 /* View.swift in Sources */,
 				4A4B4DED2770E0B600075933 /* PagedView.swift in Sources */,
 				4A7A190C27D3329000AF24A8 /* UserService.swift in Sources */,
+				4A7FBFBB28155F400087DA49 /* PNLSectionView.swift in Sources */,
 				4A7B8AA4276FBEB200756E05 /* ExchangeApiViewModel.swift in Sources */,
 				4A6C9F2027CD2EFD003B42F8 /* HomePageViewModel.swift in Sources */,
 				4A7744B9276F8E3C0087A447 /* ExchangeApiService.swift in Sources */,
 				4A8B9CC827F44AFC001A80CE /* EventTracker.swift in Sources */,
 				4ABDADA327F4BA5000BC94B6 /* MainTabBarController.swift in Sources */,
+				4A7FBFB6281537120087DA49 /* PortfolioTableView.swift in Sources */,
 				4A7A190627D3098C00AF24A8 /* FollowViewModel.swift in Sources */,
 				4A581C9827CBCFB200276BA9 /* PaddingTextField.swift in Sources */,
 				4A4B4DEF2770E10E00075933 /* PagedViewCell.swift in Sources */,

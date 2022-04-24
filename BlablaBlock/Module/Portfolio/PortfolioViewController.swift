@@ -9,6 +9,7 @@ import UIKit
 import Resolver
 import RxCocoa
 import RxSwift
+import RxGesture
 import RxDataSources
 
 final class PortfolioViewController: BaseViewController {
@@ -85,6 +86,7 @@ final class PortfolioViewController: BaseViewController {
         portfolioTabButton.isSelected = true
         followingPortfolioTabButton.isSelected = true
         
+        pagerView.backgroundColor = .white
 //        portfolioView.delegate = self
 //        pnlView.delegate = self
 //        followingPortfolioView.delegate = self
@@ -291,18 +293,19 @@ final class PortfolioViewController: BaseViewController {
             make.top.bottom.equalToSuperview()
         }
         
-        portfolioSectionView.backgroundColor = .green
-        view.addSubview(portfolioSectionView)
-        portfolioSectionView.snp.makeConstraints { make in
+        view.addSubview(pagerView)
+        pagerView.snp.makeConstraints { make in
             make.top.equalTo(tabButtonSectionView.snp.bottom)
-            make.leading.trailing.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
         }
         
-        portfolioSectionView.isUserInteractionEnabled = true
-        portfolioSectionView.addSubview(portfolioView)
-        portfolioView.snp.makeConstraints { make in
-            make.leading.top.trailing.equalToSuperview()
+        pagerView.addSubview(pnlSectionView)
+        pnlSectionView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
+            make.top.bottom.equalToSuperview()
         }
     }
     
@@ -486,8 +489,11 @@ final class PortfolioViewController: BaseViewController {
     private let tradingPerformanceTabButton = PortfolioTabButton()
     private let tabButtonSeparatorViewRight = UIView()
     private let followingPortfolioTabButton = PortfolioTabButton()
-    private let portfolioSectionView = UIView()
-    private let portfolioView = PortfolioSectionView()
+    
+    private let pagerView = UIView()
+//    private let portfolioView = PortfolioSectionView()
+    private let pnlSectionView = PNLSectionView()
+    
 
 //    private let radioGroup = RadioButtonGroup()
 //    private lazy var portfolioView = PortfolioView()

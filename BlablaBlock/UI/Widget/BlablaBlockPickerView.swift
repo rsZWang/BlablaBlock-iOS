@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import RxSwift
+import RxGesture
 
 public final class BlablaBlockPickerView: UIView {
     
@@ -51,26 +52,13 @@ public final class BlablaBlockPickerView: UIView {
         pickerView.pickerViewDelegate = self
         pickerView.bind(textField: textField)
         
-        isUserInteractionEnabled = true
-        contentView.isUserInteractionEnabled = true
-//        button.isUserInteractionEnabled = true
-//        button.backgroundColor = .yellow
-//        button.addTarget(self, action: #selector(showPicker), for: .touchUpInside)
-        
-        label.rx
+        self.rx
             .tapGesture()
             .when(.recognized)
-            .subscribe(onNext: { _ in
-                Timber.i("showPicker")
+            .subscribe(onNext: { [weak self] _ in
+                self?.textField.becomeFirstResponder()
             })
             .disposed(by: disposeBag)
-        
-//        button.rx
-//            .tap
-//            .subscribe(onNext: { [weak self] in
-//                Timber.i("showPicker")
-//            })
-//            .disposed(by: disposeBag)
     }
     
     private func setupLayout() {
@@ -93,10 +81,6 @@ public final class BlablaBlockPickerView: UIView {
         }
         
         contentView.addSubview(textField)
-//        contentView.addSubview(button)
-//        button.snp.makeConstraints { make in
-//            make.edges.equalTo(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
-//        }
     }
     
     private let contentView = UIView()
@@ -104,13 +88,6 @@ public final class BlablaBlockPickerView: UIView {
     private let imageView = UIImageView()
     private let textField = UITextField()
     private let pickerView = PickerView()
-    private let button = UIButton()
-    
-    @objc
-    private func showPicker() {
-        Timber.i("showPicker")
-        textField.becomeFirstResponder()
-    }
 }
 
 extension BlablaBlockPickerView: PickerViewDelegate {
