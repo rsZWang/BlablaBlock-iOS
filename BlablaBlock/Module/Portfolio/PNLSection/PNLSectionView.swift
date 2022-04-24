@@ -26,6 +26,12 @@ final class PNLSectionView: UIView {
     }
     
     private func setupUI() {
+        scrollView.alwaysBounceVertical = true
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.alwaysBounceHorizontal = false
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.refreshControl = refreshControl
+        
         separatorView.backgroundColor = .black2D2D2D
         
         roiTitleLabel.text = "總報酬率"
@@ -84,99 +90,97 @@ final class PNLSectionView: UIView {
         containerView.snp.makeConstraints { make in
             make.leading.top.bottom.trailing.equalToSuperview()
             make.width.equalToSuperview()
-            make.height.equalTo(700)
         }
         
-        containerView.backgroundColor = .red
+        containerView.addSubview(graphSectionView)
+        graphSectionView.snp.makeConstraints { make in
+            make.height.equalTo(200)
+            make.leading.equalToSuperview().offset(16)
+            make.top.equalToSuperview()
+            make.trailing.equalToSuperview().offset(-16)
+        }
+
+        containerView.addSubview(separatorView)
+        separatorView.snp.makeConstraints { make in
+            make.height.equalTo(1)
+            make.leading.equalToSuperview().offset(6)
+            make.top.equalTo(graphSectionView.snp.bottom).offset(16)
+            make.trailing.equalToSuperview().offset(-6)
+        }
+
+        containerView.addSubview(textSectionView)
+        textSectionView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(6)
+            make.top.equalTo(separatorView.snp.bottom).offset(24)
+            make.trailing.equalToSuperview().offset(-6)
+            make.bottom.equalToSuperview().offset(-24)
+        }
         
-//        containerView.addSubview(graphSectionView)
-//        graphSectionView.snp.makeConstraints { make in
-//            make.height.equalTo(200)
-//            make.leading.equalToSuperview().offset(16)
-//            make.top.equalToSuperview()
-//            make.trailing.equalToSuperview().offset(-16)
-//        }
-//
-//        containerView.addSubview(separatorView)
-//        separatorView.snp.makeConstraints { make in
-//            make.height.equalTo(1)
-//            make.leading.equalToSuperview().offset(6)
-//            make.top.equalTo(graphSectionView.snp.bottom).offset(16)
-//            make.trailing.equalToSuperview().offset(-6)
-//        }
-//
-//        containerView.addSubview(textSectionView)
-//        textSectionView.snp.makeConstraints { make in
-//            make.height.equalTo(132)
-//            make.leading.equalToSuperview().offset(6)
-//            make.top.equalTo(separatorView.snp.bottom).offset(24)
-//            make.trailing.equalToSuperview().offset(-6)
-//            make.bottom.equalToSuperview().offset(200)
-//        }
-//
-//        textSectionView.addSubview(roiTitleLabel)
-//        roiTitleLabel.snp.makeConstraints { make in
-//            make.leading.equalToSuperview()
-//            make.top.equalToSuperview()
-//        }
-//
-//        textSectionView.addSubview(roiLabel)
-//        roiLabel.snp.makeConstraints { make in
-//            make.top.equalToSuperview()
-//            make.trailing.equalToSuperview()
-//        }
-//
-//        textSectionView.addSubview(roiAnnualTitleLabel)
-//        roiAnnualTitleLabel.snp.makeConstraints { make in
-//            make.leading.equalToSuperview()
-//            make.top.equalTo(roiTitleLabel.snp.bottom).offset(8)
-//        }
-//
-//        textSectionView.addSubview(roiAnnualLabel)
-//        roiAnnualLabel.snp.makeConstraints { make in
-//            make.top.equalTo(roiLabel.snp.bottom).offset(8)
-//            make.trailing.equalToSuperview()
-//        }
-//
-//        textSectionView.addSubview(mddTitleLabel)
-//        mddTitleLabel.snp.makeConstraints { make in
-//            make.leading.equalToSuperview()
-//            make.top.equalTo(roiAnnualTitleLabel.snp.bottom).offset(8)
-//        }
-//
-//        textSectionView.addSubview(mddLabel)
-//        mddLabel.snp.makeConstraints { make in
-//            make.top.equalTo(roiAnnualLabel.snp.bottom).offset(8)
-//            make.trailing.equalToSuperview()
-//        }
-//
-//        textSectionView.addSubview(dailyWinRateTitleLabel)
-//        dailyWinRateTitleLabel.snp.makeConstraints { make in
-//            make.leading.equalToSuperview()
-//            make.top.equalTo(mddTitleLabel.snp.bottom).offset(8)
-//        }
-//
-//        textSectionView.addSubview(dailyWinRateLabel)
-//        dailyWinRateLabel.snp.makeConstraints { make in
-//            make.top.equalTo(mddLabel.snp.bottom).offset(8)
-//            make.trailing.equalToSuperview()
-//        }
-//
-//        textSectionView.addSubview(sharpeRatioTitleLabel)
-//        sharpeRatioTitleLabel.snp.makeConstraints { make in
-//            make.leading.equalToSuperview()
-//            make.top.equalTo(dailyWinRateTitleLabel.snp.bottom).offset(8)
-//        }
-//
-//        textSectionView.addSubview(sharpeRatioLabel)
-//        sharpeRatioLabel.snp.makeConstraints { make in
-//            make.top.equalTo(dailyWinRateLabel.snp.bottom).offset(8)
-//            make.trailing.equalToSuperview()
-//        }
+        textSectionView.addSubview(roiTitleLabel)
+        roiTitleLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview()
+            make.top.equalToSuperview()
+        }
+
+        textSectionView.addSubview(roiLabel)
+        roiLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.trailing.equalToSuperview()
+        }
+
+        textSectionView.addSubview(roiAnnualTitleLabel)
+        roiAnnualTitleLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview()
+            make.top.equalTo(roiTitleLabel.snp.bottom).offset(8)
+        }
+
+        textSectionView.addSubview(roiAnnualLabel)
+        roiAnnualLabel.snp.makeConstraints { make in
+            make.top.equalTo(roiLabel.snp.bottom).offset(8)
+            make.trailing.equalToSuperview()
+        }
+
+        textSectionView.addSubview(mddTitleLabel)
+        mddTitleLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview()
+            make.top.equalTo(roiAnnualTitleLabel.snp.bottom).offset(8)
+        }
+
+        textSectionView.addSubview(mddLabel)
+        mddLabel.snp.makeConstraints { make in
+            make.top.equalTo(roiAnnualLabel.snp.bottom).offset(8)
+            make.trailing.equalToSuperview()
+        }
+
+        textSectionView.addSubview(dailyWinRateTitleLabel)
+        dailyWinRateTitleLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview()
+            make.top.equalTo(mddTitleLabel.snp.bottom).offset(8)
+        }
+
+        textSectionView.addSubview(dailyWinRateLabel)
+        dailyWinRateLabel.snp.makeConstraints { make in
+            make.top.equalTo(mddLabel.snp.bottom).offset(8)
+            make.trailing.equalToSuperview()
+        }
+
+        textSectionView.addSubview(sharpeRatioTitleLabel)
+        sharpeRatioTitleLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview()
+            make.top.equalTo(dailyWinRateTitleLabel.snp.bottom).offset(8)
+            make.bottom.equalToSuperview()
+        }
+
+        textSectionView.addSubview(sharpeRatioLabel)
+        sharpeRatioLabel.snp.makeConstraints { make in
+            make.top.equalTo(dailyWinRateLabel.snp.bottom).offset(8)
+            make.trailing.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
     }
     
     private let pickerSectionView = UIView()
-    private let scrollView = UIView()
+    private let scrollView = UIScrollView()
     private let containerView = UIView()
     
     private let graphSectionView = UIView()
@@ -194,4 +198,5 @@ final class PNLSectionView: UIView {
     private let sharpeRatioLabel = UILabel()
     
     let periodPicker = BlablaBlockPickerView()
+    let refreshControl = UIRefreshControl()
 }
