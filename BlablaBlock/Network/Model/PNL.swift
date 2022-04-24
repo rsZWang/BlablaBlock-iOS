@@ -25,7 +25,7 @@ public struct PNLApiData: Decodable {
         var list = [PNLCharData]()
         for data in chartData {
             if let value = data.value {
-                list.append(PNLCharData(value: value, timestamp: Double(data.timestamp.int)))
+                list.append(PNLCharData(value: value, timestamp: data.timestamp.int))
             }
         }
         return list
@@ -128,7 +128,7 @@ public struct PNLCharRawData: Decodable {
 
 public struct PNLCharData {
     let value: Double
-    let timestamp: TimeInterval
+    let timestamp: Int
 }
 
 public enum PNLPeriod: String {

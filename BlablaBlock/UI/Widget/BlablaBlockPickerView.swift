@@ -18,6 +18,12 @@ public final class BlablaBlockPickerView: UIView {
         }
     }
     
+    var delegate: PickerViewDelegate? {
+        didSet {
+            pickerView.pickerViewDelegate = delegate
+        }
+    }
+    
     private let disposeBag = DisposeBag()
     
     override init(frame: CGRect) {
@@ -49,7 +55,6 @@ public final class BlablaBlockPickerView: UIView {
         label.numberOfLines = 1
         label.adjustsFontSizeToFitWidth = true
         
-        pickerView.pickerViewDelegate = self
         pickerView.bind(textField: textField)
         
         self.rx
@@ -87,11 +92,5 @@ public final class BlablaBlockPickerView: UIView {
     private let label = UILabel()
     private let imageView = UIImageView()
     private let textField = UITextField()
-    private let pickerView = PickerView()
-}
-
-extension BlablaBlockPickerView: PickerViewDelegate {
-    public func pickerView(_ pickerView: PickerView, selectedIndex: Int, selectedItem: String) {
-        Timber.i("Selected: \(selectedItem)")
-    }
+    let pickerView = PickerView()
 }

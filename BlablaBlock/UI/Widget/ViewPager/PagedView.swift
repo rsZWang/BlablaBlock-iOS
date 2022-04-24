@@ -14,13 +14,16 @@ protocol PagedViewDelegate: AnyObject {
 
 class PagedView: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
-    private let pages: [UIView]
+    private var pages: [UIView] = []
     
     // MARK: - Initialization
-    init(pages: [UIView] = []) {
-        self.pages = pages
+    init(pages: [UIView]) {
         super.init(frame: .zero)
-        self.setupUI()
+        self.setPages(pages: pages)
+    }
+    
+    init() {
+        super.init(frame: .zero)
     }
     
     required init?(coder: NSCoder) {
@@ -45,11 +48,15 @@ class PagedView: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewDat
     }()
     
     // MARK: - UI Setup
-    func setupUI() {
-        translatesAutoresizingMaskIntoConstraints = false
+    func setPages(pages: [UIView]) {
+        self.pages.append(contentsOf: pages)
+        self.setupUI()
+    }
+    
+    private func setupUI() {
         addSubview(collectionView)
         collectionView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.edges.equalTo(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
         }
     }
     
@@ -76,6 +83,7 @@ class PagedView: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewDat
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PagedViewCell", for: indexPath) as! PagedViewCell
         let page = self.pages[indexPath.item]
         cell.view = page
+        cell.updateHeight(height: collectionView.contentSize.height)
         return cell
     }
     
@@ -85,7 +93,10 @@ class PagedView: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewDat
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        collectionView.frame.size
+        CGSize(
+            width: collectionView.frame.width,
+            height: collectionView.frame.height
+        )
     }
 
     func collectionView(

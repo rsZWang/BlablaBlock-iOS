@@ -88,13 +88,13 @@ final class ExploreUserViewModel:
             .subscribe(onNext: { [weak self] name in
                 EventTracker.Builder()
                     .logEvent(.REFRESH_EXPLORE_PAGE)
-                self?.getAllUsers(
-                    name: name,
-                    users: users,
-                    isNotEmpty: isNotEmpty,
-                    refreshControl: refreshControl,
-                    filter: filter
-                )
+//                self?.getAllUsers(
+//                    name: name,
+//                    users: users,
+//                    isNotEmpty: isNotEmpty,
+//                    refreshControl: refreshControl,
+//                    filter: filter
+//                )
             })
             .disposed(by: disposeBag)
         

@@ -9,7 +9,8 @@ import Resolver
 import RxCocoa
 import RxSwift
 
-public protocol PortfolioViewModelInputs {
+public protocol PortfolioViewModelInputs: AnyObject {
+    var viewWillAppear: PublishRelay<()> { get }
     var historyBtnTap: PublishRelay<()> { get }
     var exchangeFilter: BehaviorRelay<ExchangeType> { get }
     var portfolioType: BehaviorRelay<PortfolioType> { get }
@@ -21,7 +22,7 @@ public protocol PortfolioViewModelInputs {
     var followingPortfolioPull: PublishRelay<()> { get }
 }
 
-public protocol PortfolioViewModelOutputs {
+public protocol PortfolioViewModelOutputs: AnyObject {
     var user: BehaviorRelay<UserApiData?> { get }
     var profit: Signal<NSAttributedString> { get }
     var sum: Signal<NSAttributedString> { get }
@@ -34,7 +35,7 @@ public protocol PortfolioViewModelOutputs {
     var uiEvent: PublishRelay<PortfolioViewUiEvent> { get }
 }
 
-public protocol PortfolioViewModelType {
+public protocol PortfolioViewModelType: AnyObject {
     var inputs: PortfolioViewModelInputs { get }
     var outputs: PortfolioViewModelOutputs { get }
 }
@@ -51,6 +52,7 @@ final class PortfolioViewModel:
     PortfolioViewModelType
 {
     // MARK: - inputs
+    var viewWillAppear: PublishRelay<()>
     var historyBtnTap: PublishRelay<()>
     var exchangeFilter: BehaviorRelay<ExchangeType>
     var portfolioType: BehaviorRelay<PortfolioType>
@@ -87,6 +89,7 @@ final class PortfolioViewModel:
     }
     
     override init() {
+        let viewWillAppear = PublishRelay<()>()
         let historyBtnTap = PublishRelay<()>()
         let exchangeFilter = BehaviorRelay<ExchangeType>(value: .all)
         let portfolioType = BehaviorRelay<PortfolioType>(value: .all)
@@ -110,6 +113,7 @@ final class PortfolioViewModel:
         
         let refreshPortfolioAndPNL = PublishRelay<()>()
         
+        self.viewWillAppear = viewWillAppear
         self.historyBtnTap = historyBtnTap
         self.exchangeFilter = exchangeFilter
         self.portfolioType = portfolioType
@@ -133,24 +137,29 @@ final class PortfolioViewModel:
         
         super.init()
         
-        user
+//        user
+//            .subscribe(onNext: { [weak self] _ in
+//                
+//            })
+//            .disposed(by: disposeBag)
+        
+        viewWillAppear
             .subscribe(onNext: { [weak self] _ in
-//                portfolioRefresh.accept(true)
-//                pnlRefresh.accept(true)
-//                followingPortfolioRefresh.accept(true)
-//                refreshPortfolioAndPNL.accept(())
-//                self?.getFollowingPortfolio(
-//                    followingProtfolioExchange: followingPortfolioExchangeFilter.value.rawValue,
-//                    followingProtfolio: followingPortfolio,
-//                    followingPortfolioRefresh: followingPortfolioRefresh
-//                )
+                portfolioRefresh.accept(true)
+                pnlRefresh.accept(true)
+                followingPortfolioRefresh.accept(true)
+                refreshPortfolioAndPNL.accept(())
+                self?.getFollowingPortfolio(
+                    followingProtfolioExchange: followingPortfolioExchangeFilter.value.rawValue,
+                    followingProtfolio: followingPortfolio,
+                    followingPortfolioRefresh: followingPortfolioRefresh
+                )
             })
             .disposed(by: disposeBag)
         
         historyBtnTap
             .subscribe(onNext: {
                 if let user = user.value {
-                    Timber.i("WTF here")
                     EventTracker.Builder()
                         .setProperty(name: .USER_B, value: user.userId)
                         .logEvent(.CHECK_OTHERS_PROFILE_TRADE_RECORD)

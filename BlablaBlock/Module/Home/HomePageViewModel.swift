@@ -105,17 +105,17 @@ final class HomePageViewModel:
         
         viewWillAppear
             .subscribe(onNext: { [weak self] in
-                if self?.notificationsCache.value.isEmpty == true {
-                    self?.loadNotifications(
-                        currencySelected: currencySelected,
-                        currencyList: currencyList,
-                        selectedCurrency: selectedCurrency,
-                        notificationsRefresh: notificationsRefresh,
-                        notificationsUpdate: notificationsUpdate,
-                        isNotEmpty: isNotEmpty,
-                        refreshControl: refreshControl
-                    )
-                }
+//                if self?.notificationsCache.value.isEmpty == true {
+//                    self?.loadNotifications(
+//                        currencySelected: currencySelected,
+//                        currencyList: currencyList,
+//                        selectedCurrency: selectedCurrency,
+//                        notificationsRefresh: notificationsRefresh,
+//                        notificationsUpdate: notificationsUpdate,
+//                        isNotEmpty: isNotEmpty,
+//                        refreshControl: refreshControl
+//                    )
+//                }
 //                refreshControl.accept(true)
 //                self?.loadNotifications(
 //                    notificationsRefresh: notificationsRefresh,

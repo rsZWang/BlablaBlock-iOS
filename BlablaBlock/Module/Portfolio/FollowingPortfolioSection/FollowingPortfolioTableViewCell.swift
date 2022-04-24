@@ -128,7 +128,18 @@ final class FollowingPortfolioTableViewCell: UITableViewCell {
 }
 
 extension FollowingPortfolioTableViewCell {
-    func bind() {
+    func bind(_ portfolio: PortfolioAssetViewData) {
+        currencyImageView.currency(name: portfolio.currency)
+        currencyLabel.text = portfolio.currency
+        balanceLabel.text = portfolio.percentage
+        dayChangeLabel.text = portfolio.dayChange
         
+        var dayChangeDouble = portfolio.dayChange
+        dayChangeDouble.removeAll(where: { $0 == "％" })
+        if Double(dayChangeDouble) ?? 0 < 0 {
+            dayChangeLabel.textColor = #colorLiteral(red: 0.8666666667, green: 0.3921568627, blue: 0.3921568627, alpha: 1)
+        } else {
+            dayChangeLabel.textColor = #colorLiteral(red: 0.2352941176, green: 0.831372549, blue: 0.5568627451, alpha: 1)
+        }
     }
 }
