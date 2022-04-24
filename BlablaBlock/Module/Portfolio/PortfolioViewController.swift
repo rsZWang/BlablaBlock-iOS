@@ -86,7 +86,7 @@ final class PortfolioViewController: BaseViewController {
         portfolioTabButton.isSelected = true
         followingPortfolioTabButton.isSelected = true
         
-        pagerView.backgroundColor = .white
+        pagerBackgroundView.backgroundColor = .white
 //        portfolioView.delegate = self
 //        pnlView.delegate = self
 //        followingPortfolioView.delegate = self
@@ -293,19 +293,24 @@ final class PortfolioViewController: BaseViewController {
             make.top.bottom.equalToSuperview()
         }
         
-        view.addSubview(pagerView)
-        pagerView.snp.makeConstraints { make in
+        view.addSubview(pagerBackgroundView)
+        pagerBackgroundView.snp.makeConstraints { make in
             make.top.equalTo(tabButtonSectionView.snp.bottom)
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
         }
         
-        pagerView.addSubview(pnlSectionView)
-        pnlSectionView.snp.makeConstraints { make in
+        pagerBackgroundView.addSubview(pagerView)
+        pagerView.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-16)
             make.top.bottom.equalToSuperview()
+        }
+        
+        pagerView.addSubview(pnlSectionView)
+        pnlSectionView.snp.makeConstraints { make in
+            make.edges.equalTo(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
         }
     }
     
@@ -489,7 +494,7 @@ final class PortfolioViewController: BaseViewController {
     private let tradingPerformanceTabButton = PortfolioTabButton()
     private let tabButtonSeparatorViewRight = UIView()
     private let followingPortfolioTabButton = PortfolioTabButton()
-    
+    private let pagerBackgroundView = UIView()
     private let pagerView = UIView()
 //    private let portfolioView = PortfolioSectionView()
     private let pnlSectionView = PNLSectionView()
