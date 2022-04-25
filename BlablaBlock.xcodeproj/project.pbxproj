@@ -67,6 +67,7 @@
 		4AA9F810276DD68B00D775F0 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA9F80F276DD68B00D775F0 /* Resolver.swift */; };
 		4AA9F812276DD6A200D775F0 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA9F811276DD6A200D775F0 /* BaseViewController.swift */; };
 		4AA9F814276E473800D775F0 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA9F813276E473800D775F0 /* BaseViewModel.swift */; };
+		4AB411262816F34800D04248 /* BlablaBlockNavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB411252816F34800D04248 /* BlablaBlockNavigationBarView.swift */; };
 		4ABA209F273BDC5000F66DB9 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABA209E273BDC5000F66DB9 /* AuthViewModel.swift */; };
 		4ABA20A1273BDCB500F66DB9 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABA20A0273BDCB500F66DB9 /* String.swift */; };
 		4ABDAD9A27F4B90000BC94B6 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABDAD9927F4B90000BC94B6 /* Colors.swift */; };
@@ -197,6 +198,7 @@
 		4AA9F80F276DD68B00D775F0 /* Resolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
 		4AA9F811276DD6A200D775F0 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		4AA9F813276E473800D775F0 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
+		4AB411252816F34800D04248 /* BlablaBlockNavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlablaBlockNavigationBarView.swift; sourceTree = "<group>"; };
 		4ABA209E273BDC5000F66DB9 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		4ABA20A0273BDCB500F66DB9 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		4ABDAD9927F4B90000BC94B6 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
@@ -667,6 +669,7 @@
 				4A543A472779CF1700662B12 /* PickerView.swift */,
 				4A361A2428111A3A001B772F /* BlablaBlockPickerView.swift */,
 				4A581C9727CBCFB200276BA9 /* PaddingTextField.swift */,
+				4AB411252816F34800D04248 /* BlablaBlockNavigationBarView.swift */,
 			);
 			path = Widget;
 			sourceTree = "<group>";
@@ -1033,6 +1036,7 @@
 				4A7744B7276F8A350087A447 /* ResponseFailure.swift in Sources */,
 				4A6C9F1227CD1209003B42F8 /* HomePageTableView.swift in Sources */,
 				4A252CD0273F9751005E4C93 /* ViewController.swift in Sources */,
+				4AB411262816F34800D04248 /* BlablaBlockNavigationBarView.swift in Sources */,
 				A0DAD5B127784BEA00CD8760 /* SceneDelegate.swift in Sources */,
 				4A6C9F1E27CD2C94003B42F8 /* CurrencyIcon.swift in Sources */,
 				A0C8E58B271FFAEE00848FCB /* SignInViewController.swift in Sources */,

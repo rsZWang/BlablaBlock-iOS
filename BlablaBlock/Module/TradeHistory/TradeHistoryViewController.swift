@@ -40,28 +40,41 @@ final class TradeHistoryViewController: BaseViewController {
         viewModel.inputs.viewDidLoad.accept(())
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.isNavigationBarHidden = true
-    }
-    
     private func setupUI() {
-        navigationController?.isNavigationBarHidden = false
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: pickerView)
         view.backgroundColor = .grayEDEDED
+        
+        navigationSectionView.title = "交易歷史"
+        navigationSectionView.delegate = self
+        
         pickerView.delegate = self
     }
     
     private func setupLayout() {
-        view.addSubview(tableView)
+        view.addSubview(statusBarSection)
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
+        statusBarSection.snp.makeConstraints { make in
+            make.height.equalTo(statusBarHeight)
+            make.leading.top.trailing.equalToSuperview()
+        }
         
+        view.addSubview(navigationSectionView)
+        navigationSectionView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(statusBarSection.snp.bottom)
+        }
+        
+        navigationSectionView.addSubview(pickerView)
         pickerView.snp.makeConstraints { make in
             make.width.equalTo(80)
             make.height.equalTo(24)
+            make.trailing.equalToSuperview().offset(-16)
+            make.centerY.equalToSuperview()
         }
-        
+
+        view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalTo(navigationSectionView.snp.bottom)
+            make.leading.trailing.bottom.equalToSuperview()
         }
     }
     
@@ -87,8 +100,16 @@ final class TradeHistoryViewController: BaseViewController {
             .disposed(by: disposeBag)
     }
     
+    private let statusBarSection = UIView()
+    private let navigationSectionView = BlablaBlockNavigationBarView()
     private let pickerView = BlablaBlockPickerView(style: .bordered)
     private let tableView = TradeHistoryTableView()
+}
+
+extension TradeHistoryViewController: BlablaBlockNavigationBarViewDelegate {
+    func onBack() {
+        navigationController?.popViewController(animated: true)
+    }
 }
 
 extension TradeHistoryViewController: BlablaBlockPickerViewDelegate {
