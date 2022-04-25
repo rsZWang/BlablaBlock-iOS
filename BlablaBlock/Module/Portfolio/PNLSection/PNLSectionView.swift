@@ -249,6 +249,7 @@ extension PNLSectionView: PickerViewDelegate {
 extension PNLSectionView {
     
     func bind(data: PNLApiData) {
+        Timber.i("BIND BIND")
 //        if data.chartData.compactMap({ $0.value }).isNotEmpty {
 //            DispatchQueue.global().async { [weak self] in
 //                self?.semaphore.wait()
@@ -261,6 +262,7 @@ extension PNLSectionView {
 //                self?.semaphore.signal()
 //            }
 //        }
+        drawChart(data: data)
         roiLabel.text = "\(data.roi?.toPrettyPrecisedString() ?? "0.0")%"
         roiAnnualLabel.text = "\(data.roiAnnual?.toPrettyPrecisedString() ?? "0.0")%"
         mddLabel.text = "\(data.mdd?.toPrettyPrecisedString() ?? "0.0")%"

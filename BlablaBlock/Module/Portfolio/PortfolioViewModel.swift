@@ -148,12 +148,15 @@ final class PortfolioViewModel:
                 portfolioRefresh.accept(true)
                 pnlRefresh.accept(true)
                 followingPortfolioRefresh.accept(true)
-                refreshPortfolioAndPNL.accept(())
-                self?.getFollowingPortfolio(
-                    followingProtfolioExchange: followingPortfolioExchangeFilter.value.rawValue,
-                    followingProtfolio: followingPortfolio,
-                    followingPortfolioRefresh: followingPortfolioRefresh
-                )
+                
+                
+//                followingPortfolioRefresh.accept(true)
+//                refreshPortfolioAndPNL.accept(())
+//                self?.getFollowingPortfolio(
+//                    followingProtfolioExchange: followingPortfolioExchangeFilter.value.rawValue,
+//                    followingProtfolio: followingPortfolio,
+//                    followingPortfolioRefresh: followingPortfolioRefresh
+//                )
             })
             .disposed(by: disposeBag)
         
