@@ -13,7 +13,7 @@ import RxGesture
 
 final class SignInViewController: BaseViewController, Storyboarded {
     
-    @Injected private var mainCoordinator: NewMainCoordinator
+    @Injected private var mainCoordinator: MainCoordinator
     @Injected private var authViewModel: AuthViewModel
     private let signInMode = ReplayRelay<Bool>.create(bufferSize: 1)
        

@@ -12,7 +12,7 @@ import Resolver
 class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UISceneDelegate {
 
     var window: UIWindow?
-    @Injected var mainCoordinator: NewMainCoordinator
+    @Injected var mainCoordinator: MainCoordinator
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         

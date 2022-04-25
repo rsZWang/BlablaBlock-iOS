@@ -10,30 +10,41 @@ import SnapKit
 import RxSwift
 import RxGesture
 
+public protocol BlablaBlockPickerViewDelegate: AnyObject {
+    func blablaBlockPickerView(_ view: BlablaBlockPickerView, selectedIndex: Int)
+}
+
 public final class BlablaBlockPickerView: UIView {
     
-    var itemList: [String]? {
-        didSet {
-            pickerView.itemList = itemList ?? []
-        }
-    }
-    
-    var delegate: PickerViewDelegate? {
-        didSet {
-            pickerView.pickerViewDelegate = delegate
-        }
+    public enum Style {
+        case bordered
+        case normal
     }
     
     private let disposeBag = DisposeBag()
+    private var style: Style = .normal
+    var itemList: [String]? {
+        didSet {
+            if itemList?.isNotEmpty == true {
+                pickerView.itemList = itemList!
+                label.text = itemList!.first
+            }
+        }
+    }
+    var delegate: BlablaBlockPickerViewDelegate?
+    
+    convenience init(style: BlablaBlockPickerView.Style) {
+        self.init(frame: .zero)
+        self.style = style
+        self.commonInit()
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.commonInit()
     }
 
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        self.commonInit()
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func commonInit() {
@@ -42,20 +53,26 @@ public final class BlablaBlockPickerView: UIView {
     }
     
     private func setupUI() {
+        if style == .normal {
+            contentView.backgroundColor = .grayEDEDED
+        } else {
+            contentView.backgroundColor = nil
+            contentView.borderColor = .black2D2D2D
+            contentView.borderWidth = 1
+        }
+        
         contentView.layer.cornerRadius = 4
-        contentView.backgroundColor = .grayEDEDED
         
         imageView.image = "ic_drop_down_arrow".image()
         imageView.contentMode = .center
         
-        label.text = "WTFWTFWTF"
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 12, weight: .medium)
         label.textColor = .black2D2D2D
-        label.numberOfLines = 1
-        label.adjustsFontSizeToFitWidth = true
+        label.autoFontSize()
         
         pickerView.bind(textField: textField)
+        pickerView.pickerViewDelegate = self
         
         self.rx
             .tapGesture()
@@ -92,5 +109,12 @@ public final class BlablaBlockPickerView: UIView {
     private let label = UILabel()
     private let imageView = UIImageView()
     private let textField = UITextField()
-    let pickerView = PickerView()
+    private let pickerView = PickerView()
+}
+
+extension BlablaBlockPickerView: PickerViewDelegate {
+    public func pickerView(_ pickerView: PickerView, selectedIndex: Int, selectedItem: String) {
+        label.text = selectedItem
+        delegate?.blablaBlockPickerView(self, selectedIndex: selectedIndex)
+    }
 }

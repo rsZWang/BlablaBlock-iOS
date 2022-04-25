@@ -39,8 +39,13 @@ public final class PortfolioSectionView: UIView {
     
     private func setupUI() {
         headerSectionSeparatorView.backgroundColor = .black2D2D2D
+        
+        exchangePicker.itemList = ExchangeType.titleList
         exchangePicker.delegate = self
+        
+        typePicker.itemList = PortfolioType.titleList
         typePicker.delegate = self
+        typePicker.isHidden = true
         
         setupLabel(currencyTitleLabel)
         currencyTitleLabel.text = "代幣"
@@ -57,7 +62,8 @@ public final class PortfolioSectionView: UIView {
         historyButton.backgroundColor = .grayEDEDED
         historyButton.layer.cornerRadius = 4
         historyButton.setImage("ic_portfolio_history".image(), for: .normal)
-        historyButton.addTarget(self, action: #selector(onHistoryTap), for: .touchUpInside)
+        
+        tableView.addSubview(refreshControl)
     }
     
     private func setupLabel(_ label: UILabel) {
@@ -155,15 +161,10 @@ public final class PortfolioSectionView: UIView {
             .bind(to: viewModel.inputs.portfolioPull)
             .disposed(by: disposeBag)
         
-        Timber.i("setupBinding")
-        
         viewModel.outputs
             .portfolio
             .map { [AnimatableSectionModel<String, PortfolioAssetViewData>(model: "", items: $0)] }
             .drive(
-//                onNext: {
-//                    Timber.i("DAAT")
-//                }
                 tableView.rx.items(
                     dataSource: RxTableViewSectionedAnimatedDataSource<AnimatableSectionModel<String, PortfolioAssetViewData>>(
                         configureCell: { dataSource, tableView, indexPath, item in
@@ -206,38 +207,27 @@ public final class PortfolioSectionView: UIView {
     private let refreshControl = UIRefreshControl()
 }
 
-extension PortfolioSectionView: PickerViewDelegate {
-    public func pickerView(_ pickerView: PickerView, selectedIndex: Int, selectedItem: String) {
+extension PortfolioSectionView: BlablaBlockPickerViewDelegate {
+    public func blablaBlockPickerView(_ view: BlablaBlockPickerView, selectedIndex: Int) {
         guard let viewModel = viewModel else { return }
         
-        switch pickerView {
-        case exchangePicker.pickerView:
-            if let exchangeType = ExchangeType.init(rawValue: selectedItem) {
+        switch view {
+        case exchangePicker:
+            if let exchangeType = ExchangeType.init(index: selectedIndex) {
                 viewModel.inputs
-                    .exchangeFilter
+                    .portfolioExchangeFilter
                     .accept(exchangeType)
             }
-            break
-        case typePicker.pickerView:
-            if let  filterType = PortfolioType.init(rawValue: selectedItem) {
+            
+        case typePicker:
+            if let portfolioType = PortfolioType.init(index: selectedIndex) {
                 viewModel.inputs
-                    .portfolioType
-                    .accept(filterType)
+                    .portfolioTypeFilter
+                    .accept(portfolioType)
             }
-            break
+            
         default:
             break
         }
-    }
-}
-
-extension PortfolioSectionView {
-    @objc
-    private func onHistoryTap() {
-        guard let viewModel = viewModel else { return }
-        
-        viewModel.inputs
-            .historyBtnTap
-            .accept(())
     }
 }

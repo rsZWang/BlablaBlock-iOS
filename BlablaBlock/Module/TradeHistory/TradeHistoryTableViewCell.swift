@@ -12,91 +12,6 @@ final class TradeHistoryTableViewCell: UITableViewCell {
     
     static let identifier = "TradeHistoryTableViewCell"
     
-    private let bgView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 6
-        view.backgroundColor = .white
-        return view
-    }()
-    
-    private let currencyImageView = UIImageView()
-    
-    private let currencyLabel: UILabel = {
-        let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 20)
-        label.textColor = .black
-        return label
-    }()
-    
-    private let currencyType: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 12)
-        label.textColor = .darkGray
-        return label
-    }()
-    
-    private let timestampLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .gray
-        label.font = .systemFont(ofSize: 13)
-        return label
-    }()
-    
-    private let actionLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 13)
-        label.text = "  "
-        return label
-    }()
-    
-    private let exchangeTtitleLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = .systemFont(ofSize: 13)
-        label.text = "交易所"
-        return label
-    }()
-    
-    private let exchangeLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = .systemFont(ofSize: 13)
-        label.text = "  "
-        return label
-    }()
-    
-    private let priceTitleLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = .systemFont(ofSize: 13)
-        label.text = "  "
-        return label
-    }()
-    
-    private let priceLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = .systemFont(ofSize: 13)
-        label.text = "  "
-        return label
-    }()
-    
-    private let amountTitleLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = .systemFont(ofSize: 13)
-        label.text = "  "
-        return label
-    }()
-    
-    private let amountLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = .systemFont(ofSize: 13)
-        label.text = "  "
-        return label
-    }()
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -104,24 +19,71 @@ final class TradeHistoryTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
+        setupLayuot()
     }
     
     private func setupUI() {
-        contentView.backgroundColor = #colorLiteral(red: 0.1803734004, green: 0.1804045737, blue: 0.1803635955, alpha: 1)
+        contentView.backgroundColor = .grayEDEDED
+        
+        bgView.layer.cornerRadius = 4
+        bgView.backgroundColor = .black2D2D2D
+        
+        containerView.layer.cornerRadius = 4
+        containerView.backgroundColor = .white
+        
+        currencyLabel.font = .boldSystemFont(ofSize: 16)
+        currencyLabel.textColor = .black2D2D2D
+        
+        currencyType.font = .systemFont(ofSize: 10, weight: .medium)
+        currencyType.textColor = .darkGray
+        
+        timestampLabel.textColor = .gray2D2D2D_40
+        timestampLabel.font = .systemFont(ofSize: 10, weight: .medium)
+        
+        actionLabel.font = .systemFont(ofSize: 12, weight: .semibold)
+        
+        exchangeTtitleLabel.text = "交易所"
+        setupTitleLabel(exchangeTtitleLabel)
+        setupValueLabel(exchangeLabel)
+        
+        priceTitleLabel.text = "價格"
+        setupTitleLabel(priceTitleLabel)
+        setupValueLabel(priceLabel)
+        
+        amountTitleLabel.text = "成交數量"
+        setupTitleLabel(amountTitleLabel)
+        setupValueLabel(amountLabel)
+    }
+    
+    private func setupTitleLabel(_ label: UILabel) {
+        label.textColor = .black2D2D2D_80
+        label.font = .systemFont(ofSize: 12, weight: .medium)
+    }
+    
+    private func setupValueLabel(_ label: UILabel) {
+        label.textColor = .black2D2D2D
+        label.font = .systemFont(ofSize: 12, weight: .medium)
+    }
+    
+    private func setupLayuot() {
         contentView.addSubview(bgView)
         bgView.snp.makeConstraints { make in
-            make.edges.equalTo(UIEdgeInsets(top: 0, left: 18, bottom: 16, right: 18))
+            make.edges.equalTo(UIEdgeInsets(top: 0, left: 22, bottom: 12, right: 22))
         }
         
-        let contentMarginView = UIView()
-        bgView.addSubview(contentMarginView)
-        contentMarginView.snp.makeConstraints { make in
-            make.edges.equalTo(UIEdgeInsets(top: 12, left: 20, bottom: 12, right: 12))
+        bgView.addSubview(containerView)
+        containerView.snp.makeConstraints { make in
+            make.edges.equalTo(UIEdgeInsets(top: 0, left: 0, bottom: 1, right: 0))
         }
         
-        contentMarginView.addSubview(currencyImageView)
+        containerView.addSubview(subContainerView)
+        subContainerView.snp.makeConstraints { make in
+            make.edges.equalTo(UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12))
+        }
+        
+        subContainerView.addSubview(currencyImageView)
         currencyImageView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(-8)
+            make.leading.equalToSuperview()
             make.top.equalToSuperview()
             make.width.height.equalTo(40)
         }
@@ -131,74 +93,85 @@ final class TradeHistoryTableViewCell: UITableViewCell {
         currencyStackView.addArrangedSubview(currencyLabel)
         currencyStackView.addArrangedSubview(currencyType)
         
-        contentMarginView.addSubview(currencyStackView)
+        subContainerView.addSubview(currencyStackView)
         currencyStackView.snp.makeConstraints { make in
-            make.leading.equalTo(currencyImageView.snp.trailing).offset(6)
+            make.leading.equalTo(currencyImageView.snp.trailing).offset(8)
             make.centerY.equalTo(currencyImageView)
         }
         
-//        contentMarginView.addSubview(currencyLabel)
-//        currencyLabel.snp.makeConstraints { make in
-//            make.leading.equalTo(currencyImageView.snp.trailing).offset(8)
-//            make.centerY.equalTo(currencyImageView)
-//        }
-//
-//        contentMarginView.addSubview(currencyType)
-//        currencyType.snp.makeConstraints { make in
-//            make.leading.equalTo(currencyLabel)
-//            make.top.equalTo(currencyLabel.snp.bottom)
-//        }
-        
-        contentMarginView.addSubview(timestampLabel)
+        subContainerView.addSubview(timestampLabel)
         timestampLabel.snp.makeConstraints { make in
             make.bottom.equalTo(currencyType)
             make.trailing.equalToSuperview()
         }
         
-        contentMarginView.addSubview(actionLabel)
+        subContainerView.addSubview(actionLabel)
         actionLabel.snp.makeConstraints { make in
+            make.height.equalTo(19)
             make.leading.equalToSuperview()
-            make.top.equalTo(currencyImageView.snp.bottom).offset(14)
+            make.top.equalTo(currencyImageView.snp.bottom).offset(5)
         }
         
-        contentMarginView.addSubview(exchangeTtitleLabel)
+        subContainerView.addSubview(exchangeTtitleLabel)
         exchangeTtitleLabel.snp.makeConstraints { make in
+            make.height.equalTo(19)
             make.leading.equalToSuperview()
-            make.top.equalTo(actionLabel.snp.bottom).offset(14)
+            make.top.equalTo(actionLabel.snp.bottom)
         }
 
-        contentMarginView.addSubview(exchangeLabel)
+        subContainerView.addSubview(exchangeLabel)
         exchangeLabel.snp.makeConstraints { make in
+            make.height.equalTo(19)
             make.centerY.equalTo(exchangeTtitleLabel)
             make.trailing.equalToSuperview()
         }
 
-        contentMarginView.addSubview(priceTitleLabel)
+        subContainerView.addSubview(priceTitleLabel)
         priceTitleLabel.snp.makeConstraints { make in
+            make.height.equalTo(19)
             make.leading.equalToSuperview()
-            make.top.equalTo(exchangeTtitleLabel.snp.bottom).offset(6)
+            make.top.equalTo(exchangeTtitleLabel.snp.bottom)
         }
 
-        contentMarginView.addSubview(priceLabel)
+        subContainerView.addSubview(priceLabel)
         priceLabel.snp.makeConstraints { make in
+            make.height.equalTo(19)
             make.centerY.equalTo(priceTitleLabel)
             make.trailing.equalToSuperview()
         }
 
-        contentMarginView.addSubview(amountTitleLabel)
+        subContainerView.addSubview(amountTitleLabel)
         amountTitleLabel.snp.makeConstraints { make in
+            make.height.equalTo(19)
             make.leading.equalToSuperview()
-            make.top.equalTo(priceTitleLabel.snp.bottom).offset(6)
+            make.top.equalTo(priceTitleLabel.snp.bottom)
             make.bottom.equalToSuperview()
         }
 
-        contentMarginView.addSubview(amountLabel)
+        subContainerView.addSubview(amountLabel)
         amountLabel.snp.makeConstraints { make in
             make.centerY.equalTo(amountTitleLabel)
             make.trailing.equalToSuperview()
         }
     }
     
+    private let bgView =  UIView()
+    private let containerView = UIView()
+    private let subContainerView = UIView()
+    private let currencyImageView = UIImageView()
+    private let currencyLabel = UILabel()
+    private let currencyType = UILabel()
+    private let timestampLabel = UILabel()
+    private let actionLabel = UILabel()
+    private let exchangeTtitleLabel = UILabel()
+    private let exchangeLabel = UILabel()
+    private let priceTitleLabel = UILabel()
+    private let priceLabel: UILabel = UILabel()
+    private let amountTitleLabel = UILabel()
+    private let amountLabel = UILabel()
+}
+
+extension TradeHistoryTableViewCell {
     func bind(history: HistoryApiData) {
         currencyImageView.currency(name: history.baseCurrency)
         currencyLabel.text = history.currency.uppercased()
@@ -218,5 +191,3 @@ final class TradeHistoryTableViewCell: UITableViewCell {
         amountLabel.text = history.executedQty.toPrettyPrecisedString()
     }
 }
-
-

@@ -19,7 +19,9 @@ extension UIColor {
     static let orangeFF9960 = #colorLiteral(red: 1, green: 0.6, blue: 0.3764705882, alpha: 1)
     
     static let green76B128 = #colorLiteral(red: 0.462745098, green: 0.6941176471, blue: 0.1568627451, alpha: 1)
+    static let green9DCB6080 = #colorLiteral(red: 0.6156862745, green: 0.7960784314, blue: 0.3764705882, alpha: 0.5)
     
     static let redE82020 = #colorLiteral(red: 0.9098039216, green: 0.1254901961, blue: 0.1254901961, alpha: 1)
+    static let redFFA8A8 = #colorLiteral(red: 1, green: 0.6588235294, blue: 0.6588235294, alpha: 1)
     
 }

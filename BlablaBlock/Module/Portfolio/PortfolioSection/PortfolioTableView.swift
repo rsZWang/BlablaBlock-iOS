@@ -19,6 +19,8 @@ final class PortfolioTableView: UITableView {
         separatorStyle = .none
         showsHorizontalScrollIndicator = false
         showsVerticalScrollIndicator = false
+        rowHeight = 56
+        allowsSelection = false
         register(PortfolioTableViewCell.self, forCellReuseIdentifier: PortfolioTableViewCell.identifier)
 //        dataSource = self
     }

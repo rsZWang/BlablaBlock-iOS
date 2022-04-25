@@ -11,12 +11,11 @@ import RxSwift
 public protocol TradeHistoryViewModelInputs {
     var viewDidLoad: PublishRelay<()> { get }
     var userId: BehaviorRelay<Int?> { get }
-    var currencySelected: BehaviorRelay<String> { get }
+    var selectedCurrencyIndex: BehaviorRelay<Int> { get }
 }
 
 public protocol TradeHistoryViewModelOutputs {
-    var currencyList: Signal<[String]> { get }
-    var selectedCurrency: Signal<String> { get }
+    var currencyList: Driver<[String]> { get }
     var historyData: Driver<[HistoryApiData]> { get }
 }
 
@@ -39,12 +38,11 @@ final class TradeHistoryViewModel:
     
     let viewDidLoad: PublishRelay<()>
     let userId: BehaviorRelay<Int?>
-    let currencySelected: BehaviorRelay<String>
+    let selectedCurrencyIndex: BehaviorRelay<Int>
     
     // MARK: - Outputs
     
-    let currencyList: Signal<[String]>
-    let selectedCurrency: Signal<String>
+    let currencyList: Driver<[String]>
     let historyData: Driver<[HistoryApiData]>
     
     // MARK: - Internals
@@ -57,18 +55,16 @@ final class TradeHistoryViewModel:
     override init() {
         let viewDidLoad = PublishRelay<()>()
         let userId = BehaviorRelay<Int?>(value: nil)
-        let currencySelected = BehaviorRelay<String>(value: "所有幣別")
+        let selectedCurrencyIndex = BehaviorRelay<Int>(value: 0)
         
-        let currencyList = PublishRelay<[String]>()
-        let selectedCurrency = PublishRelay<String>()
+        let currencyList = BehaviorRelay<[String]>(value: [])
         let historyData = PublishRelay<[HistoryApiData]>()
         
         self.viewDidLoad = viewDidLoad
         self.userId = userId
-        self.currencySelected = currencySelected
+        self.selectedCurrencyIndex = selectedCurrencyIndex
         
-        self.currencyList = currencyList.asSignal()
-        self.selectedCurrency = selectedCurrency.asSignal()
+        self.currencyList = currencyList.asDriver()
         self.historyData = historyData.asDriver(onErrorJustReturn: [])
         
         super.init()
@@ -82,14 +78,18 @@ final class TradeHistoryViewModel:
         
         Observable
             .combineLatest(
-                currencySelected,
+                selectedCurrencyIndex,
                 historyCache,
-                resultSelector: { currency, history in
-                    selectedCurrency.accept(currency)
-                    if currency == "所有幣別" {
-                        return history.sorted(by: { $0.timestamp > $1.timestamp })
+                resultSelector: { index, history in
+                    if currencyList.value.isEmpty {
+                        return []
                     } else {
-                        return history.filter({ $0.baseCurrency == currency }).sorted(by: { $0.timestamp > $1.timestamp })
+                        let currency = currencyList.value[index]
+                        if currency == "所有幣別" {
+                            return history.sorted(by: { $0.timestamp > $1.timestamp })
+                        } else {
+                            return history.filter({ $0.baseCurrency == currency }).sorted(by: { $0.timestamp > $1.timestamp })
+                        }
                     }
                 }
             )
@@ -97,7 +97,7 @@ final class TradeHistoryViewModel:
             .disposed(by: disposeBag)
     }
     
-    private func loadHistoryByID(_ id: Int, currencyList: PublishRelay<[String]>) {
+    private func loadHistoryByID(_ id: Int, currencyList: BehaviorRelay<[String]>) {
         UserService.getTradeHistoryByID(userId: id)
             .request()
             .subscribe(onSuccess: { [weak self] response in

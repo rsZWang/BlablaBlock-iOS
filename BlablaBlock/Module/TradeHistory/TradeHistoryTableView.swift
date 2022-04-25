@@ -15,9 +15,9 @@ final class TradeHistoryTableView: UITableView {
     
     convenience init() {
         self.init(frame: .zero, style: .plain)
-        backgroundColor = nil
         contentInset = UIEdgeInsets(top: 16, left: 0, bottom: 0, right: 0)
         separatorStyle = .none
+        backgroundColor = .grayEDEDED
         register(TradeHistoryTableViewCell.self, forCellReuseIdentifier: TradeHistoryTableViewCell.identifier)
     }
     

@@ -115,7 +115,7 @@ final class FollowViewController: BaseTabViewController {
         viewModel.outputs
             .showUser
             .emit(onNext: { [weak self] user in
-                self?.coordinator.showPortfolioBy(user: user)
+//                self?.coordinator.showPortfolioBy(user: user)
             })
             .disposed(by: disposeBag)
     }

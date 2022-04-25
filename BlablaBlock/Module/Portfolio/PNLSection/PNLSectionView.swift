@@ -9,11 +9,19 @@ import UIKit
 import SwiftCharts
 import SnapKit
 import RxSwift
+import RxRelay
+import SwiftUI
 
 final class PNLSectionView: UIView {
     
     private let disposeBag = DisposeBag()
-    weak var viewModel: PortfolioViewModelType?
+    weak var viewModel: PortfolioViewModelType? {
+        didSet {
+            setupBinding()
+        }
+    }
+    
+//    private let chartBounds = BehaviorRelay<CGRect>(value: .zero)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -32,6 +40,8 @@ final class PNLSectionView: UIView {
     
     private func setupUI() {
         periodPickerView.delegate = self
+        periodPickerView.itemList = PNLPeriod.titleList
+        
         displayFormatter.dateFormat = "yyyy/MM/dd"
         
         scrollView.alwaysBounceVertical = true
@@ -104,9 +114,9 @@ final class PNLSectionView: UIView {
         scrollContainerView.addSubview(chartSectionView)
         chartSectionView.snp.makeConstraints { make in
             make.height.equalTo(200)
-            make.leading.equalToSuperview().offset(16)
+            make.leading.equalToSuperview().offset(8)
             make.top.equalToSuperview()
-            make.trailing.equalToSuperview().offset(-16)
+            make.trailing.equalToSuperview().offset(-8)
         }
 
         scrollContainerView.addSubview(separatorView)
@@ -205,6 +215,15 @@ final class PNLSectionView: UIView {
             .pnlRefresh
             .emit(to: refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
+        
+//        Observable.combineLatest(
+//            viewModel.outputs.pnl.asObservable(),
+//            chartBounds
+//        )
+//        .subscribe(onNext: { [weak self] pair in
+//            self?.drawChart(data: pair.0, bounds: pair.1)
+//        })
+//        .disposed(by: disposeBag)
     }
     
     private let containerView = UIView()
@@ -234,34 +253,21 @@ final class PNLSectionView: UIView {
     private let yAxisLabelSettings = ChartLabelSettings(font: .systemFont(ofSize: 8))
 }
 
-extension PNLSectionView: PickerViewDelegate {
-    public func pickerView(_ pickerView: PickerView, selectedIndex: Int, selectedItem: String) {
+extension PNLSectionView: BlablaBlockPickerViewDelegate {
+    public func blablaBlockPickerView(_ view: BlablaBlockPickerView, selectedIndex: Int) {
         guard let viewModel = viewModel else { return }
         
-        if let period = PNLPeriod.init(rawValue: selectedItem) {
+        if let period = PNLPeriod.init(index: selectedIndex) {
             viewModel.inputs
-                .pnlPeriod.accept(period)
+                .pnlPeriodFilter
+                .accept(period)
         }
     }
 }
 
-
 extension PNLSectionView {
     
     func bind(data: PNLApiData) {
-        Timber.i("BIND BIND")
-//        if data.chartData.compactMap({ $0.value }).isNotEmpty {
-//            DispatchQueue.global().async { [weak self] in
-//                self?.semaphore.wait()
-//                DispatchQueue.main.async {
-//                    if self?.scrollView == nil {
-//                        self?.makeRefreshable()
-//                    }
-//                    self?.drawChart(data: data)
-//                }
-//                self?.semaphore.signal()
-//            }
-//        }
         drawChart(data: data)
         roiLabel.text = "\(data.roi?.toPrettyPrecisedString() ?? "0.0")%"
         roiAnnualLabel.text = "\(data.roiAnnual?.toPrettyPrecisedString() ?? "0.0")%"
@@ -283,8 +289,12 @@ extension PNLSectionView {
         }
         
         let chartSettings = createChartSettings()
-        let bounds = chartSectionView.bounds
-        let chartFrame = CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height)
+        let chartFrame = CGRect(
+            x: 0,
+            y: 0,
+            width: UIScreen.main.bounds.width - 48,
+            height: 200
+        )
         
         // Chart points line layer
         let chartPoints = data.getChartDataList().map { createChartPoint(point: $0) }

@@ -12,7 +12,7 @@ import RxSwift
 
 final class LauncherViewController: BaseViewController {
     
-    @Injected var mainCoordinator: NewMainCoordinator
+    @Injected var mainCoordinator: MainCoordinator
     @Injected var viewModel: LauncherViewModelType
 //    private let homePageViewModel: HomePageViewModelType
 //    private let exploreUserViewModel: ExploreUserViewModelType

@@ -14,12 +14,21 @@ import RxDataSources
 
 final class PortfolioViewController: BaseViewController {
     
-    private var user: UserApiData?
-    private var viewModel: PortfolioViewModelType
+    private weak var parentCoordinator: MainCoordinator?
+    private let user: UserApiData?
+    private let viewModel: PortfolioViewModelType
+    private let followViewModel: FollowViewModelType
     
-    init(user: UserApiData?, viewModel: PortfolioViewModelType) {
+    init(
+        parentCoordinator: MainCoordinator?,
+        user: UserApiData?,
+        viewModel: PortfolioViewModelType,
+        followViewModel: FollowViewModelType
+    ) {
+        self.parentCoordinator = parentCoordinator
         self.user = user
         self.viewModel = viewModel
+        self.followViewModel = followViewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -36,14 +45,14 @@ final class PortfolioViewController: BaseViewController {
         setupUI()
         setupLayout()
         setupBinding()
-//        viewModel.outputs.user.accept(user)
+//        viewModel.inputs.user.accept(user)
+//        viewModel.inputs.viewWillAppear.accept(())
 //        followViewModel.inputs.user.accept(user)
-        viewModel.inputs.viewWillAppear.accept(())
+//        followViewModel.inputs.viewWillAppear.accept(())
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        followViewModel.inputs.viewWillAppear.accept(())
     }
     
     private func setupUI() {
@@ -62,6 +71,11 @@ final class PortfolioViewController: BaseViewController {
         assetSumTitleLabel.text = "總資產"
         assetSumTitleLabel.textColor = .black2D2D2D
         assetSumTitleLabel.font = .systemFont(ofSize: 10, weight: .medium)
+        
+        assetDayChangeLabel.font = .boldSystemFont(ofSize: 10)
+        assetDayChangeLabel.textAlignment = .center
+        assetDayChangeLabel.layer.masksToBounds = true
+        assetDayChangeLabel.layer.cornerRadius = 2
         
         basicInfoSectionSeparatorView.backgroundColor = .gray2D2D2D_40
         
@@ -91,10 +105,10 @@ final class PortfolioViewController: BaseViewController {
         tabButtonSeparatorViewRight.backgroundColor = .white
         followingPortfolioTabButton.setTitle("追蹤中組合", for: .normal)
         
-        userNameLabel.text = "交易大神"
-        assetSumLabel.text = "10000000.00"
-        followerLabel.text = "1000"
-        followingLabel.text = "1000"
+        userNameLabel.text = " "
+        assetSumLabel.text = " "
+        followerLabel.text = " "
+        followingLabel.text = " "
 
         pagerBackgroundView.backgroundColor = .white
         pagedView.setPages(
@@ -105,16 +119,16 @@ final class PortfolioViewController: BaseViewController {
             ]
         )
 
-//        if user == nil {
+        if user == nil {
 //            shareButton.isHidden = true
 //            backButton.isHidden = true
-//        } else {
+        } else {
 //            shareButton.isHidden = false
 //            shareButton.rx
 //                .tap
 //                .bind(to: followViewModel.inputs.followBtnTap)
 //                .disposed(by: disposeBag)
-//
+
 //            backButton.isHidden = false
 //            backButton.rx
 //                .tap
@@ -122,7 +136,7 @@ final class PortfolioViewController: BaseViewController {
 //                .map { PortfolioViewUiEvent.back }
 //                .emit(to: viewModel.outputs.uiEvent)
 //                .disposed(by: disposeBag)
-//        }
+        }
     }
     
     private func setupUser(user: UserApiData?) {
@@ -138,6 +152,20 @@ final class PortfolioViewController: BaseViewController {
         } else {
             userNameLabel.text = keychainUser[.userName]
         }
+    }
+    
+    private func setupAssetDayChange(dayChange: Double) {
+        let sign: String
+        if dayChange >= 0 {
+            sign = "+"
+            assetDayChangeLabel.textColor = .green76B128
+            assetDayChangeLabel.backgroundColor = .green9DCB6080
+        } else {
+            sign = "-"
+            assetDayChangeLabel.textColor = .redE82020
+            assetDayChangeLabel.backgroundColor = .redFFA8A8
+        }
+        assetDayChangeLabel.text = "\(sign)\(dayChange.toPrettyPrecisedString())%"
     }
     
     private func setupLayout() {
@@ -196,6 +224,8 @@ final class PortfolioViewController: BaseViewController {
 
         basicAssetInfoSectionView.addSubview(assetDayChangeLabel)
         assetDayChangeLabel.snp.makeConstraints { make in
+            make.width.equalTo(49)
+            make.height.equalTo(13)
             make.leading.equalTo(assetSumTitleLabel.snp.trailing).offset(8)
             make.centerY.equalTo(assetSumTitleLabel)
         }
@@ -341,37 +371,31 @@ final class PortfolioViewController: BaseViewController {
 //                self.mainCoordinator.showFollow(isDefaultPageFollower: isDefaultPageFollower, followViewModel: self.followViewModel)
             })
             .disposed(by: disposeBag)
-        
-        viewModel.outputs
-            .user
-            .observe(on: MainScheduler.asyncInstance)
-            .subscribe(onNext: { [weak self] user in
-                self?.setupUser(user: user)
-            })
-            .disposed(by: disposeBag)
-
-        viewModel.outputs
-            .profit
-            .emit(to: assetSumLabel.rx.attributedText)
-            .disposed(by: disposeBag)
 
         viewModel.outputs
             .sum
             .emit(to: assetSumLabel.rx.attributedText)
             .disposed(by: disposeBag)
-//
-//        followViewModel.outputs
-//            .followerAmount
-//            .map { String($0) }
-//            .emit(to: followerLabel.rx.text)
-//            .disposed(by: disposeBag)
-//
-//        followViewModel.outputs
-//            .followingAmount
-//            .map { String($0) }
-//            .emit(to: followingLabel.rx.text)
-//            .disposed(by: disposeBag)
-//
+        
+        viewModel.outputs
+            .profit
+            .emit(onNext: { [weak self] dayChange in
+                self?.setupAssetDayChange(dayChange: dayChange)
+            })
+            .disposed(by: disposeBag)
+
+        followViewModel.outputs
+            .followerAmount
+            .map { String($0) }
+            .emit(to: followerLabel.rx.text)
+            .disposed(by: disposeBag)
+
+        followViewModel.outputs
+            .followingAmount
+            .map { String($0) }
+            .emit(to: followingLabel.rx.text)
+            .disposed(by: disposeBag)
+
         viewModel.outputs
             .uiEvent
             .asSignal()
@@ -428,9 +452,8 @@ final class PortfolioViewController: BaseViewController {
 extension PortfolioViewController {
     func handleUiEvent(_ event: PortfolioViewUiEvent) {
         switch event {
-        case .history:
-            break
-//            mainCoordinator.showTradeHistoryBy(userId: user?.userId)
+        case .history(let userId):
+            parentCoordinator?.toTradyHistory(userId: userId)
         case .back:
             pop()
         }

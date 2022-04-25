@@ -51,7 +51,7 @@ final class SettingViewController: BaseViewController, LinkCardViewDelegate {
             .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] success in
                 if success {
-                    self?.mainCoordinator.popToSignIn()
+//                    self?.mainCoordinator.popToSignIn()
                 }
                 self?.signOutButton.isEnabled = true
             })

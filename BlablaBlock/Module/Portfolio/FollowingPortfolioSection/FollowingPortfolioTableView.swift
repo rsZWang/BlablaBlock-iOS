@@ -20,6 +20,7 @@ final class FollowingPortfolioTableView: UITableView {
         showsHorizontalScrollIndicator = false
         showsVerticalScrollIndicator = false
         rowHeight = 56
+        allowsSelection = false
         register(FollowingPortfolioTableViewCell.self, forCellReuseIdentifier: FollowingPortfolioTableViewCell.identifier)
 //        dataSource = self
     }

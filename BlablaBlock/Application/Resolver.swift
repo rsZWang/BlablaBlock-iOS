@@ -11,7 +11,7 @@ extension Resolver: ResolverRegistering {
     
     public static func registerAllServices() {
         
-        register { NewMainCoordinator() }.scope(.application)
+        register { MainCoordinator() }.scope(.application)
 //        register { MainCoordinator() }.scope(.application)
         
         // Launcher

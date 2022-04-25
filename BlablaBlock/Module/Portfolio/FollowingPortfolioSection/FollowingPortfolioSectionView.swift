@@ -40,6 +40,13 @@ public final class FollowingPortfolioSectionView: UIView {
     private func setupUI() {
         headerSectionSeparatorView.backgroundColor = .black2D2D2D
         
+        exchangePicker.itemList = ExchangeType.titleList
+        exchangePicker.delegate = self
+        
+        typePicker.itemList = PortfolioType.titleList
+        typePicker.delegate = self
+        typePicker.isHidden = true
+        
         setupLabel(currencyTitleLabel)
         currencyTitleLabel.text = "代幣"
         currencyTitleLabel.textAlignment = .left
@@ -58,6 +65,8 @@ public final class FollowingPortfolioSectionView: UIView {
         adjustWeightButton.titleLabel?.autoFontSize()
         adjustWeightButton.layer.cornerRadius = 4
         adjustWeightButton.backgroundColor = .grayEDEDED
+        
+        tableView.addSubview(refreshControl)
     }
     
     private func setupLabel(_ label: UILabel) {
@@ -197,25 +206,25 @@ public final class FollowingPortfolioSectionView: UIView {
     private let refreshControl = UIRefreshControl()
 }
 
-extension FollowingPortfolioSectionView: PickerViewDelegate {
-    public func pickerView(_ pickerView: PickerView, selectedIndex: Int, selectedItem: String) {
+extension FollowingPortfolioSectionView: BlablaBlockPickerViewDelegate {
+    public func blablaBlockPickerView(_ view: BlablaBlockPickerView, selectedIndex: Int) {
         guard let viewModel = viewModel else { return }
         
-        switch pickerView {
-        case exchangePicker.pickerView:
-            if let exchangeType = ExchangeType.init(rawValue: selectedItem) {
+        switch view {
+        case exchangePicker:
+            if let exchangeType = ExchangeType.init(index: selectedIndex) {
                 viewModel.inputs
                     .followingPortfolioExchangeFilter
                     .accept(exchangeType)
             }
-            break
-        case typePicker.pickerView:
-            if let  filterType = PortfolioType.init(rawValue: selectedItem) {
+            
+        case typePicker:
+            if let portfolioType = PortfolioType.init(index: selectedIndex) {
                 viewModel.inputs
-                    .followingPortfolioType
-                    .accept(filterType)
+                    .followingPortfolioTypeFilter
+                    .accept(portfolioType)
             }
-            break
+            
         default:
             break
         }

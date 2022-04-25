@@ -10,22 +10,22 @@ import RxCocoa
 import RxSwift
 
 public protocol PortfolioViewModelInputs: AnyObject {
+    var user: BehaviorRelay<UserApiData?> { get }
     var viewWillAppear: PublishRelay<()> { get }
     var historyBtnTap: PublishRelay<()> { get }
-    var exchangeFilter: BehaviorRelay<ExchangeType> { get }
-    var portfolioType: BehaviorRelay<PortfolioType> { get }
+    var portfolioExchangeFilter: BehaviorRelay<ExchangeType> { get }
+    var portfolioTypeFilter: BehaviorRelay<PortfolioType> { get }
     var portfolioPull: PublishRelay<()> { get }
-    var pnlPeriod: BehaviorRelay<PNLPeriod> { get }
+    var pnlPeriodFilter: BehaviorRelay<PNLPeriod> { get }
     var pnlPull: PublishRelay<()> { get }
     var followingPortfolioExchangeFilter: BehaviorRelay<ExchangeType> { get }
-    var followingPortfolioType: BehaviorRelay<PortfolioType> { get }
+    var followingPortfolioTypeFilter: BehaviorRelay<PortfolioType> { get }
     var followingPortfolioPull: PublishRelay<()> { get }
 }
 
 public protocol PortfolioViewModelOutputs: AnyObject {
-    var user: BehaviorRelay<UserApiData?> { get }
-    var profit: Signal<NSAttributedString> { get }
     var sum: Signal<NSAttributedString> { get }
+    var profit: Signal<Double> { get }
     var portfolio: Driver<[PortfolioAssetViewData]> { get }
     var portfolioRefresh: Signal<Bool> { get }
     var pnl: Signal<PNLApiData> { get }
@@ -42,7 +42,7 @@ public protocol PortfolioViewModelType: AnyObject {
 
 public enum PortfolioViewUiEvent {
     case back
-    case history
+    case history(Int)
 }
 
 final class PortfolioViewModel:
@@ -52,21 +52,21 @@ final class PortfolioViewModel:
     PortfolioViewModelType
 {
     // MARK: - inputs
+    var user: BehaviorRelay<UserApiData?>
     var viewWillAppear: PublishRelay<()>
     var historyBtnTap: PublishRelay<()>
-    var exchangeFilter: BehaviorRelay<ExchangeType>
-    var portfolioType: BehaviorRelay<PortfolioType>
+    var portfolioExchangeFilter: BehaviorRelay<ExchangeType>
+    var portfolioTypeFilter: BehaviorRelay<PortfolioType>
     var portfolioPull: PublishRelay<()>
-    var pnlPeriod: BehaviorRelay<PNLPeriod>
+    var pnlPeriodFilter: BehaviorRelay<PNLPeriod>
     var pnlPull: PublishRelay<()>
     var followingPortfolioExchangeFilter: BehaviorRelay<ExchangeType>
-    var followingPortfolioType: BehaviorRelay<PortfolioType>
+    var followingPortfolioTypeFilter: BehaviorRelay<PortfolioType>
     var followingPortfolioPull: PublishRelay<()>
     
     // MARK: - outpus
-    var user: BehaviorRelay<UserApiData?>
-    var profit: Signal<NSAttributedString>
     var sum: Signal<NSAttributedString>
+    var profit: Signal<Double>
     var portfolio: Driver<[PortfolioAssetViewData]>
     var portfolioRefresh: Signal<Bool>
     var pnl: Signal<PNLApiData>
@@ -89,20 +89,20 @@ final class PortfolioViewModel:
     }
     
     override init() {
+        let user = BehaviorRelay<UserApiData?>(value: nil)
         let viewWillAppear = PublishRelay<()>()
         let historyBtnTap = PublishRelay<()>()
-        let exchangeFilter = BehaviorRelay<ExchangeType>(value: .all)
-        let portfolioType = BehaviorRelay<PortfolioType>(value: .all)
-        let pnlPeriod = BehaviorRelay<PNLPeriod>(value: .all)
+        let portfolioExchangeFilter = BehaviorRelay<ExchangeType>(value: .all)
+        let portfolioTypeFilter = BehaviorRelay<PortfolioType>(value: .all)
+        let pnlPeriodFilter = BehaviorRelay<PNLPeriod>(value: .all)
         let followingPortfolioExchangeFilter = BehaviorRelay<ExchangeType>(value: .all)
-        let followingPortfolioType = BehaviorRelay<PortfolioType>(value: .all)
+        let followingPortfolioTypeFilter = BehaviorRelay<PortfolioType>(value: .all)
         let portfolioPull = PublishRelay<()>()
         let pnlPull = PublishRelay<()>()
         let followingPortfolioPull = PublishRelay<()>()
         
-        let user = BehaviorRelay<UserApiData?>(value: nil)
         let sum = PublishRelay<NSAttributedString>()
-        let profit = PublishRelay<NSAttributedString>()
+        let profit = PublishRelay<Double>()
         let portfolio = PublishRelay<[PortfolioAssetViewData]>()
         let portfolioRefresh = PublishRelay<Bool>()
         let pnl = PublishRelay<PNLApiData>()
@@ -111,20 +111,18 @@ final class PortfolioViewModel:
         let followingPortfolioRefresh = PublishRelay<Bool>()
         let uiEvent = PublishRelay<PortfolioViewUiEvent>()
         
-        let refreshPortfolioAndPNL = PublishRelay<()>()
-        
+        self.user = user
         self.viewWillAppear = viewWillAppear
         self.historyBtnTap = historyBtnTap
-        self.exchangeFilter = exchangeFilter
-        self.portfolioType = portfolioType
-        self.pnlPeriod = pnlPeriod
+        self.portfolioExchangeFilter = portfolioExchangeFilter
+        self.portfolioTypeFilter = portfolioTypeFilter
+        self.pnlPeriodFilter = pnlPeriodFilter
         self.followingPortfolioExchangeFilter = followingPortfolioExchangeFilter
-        self.followingPortfolioType = followingPortfolioType
+        self.followingPortfolioTypeFilter = followingPortfolioTypeFilter
         self.portfolioPull = portfolioPull
         self.pnlPull = pnlPull
         self.followingPortfolioPull = followingPortfolioPull
         
-        self.user = user
         self.sum = sum.asSignal()
         self.profit = profit.asSignal()
         self.portfolio = portfolio.asDriver(onErrorJustReturn: [])
@@ -136,45 +134,42 @@ final class PortfolioViewModel:
         self.uiEvent = uiEvent
         
         super.init()
-        
-//        user
-//            .subscribe(onNext: { [weak self] _ in
-//                
-//            })
-//            .disposed(by: disposeBag)
+
+        let refreshPortfolioAndPNL = PublishRelay<()>()
         
         viewWillAppear
             .subscribe(onNext: { [weak self] _ in
                 portfolioRefresh.accept(true)
                 pnlRefresh.accept(true)
                 followingPortfolioRefresh.accept(true)
-                
-                
-//                followingPortfolioRefresh.accept(true)
-//                refreshPortfolioAndPNL.accept(())
-//                self?.getFollowingPortfolio(
-//                    followingProtfolioExchange: followingPortfolioExchangeFilter.value.rawValue,
-//                    followingProtfolio: followingPortfolio,
-//                    followingPortfolioRefresh: followingPortfolioRefresh
-//                )
+                refreshPortfolioAndPNL.accept(())
+                self?.getFollowingPortfolio(
+                    followingProtfolioExchange: followingPortfolioExchangeFilter.value.rawValue,
+                    followingProtfolio: followingPortfolio,
+                    followingPortfolioRefresh: followingPortfolioRefresh
+                )
             })
             .disposed(by: disposeBag)
         
         historyBtnTap
             .subscribe(onNext: {
+                Timber.i("onHistoryTap")
+                let userId: Int
                 if let user = user.value {
+                    userId = user.userId
                     EventTracker.Builder()
-                        .setProperty(name: .USER_B, value: user.userId)
+                        .setProperty(name: .USER_B, value: userId)
                         .logEvent(.CHECK_OTHERS_PROFILE_TRADE_RECORD)
                 } else {
+                    userId = Int(keychainUser[.userId]!)!
                     EventTracker.Builder()
                         .logEvent(.CHECK_PERSONAL_PAGE_TRADE_RECORD)
                 }
-                uiEvent.accept(.history)
+                uiEvent.accept(.history(userId))
             })
             .disposed(by: disposeBag)
         
-        exchangeFilter
+        portfolioExchangeFilter
             .skip(1)
             .map { _ in () }
             .bind(to: portfolioPull)
@@ -188,7 +183,7 @@ final class PortfolioViewModel:
             })
             .disposed(by: disposeBag)
         
-        pnlPeriod
+        pnlPeriodFilter
             .skip(1)
             .map { _ in () }
             .bind(to: pnlPull)
@@ -205,14 +200,14 @@ final class PortfolioViewModel:
         refreshPortfolioAndPNL
             .subscribe(onNext: { [weak self] in
                 self?.getPortfolio(
-                    exchange: exchangeFilter.value.rawValue,
-                    profit: profit,
+                    exchange: portfolioExchangeFilter.value.rawValue,
                     sum: sum,
+                    profit: profit,
                     protfolio: portfolio,
                     portfolioRefresh: portfolioRefresh
                 )
                 self?.getPNL(
-                    period: pnlPeriod.value.rawValue,
+                    period: pnlPeriodFilter.value.rawValue,
                     pnl: pnl,
                     pnlRefresh: pnlRefresh
                 )
@@ -244,8 +239,8 @@ final class PortfolioViewModel:
 private extension PortfolioViewModel {    
     func getPortfolio(
         exchange: String,
-        profit: PublishRelay<NSAttributedString>,
         sum: PublishRelay<NSAttributedString>,
+        profit: PublishRelay<Double>,
         protfolio: PublishRelay<[PortfolioAssetViewData]>,
         portfolioRefresh: PublishRelay<Bool>
     ) {
@@ -256,8 +251,8 @@ private extension PortfolioViewModel {
                 onSuccess: { [weak self] response in
                     switch response {
                     case let .success(portfolio):
-                        profit.accept(portfolio.data.getAssetProfitString())
                         sum.accept(portfolio.data.getAssetSumString())
+                        profit.accept(portfolio.data.percentage ?? 0)
                         protfolio.accept(portfolio.data.getAssetsViewData())
                     case let .failure(responseFailure):
                         if responseFailure.code == 1006 {

@@ -62,43 +62,43 @@ public struct PortfolioApiData: Decodable {
         return attribuedString
     }
     
-    func getAssetProfitString() -> NSAttributedString {
-        if let percentage = percentage {
-            let sign: String
-            let color: UIColor
-            if percentage < 0 {
-                sign = ""
-                color = #colorLiteral(red: 0.8666666667, green: 0.3921568627, blue: 0.3921568627, alpha: 1)
-            } else {
-                sign = "+"
-                color = #colorLiteral(red: 0.2352941176, green: 0.831372549, blue: 0.5568627451, alpha: 1)
-            }
-            let rate = "\(sign)\(percentage.toPrettyPrecisedString().appendTo2Precision())%"
-            let attribuedString = NSMutableAttributedString()
-            attribuedString.append(NSAttributedString(
-                string: "總資產(",
-                attributes: [
-                    NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 12)
-                ]
-            ))
-            attribuedString.append(NSAttributedString(
-                string: rate,
-                attributes: [
-                    NSAttributedString.Key.foregroundColor : color,
-                    NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 12)
-                ]
-            ))
-            attribuedString.append(NSAttributedString(
-                string: ")",
-                attributes: [
-                    NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 12)
-                ]
-            ))
-            return attribuedString
-        } else {
-            return Self.defaultAssetProfitString
-        }
-    }
+//    func getAssetProfitString() -> NSAttributedString {
+//        if let percentage = percentage {
+//            let sign: String
+//            let color: UIColor
+//            if percentage < 0 {
+//                sign = ""
+//                color = #colorLiteral(red: 0.8666666667, green: 0.3921568627, blue: 0.3921568627, alpha: 1)
+//            } else {
+//                sign = "+"
+//                color = #colorLiteral(red: 0.2352941176, green: 0.831372549, blue: 0.5568627451, alpha: 1)
+//            }
+//            let rate = "\(sign)\(percentage.toPrettyPrecisedString().appendTo2Precision())%"
+//            let attribuedString = NSMutableAttributedString()
+//            attribuedString.append(NSAttributedString(
+//                string: "總資產(",
+//                attributes: [
+//                    NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 12)
+//                ]
+//            ))
+//            attribuedString.append(NSAttributedString(
+//                string: rate,
+//                attributes: [
+//                    NSAttributedString.Key.foregroundColor : color,
+//                    NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 12)
+//                ]
+//            ))
+//            attribuedString.append(NSAttributedString(
+//                string: ")",
+//                attributes: [
+//                    NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 12)
+//                ]
+//            ))
+//            return attribuedString
+//        } else {
+//            return Self.defaultAssetProfitString
+//        }
+//    }
     
     func getAssetSumString() -> NSAttributedString {
         let amount = "$\(totalValue.double.toPrettyPrecisedString())"
@@ -183,6 +183,18 @@ public enum PortfolioType: String, Equatable {
     static let titleList = ["所有類別", "現貨", "現貨槓桿", "合約裡的現貨", "合約的持倉", "理財"]
     static let typeList = ["all", "spot", "margin", "futures", "positions", "management"]
     
+    init?(title: String) {
+        if let typeIndex = Self.titleList.firstIndex(where: { $0 == title }) {
+            self.init(rawValue: Self.typeList[typeIndex])
+        } else {
+            return nil
+        }
+    }
+    
+    init?(index: Int) {
+        self.init(rawValue: Self.typeList[index])
+    }
+    
     static func map(type: String) -> String {
         switch type {
         case "lending", "liquidity":
@@ -191,7 +203,7 @@ public enum PortfolioType: String, Equatable {
             if let index = typeList.firstIndex(where: { $0 == type }) {
                 return titleList[index]
             } else {
-                return "Unknown type (\(type))"
+                return type
             }
         }
     }
@@ -210,11 +222,19 @@ public enum AssetType: String, Equatable {
     static let titleList = ["所有類別", "現貨", "現貨槓桿", "借貸", "合約裡的現貨", "合約的持倉", "流動性資產"]
     static let typeList = ["all", "spot", "margin", "lending", "futures", "positions", "liquidity"]
     
+    init?(title: String) {
+        if let typeIndex = Self.titleList.firstIndex(where: { $0 == title }) {
+            self.init(rawValue: Self.typeList[typeIndex])
+        } else {
+            return nil
+        }
+    }
+    
     static func map(type: String) -> String {
         if let index = typeList.firstIndex(where: { $0 == type }) {
             return titleList[index]
         } else {
-            return "Unknown type (\(type))"
+            return type
         }
     }
 }

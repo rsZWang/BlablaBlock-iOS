@@ -7,7 +7,7 @@
 
 import UIKit
 
-public protocol PickerViewDelegate: NSObject {
+public protocol PickerViewDelegate: AnyObject {
     func pickerView(_ pickerView: PickerView, selectedIndex: Int, selectedItem: String)
 }
 
@@ -29,7 +29,6 @@ public final class PickerView: UIPickerView, UIPickerViewDataSource, UIPickerVie
     }
 
     private func commonInit() {
-        
         dataSource = self
         delegate = self
         

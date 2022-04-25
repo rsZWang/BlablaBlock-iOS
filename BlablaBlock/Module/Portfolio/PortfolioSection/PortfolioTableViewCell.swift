@@ -65,25 +65,25 @@ final class PortfolioTableViewCell: UITableViewCell {
     }
     
     private func setupLayout() {
-        contentView.addSubview(contentParentView)
-        contentParentView.snp.makeConstraints { make in
+        contentView.addSubview(containerView)
+        containerView.snp.makeConstraints { make in
             make.edges.equalTo(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
         }
         
-        contentParentView.addSubview(separatorView)
+        containerView.addSubview(separatorView)
         separatorView.snp.makeConstraints { make in
             make.height.equalTo(1)
             make.leading.trailing.bottom.equalToSuperview()
         }
         
-        contentParentView.addSubview(contentPaddingView)
-        contentPaddingView.snp.makeConstraints { make in
+        containerView.addSubview(subContainerView)
+        subContainerView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalToSuperview().offset(8)
             make.bottom.equalTo(separatorView.snp.top).offset(-8)
         }
         
-        contentPaddingView.addSubview(currencySectionView)
+        subContainerView.addSubview(currencySectionView)
         currencySectionView.snp.makeConstraints { make in
             make.leading.top.bottom.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(PortfolioSectionView.currencySectionWidth)
@@ -108,12 +108,12 @@ final class PortfolioTableViewCell: UITableViewCell {
         percentageLabel.snp.makeConstraints { make in
             make.height.equalTo(20)
             make.leading.equalTo(currencyImageView.snp.trailing).offset(8)
-            make.top.equalTo(currencyLabel.snp.bottom)
+//            make.top.equalTo(currencyLabel.snp.bottom)
             make.bottom.equalToSuperview()
             make.trailing.equalToSuperview().offset(-8)
         }
 
-        contentPaddingView.addSubview(balanceSectionView)
+        subContainerView.addSubview(balanceSectionView)
         balanceSectionView.snp.makeConstraints { make in
             make.leading.equalTo(currencySectionView.snp.trailing)
             make.top.bottom.equalToSuperview()
@@ -132,19 +132,19 @@ final class PortfolioTableViewCell: UITableViewCell {
         valueLabel.snp.makeConstraints { make in
             make.height.equalTo(20)
             make.leading.equalToSuperview().offset(8)
-            make.top.equalTo(currencyLabel.snp.bottom)
+//            make.top.equalTo(currencyLabel.snp.bottom)
             make.trailing.bottom.equalToSuperview()
         }
 
-        contentPaddingView.addSubview(dayChangeLabel)
+        subContainerView.addSubview(dayChangeLabel)
         dayChangeLabel.snp.makeConstraints { make in
             make.leading.equalTo(balanceSectionView.snp.trailing)
             make.top.trailing.bottom.equalToSuperview()
         }
     }
     
-    private let contentParentView = UIView()
-    private let contentPaddingView = UIView()
+    private let containerView = UIView()
+    private let subContainerView = UIView()
     
     private let currencySectionView = UIView()
     private let currencyImageView = UIImageView()
