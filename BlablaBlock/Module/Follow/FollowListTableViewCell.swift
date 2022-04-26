@@ -31,19 +31,12 @@ final class FollowListTableViewCell: UITableViewCell {
     
     private func setupUI() {
         avatarImageView.image = UIImage(named: "ic_profile_avatar_placeholder")
-        avatarImageView.layer.cornerRadius = 25
-        avatarImageView.clipsToBounds = true
+        avatarImageView.makeCircle(base: 32)
         
-        userNameLabel.font = .boldSystemFont(ofSize: 24)
+        userNameLabel.font = .boldSystemFont(ofSize: 16)
         
-        followButton.rounded = true
-        followButton.border = true
-        followButton.normalBgColor = .white
-        followButton.normalTitleColor = .black
-        followButton.normalBorderColor = .black
-        followButton.selectedBgColor = .black
-        followButton.selectedTitleColor = .white
-        followButton.selectedBorderColor = .black
+        followButton.setTitle("追蹤", for: .normal)
+        followButton.setTitle("追蹤中", for: .selected)
     }
     
     private func setupLayout() {
@@ -57,27 +50,31 @@ final class FollowListTableViewCell: UITableViewCell {
         }
         
         avatarImageView.snp.makeConstraints { make in
-            make.width.height.equalTo(50)
-            make.leading.equalToSuperview().offset(20)
-            make.top.equalToSuperview().offset(10)
-            make.bottom.equalToSuperview().offset(-10)
+            make.width.height.equalTo(32)
+            make.leading.equalToSuperview().offset(24)
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
         
         userNameLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.leading.equalTo(avatarImageView.snp.trailing).offset(20)
-            make.trailing.lessThanOrEqualTo(followButton.snp.leading).offset(-20)
+            make.leading.equalTo(avatarImageView.snp.trailing).offset(16)
+            make.trailing.lessThanOrEqualTo(followButton.snp.leading).offset(-16)
         }
         
         followButton.snp.makeConstraints { make in
-            make.width.equalTo(80)
-            make.height.equalTo(30)
+            make.width.equalTo(70)
+            make.height.equalTo(22)
             make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().offset(-20)
+            make.trailing.equalToSuperview().offset(-24)
         }
     }
     
-    func bind(follow: FollowApiDataFollowUser, followBtnTap: PublishRelay<Int>, cellTap: PublishRelay<FollowApiDataFollowUser>) {
+    func bind(
+        follow: FollowApiDataFollowUser,
+        followBtnTap: PublishRelay<Int>,
+        cellTap: PublishRelay<FollowApiDataFollowUser>
+    ) {
         userNameLabel.text = follow.name
         if follow.userId != Int(keychainUser[.userId] ?? "-1") {
             if follow.isFollow {
@@ -108,6 +105,5 @@ final class FollowListTableViewCell: UITableViewCell {
     private let bgView = UIView()
     private let avatarImageView = UIImageView()
     private let userNameLabel = UILabel()
-    private let followButton = ColorButton()
-    
+    private let followButton = OrangeButton()
 }

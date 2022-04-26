@@ -458,11 +458,11 @@
 			isa = PBXGroup;
 			children = (
 				4A7A190527D3098C00AF24A8 /* FollowViewModel.swift */,
+				4A8D1DDD2817ACD4002A8C87 /* FollowViewController.swift */,
 				4A7A18FA27D2F68B00AF24A8 /* FollowTabViewController.swift */,
 				4A7A18FF27D2FAF600AF24A8 /* FollowListViewController.swift */,
 				4A7A190127D2FB4D00AF24A8 /* FollowListTableView.swift */,
 				4A7A190327D2FBAC00AF24A8 /* FollowListTableViewCell.swift */,
-				4A8D1DDD2817ACD4002A8C87 /* FollowViewController.swift */,
 			);
 			path = Follow;
 			sourceTree = "<group>";

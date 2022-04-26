@@ -67,16 +67,25 @@ final class MainCoordinator: Coordinator {
         navigationController.pushViewController(vc, animated: true)
     }
     
+    func toPortfolio(user: UserApiData) {
+        let vc = PortfolioViewController(
+            parentCoordinator: self,
+            user: user,
+            viewModel: PortfolioViewModel(),
+            followViewModel: FollowViewModel()
+        )
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
     func toFollow(
         isDefaultPageFollower: Bool,
         viewModel: FollowViewModelType
     ) {
         let vc = FollowViewController(
-            isDefaultPageFollower: isDefaultPageFollower,
-            viewModel: viewModel
+            parentCoordinator: self,
+            viewModel: viewModel,
+            isDefaultPageFollower: isDefaultPageFollower
         )
-//        vc.isDefaultPageFollower = isDefaultPageFollower
-//        vc.viewModel = viewModel
         navigationController.pushViewController(vc, animated: true)
     }
     

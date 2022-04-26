@@ -12,8 +12,9 @@ import Pageboy
 
 final class FollowTabViewController: BaseTabViewController {
     
-    var isDefaultPageFollower: Bool!
+    weak var parentCoordinator: MainCoordinator?
     weak var viewModel: FollowViewModelType!
+    var isDefaultPageFollower: Bool!
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -37,20 +38,16 @@ final class FollowTabViewController: BaseTabViewController {
     private func setupUI() {
         view.backgroundColor = .white
         dataSource = self
-        setupTab()
-    }
-    
-    private func setupTab() {
         let bar = TMBarView<TMConstrainedHorizontalBarLayout, TMLabelBarButton, TMLineBarIndicator>()
         bar.backgroundView.style = .flat(color: .grayEDEDED)
         bar.layout.transitionStyle = .snap
         bar.indicator.tintColor = .black
         bar.buttons.customize { button in
-            button.font = .boldSystemFont(ofSize: 18)
+            button.font = .boldSystemFont(ofSize: 16)
             button.tintColor = .gray
             button.selectedTintColor = .black2D2D2D
             button.snp.makeConstraints { make in
-                make.height.equalTo(46)
+                make.height.equalTo(40)
             }
             let indicator = UIView()
             indicator.backgroundColor = .gray2D2D2D_40
@@ -108,7 +105,7 @@ final class FollowTabViewController: BaseTabViewController {
         viewModel.outputs
             .showUser
             .emit(onNext: { [weak self] user in
-//                self?.coordinator.showPortfolioBy(user: user)
+                self?.parentCoordinator?.toPortfolio(user: user)
             })
             .disposed(by: disposeBag)
     }

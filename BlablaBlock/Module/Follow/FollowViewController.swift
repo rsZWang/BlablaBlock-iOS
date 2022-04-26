@@ -9,15 +9,18 @@ import UIKit
 
 final class FollowViewController: BaseViewController {
     
+    private weak var parentCoordinator: MainCoordinator?
+    private weak var viewModel: FollowViewModelType?
     private var isDefaultPageFollower: Bool!
-    private weak var viewModel: FollowViewModelType!
     
     init(
-        isDefaultPageFollower: Bool,
-        viewModel: FollowViewModelType?
+        parentCoordinator: MainCoordinator?,
+        viewModel: FollowViewModelType?,
+        isDefaultPageFollower: Bool
     ) {
-        self.isDefaultPageFollower = isDefaultPageFollower
+        self.parentCoordinator = parentCoordinator
         self.viewModel = viewModel
+        self.isDefaultPageFollower = isDefaultPageFollower
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -38,6 +41,7 @@ final class FollowViewController: BaseViewController {
     private func setupUI() {
         view.backgroundColor = .grayEDEDED
         addChild(tabViewController)
+        tabViewController.parentCoordinator = parentCoordinator
         tabViewController.isDefaultPageFollower = isDefaultPageFollower
         tabViewController.viewModel = viewModel
         tabViewController.didMove(toParent: self)
