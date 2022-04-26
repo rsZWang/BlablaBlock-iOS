@@ -8,7 +8,7 @@
 import Foundation
 import RxCocoa
 
-public protocol ExploreUserViewModelInputs {
+public protocol ExploreUserViewModelInputs: AnyObject {
     var viewDidLoad: PublishRelay<()> { get }
     var userName: BehaviorRelay<String> { get }
     var selectedIndexPath: PublishRelay<IndexPath> { get }
@@ -16,14 +16,14 @@ public protocol ExploreUserViewModelInputs {
     var filter: BehaviorRelay<ExploreUserFilter> { get }
 }
 
-public protocol ExploreUserViewModelOutputs {
+public protocol ExploreUserViewModelOutputs: AnyObject {
     var users: Driver<[UserApiData]> { get }
     var isNotEmpty: Driver<Bool> { get }
     var selectedUser: Signal<UserApiData> { get }
     var refreshControl: Signal<Bool> { get }
 }
 
-public protocol ExploreUserViewModelType {
+public protocol ExploreUserViewModelType: AnyObject {
     var inputs: ExploreUserViewModelInputs { get }
     var outputs: ExploreUserViewModelOutputs { get }
 }

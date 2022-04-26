@@ -11,19 +11,18 @@ import RxSwift
 public protocol FollowViewModelInputs: AnyObject {
     var user: BehaviorRelay<UserApiData?> { get }
     var viewWillAppear: PublishRelay<()> { get }
-    var followBtnTap: PublishRelay<()> { get }
-    var followerFollowBtnTap: PublishRelay<Int> { get }
-    var followingFollowBtnTap: PublishRelay<Int> { get }
+    var portfolioFollowBtnTap: PublishRelay<Int> { get }
+    var followBtnTap: PublishRelay<Int> { get }
     var followCellTap: PublishRelay<FollowApiDataFollowUser> { get }
 }
 
 public protocol FollowViewModelOutputs: AnyObject {
-    var user: BehaviorRelay<UserApiData?> { get }
-    var followerAmount: Signal<Int> { get }
-    var followingAmount: Signal<Int> { get }
-    var followers: Driver<[FollowApiDataFollowUser]> { get }
-    var followings: Driver<[FollowApiDataFollowUser]> { get }
-    var showUser: Signal<UserApiData> { get }
+    var isFollowing: BehaviorRelay<Bool> { get }
+    var followerAmount: BehaviorRelay<Int> { get }
+    var followingAmount: BehaviorRelay<Int> { get }
+    var followers: BehaviorRelay<[FollowApiDataFollowUser]> { get }
+    var followings: BehaviorRelay<[FollowApiDataFollowUser]> { get }
+    var toProfile: Signal<UserApiData> { get }
 }
 
 public protocol FollowViewModelType: AnyObject {
@@ -42,18 +41,18 @@ final class FollowViewModel:
     
     var user: BehaviorRelay<UserApiData?>
     var viewWillAppear: PublishRelay<()>
-    var followBtnTap: PublishRelay<()>
-    var followerFollowBtnTap: PublishRelay<Int>
-    var followingFollowBtnTap: PublishRelay<Int>
+    var portfolioFollowBtnTap: PublishRelay<Int>
+    var followBtnTap: PublishRelay<Int>
     var followCellTap: PublishRelay<FollowApiDataFollowUser>
     
     // MARK: - outputs
     
-    var followerAmount: Signal<Int>
-    var followingAmount: Signal<Int>
-    var followers: Driver<[FollowApiDataFollowUser]>
-    var followings: Driver<[FollowApiDataFollowUser]>
-    var showUser: Signal<UserApiData>
+    var isFollowing: BehaviorRelay<Bool>
+    var followerAmount: BehaviorRelay<Int>
+    var followingAmount: BehaviorRelay<Int>
+    var followers: BehaviorRelay<[FollowApiDataFollowUser]>
+    var followings: BehaviorRelay<[FollowApiDataFollowUser]>
+    var toProfile: Signal<UserApiData>
     
     var inputs: FollowViewModelInputs { self }
     var outputs: FollowViewModelOutputs { self }
@@ -65,66 +64,66 @@ final class FollowViewModel:
     override init() {
         let user = BehaviorRelay<UserApiData?>(value: nil)
         let viewWillAppear = PublishRelay<()>()
-        let followBtnTap = PublishRelay<()>()
-        let followerFollowBtnTap = PublishRelay<Int>()
-        let followingFollowBtnTap = PublishRelay<Int>()
+        let followBtnTap = PublishRelay<Int>()
         let followCellTap = PublishRelay<FollowApiDataFollowUser>()
+        let portfolioFollowBtnTap = PublishRelay<Int>()
         
-        let followerAmount = PublishRelay<Int>()
-        let followingAmount = PublishRelay<Int>()
+        let isFollowing = BehaviorRelay<Bool>(value: false)
+        let followerAmount = BehaviorRelay<Int>(value: 0)
+        let followingAmount = BehaviorRelay<Int>(value: 0)
         let followers = BehaviorRelay<[FollowApiDataFollowUser]>(value: [])
         let followings = BehaviorRelay<[FollowApiDataFollowUser]>(value: [])
-        let showUser = PublishRelay<UserApiData>()
+        let toProfile = PublishRelay<UserApiData>()
         
         self.user = user
         self.viewWillAppear = viewWillAppear
         self.followBtnTap = followBtnTap
-        self.followerFollowBtnTap = followerFollowBtnTap
-        self.followingFollowBtnTap = followingFollowBtnTap
         self.followCellTap = followCellTap
+        self.portfolioFollowBtnTap = portfolioFollowBtnTap
         
-        self.user = user
-        self.followerAmount = followerAmount.asSignal()
-        self.followingAmount = followingAmount.asSignal()
-        self.followers = followers.asDriver()
-        self.followings = followings.asDriver()
-        self.showUser = showUser.asSignal()
+        self.isFollowing = isFollowing
+        self.followerAmount = followerAmount
+        self.followingAmount = followingAmount
+        self.followers = followers
+        self.followings = followings
+        self.toProfile = toProfile.asSignal()
         
         super.init()
         
-        viewWillAppear
-            .subscribe(onNext: { [weak self] in
-                self?.getFollowers(
-                    followerAmount: followerAmount,
-                    followingAmount: followingAmount,
-                    followers: followers,
-                    followings: followings
-                )
-            })
-            .disposed(by: disposeBag)
-        
-        followBtnTap
-            .subscribe(onNext: { [weak self] in
-                Timber.i("followBtnTap")
-                if let user = self?.user.value {
-                    self?.follow(user)
+        user
+            .subscribe(onNext: { [weak self] user in
+                if let user = user {
+                    self?.isFollowing.accept(user.isFollow)
                 }
             })
             .disposed(by: disposeBag)
         
-        followerFollowBtnTap
-            .subscribe(onNext: { [weak self] userId in
-                self?.follow(id: userId, follow: followers)
+        viewWillAppear
+            .throttle(.milliseconds(1000), scheduler: MainScheduler.asyncInstance)
+            .observe(on: ConcurrentDispatchQueueScheduler.init(qos: .utility))
+            .subscribe(onNext: { [weak self] _ in
+                self?.getFollowers()
             })
             .disposed(by: disposeBag)
         
-        followingFollowBtnTap
+        portfolioFollowBtnTap
+            .debounce(.milliseconds(500), scheduler: MainScheduler.asyncInstance)
+            .observe(on: ConcurrentDispatchQueueScheduler.init(qos: .utility))
             .subscribe(onNext: { [weak self] userId in
-                self?.follow(id: userId, follow: followings)
+                self?.tell(userId: userId, isProfolioPage: true)
+            })
+            .disposed(by: disposeBag)
+        
+        followBtnTap
+            .debounce(.milliseconds(500), scheduler: MainScheduler.asyncInstance)
+            .observe(on: ConcurrentDispatchQueueScheduler.init(qos: .utility))
+            .subscribe(onNext: { [weak self] userId in
+                self?.tell(userId: userId, isProfolioPage: false)
             })
             .disposed(by: disposeBag)
         
         followCellTap
+            .debounce(.milliseconds(500), scheduler: MainScheduler.asyncInstance)
             .filter { $0.userId != Int(keychainUser[.userId] ?? "-1") }
             .map {
                 UserApiData(
@@ -139,18 +138,13 @@ final class FollowViewModel:
                     isFollow: $0.isFollow
                 )
             }
-            .bind(to: showUser)
+            .bind(to: toProfile)
             .disposed(by: disposeBag)
     }
 }
 
 private extension FollowViewModel {
-    func getFollowers(
-        followerAmount: PublishRelay<Int>,
-        followingAmount: PublishRelay<Int>,
-        followers: BehaviorRelay<[FollowApiDataFollowUser]>,
-        followings: BehaviorRelay<[FollowApiDataFollowUser]>
-    ) {
+    func getFollowers() {
         let target: Single<HttpResponse<FollowApi, ResponseFailure>>
         if let userId = user.value?.userId {
             target = UserService.getFollowerByID(userId: userId)
@@ -164,10 +158,10 @@ private extension FollowViewModel {
                 switch response {
                 case let .success(followerApiResponse):
                     let data = followerApiResponse.data
-                    followerAmount.accept(data.followers.count)
-                    followingAmount.accept(data.followings.count)
-                    followers.accept(data.followers.list)
-                    followings.accept(data.followings.list)
+                    self?.followerAmount.accept(data.followers.count)
+                    self?.followingAmount.accept(data.followings.count)
+                    self?.followers.accept(data.followers.list)
+                    self?.followings.accept(data.followings.list)
                 case let .failure(responseFailure):
                     self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
                 }
@@ -179,106 +173,108 @@ private extension FollowViewModel {
         .disposed(by: disposeBag)
     }
     
-    func follow(_ user: UserApiData) {
-        if user.isFollow {
-            FollowService.unfollow(userId: user.userId)
-                .request()
-                .subscribe(
-                    onSuccess: { [weak self] response in
-                        switch response {
-                        case .success(_):
-                            var user = user
-                            user.isFollow = false
-                            self?.user.accept(user)
-                            self?.viewWillAppear.accept(())
-                        case let .failure(responseFailure):
-                            self?.errorCodeHandler(responseFailure)
-                        }
-                    },
-                    onFailure: { [weak self] error in
-                        self?.errorHandler(error: error)
-                    }
-                )
-                .disposed(by: disposeBag)
-        } else {
-            FollowService.follow(userId: user.userId)
-                .request()
-                .subscribe(
-                    onSuccess: { [weak self] response in
-                        switch response {
-                        case .success(_):
-                            var user = user
-                            user.isFollow = true
-                            self?.user.accept(user)
-                            self?.viewWillAppear.accept(())
-                        case let .failure(responseFailure):
-                            self?.errorCodeHandler(responseFailure)
-                        }
-                    },
-                    onFailure: { [weak self] error in
-                        self?.errorHandler(error: error)
-                    }
-                )
-                .disposed(by: disposeBag)
-        }
-    }
-    
-    func follow(id: Int, follow: BehaviorRelay<[FollowApiDataFollowUser]>) {
-        if let user = follow.value.first(where: { $0.userId == id }) {
-            if user.isFollow {
-                FollowService.unfollow(userId: user.userId)
-                    .request()
-                    .subscribe(
-                        onSuccess: { [weak self] response in
-                            switch response {
-                            case .success(_):
-                                self?.updateList(
-                                    id: id,
-                                    isFollow: false,
-                                    follow: follow
-                                )
-                            case let .failure(responseFailure):
-                                self?.errorCodeHandler(responseFailure)
-                            }
-                        },
-                        onFailure: { [weak self] error in
-                            self?.errorHandler(error: error)
-                        }
-                    )
-                    .disposed(by: disposeBag)
+    private func tell(userId: Int, isProfolioPage: Bool) {
+        if let isFollowing = followers.value.first(where: { $0.userId == userId })?.isFollow
+            ?? followings.value.first(where: { $0.userId == userId })?.isFollow
+            ?? user.value?.isFollow
+        {
+            if !isFollowing {
+                follow(userId: userId, isProfolioPage: isProfolioPage)
             } else {
-                FollowService.follow(userId: user.userId)
-                    .request()
-                    .subscribe(
-                        onSuccess: { [weak self] response in
-                            switch response {
-                            case .success(_):
-                                self?.updateList(
-                                    id: id,
-                                    isFollow: true,
-                                    follow: follow
-                                )
-                            case let .failure(responseFailure):
-                                self?.errorCodeHandler(responseFailure)
-                            }
-                        },
-                        onFailure: { [weak self] error in
-                            self?.errorHandler(error: error)
-                        }
-                    )
-                    .disposed(by: disposeBag)
+                unfollow(userId: userId, isProfolioPage: isProfolioPage)
             }
         }
     }
     
-    func updateList(id: Int, isFollow: Bool, follow: BehaviorRelay<[FollowApiDataFollowUser]>) {
-        var newList = follow.value
+    private func follow(userId: Int, isProfolioPage: Bool) {
+        FollowService.follow(userId: userId)
+            .request()
+            .subscribe(
+                onSuccess: { [weak self] response in
+                    switch response {
+                    case .success(_):
+                        self?.updateList(userId: userId, isFollow: true, isProfolioPage: isProfolioPage)
+                    case let .failure(responseFailure):
+                        self?.errorCodeHandler(responseFailure)
+                    }
+                },
+                onFailure: { [weak self] error in
+                    self?.errorHandler(error: error)
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    
+    private func unfollow(userId: Int, isProfolioPage: Bool) {
+        FollowService.unfollow(userId: userId)
+            .request()
+            .subscribe(
+                onSuccess: { [weak self] response in
+                    switch response {
+                    case .success(_):
+                        self?.updateList(userId: userId, isFollow: false, isProfolioPage: isProfolioPage)
+                    case let .failure(responseFailure):
+                        self?.errorCodeHandler(responseFailure)
+                    }
+                },
+                onFailure: { [weak self] error in
+                    self?.errorHandler(error: error)
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    
+    private func updateList(userId: Int, isFollow: Bool, isProfolioPage: Bool) {
+        updateList(
+            userId: userId,
+            isFollow: isFollow,
+            list: followers
+        )
+        
+        updateList(
+            userId: userId,
+            isFollow: isFollow,
+            list: followings
+        )
+        
+        if isProfolioPage {
+            if var user = user.value {
+                user.isFollow = isFollow
+                self.user.accept(user)
+            }
+            
+            var newList = followers.value
+            if let userIdString = keychainUser[.userId], let userId = Int(userIdString) {
+                if isFollow {
+                    let userName = keychainUser[.userName] ?? keychainUser[.userEmail]
+                    newList.append(FollowApiDataFollowUser(userId: userId, name: userName, isFollow: isFollow))
+                } else {
+                    newList.removeAll(where: { $0.userId == userId })
+                }
+            }
+            followers.accept(newList)
+            followerAmount.accept(newList.count)
+        }
+    }
+    
+    private func updateList(
+        userId: Int,
+        isFollow: Bool,
+        list: BehaviorRelay<[FollowApiDataFollowUser]>,
+        block: ((Bool, [FollowApiDataFollowUser]) -> [FollowApiDataFollowUser])? = nil
+    ) {
+        var isNotExisting = true
+        var newList = list.value
         for index in newList.indices {
-            if newList[index].userId == id {
+            if newList[index].userId == userId {
                 newList[index].isFollow = isFollow
+                isNotExisting = false
                 break
             }
         }
-        follow.accept(newList)
+        if let block = block {
+            newList = block(isNotExisting, newList)
+        }
+        list.accept(newList)
     }
 }

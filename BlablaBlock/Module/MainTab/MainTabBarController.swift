@@ -15,26 +15,27 @@ import Pageboy
 final class MainTabBarController: BaseViewController {
     
     private weak var parentCoordinator: MainCoordinator?
-    private let homePageViewModel: HomePageViewModelType
-    private let exploreUserViewModel: ExploreUserViewModelType
-    private let portfolioViewModel: PortfolioViewModelType
-    private let followViewModel: FollowViewModelType
-    private let exchangeViewModel: ExchangeApiViewModel
+//    private let homePageViewModel: HomePageViewModelType
+//    private let exploreUserViewModel: ExploreUserViewModelType
+//    private let portfolioViewModel: PortfolioViewModelType
+//    private let followViewModel: FollowViewModelType
+//    private let exchangeViewModel: ExchangeApiViewModel
     
     init(
-        parentCoordinator: MainCoordinator,
-        homePageViewModel: HomePageViewModelType,
-        exploreUserViewModel: ExploreUserViewModelType,
-        portfolioViewModel: PortfolioViewModelType,
-        followViewModel: FollowViewModelType,
-        exchangeViewModel: ExchangeApiViewModel
+        parentCoordinator: MainCoordinator
+//        parentCoordinator: MainCoordinator,
+//        homePageViewModel: HomePageViewModelType,
+//        exploreUserViewModel: ExploreUserViewModelType,
+//        portfolioViewModel: PortfolioViewModelType,
+//        followViewModel: FollowViewModelType,
+//        exchangeViewModel: ExchangeApiViewModel
     ) {
         self.parentCoordinator = parentCoordinator
-        self.homePageViewModel = homePageViewModel
-        self.exploreUserViewModel = exploreUserViewModel
-        self.portfolioViewModel = portfolioViewModel
-        self.followViewModel = followViewModel
-        self.exchangeViewModel = exchangeViewModel
+//        self.homePageViewModel = homePageViewModel
+//        self.exploreUserViewModel = exploreUserViewModel
+//        self.portfolioViewModel = portfolioViewModel
+//        self.followViewModel = followViewModel
+//        self.exchangeViewModel = exchangeViewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -116,18 +117,28 @@ final class MainTabBarController: BaseViewController {
     }
     
     private func setupContainer() {
-        viewControllers.append(HomePageViewController(viewModel: homePageViewModel))
-        viewControllers.append(ExploreUserViewController(viewModel: exploreUserViewModel))
+        viewControllers.append(HomePageViewController(viewModel: HomePageViewModel()))
+        viewControllers.append(ExploreUserViewController(viewModel: ExploreUserViewModel()))
         viewControllers.append(PortfolioViewController(
             parentCoordinator: parentCoordinator,
-            user: nil,
-            viewModel: portfolioViewModel,
-            followViewModel: followViewModel)
-        )
+            viewModel: PortfolioViewModel(),
+            followViewModel: FollowViewModel(),
+            user: nil
+        ))
 //        viewControllers.append(UIViewController())
-        viewControllers.append(UIViewController())
-        pageViewController.dataSource = self
+        
+//        viewControllers.append(HomePageViewController(viewModel: homePageViewModel))
+//        viewControllers.append(ExploreUserViewController(viewModel: exploreUserViewModel))
+//        viewControllers.append(PortfolioViewController(
+//            parentCoordinator: parentCoordinator,
+//            viewModel: portfolioViewModel,
+//            followViewModel: followViewModel,
+//            user: nil
+//        ))
+////        viewControllers.append(UIViewController())
+        
         addChild(pageViewController)
+        pageViewController.dataSource = self
         pageViewController.didMove(toParent: self)
     }
     

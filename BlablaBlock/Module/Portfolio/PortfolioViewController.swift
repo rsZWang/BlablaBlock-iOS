@@ -14,21 +14,21 @@ import RxDataSources
 
 final class PortfolioViewController: BaseViewController {
     
-    private weak var parentCoordinator: MainCoordinator?
-    private let user: UserApiData?
+    private weak var parentCoordinator: MainCoordinator!
     private let viewModel: PortfolioViewModelType
     private let followViewModel: FollowViewModelType
+    private let user: UserApiData?
     
     init(
         parentCoordinator: MainCoordinator?,
-        user: UserApiData?,
         viewModel: PortfolioViewModelType,
-        followViewModel: FollowViewModelType
+        followViewModel: FollowViewModelType,
+        user: UserApiData?
     ) {
         self.parentCoordinator = parentCoordinator
-        self.user = user
         self.viewModel = viewModel
         self.followViewModel = followViewModel
+        self.user = user
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -43,20 +43,35 @@ final class PortfolioViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupUser()
         setupLayout()
         setupBinding()
-//        viewModel.inputs.user.accept(user)
-//        viewModel.inputs.viewWillAppear.accept(())
-//        followViewModel.inputs.user.accept(user)
-//        followViewModel.inputs.viewWillAppear.accept(())
+        viewModel.inputs.user.accept(user)
+        viewModel.inputs.viewDidLoad.accept(())
+        followViewModel.inputs.user.accept(user)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        followViewModel.inputs.viewWillAppear.accept(())
+    }
+
+    private func setupUser() {
+        if let user = user {
+            userNameLabel.text = user.name
+        } else {
+            userNameLabel.text = keychainUser[.userName] ?? keychainUser[.userEmail]
+        }
     }
     
     private func setupUI() {
         view.backgroundColor = .grayE5E5E5
+        
+        if user != nil {
+            navigationSectionView.delegate = self
+            actionButton.setTitle("追蹤", for: .normal)
+            actionButton.setTitle("追蹤中", for: .selected)
+        }
         
         avatarImageView.image = "ic_profile_avatar_placeholder".image()
         avatarImageView.makeCircle(base: 70)
@@ -105,7 +120,6 @@ final class PortfolioViewController: BaseViewController {
         tabButtonSeparatorViewRight.backgroundColor = .white
         followingPortfolioTabButton.setTitle("追蹤中組合", for: .normal)
         
-        userNameLabel.text = " "
         assetSumLabel.text = " "
         followerLabel.text = " "
         followingLabel.text = " "
@@ -118,40 +132,6 @@ final class PortfolioViewController: BaseViewController {
                 followingPortfolioSectionView
             ]
         )
-
-        if user == nil {
-//            shareButton.isHidden = true
-//            backButton.isHidden = true
-        } else {
-//            shareButton.isHidden = false
-//            shareButton.rx
-//                .tap
-//                .bind(to: followViewModel.inputs.followBtnTap)
-//                .disposed(by: disposeBag)
-
-//            backButton.isHidden = false
-//            backButton.rx
-//                .tap
-//                .asSignal()
-//                .map { PortfolioViewUiEvent.back }
-//                .emit(to: viewModel.outputs.uiEvent)
-//                .disposed(by: disposeBag)
-        }
-    }
-    
-    private func setupUser(user: UserApiData?) {
-        if let user = user {
-            userNameLabel.text = user.name
-            if user.isFollow {
-//                shareButton.setTitle("追蹤中", for: .normal)
-//                shareButton.isSelected = true
-            } else {
-//                shareButton.setTitle("追蹤", for: .normal)
-//                shareButton.isSelected = false
-            }
-        } else {
-            userNameLabel.text = keychainUser[.userName]
-        }
     }
     
     private func setupAssetDayChange(dayChange: Double) {
@@ -161,7 +141,7 @@ final class PortfolioViewController: BaseViewController {
             assetDayChangeLabel.textColor = .green76B128
             assetDayChangeLabel.backgroundColor = .green9DCB6080
         } else {
-            sign = "-"
+            sign = ""
             assetDayChangeLabel.textColor = .redE82020
             assetDayChangeLabel.backgroundColor = .redFFA8A8
         }
@@ -176,17 +156,32 @@ final class PortfolioViewController: BaseViewController {
             make.leading.top.trailing.equalToSuperview()
         }
         
-        view.addSubview(basicInfoSectionView)
-        basicInfoSectionView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(24)
-            make.trailing.equalToSuperview().offset(-24)
-            make.top.equalTo(statusBarSection.snp.bottom)
+        if user != nil {
+            view.addSubview(navigationSectionView)
+            navigationSectionView.snp.makeConstraints { make in
+                make.leading.trailing.equalToSuperview()
+                make.top.equalTo(statusBarSection.snp.bottom)
+            }
+            
+            view.addSubview(basicInfoSectionView)
+            basicInfoSectionView.snp.makeConstraints { make in
+                make.leading.equalToSuperview().offset(24)
+                make.trailing.equalToSuperview().offset(-24)
+                make.top.equalTo(navigationSectionView.snp.bottom)
+            }
+        } else {
+            view.addSubview(basicInfoSectionView)
+            basicInfoSectionView.snp.makeConstraints { make in
+                make.leading.equalToSuperview().offset(24)
+                make.trailing.equalToSuperview().offset(-24)
+                make.top.equalTo(statusBarSection.snp.bottom).offset(16)
+            }
         }
         
         basicInfoSectionView.addSubview(basicInfoTopSectionView)
         basicInfoTopSectionView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.top.equalToSuperview().offset(16)
+            make.top.equalToSuperview()
         }
         
         basicInfoTopSectionView.addSubview(avatarImageView)
@@ -241,6 +236,16 @@ final class PortfolioViewController: BaseViewController {
         basicInfoBottomSectionView.snp.makeConstraints { make in
             make.leading.bottom.trailing.equalToSuperview()
             make.top.equalTo(basicInfoSectionSeparatorView.snp.bottom).offset(8)
+        }
+        
+        if user != nil {
+            basicInfoBottomSectionView.addSubview(actionButton)
+            actionButton.snp.makeConstraints { make in
+                make.width.equalTo(70)
+                make.height.equalTo(22)
+                make.leading.equalToSuperview()
+                make.centerY.equalToSuperview()
+            }
         }
         
         basicInfoBottomSectionView.addSubview(followSectionView)
@@ -352,6 +357,20 @@ final class PortfolioViewController: BaseViewController {
     }
     
     private func setupBinding() {
+        if let user = user {
+            actionButton.rx
+                .tap
+                .map { user.userId }
+                .bind(to: followViewModel.inputs.portfolioFollowBtnTap)
+                .disposed(by: disposeBag)
+            
+            followViewModel.outputs
+                .isFollowing
+                .asDriver()
+                .drive(actionButton.rx.isSelected)
+                .disposed(by: disposeBag)
+        }
+        
         followerSectionView.rx
             .tapGesture()
             .when(.recognized)
@@ -387,12 +406,14 @@ final class PortfolioViewController: BaseViewController {
         followViewModel.outputs
             .followerAmount
             .map { String($0) }
+            .asSignal(onErrorJustReturn: "")
             .emit(to: followerLabel.rx.text)
             .disposed(by: disposeBag)
 
         followViewModel.outputs
             .followingAmount
             .map { String($0) }
+            .asSignal(onErrorJustReturn: "")
             .emit(to: followingLabel.rx.text)
             .disposed(by: disposeBag)
 
@@ -418,6 +439,7 @@ final class PortfolioViewController: BaseViewController {
     }
     
     private let statusBarSection = UIView()
+    private lazy var navigationSectionView = BlablaBlockNavigationBarView()
     private let basicInfoSectionView = UIView()
     private let basicInfoTopSectionView = UIView()
     private let avatarImageView = UIImageView()
@@ -428,6 +450,7 @@ final class PortfolioViewController: BaseViewController {
     private let assetDayChangeLabel = UILabel()
     private let basicInfoSectionSeparatorView = UIView()
     private let basicInfoBottomSectionView = UIView()
+    private lazy var actionButton = OrangeButton()
     private let followSectionView = UIView()
     private let followerSectionView = UIView()
     private let followerLabel = UILabel()
@@ -457,6 +480,12 @@ extension PortfolioViewController {
         case .back:
             pop()
         }
+    }
+}
+
+extension PortfolioViewController: BlablaBlockNavigationBarViewDelegate {
+    func onBack() {
+        navigationController?.popViewController(animated: true)
     }
 }
 

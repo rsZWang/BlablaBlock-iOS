@@ -18,10 +18,15 @@ final class OrangeButton: ColorButton {
         titleBold = true
         
         normalBgColor = .white
-        selectedBgColor = .orangeFF9960
         normalTitleColor = .orangeFF9960
-        selectedTitleColor = .white
         normalBorderColor = .orangeFF9960
+        
+        selectedBgColor = .orangeFF9960
+        selectedTitleColor = .white
         selectedBorderColor = .orangeFF9960
+        
+        highlightedBgColor = .white
+        highlightedTitleColor = .orangeFF9960
+        highlightedBorderColor = .orangeFF9960
     }
 }

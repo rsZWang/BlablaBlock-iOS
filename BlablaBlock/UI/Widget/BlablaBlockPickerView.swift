@@ -31,12 +31,16 @@ public final class BlablaBlockPickerView: UIView {
             }
         }
     }
-    var delegate: BlablaBlockPickerViewDelegate?
+    weak var delegate: BlablaBlockPickerViewDelegate?
     
     convenience init(style: BlablaBlockPickerView.Style) {
         self.init(frame: .zero)
         self.style = style
         self.commonInit()
+    }
+    
+    private init() {
+        super.init(frame: .zero)
     }
     
     override init(frame: CGRect) {

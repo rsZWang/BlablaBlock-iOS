@@ -23,8 +23,8 @@ final class PorfolioCoordinator: Coordinator {
     
     func toTradeHistory(userId: Int) {
         let vc = TradeHistoryViewController(
-            userId: userId,
-            viewModel: TradeHistoryViewModel()
+            viewModel: TradeHistoryViewModel(),
+            userId: userId
         )
         navigationController.pushViewController(vc, animated: true)
     }

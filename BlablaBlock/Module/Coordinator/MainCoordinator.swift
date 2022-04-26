@@ -57,12 +57,13 @@ final class MainCoordinator: Coordinator {
     
     func main(userId: String) {
         let vc = MainTabBarController(
-            parentCoordinator: self,
-            homePageViewModel: HomePageViewModel(),
-            exploreUserViewModel: ExploreUserViewModel(),
-            portfolioViewModel: PortfolioViewModel(),
-            followViewModel: FollowViewModel(),
-            exchangeViewModel: ExchangeApiViewModel()
+            parentCoordinator: self
+//            parentCoordinator: self,
+//            homePageViewModel: HomePageViewModel(),
+//            exploreUserViewModel: ExploreUserViewModel(),
+//            portfolioViewModel: PortfolioViewModel(),
+//            followViewModel: FollowViewModel(),
+//            exchangeViewModel: ExchangeApiViewModel()
         )
         navigationController.pushViewController(vc, animated: true)
     }
@@ -70,9 +71,9 @@ final class MainCoordinator: Coordinator {
     func toPortfolio(user: UserApiData) {
         let vc = PortfolioViewController(
             parentCoordinator: self,
-            user: user,
             viewModel: PortfolioViewModel(),
-            followViewModel: FollowViewModel()
+            followViewModel: FollowViewModel(),
+            user: user
         )
         navigationController.pushViewController(vc, animated: true)
     }
@@ -91,8 +92,8 @@ final class MainCoordinator: Coordinator {
     
     func toTradyHistory(userId: Int) {
         let vc = TradeHistoryViewController(
-            userId: userId,
-            viewModel: TradeHistoryViewModel()
+            viewModel: TradeHistoryViewModel(),
+            userId: userId
         )
         navigationController.pushViewController(vc, animated: true)
     }

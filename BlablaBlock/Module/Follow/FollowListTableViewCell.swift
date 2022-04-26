@@ -52,8 +52,8 @@ final class FollowListTableViewCell: UITableViewCell {
         avatarImageView.snp.makeConstraints { make in
             make.width.height.equalTo(32)
             make.leading.equalToSuperview().offset(24)
-            make.top.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.top.equalToSuperview().offset(12)
+            make.bottom.equalToSuperview().offset(-12)
         }
         
         userNameLabel.snp.makeConstraints { make in
@@ -77,13 +77,7 @@ final class FollowListTableViewCell: UITableViewCell {
     ) {
         userNameLabel.text = follow.name
         if follow.userId != Int(keychainUser[.userId] ?? "-1") {
-            if follow.isFollow {
-                followButton.isSelected = true
-                followButton.setTitle("追蹤中", for: .normal)
-            } else {
-                followButton.isSelected = false
-                followButton.setTitle("追蹤", for: .normal)
-            }
+            followButton.isSelected = follow.isFollow
             followButton.rx
                 .tap
                 .subscribe(onNext: {

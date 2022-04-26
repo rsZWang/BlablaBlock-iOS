@@ -17,7 +17,7 @@ protocol BlablaBlockNavigationBarViewDelegate: AnyObject {
 final class BlablaBlockNavigationBarView: UIView {
     
     private let disposeBag = DisposeBag()
-    var delegate: BlablaBlockNavigationBarViewDelegate?
+    weak var delegate: BlablaBlockNavigationBarViewDelegate?
     var title: String? {
         didSet {
             titleLabel.text = title

@@ -11,7 +11,7 @@ public typealias Method = Moya.Method
 
 struct AuthService {
     
-    struct login: HttpResponseTargetType {
+    struct login: HttpTargetType {
         var method: Method { .post }
         var tokenType: TokenType { .normal }
         var path: String { "login" }
@@ -28,7 +28,7 @@ struct AuthService {
         let password: String
     }
     
-    struct register: HttpResponseTargetType {
+    struct register: HttpTargetType {
         var method: Method { .post }
         var tokenType: TokenType { .normal }
         var path: String { "registration" }
@@ -47,7 +47,7 @@ struct AuthService {
         let password: String
     }
     
-    struct forgetPassword: HttpResponseTargetType {
+    struct forgetPassword: HttpTargetType {
         var method: Method { .post }
         var tokenType: TokenType { .normal }
         var path: String { "forgotpassword" }
@@ -62,7 +62,7 @@ struct AuthService {
         let email: String
     }
     
-    struct resetPassword: HttpResponseTargetType {
+    struct resetPassword: HttpTargetType {
         var method: Method { .post }
         var tokenType: TokenType { .custom(token) }
         var path: String { "resetpassword" }
@@ -78,7 +78,7 @@ struct AuthService {
         let password: String
     }
     
-    struct logout: HttpResponseTargetType {
+    struct logout: HttpTargetType {
         var method: Method { .post }
         var tokenType: TokenType { .user }
         var path: String { "logout" }

@@ -9,7 +9,7 @@ import Moya
 
 struct ExchangeApiService {
     
-    struct getStatus: HttpResponseTargetType {
+    struct getStatus: HttpTargetType {
         var method: Method { .get }
         var tokenType: TokenType { .user }
         var path: String { "api_settings" }
@@ -20,7 +20,7 @@ struct ExchangeApiService {
         typealias FailureType = ResponseFailure
     }
     
-    struct create: HttpResponseTargetType {
+    struct create: HttpTargetType {
         var method: Method { .post }
         var tokenType: TokenType { .user }
         var path: String { "api_settings" }
@@ -39,7 +39,7 @@ struct ExchangeApiService {
         let apiSecret: String
     }
     
-    struct edit: HttpResponseTargetType {
+    struct edit: HttpTargetType {
         var method: Method { .patch }
         var tokenType: TokenType { .user }
         var path: String { "api_settings/\(id)" }
@@ -61,7 +61,7 @@ struct ExchangeApiService {
         let subAccount: String
     }
     
-    struct delete: HttpResponseTargetType {
+    struct delete: HttpTargetType {
         var method: Method { .delete }
         var tokenType: TokenType { .user }
         var path: String { "api_settings/\(id)" }
@@ -74,7 +74,7 @@ struct ExchangeApiService {
         let id: Int
     }
     
-    struct getCurrency: HttpResponseTargetType {
+    struct getCurrency: HttpTargetType {
         var method: Method { .get }
         var tokenType: TokenType { .normal }
         var path: String { "currency" }

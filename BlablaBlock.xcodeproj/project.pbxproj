@@ -92,7 +92,7 @@
 		A09D70E3272518F700ACE44A /* LinkCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09D70E2272518F700ACE44A /* LinkCardView.swift */; };
 		A09D70E52725194B00ACE44A /* LinkCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A09D70E42725194B00ACE44A /* LinkCardView.xib */; };
 		A09D70E727251C3500ACE44A /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09D70E627251C3500ACE44A /* SettingViewController.swift */; };
-		A0C1FB6D27647EC700C4201A /* HttpResponseTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C1FB6C27647EC700C4201A /* HttpResponseTargetType.swift */; };
+		A0C1FB6D27647EC700C4201A /* HttpTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C1FB6C27647EC700C4201A /* HttpTargetType.swift */; };
 		A0C1FB722764935300C4201A /* ResponseSuccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C1FB712764935300C4201A /* ResponseSuccess.swift */; };
 		A0C1FB7427649B0F00C4201A /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C1FB7327649B0F00C4201A /* AuthService.swift */; };
 		A0C1FB7A2764B5B900C4201A /* MoyaLoggerPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C1FB792764B5B900C4201A /* MoyaLoggerPlugin.swift */; };
@@ -225,7 +225,7 @@
 		A09D70E2272518F700ACE44A /* LinkCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkCardView.swift; sourceTree = "<group>"; };
 		A09D70E42725194B00ACE44A /* LinkCardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LinkCardView.xib; sourceTree = "<group>"; };
 		A09D70E627251C3500ACE44A /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
-		A0C1FB6C27647EC700C4201A /* HttpResponseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpResponseTargetType.swift; sourceTree = "<group>"; };
+		A0C1FB6C27647EC700C4201A /* HttpTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpTargetType.swift; sourceTree = "<group>"; };
 		A0C1FB712764935300C4201A /* ResponseSuccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseSuccess.swift; sourceTree = "<group>"; };
 		A0C1FB7327649B0F00C4201A /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		A0C1FB792764B5B900C4201A /* MoyaLoggerPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoyaLoggerPlugin.swift; sourceTree = "<group>"; };
@@ -374,8 +374,8 @@
 				4ABDADA727F4BBF700BC94B6 /* Home */,
 				4ABDADA827F4BDA000BC94B6 /* ExploreUser */,
 				4ABDADA927F4BDFB00BC94B6 /* Portfolio */,
-				4ABDADAA27F4BE1900BC94B6 /* TradeHistory */,
 				4ABDADAC27F4BE8C00BC94B6 /* Follow */,
+				4ABDADAA27F4BE1900BC94B6 /* TradeHistory */,
 				4ABDADAD27F4BEA600BC94B6 /* Setting */,
 			);
 			path = Module;
@@ -549,7 +549,7 @@
 			isa = PBXGroup;
 			children = (
 				A0C1FB792764B5B900C4201A /* MoyaLoggerPlugin.swift */,
-				A0C1FB6C27647EC700C4201A /* HttpResponseTargetType.swift */,
+				A0C1FB6C27647EC700C4201A /* HttpTargetType.swift */,
 				4A6C9F2127CD39DF003B42F8 /* HttpError.swift */,
 			);
 			path = MoyaSetup;
@@ -1059,7 +1059,7 @@
 				A08E8E652778E25E0041AC61 /* Registration.swift in Sources */,
 				A0C8E559271FF18900848FCB /* AppDelegate.swift in Sources */,
 				A0DAD5BA277861FD00CD8760 /* Coordinator.swift in Sources */,
-				A0C1FB6D27647EC700C4201A /* HttpResponseTargetType.swift in Sources */,
+				A0C1FB6D27647EC700C4201A /* HttpTargetType.swift in Sources */,
 				A0C1FB7427649B0F00C4201A /* AuthService.swift in Sources */,
 				4A7FBFBE28156C030087DA49 /* FollowingPortfolioSectionView.swift in Sources */,
 				A0290E2927230AAF00A07224 /* RadioButton.swift in Sources */,

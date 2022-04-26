@@ -15,7 +15,7 @@ final class TradeHistoryTableView: UITableView {
     
     convenience init() {
         self.init(frame: .zero, style: .plain)
-        contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 0, right: 0)
+        contentInset = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
         separatorStyle = .none
         allowsSelection = false
         backgroundColor = .grayEDEDED

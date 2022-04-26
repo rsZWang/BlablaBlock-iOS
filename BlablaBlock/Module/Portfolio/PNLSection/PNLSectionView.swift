@@ -215,20 +215,11 @@ final class PNLSectionView: UIView {
             .pnlRefresh
             .emit(to: refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
-        
-//        Observable.combineLatest(
-//            viewModel.outputs.pnl.asObservable(),
-//            chartBounds
-//        )
-//        .subscribe(onNext: { [weak self] pair in
-//            self?.drawChart(data: pair.0, bounds: pair.1)
-//        })
-//        .disposed(by: disposeBag)
     }
     
     private let containerView = UIView()
     private let pickerSectionView = UIView()
-    private let periodPickerView = BlablaBlockPickerView()
+    private let periodPickerView = BlablaBlockPickerView(style: .normal)
     private let scrollView = UIScrollView()
     private let refreshControl = UIRefreshControl()
     private let scrollContainerView = UIView()

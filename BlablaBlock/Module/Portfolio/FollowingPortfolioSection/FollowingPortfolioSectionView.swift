@@ -65,8 +65,9 @@ public final class FollowingPortfolioSectionView: UIView {
         adjustWeightButton.titleLabel?.autoFontSize()
         adjustWeightButton.layer.cornerRadius = 4
         adjustWeightButton.backgroundColor = .grayEDEDED
+        adjustWeightButton.isHidden = true
         
-        tableView.addSubview(refreshControl)
+        tableView.refreshControl = refreshControl
     }
     
     private func setupLabel(_ label: UILabel) {
@@ -181,9 +182,9 @@ public final class FollowingPortfolioSectionView: UIView {
         
         viewModel.outputs
             .followingPortfolioRefresh
-            .emit(onNext: { [weak self] bool in
+            .emit(onNext: { [weak self] isRefreshIng in
                 guard let self = self else { return }
-                if bool {
+                if isRefreshIng {
                     self.refreshControl.beginRefreshing(in: self.tableView)
                 } else {
                     self.refreshControl.endRefreshing()
@@ -194,8 +195,8 @@ public final class FollowingPortfolioSectionView: UIView {
     
     private let containerView = UIView()
     private let pickerSectionView = UIView()
-    private let exchangePicker = BlablaBlockPickerView()
-    private let typePicker = BlablaBlockPickerView()
+    private let exchangePicker = BlablaBlockPickerView(style: .normal)
+    private let typePicker = BlablaBlockPickerView(style: .normal)
     private let adjustWeightButton = UIButton()
     private let headerSectionView = UIView()
     private let currencyTitleLabel = UILabel()

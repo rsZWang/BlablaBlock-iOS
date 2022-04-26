@@ -32,7 +32,6 @@ final class FollowTabViewController: BaseTabViewController {
         super.viewDidLoad()
         setupUI()
         setupBinding()
-        viewModel.inputs.viewWillAppear.accept(())
     }
     
     private func setupUI() {
@@ -47,7 +46,7 @@ final class FollowTabViewController: BaseTabViewController {
             button.tintColor = .gray
             button.selectedTintColor = .black2D2D2D
             button.snp.makeConstraints { make in
-                make.height.equalTo(40)
+                make.height.equalTo(33)
             }
             let indicator = UIView()
             indicator.backgroundColor = .gray2D2D2D_40
@@ -64,9 +63,9 @@ final class FollowTabViewController: BaseTabViewController {
     private func setupBinding() {
         viewModel.outputs
             .followers
-            .asObservable()
-            .bind(
-                to: followerListViewController.tableView.rx.items(
+            .asDriver()
+            .drive(
+                followerListViewController.tableView.rx.items(
                     cellIdentifier: FollowListTableViewCell.identifier,
                     cellType: FollowListTableViewCell.self
                 ),
@@ -74,7 +73,7 @@ final class FollowTabViewController: BaseTabViewController {
                     if let self = self {
                         cell.bind(
                             follow: element,
-                            followBtnTap: self.viewModel.inputs.followerFollowBtnTap,
+                            followBtnTap: self.viewModel.inputs.followBtnTap,
                             cellTap: self.viewModel.inputs.followCellTap
                         )
                     }
@@ -84,9 +83,9 @@ final class FollowTabViewController: BaseTabViewController {
         
         viewModel.outputs
             .followings
-            .asObservable()
-            .bind(
-                to: followingListViewController.tableView.rx.items(
+            .asDriver()
+            .drive(
+                followingListViewController.tableView.rx.items(
                     cellIdentifier: FollowListTableViewCell.identifier,
                     cellType: FollowListTableViewCell.self
                 ),
@@ -94,7 +93,7 @@ final class FollowTabViewController: BaseTabViewController {
                     if let self = self {
                         cell.bind(
                             follow: element,
-                            followBtnTap: self.viewModel.inputs.followingFollowBtnTap,
+                            followBtnTap: self.viewModel.inputs.followBtnTap,
                             cellTap: self.viewModel.inputs.followCellTap
                         )
                     }
@@ -103,7 +102,7 @@ final class FollowTabViewController: BaseTabViewController {
             .disposed(by: disposeBag)
         
         viewModel.outputs
-            .showUser
+            .toProfile
             .emit(onNext: { [weak self] user in
                 self?.parentCoordinator?.toPortfolio(user: user)
             })

@@ -1,5 +1,5 @@
 //
-//  HttpResponseTargetType.swift
+//  HttpTargetType.swift
 //  BlablaBlock
 //
 //  Created by YINGHAO WANG on 2021/12/11.
@@ -25,19 +25,20 @@ public enum TokenType {
     case custom(String)
 }
 
-public protocol HttpResponseTargetType: Moya.TargetType, AccessTokenAuthorizable {
+public protocol HttpTargetType: Moya.TargetType, AccessTokenAuthorizable {
     associatedtype SuccessType: Decodable
     associatedtype FailureType: Decodable
     
     var tokenType: TokenType { get }
 }
 
-public extension HttpResponseTargetType {
+public extension HttpTargetType {
     
     var baseURL: URL { URL(string: "\(HttpApiConfig.domain)/\(HttpApiConfig.apiVersion)")! }
     var headers: [String : String]? { nil }
     var sampleData: Data { Data() }
     var authorizationType: AuthorizationType? { .bearer }
+    var log: Bool { false }
     
     var decoder: JSONDecoder {
         ApiProvider.decoder
@@ -198,30 +199,3 @@ fileprivate final class ApiProvider {
         return MoyaProvider<MultiTarget>(callbackQueue: callbackQueue, plugins: pluginList)
     }
 }
-
-//protocol DecodableResponseTargetType: Moya.TargetType {
-//    associatedtype ResponseType: Decodable
-//}
-//
-//protocol BlablaBlockApiTargetType: DecodableResponseTargetType {
-//
-//}
-//
-//extension BlablaBlockApiTargetType {
-//
-//    var apiVersion: String { "/v1" }
-//    var baseURL: URL { URL(string: "https://api.blablablock.com\(apiVersion)")! }
-//    var headers: [String : String]? { nil }
-//    var sampleData: Data { Data() }
-//
-//    func request() -> Single<ResponseType> {
-//        ApiProvider.request(self)
-//    }
-//
-//}
-
-//    static func request<Request: DecodableResponseTargetType>(_ request: Request) -> Single<Request.ResponseType> {
-//        provider.rx.request(MultiTarget.init(request))
-//            .filterSuccessfulStatusCodes()
-//            .map(Request.ResponseType.self, using: decoder) // 在此會解析 Response，具體怎麼解析，交由 data model 的 decodable 去處理。
-//    }

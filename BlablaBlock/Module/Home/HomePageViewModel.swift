@@ -8,7 +8,7 @@
 import RxCocoa
 import RxSwift
 
-public protocol HomePageViewModelInputs: NSObject {
+public protocol HomePageViewModelInputs: AnyObject {
     var viewDidLoad: PublishRelay<()> { get }
     var viewWillAppear: PublishRelay<()> { get }
     var currencySelected: BehaviorRelay<String> { get }
@@ -16,7 +16,7 @@ public protocol HomePageViewModelInputs: NSObject {
     var followBtnTap: PublishRelay<Int> { get }
 }
 
-public protocol HomePageViewModelOutputs: NSObject {
+public protocol HomePageViewModelOutputs: AnyObject {
     var currencyList: Signal<[String]> { get }
     var selectedCurrency: Signal<String> { get }
     var notificationsRefresh: Signal<[NotificationApiData]> { get }
@@ -25,7 +25,7 @@ public protocol HomePageViewModelOutputs: NSObject {
     var refreshControl: Signal<Bool> { get }
 }
 
-public protocol HomePageViewModelType: NSObject {
+public protocol HomePageViewModelType: AnyObject {
     var inputs: HomePageViewModelInputs { get }
     var outputs: HomePageViewModelOutputs { get }
 }

@@ -11,15 +11,15 @@ import Resolver
 
 final class TradeHistoryViewController: BaseViewController {
     
-    private let viewModel: TradeHistoryViewModelType
+    private let viewModel: TradeHistoryViewModelType!
     private let userId: Int
     
     init(
-        userId: Int,
-        viewModel: TradeHistoryViewModelType
+        viewModel: TradeHistoryViewModelType,
+        userId: Int
     ) {
-        self.userId = userId
         self.viewModel = viewModel
+        self.userId = userId
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -73,7 +73,7 @@ final class TradeHistoryViewController: BaseViewController {
 
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(navigationSectionView.snp.bottom)
+            make.top.equalTo(navigationSectionView.snp.bottom).offset(3)
             make.leading.trailing.bottom.equalToSuperview()
         }
     }
@@ -114,8 +114,8 @@ extension TradeHistoryViewController: BlablaBlockNavigationBarViewDelegate {
 
 extension TradeHistoryViewController: BlablaBlockPickerViewDelegate {
     func blablaBlockPickerView(_ view: BlablaBlockPickerView, selectedIndex: Int) {
-        viewModel.inputs
-            .selectedCurrencyIndex
-            .accept(selectedIndex)
+//        viewModel.inputs
+//            .selectedCurrencyIndex
+//            .accept(selectedIndex)
     }
 }

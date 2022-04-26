@@ -63,7 +63,7 @@ public final class PortfolioSectionView: UIView {
         historyButton.layer.cornerRadius = 4
         historyButton.setImage("ic_portfolio_history".image(), for: .normal)
         
-        tableView.addSubview(refreshControl)
+        tableView.refreshControl = refreshControl
     }
     
     private func setupLabel(_ label: UILabel) {
@@ -182,9 +182,9 @@ public final class PortfolioSectionView: UIView {
         
         viewModel.outputs
             .portfolioRefresh
-            .emit(onNext: { [weak self] bool in
+            .emit(onNext: { [weak self] isRefreshIng in
                 guard let self = self else { return }
-                if bool {
+                if isRefreshIng {
                     self.refreshControl.beginRefreshing(in: self.tableView)
                 } else {
                     self.refreshControl.endRefreshing()
@@ -195,8 +195,8 @@ public final class PortfolioSectionView: UIView {
     
     private let containerView = UIView()
     private let pickerSectionView = UIView()
-    private let exchangePicker = BlablaBlockPickerView()
-    private let typePicker = BlablaBlockPickerView()
+    private let exchangePicker = BlablaBlockPickerView(style: .normal)
+    private let typePicker = BlablaBlockPickerView(style: .normal)
     private let historyButton = UIButton()
     private let headerSectionView = UIView()
     private let currencyTitleLabel = UILabel()

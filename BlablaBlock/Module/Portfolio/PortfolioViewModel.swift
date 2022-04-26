@@ -11,7 +11,7 @@ import RxSwift
 
 public protocol PortfolioViewModelInputs: AnyObject {
     var user: BehaviorRelay<UserApiData?> { get }
-    var viewWillAppear: PublishRelay<()> { get }
+    var viewDidLoad: PublishRelay<()> { get }
     var historyBtnTap: PublishRelay<()> { get }
     var portfolioExchangeFilter: BehaviorRelay<ExchangeType> { get }
     var portfolioTypeFilter: BehaviorRelay<PortfolioType> { get }
@@ -53,7 +53,7 @@ final class PortfolioViewModel:
 {
     // MARK: - inputs
     var user: BehaviorRelay<UserApiData?>
-    var viewWillAppear: PublishRelay<()>
+    var viewDidLoad: PublishRelay<()>
     var historyBtnTap: PublishRelay<()>
     var portfolioExchangeFilter: BehaviorRelay<ExchangeType>
     var portfolioTypeFilter: BehaviorRelay<PortfolioType>
@@ -90,7 +90,7 @@ final class PortfolioViewModel:
     
     override init() {
         let user = BehaviorRelay<UserApiData?>(value: nil)
-        let viewWillAppear = PublishRelay<()>()
+        let viewDidLoad = PublishRelay<()>()
         let historyBtnTap = PublishRelay<()>()
         let portfolioExchangeFilter = BehaviorRelay<ExchangeType>(value: .all)
         let portfolioTypeFilter = BehaviorRelay<PortfolioType>(value: .all)
@@ -112,7 +112,7 @@ final class PortfolioViewModel:
         let uiEvent = PublishRelay<PortfolioViewUiEvent>()
         
         self.user = user
-        self.viewWillAppear = viewWillAppear
+        self.viewDidLoad = viewDidLoad
         self.historyBtnTap = historyBtnTap
         self.portfolioExchangeFilter = portfolioExchangeFilter
         self.portfolioTypeFilter = portfolioTypeFilter
@@ -137,7 +137,8 @@ final class PortfolioViewModel:
 
         let refreshPortfolioAndPNL = PublishRelay<()>()
         
-        viewWillAppear
+        viewDidLoad
+            .observe(on: ConcurrentDispatchQueueScheduler.init(qos: .utility))
             .subscribe(onNext: { [weak self] _ in
                 portfolioRefresh.accept(true)
                 pnlRefresh.accept(true)
@@ -153,7 +154,6 @@ final class PortfolioViewModel:
         
         historyBtnTap
             .subscribe(onNext: {
-                Timber.i("onHistoryTap")
                 let userId: Int
                 if let user = user.value {
                     userId = user.userId
@@ -176,6 +176,7 @@ final class PortfolioViewModel:
             .disposed(by: disposeBag)
         
         portfolioPull
+            .observe(on: ConcurrentDispatchQueueScheduler.init(qos: .utility))
             .subscribe(onNext: {
                 EventTracker.Builder()
                     .logEvent(.REFRESH_PERSONAL_PAGE_PORTFOLIO)
@@ -190,6 +191,7 @@ final class PortfolioViewModel:
             .disposed(by: disposeBag)
         
         pnlPull
+            .observe(on: ConcurrentDispatchQueueScheduler.init(qos: .utility))
             .subscribe(onNext: {
                 EventTracker.Builder()
                     .logEvent(.REFRESH_PERSONAL_PAGE_PERFORMANCE)
@@ -217,6 +219,7 @@ final class PortfolioViewModel:
         // MARK: - following
         
         followingPortfolioPull
+            .observe(on: ConcurrentDispatchQueueScheduler.init(qos: .utility))
             .subscribe(onNext: { [weak self] in
                 EventTracker.Builder()
                     .logEvent(.REFRESH_PERSONAL_PAGE_FOLLOWED_PORTFOLIO)

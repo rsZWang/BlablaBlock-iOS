@@ -10,12 +10,12 @@ import UIKit
 final class FollowViewController: BaseViewController {
     
     private weak var parentCoordinator: MainCoordinator?
-    private weak var viewModel: FollowViewModelType?
-    private var isDefaultPageFollower: Bool!
+    private let viewModel: FollowViewModelType
+    private let isDefaultPageFollower: Bool
     
     init(
         parentCoordinator: MainCoordinator?,
-        viewModel: FollowViewModelType?,
+        viewModel: FollowViewModelType,
         isDefaultPageFollower: Bool
     ) {
         self.parentCoordinator = parentCoordinator
@@ -38,8 +38,16 @@ final class FollowViewController: BaseViewController {
         setupLayout()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.inputs.viewWillAppear.accept(())
+    }
+    
     private func setupUI() {
         view.backgroundColor = .grayEDEDED
+        
+        navigationSectionView.delegate = self
+        
         addChild(tabViewController)
         tabViewController.parentCoordinator = parentCoordinator
         tabViewController.isDefaultPageFollower = isDefaultPageFollower
@@ -77,4 +85,10 @@ final class FollowViewController: BaseViewController {
     private let navigationSectionView = BlablaBlockNavigationBarView()
     private let tabViewControllerContainerView = UIView()
     private let tabViewController = FollowTabViewController()
+}
+
+extension FollowViewController: BlablaBlockNavigationBarViewDelegate {
+    func onBack() {
+        navigationController?.popViewController(animated: true)
+    }
 }

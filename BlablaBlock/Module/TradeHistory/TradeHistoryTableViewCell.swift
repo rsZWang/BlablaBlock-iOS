@@ -68,7 +68,7 @@ final class TradeHistoryTableViewCell: UITableViewCell {
     private func setupLayuot() {
         contentView.addSubview(bgView)
         bgView.snp.makeConstraints { make in
-            make.edges.equalTo(UIEdgeInsets(top: 0, left: 22, bottom: 12, right: 22))
+            make.edges.equalTo(UIEdgeInsets(top: 5, left: 22, bottom: 5, right: 22))
         }
         
         bgView.addSubview(containerView)

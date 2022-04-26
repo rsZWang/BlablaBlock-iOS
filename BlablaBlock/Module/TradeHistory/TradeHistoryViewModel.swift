@@ -8,18 +8,18 @@
 import RxCocoa
 import RxSwift
 
-public protocol TradeHistoryViewModelInputs {
+public protocol TradeHistoryViewModelInputs: AnyObject {
     var viewDidLoad: PublishRelay<()> { get }
     var userId: BehaviorRelay<Int?> { get }
     var selectedCurrencyIndex: BehaviorRelay<Int> { get }
 }
 
-public protocol TradeHistoryViewModelOutputs {
+public protocol TradeHistoryViewModelOutputs: AnyObject {
     var currencyList: Driver<[String]> { get }
     var historyData: Driver<[HistoryApiData]> { get }
 }
 
-public protocol TradeHistoryViewModelType {
+public protocol TradeHistoryViewModelType: AnyObject {
     var inputs: TradeHistoryViewModelInputs { get }
     var outputs: TradeHistoryViewModelOutputs { get }
 }
