@@ -125,7 +125,10 @@ final class MainTabBarController: BaseViewController {
             followViewModel: FollowViewModel(),
             user: nil
         ))
-//        viewControllers.append(UIViewController())
+        viewControllers.append(SettingViewController(
+            parentCoordinator: parentCoordinator,
+            viewModel: SettingViewModel()
+        ))
         
 //        viewControllers.append(HomePageViewController(viewModel: homePageViewModel))
 //        viewControllers.append(ExploreUserViewController(viewModel: exploreUserViewModel))
@@ -135,7 +138,7 @@ final class MainTabBarController: BaseViewController {
 //            followViewModel: followViewModel,
 //            user: nil
 //        ))
-////        viewControllers.append(UIViewController())
+////        viewControllers.append(SettingViewController())
         
         addChild(pageViewController)
         pageViewController.dataSource = self

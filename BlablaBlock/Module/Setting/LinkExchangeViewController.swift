@@ -13,7 +13,7 @@ import RxGesture
 
 final class LinkExchangeViewController: BaseViewController {
     
-    @Injected var exchangeApiViewModel: ExchangeApiViewModel
+//    @Injected var exchangeApiViewModel: ExchangeApiViewModel
     
     var exchangeType: ExchangeType!
     var exchange: ExchangeApiData?
@@ -243,34 +243,34 @@ final class LinkExchangeViewController: BaseViewController {
             .subscribe(onNext: { [unowned self] in
                 let apiKey = apiKeyInputView.textField.text ?? ""
                 let apiSecret = apiSecretInputView.textField.text ?? ""
-                if let exchange = exchange {
-                    exchangeApiViewModel.edit(
-                        id: exchange.id,
-                        exchange: exchangeType!.rawValue,
-                        apiKey: apiKey,
-                        apiSecret: apiSecret,
-                        subaccount: ""
-                    )
-                } else {
-                    exchangeApiViewModel.create(
-                        exchange: exchangeType!.rawValue,
-                        apiKey: apiKey,
-                        apiSecret: apiSecret
-                    )
-                }
+//                if let exchange = exchange {
+//                    exchangeApiViewModel.edit(
+//                        id: exchange.id,
+//                        exchange: exchangeType!.rawValue,
+//                        apiKey: apiKey,
+//                        apiSecret: apiSecret,
+//                        subaccount: ""
+//                    )
+//                } else {
+//                    exchangeApiViewModel.create(
+//                        exchange: exchangeType!.rawValue,
+//                        apiKey: apiKey,
+//                        apiSecret: apiSecret
+//                    )
+//                }
             })
             .disposed(by: disposeBag)
     }
     
     private func bindViewModel() {
-        exchangeApiViewModel.completeObservable
-            .observe(on: MainScheduler.asyncInstance)
-            .subscribe(onNext: { [weak self] completed in
-                if completed {
-                    self?.dismiss()
-                }
-            })
-            .disposed(by: disposeBag)
+//        exchangeApiViewModel.completeObservable
+//            .observe(on: MainScheduler.asyncInstance)
+//            .subscribe(onNext: { [weak self] completed in
+//                if completed {
+//                    self?.dismiss()
+//                }
+//            })
+//            .disposed(by: disposeBag)
     }
     
     private func slide(up: Bool) {

@@ -12,14 +12,13 @@ extension Resolver: ResolverRegistering {
     public static func registerAllServices() {
         
         register { MainCoordinator() }.scope(.application)
-//        register { MainCoordinator() }.scope(.application)
         
         // Launcher
         register { LauncherViewModel() as LauncherViewModelType }.scope(.unique)
-        
-        // Auth
-        register { AuthViewModel() }.scope(.shared)
-        
+//
+//        // Auth
+//        register { AuthViewModel() }.scope(.shared)
+//
 //        // Home
 //        register { HomeViewModel() as HomeViewModelType }.scope(.unique)
 //

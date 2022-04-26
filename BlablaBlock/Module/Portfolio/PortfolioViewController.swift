@@ -74,7 +74,7 @@ final class PortfolioViewController: BaseViewController {
         }
         
         avatarImageView.image = "ic_profile_avatar_placeholder".image()
-        avatarImageView.makeCircle(base: 70)
+        avatarImageView.makeCircle(base: 74)
         avatarImageView.contentMode = .scaleAspectFit
         
         userNameLabel.textColor = .black2D2D2D
@@ -186,7 +186,7 @@ final class PortfolioViewController: BaseViewController {
         
         basicInfoTopSectionView.addSubview(avatarImageView)
         avatarImageView.snp.makeConstraints { make in
-            make.width.height.equalTo(70)
+            make.width.height.equalTo(74)
             make.leading.top.bottom.equalToSuperview()
         }
         
