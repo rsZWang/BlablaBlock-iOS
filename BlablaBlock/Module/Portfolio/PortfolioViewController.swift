@@ -358,7 +358,7 @@ final class PortfolioViewController: BaseViewController {
             .map { _ in true }
             .subscribe(onNext: { [weak self] isDefaultPageFollower in
                 guard let self = self else { return }
-//                self.mainCoordinator.showFollow(isDefaultPageFollower: isDefaultPageFollower, followViewModel: self.followViewModel)
+                self.parentCoordinator?.toFollow(isDefaultPageFollower: isDefaultPageFollower, viewModel: self.followViewModel)
             })
             .disposed(by: disposeBag)
 
@@ -368,7 +368,7 @@ final class PortfolioViewController: BaseViewController {
             .map { _ in false }
             .subscribe(onNext: { [weak self] isDefaultPageFollower in
                 guard let self = self else { return }
-//                self.mainCoordinator.showFollow(isDefaultPageFollower: isDefaultPageFollower, followViewModel: self.followViewModel)
+                self.parentCoordinator?.toFollow(isDefaultPageFollower: isDefaultPageFollower, viewModel: self.followViewModel)
             })
             .disposed(by: disposeBag)
 

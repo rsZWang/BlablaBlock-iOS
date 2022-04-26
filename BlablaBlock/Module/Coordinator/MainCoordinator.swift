@@ -67,6 +67,19 @@ final class MainCoordinator: Coordinator {
         navigationController.pushViewController(vc, animated: true)
     }
     
+    func toFollow(
+        isDefaultPageFollower: Bool,
+        viewModel: FollowViewModelType
+    ) {
+        let vc = FollowViewController(
+            isDefaultPageFollower: isDefaultPageFollower,
+            viewModel: viewModel
+        )
+//        vc.isDefaultPageFollower = isDefaultPageFollower
+//        vc.viewModel = viewModel
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
     func toTradyHistory(userId: Int) {
         let vc = TradeHistoryViewController(
             userId: userId,

@@ -8,7 +8,7 @@
 import RxCocoa
 import RxSwift
 
-public protocol FollowViewModelInputs {
+public protocol FollowViewModelInputs: AnyObject {
     var user: BehaviorRelay<UserApiData?> { get }
     var viewWillAppear: PublishRelay<()> { get }
     var followBtnTap: PublishRelay<()> { get }
@@ -17,7 +17,7 @@ public protocol FollowViewModelInputs {
     var followCellTap: PublishRelay<FollowApiDataFollowUser> { get }
 }
 
-public protocol FollowViewModelOutputs {
+public protocol FollowViewModelOutputs: AnyObject {
     var user: BehaviorRelay<UserApiData?> { get }
     var followerAmount: Signal<Int> { get }
     var followingAmount: Signal<Int> { get }
@@ -26,7 +26,7 @@ public protocol FollowViewModelOutputs {
     var showUser: Signal<UserApiData> { get }
 }
 
-public protocol FollowViewModelType {
+public protocol FollowViewModelType: AnyObject {
     var inputs: FollowViewModelInputs { get }
     var outputs: FollowViewModelOutputs { get }
 }

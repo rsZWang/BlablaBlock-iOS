@@ -44,7 +44,7 @@
 		4A7744BD276F96170087A447 /* Portfolio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7744BC276F96170087A447 /* Portfolio.swift */; };
 		4A7744BF276F97520087A447 /* PNL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7744BE276F97520087A447 /* PNL.swift */; };
 		4A7744C5276FA1B50087A447 /* PortfolioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7744C4276FA1B50087A447 /* PortfolioViewModel.swift */; };
-		4A7A18FB27D2F68B00AF24A8 /* FollowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7A18FA27D2F68B00AF24A8 /* FollowViewController.swift */; };
+		4A7A18FB27D2F68B00AF24A8 /* FollowTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7A18FA27D2F68B00AF24A8 /* FollowTabViewController.swift */; };
 		4A7A18FE27D2FA6400AF24A8 /* BaseTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7A18FD27D2FA6400AF24A8 /* BaseTabViewController.swift */; };
 		4A7A190027D2FAF600AF24A8 /* FollowListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7A18FF27D2FAF600AF24A8 /* FollowListViewController.swift */; };
 		4A7A190227D2FB4D00AF24A8 /* FollowListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7A190127D2FB4D00AF24A8 /* FollowListTableView.swift */; };
@@ -64,6 +64,7 @@
 		4A7FBFC4281655A90087DA49 /* PorfolioCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7FBFC3281655A90087DA49 /* PorfolioCoordinator.swift */; };
 		4A8B9CC827F44AFC001A80CE /* EventTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9CC727F44AFC001A80CE /* EventTracker.swift */; };
 		4A8B9CCC27F44B9C001A80CE /* LauncherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9CCB27F44B9C001A80CE /* LauncherViewModel.swift */; };
+		4A8D1DDE2817ACD4002A8C87 /* FollowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8D1DDD2817ACD4002A8C87 /* FollowViewController.swift */; };
 		4AA9F810276DD68B00D775F0 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA9F80F276DD68B00D775F0 /* Resolver.swift */; };
 		4AA9F812276DD6A200D775F0 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA9F811276DD6A200D775F0 /* BaseViewController.swift */; };
 		4AA9F814276E473800D775F0 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA9F813276E473800D775F0 /* BaseViewModel.swift */; };
@@ -175,7 +176,7 @@
 		4A7744BC276F96170087A447 /* Portfolio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Portfolio.swift; sourceTree = "<group>"; };
 		4A7744BE276F97520087A447 /* PNL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PNL.swift; sourceTree = "<group>"; };
 		4A7744C4276FA1B50087A447 /* PortfolioViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewModel.swift; sourceTree = "<group>"; };
-		4A7A18FA27D2F68B00AF24A8 /* FollowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowViewController.swift; sourceTree = "<group>"; };
+		4A7A18FA27D2F68B00AF24A8 /* FollowTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowTabViewController.swift; sourceTree = "<group>"; };
 		4A7A18FD27D2FA6400AF24A8 /* BaseTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabViewController.swift; sourceTree = "<group>"; };
 		4A7A18FF27D2FAF600AF24A8 /* FollowListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowListViewController.swift; sourceTree = "<group>"; };
 		4A7A190127D2FB4D00AF24A8 /* FollowListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowListTableView.swift; sourceTree = "<group>"; };
@@ -195,6 +196,7 @@
 		4A7FBFC3281655A90087DA49 /* PorfolioCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PorfolioCoordinator.swift; sourceTree = "<group>"; };
 		4A8B9CC727F44AFC001A80CE /* EventTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTracker.swift; sourceTree = "<group>"; };
 		4A8B9CCB27F44B9C001A80CE /* LauncherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LauncherViewModel.swift; sourceTree = "<group>"; };
+		4A8D1DDD2817ACD4002A8C87 /* FollowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowViewController.swift; sourceTree = "<group>"; };
 		4AA9F80F276DD68B00D775F0 /* Resolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
 		4AA9F811276DD6A200D775F0 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		4AA9F813276E473800D775F0 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
@@ -456,10 +458,11 @@
 			isa = PBXGroup;
 			children = (
 				4A7A190527D3098C00AF24A8 /* FollowViewModel.swift */,
-				4A7A18FA27D2F68B00AF24A8 /* FollowViewController.swift */,
+				4A7A18FA27D2F68B00AF24A8 /* FollowTabViewController.swift */,
 				4A7A18FF27D2FAF600AF24A8 /* FollowListViewController.swift */,
 				4A7A190127D2FB4D00AF24A8 /* FollowListTableView.swift */,
 				4A7A190327D2FBAC00AF24A8 /* FollowListTableViewCell.swift */,
+				4A8D1DDD2817ACD4002A8C87 /* FollowViewController.swift */,
 			);
 			path = Follow;
 			sourceTree = "<group>";
@@ -993,9 +996,10 @@
 				4AA9F814276E473800D775F0 /* BaseViewModel.swift in Sources */,
 				4A741C0A27CB45D300594A5D /* TradeHistoryViewController.swift in Sources */,
 				4A361A2128111796001B772F /* PortfolioSectionView.swift in Sources */,
+				4A8D1DDE2817ACD4002A8C87 /* FollowViewController.swift in Sources */,
 				4A7A190427D2FBAC00AF24A8 /* FollowListTableViewCell.swift in Sources */,
 				A0C8E58E271FFCB400848FCB /* Extensions.swift in Sources */,
-				4A7A18FB27D2F68B00AF24A8 /* FollowViewController.swift in Sources */,
+				4A7A18FB27D2F68B00AF24A8 /* FollowTabViewController.swift in Sources */,
 				4A741C1027CB587300594A5D /* History.swift in Sources */,
 				4A7744BD276F96170087A447 /* Portfolio.swift in Sources */,
 				4A741C1227CB597500594A5D /* TradeHistoryViewModel.swift in Sources */,
