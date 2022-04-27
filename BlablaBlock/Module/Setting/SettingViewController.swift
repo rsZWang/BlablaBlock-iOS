@@ -253,7 +253,7 @@ extension SettingViewController {
         AlertBuilder()
             .setTitle("確定要刪除嗎？")
             .setButton(title: "確定") { [weak self] in
-//                self?.exchangeApiViewModel.delete(id: exchange.id)
+                self?.viewModel.inputs.onDelete.accept(exchange.id)
             }
             .setButton(title: "取消", style: .cancel)
             .show(self)

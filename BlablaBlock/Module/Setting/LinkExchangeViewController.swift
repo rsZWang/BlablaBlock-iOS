@@ -94,7 +94,7 @@ final class LinkExchangeViewController: BaseViewController {
         
         containerView.addSubview(paddingContainerView)
         paddingContainerView.snp.makeConstraints { make in
-            make.edges.equalTo(UIEdgeInsets(top: 20, left: 24, bottom: 0, right: 24))
+            make.edges.equalTo(UIEdgeInsets(top: 20, left: 24, bottom: 16, right: 24))
         }
         
         paddingContainerView.addSubview(imageView)

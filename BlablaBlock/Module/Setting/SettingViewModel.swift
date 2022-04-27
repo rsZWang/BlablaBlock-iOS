@@ -68,29 +68,34 @@ final class SettingViewModel:
         
         onCreate
             .subscribe(onNext: { [weak self] tuple in
-                self?.create(exchange: tuple.0.rawValue, apiKey: tuple.1, apiSecret: tuple.2)
+                self?.create(exchange: tuple.0.rawValue, apiKey: tuple.1, apiSecret: tuple.2, exchanges: exchanges)
             })
             .disposed(by: disposeBag)
         
         onEdit
             .subscribe(onNext: { [weak self] tuple in
-                self?.edit(id: tuple.0, exchange: tuple.1.rawValue, apiKey: tuple.2, apiSecret: tuple.3, subaccount: "")
+                self?.edit(id: tuple.0, exchange: tuple.1.rawValue, apiKey: tuple.2, apiSecret: tuple.3, subaccount: "", exchanges: exchanges)
             })
             .disposed(by: disposeBag)
         
         onDelete
             .subscribe(onNext: { [weak self] id in
-                self?.delete(id: id)
+                self?.delete(id: id, exchanges: exchanges)
             })
             .disposed(by: disposeBag)
     }
 
-    private func create(exchange: String, apiKey: String, apiSecret: String) {
+    private func create(
+        exchange: String,
+        apiKey: String,
+        apiSecret: String,
+        exchanges: BehaviorRelay<[ExchangeApiData]>
+    ) {
         ExchangeService.create(exchange: exchange, apiKey: apiKey, apiSecret: apiSecret)
             .request()
             .subscribe(
                 onSuccess: { [weak self] response in
-                    self?.newExchangeHandler(response: response)
+                    self?.newExchangeHandler(response: response, exchanges: exchanges)
                 },
                 onFailure: { [weak self] error in
                     self?.errorHandler(error: error)
@@ -99,12 +104,19 @@ final class SettingViewModel:
             .disposed(by: disposeBag)
     }
 
-    private func edit(id: Int, exchange: String, apiKey: String, apiSecret: String, subaccount: String) {
-        ExchangeService.edit(id: id, exchange: exchange, apiKey: apiKey, apiSecret: apiKey, subAccount: subaccount)
+    private func edit(
+        id: Int,
+        exchange: String,
+        apiKey: String,
+        apiSecret: String,
+        subaccount: String,
+        exchanges: BehaviorRelay<[ExchangeApiData]>
+    ) {
+        ExchangeService.edit(id: id, exchange: exchange, apiKey: apiKey, apiSecret: apiSecret, subAccount: subaccount)
             .request()
             .subscribe(
                 onSuccess: { [weak self] response in
-                    self?.newExchangeHandler(response: response)
+                    self?.newExchangeHandler(response: response, exchanges: exchanges)
                 },
                 onFailure: { [weak self] error in
                     self?.errorHandler(error: error)
@@ -113,12 +125,15 @@ final class SettingViewModel:
             .disposed(by: disposeBag)
     }
 
-    private func delete(id: Int) {
+    private func delete(
+        id: Int,
+        exchanges: BehaviorRelay<[ExchangeApiData]>
+    ) {
         ExchangeService.delete(id: id)
             .request()
             .subscribe(
                 onSuccess: { [weak self] response in
-                    self?.newExchangeHandler(response: response)
+                    self?.newExchangeHandler(response: response, exchanges: exchanges)
                 },
                 onFailure: { [weak self] error in
                     self?.errorHandler(error: error)
@@ -127,13 +142,13 @@ final class SettingViewModel:
             .disposed(by: disposeBag)
     }
 
-    private func newExchangeHandler(response: HttpResponse<ExchangeApi, ResponseFailure>) {
+    private func newExchangeHandler(
+        response: HttpResponse<ExchangeApi, ResponseFailure>,
+        exchanges: BehaviorRelay<[ExchangeApiData]>
+    ) {
         switch response {
         case let .success(exchange):
-            
-            break
-//            exhangeListObservable.accept(exchange.data)
-//            completeObservable.onNext(true)
+            exchanges.accept(exchange.data)
         case let .failure(responseFailure):
             errorCodeHandler(responseFailure)
         }
