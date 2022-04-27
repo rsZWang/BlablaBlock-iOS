@@ -30,9 +30,9 @@ final class PortfolioTabButton: RadioButton {
     }
     
     private func commonInit() {
-        layer.cornerRadius = CGFloat(6)
-        clipsToBounds = true
+        layer.cornerRadius = 6
         layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        clipsToBounds = true
         
         contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         setTitleColor(.black2D2D2D, for: .selected)

@@ -56,6 +56,14 @@ public enum ExchangeType: String, Equatable {
         self.init(rawValue: Self.typeList[index])
     }
     
+    init?(name: String) {
+        if let typeIndex = Self.typeList.firstIndex(where: { $0 == name }) {
+            self.init(rawValue: Self.typeList[typeIndex])
+        } else {
+            return nil
+        }
+    }
+    
     static func map(type: String) -> String? {
         if let index = typeList.firstIndex(where: { $0 == type }) {
             return titleList[index]

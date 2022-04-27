@@ -13,50 +13,9 @@ import RxGesture
 
 final class LinkExchangeViewController: BaseViewController {
     
-//    @Injected var exchangeApiViewModel: ExchangeApiViewModel
-    
+    weak var viewModel: SettingViewModelType!
     var exchangeType: ExchangeType!
     var exchange: ExchangeApiData?
-    
-    private let containerHeight = UIScreen.main.bounds.height * 0.4
-    private let containerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.clipsToBounds = true
-        return view
-    }()
-    private let imageView = UIImageView()
-    private let closeLabel: UILabel = {
-        let label = UILabel()
-        label.backgroundColor = .lightGray
-        label.textColor = .gray
-        label.text = "x"
-        label.font = .boldSystemFont(ofSize: 16)
-        label.textAlignment = .center
-        return label
-    }()
-    private let apiSecretInputView: NormalInputView = {
-        let inputView = NormalInputView()
-        inputView.placeholder = "Secret Key"
-        return inputView
-    }()
-    private let apiKeyInputView: NormalInputView = {
-        let inputView = NormalInputView()
-        inputView.placeholder = "API Key"
-        return inputView
-    }()
-    private let submitButton: ColorButton = {
-        let button = ColorButton()
-        button.rounded = true
-        button.normalBgColor = .black
-        button.disabledBgColor = .darkGray
-        button.highlightedBgColor = .darkGray
-        button.normalTitleColor = .white
-        button.disabledTitleColor = .white
-        button.highlightedTitleColor = .white
-        button.setTitle("提交", for: .normal)
-        return button
-    }()
     
     convenience init() {
         self.init(nibName: nil, bundle: nil)
@@ -64,30 +23,15 @@ final class LinkExchangeViewController: BaseViewController {
         modalPresentationStyle = .overCurrentContext
     }
 
+    deinit {
+        Timber.i("\(type(of: self)) deinit")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.5)
-        view.rx
-            .tapGesture(configuration: { _, delegate in
-                delegate.touchReceptionPolicy = .custom { [unowned self] _, touch in
-                    touch.view == view
-                }
-            })
-            .when(.recognized)
-            .subscribe(onNext: { [weak self] _ in
-                self?.dismiss()
-            })
-            .disposed(by: disposeBag)
         setupUI()
-        bindView()
-        bindViewModel()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        containerView.roundCorners(corners: [.topLeft, .topRight], radius: 6)
-        imageView.roundCorners(corners: .allCorners, radius: 4)
-//        closeLabel.makeCircle()
+        setupLayout()
+        setupBinding()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -96,12 +40,12 @@ final class LinkExchangeViewController: BaseViewController {
     }
     
     private func setupUI() {
-        view.addSubview(containerView)
-        containerView.snp.makeConstraints { make in
-            make.left.right.equalTo(view)
-            make.height.equalTo(containerHeight)
-            make.bottom.equalTo(view).offset(containerHeight)
-        }
+        view.backgroundColor = #colorLiteral(red: 0.09411764706, green: 0.1098039216, blue: 0.137254902, alpha: 0.7)
+        
+        containerView.backgroundColor = .white
+        containerView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        containerView.layer.cornerRadius = 10
+        containerView.clipsToBounds = true
         
         let exchangeIcon: String
         let exchangeName: String
@@ -116,121 +60,105 @@ final class LinkExchangeViewController: BaseViewController {
             exchangeIcon = ""
             exchangeName = "UNKNOWN"
         }
+       
+        imageView.image = exchangeIcon.image()
         
-        let topSectionHeight = containerHeight*0.2
-        let topSectionView = UIView()
-        topSectionView.backgroundColor = UIColor(named: "gray_tab_bar")
-        containerView.addSubview(topSectionView)
-        topSectionView.snp.makeConstraints { make in
-            make.left.top.right.equalTo(containerView)
-            make.height.equalTo(topSectionHeight)
-        }
+        titleLabel.text = exchangeName
+        titleLabel.font = .boldSystemFont(ofSize: 20)
         
-        let imageViewHeight = topSectionHeight*0.5
-        imageView.image = UIImage(named: exchangeIcon)
-        imageView.backgroundColor = .white
-        topSectionView.addSubview(imageView)
-        imageView.snp.makeConstraints { make in
-            make.left.equalTo(topSectionView).offset(15)
-            make.centerY.equalTo(topSectionView)
-            make.width.height.equalTo(imageViewHeight)
-        }
+        closeImageView.image = "ic_link_exchange_closse".image()
         
-        topSectionView.addSubview(closeLabel)
-        closeLabel.snp.makeConstraints { make in
-            make.right.equalTo(topSectionView).offset(-15)
-            make.centerY.equalTo(topSectionView)
-            make.width.equalTo(closeLabel.snp.height)
-        }
-        
-        let textSectionView = UIView()
-        topSectionView.addSubview(textSectionView)
-        textSectionView.snp.makeConstraints { make in
-            make.left.equalTo(imageView.snp.right).offset(10)
-            make.right.equalTo(closeLabel.snp.left).offset(-10)
-            make.top.bottom.equalTo(imageView)
-        }
-        
-        let exchangeNameLabel = UILabel()
-        exchangeNameLabel.text = exchangeName
-        exchangeNameLabel.autoResize(font: .boldSystemFont(ofSize: 16))
-        textSectionView.addSubview(exchangeNameLabel)
-        exchangeNameLabel.snp.makeConstraints { make in
-            make.left.top.right.equalTo(textSectionView)
-            make.height.equalTo(textSectionView.snp.height).multipliedBy(0.6)
-        }
-        
-        let explanationLabel = UILabel()
-        explanationLabel.text = "如何使用 >"
-        explanationLabel.textColor = .systemBlue
-        explanationLabel.autoResize(font: .systemFont(ofSize: 12))
-        textSectionView.addSubview(explanationLabel)
-        explanationLabel.snp.makeConstraints { make in
-            make.left.equalTo(textSectionView.snp.left)
-            make.height.equalTo(textSectionView.snp.height).multipliedBy(0.4)
-            make.top.equalTo(exchangeNameLabel.snp.bottom)
-            make.bottom.equalTo(textSectionView.snp.bottom)
-        }
-        
-        let bottomSectionView = UIView()
-        containerView.addSubview(bottomSectionView)
-        bottomSectionView.snp.makeConstraints { make in
-            make.left.right.bottom.equalTo(containerView)
-            make.top.equalTo(topSectionView.snp.bottom)
-        }
-        
-        let inputSectionView = UIView()
-        bottomSectionView.addSubview(inputSectionView)
-        inputSectionView.snp.makeConstraints { make in
-            make.width.equalTo(bottomSectionView).multipliedBy(0.9)
-            make.centerX.equalTo(bottomSectionView)
-            make.height.equalTo(bottomSectionView).multipliedBy(0.7)
-            make.centerY.equalTo(bottomSectionView)
-        }
-
-        inputSectionView.addSubview(apiKeyInputView)
-        apiKeyInputView.snp.makeConstraints { make in
-            make.left.top.right.equalTo(inputSectionView)
-        }
-        
-        let spearatorView1 = UIView()
-        inputSectionView.addSubview(spearatorView1)
-        spearatorView1.snp.makeConstraints { make in
-            make.height.equalTo(inputSectionView).multipliedBy(0.15)
-            make.left.right.equalTo(inputSectionView)
-            make.top.equalTo(apiKeyInputView.snp.bottom)
-        }
-
-        
-        inputSectionView.addSubview(apiSecretInputView)
-        apiSecretInputView.snp.makeConstraints { make in
-            make.left.right.equalTo(inputSectionView)
-            make.top.equalTo(spearatorView1.snp.bottom)
-        }
-        
-        let separatorView2 = UIView()
-        inputSectionView.addSubview(separatorView2)
-        separatorView2.snp.makeConstraints { make in
-            make.height.equalTo(inputSectionView).multipliedBy(0.2)
-            make.left.right.equalTo(inputSectionView)
-            make.top.equalTo(apiSecretInputView.snp.bottom)
-        }
+        howToUseLabel.text = "如何使用 >"
+        howToUseLabel.textColor = .orangeFF9960
+        howToUseLabel.font = .boldSystemFont(ofSize: 13)
+        howToUseLabel.textAlignment = .center
         
         if let exchange = exchange {
             apiKeyInputView.textField.text = exchange.apiKey
             apiSecretInputView.textField.text = exchange.apiSecret
+        } else {
+            apiKeyInputView.placeholder = "API Key"
+            apiSecretInputView.placeholder = "Secret Key"
         }
         
-        inputSectionView.addSubview(submitButton)
+        submitButton.setTitle("提交", for: .normal)
+    }
+
+    private func setupLayout() {
+        view.addSubview(containerView)
+        containerView.snp.makeConstraints { make in
+            make.height.equalTo(260)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().offset(260)
+        }
+        
+        containerView.addSubview(paddingContainerView)
+        paddingContainerView.snp.makeConstraints { make in
+            make.edges.equalTo(UIEdgeInsets(top: 20, left: 24, bottom: 0, right: 24))
+        }
+        
+        paddingContainerView.addSubview(imageView)
+        imageView.snp.makeConstraints { make in
+            make.width.height.equalTo(24)
+            make.leading.top.equalToSuperview()
+        }
+        
+        paddingContainerView.addSubview(closeImageView)
+        closeImageView.snp.makeConstraints { make in
+            make.width.height.equalTo(14)
+            make.trailing.equalToSuperview().offset(-2)
+            make.centerY.equalTo(imageView)
+        }
+        
+        paddingContainerView.addSubview(titleLabel)
+        titleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(imageView.snp.trailing).offset(12)
+            make.top.bottom.equalTo(imageView)
+            make.trailing.equalTo(closeImageView.snp.leading).offset(-12)
+        }
+        
+        paddingContainerView.addSubview(howToUseLabel)
+        howToUseLabel.snp.makeConstraints { make in
+            make.height.equalTo(28)
+            make.leading.equalToSuperview()
+            make.top.equalTo(imageView.snp.bottom)
+        }
+        
+        paddingContainerView.addSubview(apiKeyInputView)
+        apiKeyInputView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(howToUseLabel.snp.bottom).offset(24)
+        }
+        
+        paddingContainerView.addSubview(apiSecretInputView)
+        apiSecretInputView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(apiKeyInputView.snp.bottom).offset(24)
+        }
+        
+        paddingContainerView.addSubview(submitButton)
         submitButton.snp.makeConstraints { make in
-            make.left.right.equalTo(inputSectionView)
-            make.top.equalTo(separatorView2.snp.bottom)
             make.height.equalTo(40)
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(apiSecretInputView.snp.bottom).offset(32)
+            make.bottom.equalToSuperview()
         }
     }
     
-    private func bindView() {
-        closeLabel.rx
+    private func setupBinding() {
+        view.rx
+            .tapGesture(configuration: { _, delegate in
+                delegate.touchReceptionPolicy = .custom { [unowned self] _, touch in
+                    touch.view == view
+                }
+            })
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                self?.dismiss()
+            })
+            .disposed(by: disposeBag)
+        
+        closeImageView.rx
             .tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
@@ -240,42 +168,40 @@ final class LinkExchangeViewController: BaseViewController {
         
         submitButton.rx
             .tap
-            .subscribe(onNext: { [unowned self] in
-                let apiKey = apiKeyInputView.textField.text ?? ""
-                let apiSecret = apiSecretInputView.textField.text ?? ""
-//                if let exchange = exchange {
-//                    exchangeApiViewModel.edit(
-//                        id: exchange.id,
-//                        exchange: exchangeType!.rawValue,
-//                        apiKey: apiKey,
-//                        apiSecret: apiSecret,
-//                        subaccount: ""
-//                    )
-//                } else {
-//                    exchangeApiViewModel.create(
-//                        exchange: exchangeType!.rawValue,
-//                        apiKey: apiKey,
-//                        apiSecret: apiSecret
-//                    )
-//                }
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                if let apiKey = self.apiKeyInputView.textField.text, let apiSecret = self.apiSecretInputView.textField.text {
+                    if let exchange = self.exchange {
+                        self.viewModel.inputs
+                            .onEdit
+                            .accept((exchange.id, self.exchangeType!, apiKey, apiSecret))
+                    } else {
+                        self.viewModel.inputs
+                            .onCreate
+                            .accept((self.exchangeType!, apiKey, apiSecret))
+                    }
+                    self.dismiss()
+                }
             })
             .disposed(by: disposeBag)
     }
     
-    private func bindViewModel() {
-//        exchangeApiViewModel.completeObservable
-//            .observe(on: MainScheduler.asyncInstance)
-//            .subscribe(onNext: { [weak self] completed in
-//                if completed {
-//                    self?.dismiss()
-//                }
-//            })
-//            .disposed(by: disposeBag)
-    }
+    private let containerView = UIView()
+    private let paddingContainerView = UIView()
+    private let imageView = UIImageView()
+    private let titleLabel = UILabel()
+    private let closeImageView = UIImageView()
+    private let howToUseLabel = UILabel()
+    private let apiKeyInputView = NormalInputView()
+    private let apiSecretInputView = NormalInputView()
+    private let submitButton = OrangeButton()
+}
+
+extension LinkExchangeViewController {
     
     private func slide(up: Bool) {
         containerView.snp.updateConstraints { make in
-            make.bottom.equalTo(view).offset(up ? 0 : containerHeight)
+            make.bottom.equalTo(view).offset(up ? 0 : 260)
         }
         UIView.animate(
             withDuration: 0.1,
@@ -293,5 +219,4 @@ final class LinkExchangeViewController: BaseViewController {
     private func dismiss() {
         slide(up: false)
     }
-    
 }

@@ -15,18 +15,20 @@ protocol ExchangeCardViewDelegate: NSObject {
 final class ExchangeCardView: UIView, NibOwnerLoadable {
     
     private weak var delegate: ExchangeCardViewDelegate?
-    private var type: ExchangeType!
-    private var exchange: ExchangeApiData!
+    var type: ExchangeType!
+    var exchange: ExchangeApiData? {
+        didSet {
+            setStatus()
+        }
+    }
     
     convenience init(
         _ delegate: ExchangeCardViewDelegate,
-        type: ExchangeType,
-        exchange: ExchangeApiData
+        type: ExchangeType
     ) {
         self.init(frame: .zero)
         self.delegate = delegate
         self.type = type
-        self.exchange = exchange
         self.commonInit()
     }
     
@@ -52,8 +54,10 @@ final class ExchangeCardView: UIView, NibOwnerLoadable {
         
         stateLabel.font = .boldSystemFont(ofSize: 12)
         stateLabel.textColor = .white
-        stateLabel.layer.cornerRadius = 4
+        stateLabel.textAlignment = .center
+        stateLabel.layer.borderWidth = 1
         stateLabel.layer.borderColor = UIColor.white.cgColor
+        stateLabel.layer.cornerRadius = 4
         stateLabel.layer.masksToBounds = true
         
         switch type {
@@ -68,11 +72,12 @@ final class ExchangeCardView: UIView, NibOwnerLoadable {
             titleLabel.text = "UNKNOWN"
         }
         
+        setStatus()
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTap)))
     }
     
-    private func setData() {
-        if exchange?.isLinked() ?? false {
+    private func setStatus() {
+        if exchange?.isLinked() == true {
             backgroundColor = .black2D2D2D
             titleLabel.textColor = .white
             stateLabel.text = "已連結"
@@ -110,7 +115,9 @@ final class ExchangeCardView: UIView, NibOwnerLoadable {
 
     @objc
     private func onTap() {
-        delegate?.onTap(type: type, exchange: exchange)
+        if let type = type {
+            delegate?.onTap(type: type, exchange: exchange)
+        }
     }
     
     private let imageView = UIImageView()
