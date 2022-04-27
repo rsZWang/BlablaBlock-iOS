@@ -11,6 +11,7 @@ final class MainCoordinator: Coordinator {
     
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
+    private let signInViewController = SignInViewController.instantiate()
     
     init() {
         navigationController = UINavigationController()
@@ -51,8 +52,8 @@ final class MainCoordinator: Coordinator {
     }
     
     func signIn() {
-        let vc = SignInViewController.instantiate()
-        navigationController.pushViewController(vc, animated: true)
+        signInViewController.parentCoordinator = self
+        navigationController.pushViewController(signInViewController, animated: true)
     }
     
     func main(userId: String) {
@@ -66,6 +67,10 @@ final class MainCoordinator: Coordinator {
 //            exchangeViewModel: ExchangeApiViewModel()
         )
         navigationController.pushViewController(vc, animated: true)
+        if navigationController.viewControllers.count == 2 {
+            signInViewController.parentCoordinator = self
+            navigationController.viewControllers.insert(signInViewController, at: 1)
+        }
     }
     
     func toPortfolio(user: UserApiData) {
@@ -96,6 +101,10 @@ final class MainCoordinator: Coordinator {
             userId: userId
         )
         navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func loguot() {
+        navigationController.popToViewController(signInViewController, animated: true)
     }
     
     func childDidFinish(_ child: Coordinator?) {

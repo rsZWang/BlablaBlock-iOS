@@ -83,6 +83,8 @@ final class SettingViewModel:
                 self?.delete(id: id, exchanges: exchanges)
             })
             .disposed(by: disposeBag)
+        
+        viewDidLoad.accept(())
     }
 
     private func create(

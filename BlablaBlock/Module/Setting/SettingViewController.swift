@@ -41,7 +41,7 @@ final class SettingViewController: BaseViewController {
         setupUI()
         setupLayout()
         setupBinding()
-        viewModel.inputs.viewDidLoad.accept(())
+//        viewModel.inputs.viewDidLoad.accept(())
     }
     
     private func setupUI() {
@@ -56,15 +56,16 @@ final class SettingViewController: BaseViewController {
         userNameLabel.textColor = .black2D2D2D
         userNameLabel.autoFontSize()
         
-        editButton.setImage("ic_button_edit".image(), for: .normal)
-        if #available(iOS 15.0, *) {
-            var configuration = UIButton.Configuration.filled()
-            configuration.imagePadding = 4
-            editButton.configuration = configuration
-        } else {
-            editButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 4)
-        }
-        editButton.setTitle("編輯資訊", for: .normal)
+//        editButton.setImage("ic_button_edit".image(), for: .normal)
+//        if #available(iOS 15.0, *) {
+//            var configuration = UIButton.Configuration.filled()
+//            configuration.imagePadding = 4
+//            editButton.configuration = configuration
+//        } else {
+//            editButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 4)
+//        }
+//        editButton.setTitle("編輯資訊", for: .normal)
+        editButton.setTitle("登出", for: .normal)
         
         exchangeSectionView.backgroundColor = .white
         
@@ -123,6 +124,7 @@ final class SettingViewController: BaseViewController {
         editButtonSectionView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(userNameSectionView.snp.bottom).offset(12)
+            make.bottom.equalToSuperview()
         }
 
         editButtonSectionView.addSubview(editButton)
@@ -194,6 +196,18 @@ final class SettingViewController: BaseViewController {
     }
     
     private func setupBinding() {
+        editButton.rx
+            .tap
+            .subscribe(onNext: { [weak self] in
+                do {
+                    try keychainUser.removeAll()
+                } catch {
+                    Timber.i("\(error)")
+                }
+                self?.parentCoordinator?.loguot()
+            })
+            .disposed(by: disposeBag)
+        
         viewModel.outputs
             .exchanges
             .asDriver()

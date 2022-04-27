@@ -13,8 +13,9 @@ import RxGesture
 
 final class SignInViewController: BaseViewController, Storyboarded {
     
-    @Injected private var mainCoordinator: MainCoordinator
-    @Injected private var authViewModel: AuthViewModel
+//    @Injected private var mainCoordinator: MainCoordinator
+    weak var parentCoordinator: MainCoordinator?
+    private let authViewModel = AuthViewModel()
     private let signInMode = ReplayRelay<Bool>.create(bufferSize: 1)
        
     private let radioButtonGruop = RadioButtonGroup()
@@ -107,7 +108,7 @@ final class SignInViewController: BaseViewController, Storyboarded {
                 self?.preload()
             })
             .disposed(by: shortLifecycleOwner)
-        
+
         authViewModel.resetPasswordSent
             .asSignal()
             .emit(
@@ -120,7 +121,7 @@ final class SignInViewController: BaseViewController, Storyboarded {
                 }
             )
             .disposed(by: disposeBag)
-        
+
         authViewModel.errorMessageObservable
             .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] msg in
@@ -164,7 +165,7 @@ final class SignInViewController: BaseViewController, Storyboarded {
     }
     
     private func sendForgetPasswordMail(_ email: String) {
-        authViewModel.forgetPassword(email: email)
+//        authViewModel.forgetPassword(email: email)
     }
     
     private func clearPage() {
@@ -177,7 +178,7 @@ final class SignInViewController: BaseViewController, Storyboarded {
     
     private func preload() {
         let userId = keychainUser[.userId]!
-        mainCoordinator.main(userId: userId)
+//        mainCoordinator.main(userId: userId)
 //        exchangeApiViewModel.getApiStatus()
 //            .subscribe(
 //                onNext: { [weak self] hasLinked in
