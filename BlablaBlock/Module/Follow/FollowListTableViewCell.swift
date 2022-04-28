@@ -80,7 +80,9 @@ final class FollowListTableViewCell: UITableViewCell {
         if follow.userId != Int(keychainUser[.userId] ?? "-1") {
             followButton.isSelected = follow.isFollow
             followButton.rx
-                .tapGesture()
+                .tapGesture(configuration: { _, delegate in
+                    delegate.simultaneousRecognitionPolicy = .never
+                })
                 .when(.recognized)
                 .subscribe(onNext: { _ in
                     followBtnTap.accept(follow.userId)
@@ -90,7 +92,9 @@ final class FollowListTableViewCell: UITableViewCell {
             followButton.isHidden = true
         }
         containerView.rx
-            .tapGesture()
+            .tapGesture(configuration: { _, delegate in
+                delegate.simultaneousRecognitionPolicy = .never
+            })
             .when(.recognized)
             .subscribe(onNext: { _ in
                 cellTap.accept(follow)
