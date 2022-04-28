@@ -163,6 +163,13 @@ final class HomePageViewController: BaseViewController {
             .distinctUntilChanged()
             .emit(to: emptyLabel.rx.isHidden)
             .disposed(by: disposeBag)
+        
+        viewModel.outputs
+            .errorMessage
+            .subscribe(onNext: { [weak self] msg in
+                self?.promptAlert(message: msg)
+            })
+            .disposed(by: disposeBag)
     }
     
     private let statusBarSection = UIView()

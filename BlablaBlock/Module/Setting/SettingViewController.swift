@@ -200,12 +200,8 @@ final class SettingViewController: BaseViewController {
             .tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
-                do {
-                    try keychainUser.removeAll()
-                } catch {
-                    Timber.i("\(error)")
-                }
-                self?.parentCoordinator?.loguot()
+                self?.editButton.isEnabled = false
+                self?.viewModel.inputs.onSignOut.accept(())
             })
             .disposed(by: disposeBag)
         
@@ -214,6 +210,21 @@ final class SettingViewController: BaseViewController {
             .asDriver()
             .drive(onNext: { [weak self] exchanges in
                 self?.refreshList(exchanges: exchanges)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs
+            .signOut
+            .emit(onNext: { [weak self] _ in
+                self?.parentCoordinator?.loguot()
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs
+            .errorMessage
+            .subscribe(onNext: { [weak self] msg in
+                self?.editButton.isEnabled = true
+                self?.promptAlert(message: msg)
             })
             .disposed(by: disposeBag)
     }

@@ -14,10 +14,12 @@ protocol SettingViewModelInputs: AnyObject {
     var onCreate: PublishRelay<(ExchangeType, String, String)> { get }
     var onEdit: PublishRelay<(Int, ExchangeType, String, String)> { get }
     var onDelete: PublishRelay<Int> { get }
+    var onSignOut: PublishRelay<()> { get }
 }
 
-protocol SettingViewModelOutputs: AnyObject {
+protocol SettingViewModelOutputs: BaseViewModelOutputs {
     var exchanges: BehaviorRelay<[ExchangeApiData]> { get }
+    var signOut: Signal<()> { get }
 }
 
 protocol SettingViewModelType: AnyObject {
@@ -36,9 +38,11 @@ final class SettingViewModel:
     var onCreate: PublishRelay<(ExchangeType, String, String)>
     var onEdit: PublishRelay<(Int, ExchangeType, String, String)>
     var onDelete: PublishRelay<Int>
+    var onSignOut: PublishRelay<()>
     
     // MARK: - outputs
     var exchanges: BehaviorRelay<[ExchangeApiData]>
+    var signOut: Signal<()>
     
     var inputs: SettingViewModelInputs { self }
     var outputs: SettingViewModelOutputs { self }
@@ -48,15 +52,19 @@ final class SettingViewModel:
         let onCreate = PublishRelay<(ExchangeType, String, String)>()
         let onEdit = PublishRelay<(Int, ExchangeType, String, String)>()
         let onDelete = PublishRelay<Int>()
-        
-        let exchanges = BehaviorRelay<[ExchangeApiData]>(value: [])
+        let onSignOut = PublishRelay<()>()
         
         self.viewDidLoad = viewDidLoad
         self.onCreate = onCreate
         self.onEdit = onEdit
         self.onDelete = onDelete
+        self.onSignOut = onSignOut
+        
+        let exchanges = BehaviorRelay<[ExchangeApiData]>(value: [])
+        let signOut = PublishRelay<()>()
         
         self.exchanges = exchanges
+        self.signOut = signOut.asSignal()
         
         super.init()
         
@@ -84,7 +92,32 @@ final class SettingViewModel:
             })
             .disposed(by: disposeBag)
         
+        onSignOut
+            .subscribe(onNext: { [weak self] in
+                self?.doSignOut(signOut: signOut)
+            })
+            .disposed(by: disposeBag)
+        
         viewDidLoad.accept(())
+    }
+    
+    private func getExchangeStatus(exchages: BehaviorRelay<[ExchangeApiData]>) {
+        ExchangeService.getStatus()
+            .request()
+            .subscribe(
+                onSuccess: { [weak self] response in
+                    switch response {
+                    case let .success(exchange):
+                        exchages.accept(exchange.data)
+                    case let .failure(responseFailure):
+                        self?.errorCodeHandler(responseFailure)
+                    }
+                },
+                onFailure: { [weak self] error in
+                    self?.errorHandler(error: error)
+                }
+            )
+            .disposed(by: disposeBag)
     }
 
     private func create(
@@ -156,43 +189,17 @@ final class SettingViewModel:
         }
     }
     
-//    func signOut() {
-//        AuthService.logout()
-//            .request()
-//            .subscribe(
-//                onSuccess: { [weak self] response in
-//                    self?.doSignOut()
-//                },
-//                onFailure: { [weak self] error in
-////                    self?.errorHandler(error: error)
-//                    self?.doSignOut()
-//                }
-//            )
-//            .disposed(by: disposeBag)
-//    }
-    
-//    private func doSignOut() {
-//        do {
-//            try keychainUser.removeAll()
-//        } catch {
-//            Timber.e("Sign out error: \(error)")
-//        }
-//        successObservable.onNext(true)
-//    }
-}
-
-extension SettingViewModel {
-    private func getExchangeStatus(exchages: BehaviorRelay<[ExchangeApiData]>) {
-        ExchangeService.getStatus()
+    private func doSignOut(signOut: PublishRelay<()>) {
+        AuthService.logout()
             .request()
             .subscribe(
-                onSuccess: { [weak self] response in
-                    switch response {
-                    case let .success(exchange):
-                        exchages.accept(exchange.data)
-                    case let .failure(responseFailure):
-                        self?.errorCodeHandler(responseFailure)
+                onSuccess: { response in
+                    do {
+                        try keychainUser.removeAll()
+                    } catch {
+                        Timber.e("Sign out error: \(error)")
                     }
+                    signOut.accept(())
                 },
                 onFailure: { [weak self] error in
                     self?.errorHandler(error: error)

@@ -16,7 +16,7 @@ public protocol HomePageViewModelInputs: AnyObject {
     var followBtnTap: PublishRelay<Int> { get }
 }
 
-public protocol HomePageViewModelOutputs: AnyObject {
+public protocol HomePageViewModelOutputs: BaseViewModelOutputs {
     var currencyList: Signal<[String]> { get }
     var selectedCurrency: Signal<String> { get }
     var notificationsRefresh: Signal<[NotificationApiData]> { get }
@@ -95,7 +95,7 @@ final class HomePageViewModel:
         super.init()
         
         viewDidLoad
-            .subscribe(onNext: { [weak self] in
+            .subscribe(onNext: {
                 if let userId = keychainUser[.userId] {
                     EventTracker.setUser(id: userId)
                 }
@@ -105,24 +105,18 @@ final class HomePageViewModel:
         
         viewWillAppear
             .subscribe(onNext: { [weak self] in
-//                if self?.notificationsCache.value.isEmpty == true {
-//                    self?.loadNotifications(
-//                        currencySelected: currencySelected,
-//                        currencyList: currencyList,
-//                        selectedCurrency: selectedCurrency,
-//                        notificationsRefresh: notificationsRefresh,
-//                        notificationsUpdate: notificationsUpdate,
-//                        isNotEmpty: isNotEmpty,
-//                        refreshControl: refreshControl
-//                    )
-//                }
-//                refreshControl.accept(true)
-//                self?.loadNotifications(
-//                    notificationsRefresh: notificationsRefresh,
-//                    notificationsUpdate: notificationsUpdate,
-//                    isNotEmpty: isNotEmpty,
-//                    refreshControl: refreshControl
-//                )
+                if self?.notificationsCache.value.isEmpty == true {
+                    self?.loadNotifications(
+                        currencySelected: currencySelected,
+                        currencyList: currencyList,
+                        selectedCurrency: selectedCurrency,
+                        notificationsRefresh: notificationsRefresh,
+                        notificationsUpdate: notificationsUpdate,
+                        isNotEmpty: isNotEmpty,
+                        refreshControl: refreshControl
+                    )
+                }
+                refreshControl.accept(true)
             })
             .disposed(by: disposeBag)
         
@@ -140,6 +134,7 @@ final class HomePageViewModel:
             .disposed(by: disposeBag)
         
         refresh
+            .observe(on: backgroundScheduler)
             .subscribe(onNext: { [weak self] in
                 EventTracker.Builder()
                     .logEvent(.REFRESH_HOME_PAGE)
@@ -156,6 +151,8 @@ final class HomePageViewModel:
             .disposed(by: disposeBag)
         
         followBtnTap
+            .debounce(.milliseconds(500), scheduler: backgroundScheduler)
+            .observe(on: backgroundScheduler)
             .subscribe(onNext: { [weak self] userId in
                 self?.follow(
                     currencySelected: currencySelected,
@@ -217,55 +214,55 @@ private extension HomePageViewModel {
         notificationsRefresh: PublishRelay<[NotificationApiData]>,
         notificationsUpdate: PublishRelay<[NotificationApiData]>
     ) {
+        func refreshNotifications(isFollow: Bool) {
+            let newNotifications = updateFollow(userId: userId, isFollow: isFollow)
+            refreshOrUpdate(
+                currencySelected: currencySelected,
+                currencyList: currencyList,
+                selectedCurrency: selectedCurrency,
+                newNotifications: newNotifications,
+                notificationsRefresh: notificationsRefresh,
+                notificationsUpdate: notificationsUpdate
+            )
+        }
+        
         if notificationsCache.value.first(where: { $0.userId == userId })?.isFollow == true {
+            refreshNotifications(isFollow: false)
             FollowService.unfollow(userId: userId)
                 .request()
                 .subscribe(
                     onSuccess: { [weak self] response in
                         switch response {
                         case .success(_):
-                            if let newNotifications = self?.updateFollow(userId: userId, isFollow: false) {
-                                self?.refreshOrUpdate(
-                                    currencySelected: currencySelected,
-                                    currencyList: currencyList,
-                                    selectedCurrency: selectedCurrency,
-                                    newNotifications: newNotifications,
-                                    notificationsRefresh: notificationsRefresh,
-                                    notificationsUpdate: notificationsUpdate
-                                )
-                            }
+                            break
                         case let .failure(responseFailure):
                             self?.errorCodeHandler(responseFailure)
+                            refreshNotifications(isFollow: true)
                         }
                     },
                     onFailure: { [weak self] error in
                         self?.errorHandler(error: error)
+                        refreshNotifications(isFollow: true)
                     }
                 )
                 .disposed(by: disposeBag)
         } else {
+            refreshNotifications(isFollow: true)
             FollowService.follow(userId: userId)
                 .request()
                 .subscribe(
                     onSuccess: { [weak self] response in
                         switch response {
                         case .success(_):
-                            if let newNotifications = self?.updateFollow(userId: userId, isFollow: true) {
-                                self?.refreshOrUpdate(
-                                    currencySelected: currencySelected,
-                                    currencyList: currencyList,
-                                    selectedCurrency: selectedCurrency,
-                                    newNotifications: newNotifications,
-                                    notificationsRefresh: notificationsRefresh,
-                                    notificationsUpdate: notificationsUpdate
-                                )
-                            }
+                            break
                         case let .failure(responseFailure):
                             self?.errorCodeHandler(responseFailure)
+                            refreshNotifications(isFollow: false)
                         }
                     },
                     onFailure: { [weak self] error in
                         self?.errorHandler(error: error)
+                        refreshNotifications(isFollow: false)
                     }
                 )
                 .disposed(by: disposeBag)
