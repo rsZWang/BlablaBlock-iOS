@@ -46,25 +46,25 @@ Configuration = Struct.new(
   "com.wuchi.blablablock",
   "app-store",
   "BlablaBlock",
-  "Release",
+  "BlablaBlock",
   "appstore"
 )
 
-proj = "BlablaBlock.xcodeproj"
-version = get_version_number(xcodeproj: proj)
-build_number = get_build_number(xcodeproj: proj)
-build_dir = "builds/#{version}_#{build_number}"
-workspace = "BlablaBlock.xcworkspace"
-scheme = "BlablaBlock"
+@proj = "BlablaBlock.xcodeproj"
+@version = get_version_number(xcodeproj: @proj)
+@build_number = get_build_number(xcodeproj: @proj)
+@build_dir = "builds/#{@version}_#{@build_number}"
+@workspace = "BlablaBlock.xcworkspace"
+@scheme = "BlablaBlock"
 
-review_notes = "
+@review_notes = "
 測試連結交易所請使用 Binance:
 API KEY: tuXwcjGeJC4vCpdUez0mZxJJEOSqBBSJc60MCGcXeQg0CWPvufmndvQdEwgwvNnV
 API Secret: CHpW8MZwBuBHuPncE2KIN78gH06tpTCJ0JIrpt7PWXcC2i6yBRkMiZaIUVspIUqL
 "
 
-changelog = "
-探索頁面增加過濾器
+@changelog = "
+新版UI
 "
 
 default_platform(:ios)
@@ -104,10 +104,10 @@ platform :ios do
 
   desc "Clear build directory, get certificates, build and upload to testflight, download dsyms on store, upload store and local dsyms, clear"
   lane :harry do
-    # clear_dir
+    clear_dir
     build
-    # upload_submit_testflight
-    # harry_post
+    upload_submit_testflight
+    harry_post
   end
 
   desc "Upload dSYMs, notify slack"
@@ -119,22 +119,22 @@ platform :ios do
 
   desc "Clear build directory"
   lane :clear_dir do
-    sh "rm -r ./../#{build_dir} | echo"
-    sh "mkdir -p ./../#{build_dir}"
+    sh "rm -r ./../#{@build_dir} | echo"
+    sh "mkdir -p ./../#{@build_dir}"
   end
 
   desc "Build"
   lane :build do
-    # ensure_git_status_clean
-    build(@release)
+    ensure_git_status_clean
+    archive(@release)
   end
 
-  def build(type)
+  def archive(type)
     build_app(
-      workspace: workspace, 
+      workspace: @workspace, 
       scheme: type.scheme,
       clean: true,
-      output_directory: build_dir,
+      output_directory: @build_dir,
       configuration: type.buildConfiguration,
       silent: true,
       include_symbols: true,
@@ -151,7 +151,7 @@ platform :ios do
   desc "Upload to testflight and submit beta review"
   lane :upload_submit_testflight do
     pilot(
-      ipa: "#{build_dir}/BlablaBlock.ipa",
+      ipa: "#{@build_dir}/BlablaBlock.ipa",
       beta_app_review_info: {
         contact_email: "jedi19931106@icloud.com",
         contact_first_name: "Harry",
@@ -159,11 +159,11 @@ platform :ios do
         contact_phone: "+886978077059",
         demo_account_name: "test_user@blablablock.com",
         demo_account_password: "Abc123",
-        notes: review_notes
+        notes: @review_notes
       },
-      distribute_external: true,
-      groups: "External_1",
-      changelog: changelog
+      # distribute_external: true,
+      # groups: "External_1",
+      changelog: @changelog
     )
   end
 
@@ -176,8 +176,8 @@ platform :ios do
   desc "Upload store dSYMs"
   lane :upload_store_dsyms do
     download_dsyms(
-      version: version, 
-      build_number: build_number,
+      version: @version, 
+      build_number: @build_number,
       output_directory: "./dSYMs"
     )
     upload_symbols_to_crashlytics(
@@ -188,7 +188,7 @@ platform :ios do
   desc "Upload local dSYMs"
   lane :upload_local_dsyms do
     upload_symbols_to_crashlytics(
-      dsym_path: "#{build_dir}/BlablaBlock.app.dSYM.zip",
+      dsym_path: "#{@build_dir}/BlablaBlock.app.dSYM.zip",
       gsp_path: "./BlablaBlock/GoogleService-Info.plist"
     )
   end
@@ -196,7 +196,7 @@ platform :ios do
   desc "Notify slack build uploaded successfully message"
   lane :notify_slack_success do
     slack(
-      message: "Build #{version}/#{build_number} uploaded!",
+      message: "Build #{@version}/#{@build_number} uploaded!",
       slack_url: "https://hooks.slack.com/services/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"
     )
   end
