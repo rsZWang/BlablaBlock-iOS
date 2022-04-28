@@ -11,7 +11,7 @@ final class MainCoordinator: Coordinator {
     
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
-    private let signInViewController = SignInViewController.instantiate()
+    private let signInViewController = SignInViewController(viewModel: SignInViewModel())
     
     init() {
         navigationController = UINavigationController()
@@ -47,7 +47,10 @@ final class MainCoordinator: Coordinator {
 //    }
     
     func start() {
-        let vc = LauncherViewController()
+        let vc = LauncherViewController(
+            parentCoordinator: self,
+            viewModel: LauncherViewModel()
+        )
         navigationController.pushViewController(vc, animated: false)
     }
     
@@ -56,7 +59,7 @@ final class MainCoordinator: Coordinator {
         navigationController.pushViewController(signInViewController, animated: true)
     }
     
-    func main(userId: String) {
+    func main() {
         let vc = MainTabBarController(
             parentCoordinator: self
 //            parentCoordinator: self,

@@ -359,8 +359,9 @@ final class PortfolioViewController: BaseViewController {
     private func setupBinding() {
         if let user = user {
             actionButton.rx
-                .tap
-                .map { user.userId }
+                .tapGesture()
+                .when(.recognized)
+                .map { _ in user.userId }
                 .bind(to: followViewModel.inputs.portfolioFollowBtnTap)
                 .disposed(by: disposeBag)
             
@@ -450,7 +451,7 @@ final class PortfolioViewController: BaseViewController {
     private let assetDayChangeLabel = UILabel()
     private let basicInfoSectionSeparatorView = UIView()
     private let basicInfoBottomSectionView = UIView()
-    private lazy var actionButton = OrangeButton()
+    private lazy var actionButton = BlablaBlockOrangeButtonView()
     private let followSectionView = UIView()
     private let followerSectionView = UIView()
     private let followerLabel = UILabel()

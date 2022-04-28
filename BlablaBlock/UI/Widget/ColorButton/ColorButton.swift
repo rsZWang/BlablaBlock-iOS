@@ -32,16 +32,18 @@ open class ColorButton: RadioButton {
     @IBInspectable public var border: Bool = false
     @IBInspectable public var titleBold: Bool = false
     
+    public var font: UIFont?
+    
     override public var isEnabled: Bool {
-        didSet { updated() }
+        didSet { update() }
     }
     
     override public var isSelected: Bool {
-        didSet { updated() }
+        didSet { update() }
     }
     
     override public var isHighlighted: Bool {
-        didSet { updated() }
+        didSet { update() }
     }
     
     override public var buttonType: UIButton.ButtonType { .custom }
@@ -50,11 +52,15 @@ open class ColorButton: RadioButton {
         super.layoutSubviews()
         layer.cornerRadius = rounded ? 4 : 0
         layer.borderWidth = border ? 1 : 0
-        titleLabel?.font = titleBold ? .boldSystemFont(ofSize: titleSize) : .systemFont(ofSize: titleSize)
-        updated()
+        if let font = font {
+            titleLabel?.font = font
+        } else {
+            titleLabel?.font = titleBold ? .boldSystemFont(ofSize: titleSize) : .systemFont(ofSize: titleSize)
+        }
+        update()
     }
     
-    internal func updated() {
+    internal func update() {
         if isEnabled {
             if isSelected {
                 if border {

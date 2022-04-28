@@ -79,8 +79,9 @@ final class FollowListTableViewCell: UITableViewCell {
         if follow.userId != Int(keychainUser[.userId] ?? "-1") {
             followButton.isSelected = follow.isFollow
             followButton.rx
-                .tap
-                .subscribe(onNext: {
+                .tapGesture()
+                .when(.recognized)
+                .subscribe(onNext: { _ in
                     followBtnTap.accept(follow.userId)
                 })
                 .disposed(by: disposeBag)
@@ -99,5 +100,5 @@ final class FollowListTableViewCell: UITableViewCell {
     private let bgView = UIView()
     private let avatarImageView = UIImageView()
     private let userNameLabel = UILabel()
-    private let followButton = OrangeButton()
+    private let followButton = BlablaBlockOrangeButtonView()
 }

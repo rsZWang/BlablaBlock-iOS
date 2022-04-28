@@ -69,7 +69,7 @@
 		4AA9F812276DD6A200D775F0 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA9F811276DD6A200D775F0 /* BaseViewController.swift */; };
 		4AA9F814276E473800D775F0 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA9F813276E473800D775F0 /* BaseViewModel.swift */; };
 		4AB411262816F34800D04248 /* BlablaBlockNavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB411252816F34800D04248 /* BlablaBlockNavigationBarView.swift */; };
-		4ABA209F273BDC5000F66DB9 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABA209E273BDC5000F66DB9 /* AuthViewModel.swift */; };
+		4ABA209F273BDC5000F66DB9 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABA209E273BDC5000F66DB9 /* SignInViewModel.swift */; };
 		4ABA20A1273BDCB500F66DB9 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABA20A0273BDCB500F66DB9 /* String.swift */; };
 		4ABDAD9A27F4B90000BC94B6 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABDAD9927F4B90000BC94B6 /* Colors.swift */; };
 		4ABDAD9E27F4BA1C00BC94B6 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABDAD9D27F4BA1C00BC94B6 /* MainCoordinator.swift */; };
@@ -77,6 +77,8 @@
 		4ABDADA527F4BACC00BC94B6 /* NewUI.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4ABDADA427F4BACC00BC94B6 /* NewUI.xcassets */; };
 		4ABDADAF27F4BF8700BC94B6 /* OrangeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABDADAE27F4BF8700BC94B6 /* OrangeButton.swift */; };
 		4AC2F35227E6E60700E187FE /* CurrencyIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AC2F35127E6E60700E187FE /* CurrencyIcon.xcassets */; };
+		4AD27E38281A453500DDC1E1 /* SignInModeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD27E37281A453500DDC1E1 /* SignInModeButtonView.swift */; };
+		4AD27E3C281A86F600DDC1E1 /* BlablaBlockOrangeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD27E3B281A86F600DDC1E1 /* BlablaBlockOrangeButtonView.swift */; };
 		4AF1CC5F27E836AD0035A4F7 /* FollowingPortfolio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF1CC5E27E836AD0035A4F7 /* FollowingPortfolio.swift */; };
 		4AFC6577276E7E3900ADEDA7 /* InputAlertBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFC6576276E7E3900ADEDA7 /* InputAlertBuilder.swift */; };
 		7C21BD24E9DFC3B795B0358B /* Pods_BlablaBlock_BlablaBlockUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD43244C5F0653EAD9217690 /* Pods_BlablaBlock_BlablaBlockUITests.framework */; };
@@ -96,7 +98,6 @@
 		A0C1FB7427649B0F00C4201A /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C1FB7327649B0F00C4201A /* AuthService.swift */; };
 		A0C1FB7A2764B5B900C4201A /* MoyaLoggerPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C1FB792764B5B900C4201A /* MoyaLoggerPlugin.swift */; };
 		A0C8E559271FF18900848FCB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C8E558271FF18900848FCB /* AppDelegate.swift */; };
-		A0C8E560271FF18900848FCB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0C8E55E271FF18900848FCB /* Main.storyboard */; };
 		A0C8E562271FF19000848FCB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0C8E561271FF19000848FCB /* Assets.xcassets */; };
 		A0C8E565271FF19000848FCB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0C8E563271FF19000848FCB /* LaunchScreen.storyboard */; };
 		A0C8E570271FF19000848FCB /* BlablaBlockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C8E56F271FF19000848FCB /* BlablaBlockTests.swift */; };
@@ -200,7 +201,7 @@
 		4AA9F811276DD6A200D775F0 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		4AA9F813276E473800D775F0 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		4AB411252816F34800D04248 /* BlablaBlockNavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlablaBlockNavigationBarView.swift; sourceTree = "<group>"; };
-		4ABA209E273BDC5000F66DB9 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		4ABA209E273BDC5000F66DB9 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		4ABA20A0273BDCB500F66DB9 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		4ABDAD9927F4B90000BC94B6 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		4ABDAD9D27F4BA1C00BC94B6 /* MainCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
@@ -208,6 +209,8 @@
 		4ABDADA427F4BACC00BC94B6 /* NewUI.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = NewUI.xcassets; sourceTree = "<group>"; };
 		4ABDADAE27F4BF8700BC94B6 /* OrangeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrangeButton.swift; sourceTree = "<group>"; };
 		4AC2F35127E6E60700E187FE /* CurrencyIcon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CurrencyIcon.xcassets; sourceTree = "<group>"; };
+		4AD27E37281A453500DDC1E1 /* SignInModeButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInModeButtonView.swift; sourceTree = "<group>"; };
+		4AD27E3B281A86F600DDC1E1 /* BlablaBlockOrangeButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlablaBlockOrangeButtonView.swift; sourceTree = "<group>"; };
 		4AF1CC5E27E836AD0035A4F7 /* FollowingPortfolio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingPortfolio.swift; sourceTree = "<group>"; };
 		4AFC6576276E7E3900ADEDA7 /* InputAlertBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputAlertBuilder.swift; sourceTree = "<group>"; };
 		8A4F9FA2216368FC2234CB9B /* Pods_BlablaBlockTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlablaBlockTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -229,7 +232,6 @@
 		A0C1FB792764B5B900C4201A /* MoyaLoggerPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoyaLoggerPlugin.swift; sourceTree = "<group>"; };
 		A0C8E555271FF18900848FCB /* BlablaBlock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlablaBlock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0C8E558271FF18900848FCB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A0C8E55F271FF18900848FCB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A0C8E561271FF19000848FCB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A0C8E564271FF19000848FCB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A0C8E566271FF19000848FCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -364,7 +366,6 @@
 		4ABDAD9C27F4B9E200BC94B6 /* Module */ = {
 			isa = PBXGroup;
 			children = (
-				A0C8E55E271FF18900848FCB /* Main.storyboard */,
 				A0DAD5B6277861B600CD8760 /* Coordinator */,
 				4ABDADA627F4BB5300BC94B6 /* Launcher */,
 				4ABDADAB27F4BE6200BC94B6 /* Auth */,
@@ -446,8 +447,9 @@
 		4ABDADAB27F4BE6200BC94B6 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				4ABA209E273BDC5000F66DB9 /* AuthViewModel.swift */,
+				4ABA209E273BDC5000F66DB9 /* SignInViewModel.swift */,
 				A0C8E58A271FFAEE00848FCB /* SignInViewController.swift */,
+				4AD27E37281A453500DDC1E1 /* SignInModeButtonView.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -659,9 +661,10 @@
 				A0290E252722F6D900A07224 /* RadioButton */,
 				A0C8E590272006C300848FCB /* NormalInputView */,
 				4A543A472779CF1700662B12 /* PickerView.swift */,
-				4A361A2428111A3A001B772F /* BlablaBlockPickerView.swift */,
 				4A581C9727CBCFB200276BA9 /* PaddingTextField.swift */,
 				4AB411252816F34800D04248 /* BlablaBlockNavigationBarView.swift */,
+				4A361A2428111A3A001B772F /* BlablaBlockPickerView.swift */,
+				4AD27E3B281A86F600DDC1E1 /* BlablaBlockOrangeButtonView.swift */,
 			);
 			path = Widget;
 			sourceTree = "<group>";
@@ -813,7 +816,6 @@
 				A0C8E5922720075A00848FCB /* NormalInputView.xib in Resources */,
 				A0C8E565271FF19000848FCB /* LaunchScreen.storyboard in Resources */,
 				A0C8E562271FF19000848FCB /* Assets.xcassets in Resources */,
-				A0C8E560271FF18900848FCB /* Main.storyboard in Resources */,
 				4A7AFE2227393ED4005E0A72 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -992,7 +994,7 @@
 				4A7744BD276F96170087A447 /* Portfolio.swift in Sources */,
 				4A741C1227CB597500594A5D /* TradeHistoryViewModel.swift in Sources */,
 				4A6C9F2227CD39DF003B42F8 /* HttpError.swift in Sources */,
-				4ABA209F273BDC5000F66DB9 /* AuthViewModel.swift in Sources */,
+				4ABA209F273BDC5000F66DB9 /* SignInViewModel.swift in Sources */,
 				4ABDADAF27F4BF8700BC94B6 /* OrangeButton.swift in Sources */,
 				4A7FBFB82815373E0087DA49 /* PortfolioTableViewCell.swift in Sources */,
 				4A361A2528111A3A001B772F /* BlablaBlockPickerView.swift in Sources */,
@@ -1033,6 +1035,7 @@
 				4A6C9F1E27CD2C94003B42F8 /* CurrencyIcon.swift in Sources */,
 				A0C8E58B271FFAEE00848FCB /* SignInViewController.swift in Sources */,
 				A0C8E59627200ED300848FCB /* ColorButton.swift in Sources */,
+				4AD27E3C281A86F600DDC1E1 /* BlablaBlockOrangeButtonView.swift in Sources */,
 				4A252CCC273F96A4005E4C93 /* Utils.swift in Sources */,
 				4A7744BB276F95910087A447 /* StatisticsService.swift in Sources */,
 				4A51C38B27F9845D00E78EE4 /* ExploreUserTableView.swift in Sources */,
@@ -1048,6 +1051,7 @@
 				A0C8E559271FF18900848FCB /* AppDelegate.swift in Sources */,
 				A0DAD5BA277861FD00CD8760 /* Coordinator.swift in Sources */,
 				A0C1FB6D27647EC700C4201A /* HttpTargetType.swift in Sources */,
+				4AD27E38281A453500DDC1E1 /* SignInModeButtonView.swift in Sources */,
 				A0C1FB7427649B0F00C4201A /* AuthService.swift in Sources */,
 				4A7FBFBE28156C030087DA49 /* FollowingPortfolioSectionView.swift in Sources */,
 				A0290E2927230AAF00A07224 /* RadioButton.swift in Sources */,
@@ -1090,14 +1094,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		A0C8E55E271FF18900848FCB /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A0C8E55F271FF18900848FCB /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		A0C8E563271FF19000848FCB /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

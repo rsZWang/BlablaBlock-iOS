@@ -193,8 +193,8 @@ final class HomePageTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let followButton: OrangeButton = {
-        let button = OrangeButton()
+    private let followButton: BlablaBlockOrangeButtonView = {
+        let button = BlablaBlockOrangeButtonView()
         button.setTitle("追蹤", for: .normal)
         button.setTitle("追蹤中", for: .selected)
         return button
@@ -306,8 +306,9 @@ extension HomePageTableViewCell {
         amountLabel.text = notification.executedQty.toPrettyPrecisedString()
         
         followButton.rx
-            .tap
-            .subscribe(onNext: {
+            .tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { _ in
                 followBtnTap?.accept(notification.userId)
             })
             .disposed(by: disposeBag)

@@ -8,15 +8,22 @@
 import RxCocoa
 import RxSwift
 
-public class BaseViewModel: NSObject {
-    
+public protocol BaseViewModelOutputs: AnyObject {
+    var errorMessage: PublishRelay<String> { get }
+}
+
+public class BaseViewModel:
+    NSObject,
+    BaseViewModelOutputs
+{
     internal var disposeBag: DisposeBag!
     internal let backgroundScheduler = ConcurrentDispatchQueueScheduler(queue: DispatchQueue(
         label: "com.wuchi.result_handler_queue",
         qos: .background,
         attributes: .concurrent
     ))
-    let errorMessageObservable = PublishRelay<String>()
+    
+    public var errorMessage = PublishRelay<String>()
     
     override init() {
         super.init()
@@ -56,19 +63,17 @@ public class BaseViewModel: NSObject {
             string = "未知錯誤(\(msg))"
         }
         string += "(\(code))"
-        errorMessageObservable
-            .accept(string)
+        errorMessage.accept(string)
     }
     
     internal func errorHandler(error: Error) {
         if let error = error as? HttpError {
             let msg = "Http error: code(\(error.code)) \nMessage: \(error.message) \nbody: \(error.body.utf8String)"
             Timber.e(msg)
-            errorMessageObservable.accept(msg)
+            errorMessage.accept(msg)
         } else {
             Timber.e("\(error)")
-            errorMessageObservable.accept(error.localizedDescription)
+            errorMessage.accept(error.localizedDescription)
         }
     }
-    
 }

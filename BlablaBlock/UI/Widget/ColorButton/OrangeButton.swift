@@ -14,8 +14,6 @@ final class OrangeButton: ColorButton {
         rounded = true
         border = true
         borderWidth = 1
-        titleSize = 12
-        titleBold = true
         
         normalBgColor = .orangeFF9960
         normalTitleColor = .white
@@ -28,5 +26,9 @@ final class OrangeButton: ColorButton {
         selectedBgColor = .white
         selectedTitleColor = .orangeFF9960
         selectedBorderColor = .orangeFF9960
+        
+        disabledBgColor = .orangeFF9960_25
+        disabledTitleColor = .white
+        disabledBorderColor = .orangeFF9960_25
     }
 }

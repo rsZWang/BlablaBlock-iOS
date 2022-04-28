@@ -197,8 +197,9 @@ final class SettingViewController: BaseViewController {
     
     private func setupBinding() {
         editButton.rx
-            .tap
-            .subscribe(onNext: { [weak self] in
+            .tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
                 do {
                     try keychainUser.removeAll()
                 } catch {
@@ -223,7 +224,7 @@ final class SettingViewController: BaseViewController {
     private let userNameSectionView = UIView()
     private let userNameLabel = UILabel()
     private let editButtonSectionView = UIView()
-    private let editButton = OrangeButton()
+    private let editButton = BlablaBlockOrangeButtonView()
     private let exchangeSectionView = UIView()
     private let scrollView = UIScrollView()
     private let scrollContainerView = UIView()

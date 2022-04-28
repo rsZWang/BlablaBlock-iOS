@@ -6,68 +6,174 @@
 //
 
 import UIKit
-import Resolver
+import SnapKit
 import RxCocoa
 import RxSwift
 import RxGesture
 
-final class SignInViewController: BaseViewController, Storyboarded {
+final class SignInViewController: BaseViewController {
     
-//    @Injected private var mainCoordinator: MainCoordinator
     weak var parentCoordinator: MainCoordinator?
-    private let authViewModel = AuthViewModel()
-    private let signInMode = ReplayRelay<Bool>.create(bufferSize: 1)
-       
-    private let radioButtonGruop = RadioButtonGroup()
-    @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var signInBtn: ColorTextButton!
-    @IBOutlet weak var signUpBtn: ColorTextButton!
-    @IBOutlet weak var textFieldsStackView: UIStackView!
-    @IBOutlet weak var userNameInputView: NormalInputView!
-    @IBOutlet weak var emailInputView: NormalInputView!
-    @IBOutlet weak var passwordInputView: NormalInputView!
-    @IBOutlet weak var passwordConfirmInputView: NormalInputView!
-    @IBOutlet weak var forgetPasswordBtn: UIButton!
-    @IBOutlet weak var nextBtn: ColorButton!
+    private let viewModel: SignInViewModelType
     
-    private var userNameTextField: UITextField { userNameInputView.textField }
-    private var emailTextField: UITextField { emailInputView.textField }
-    private var passwordTextField: UITextField { passwordInputView.textField }
-    private var passwordConfirmTextField: UITextField { passwordConfirmInputView.textField }
-    private var forgetPasswordInputAlert: InputAlertBuilder? = nil
+    init(viewModel: SignInViewModelType) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        Timber.i("\(type(of: self)) deinit")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        containerView.layer.masksToBounds = false
-        containerView.layer.shadowOpacity = 0.3
-        containerView.layer.shadowOffset = CGSize(width: 0, height: 5)
-        containerView.layer.shadowRadius = 10
-        containerView.layer.shadowColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        setupUI()
+        setupLayout()
+        setupBinding()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        radioButtonGruop.delegate = self
-        radioButtonGruop.add(signInBtn)
-        radioButtonGruop.add(signUpBtn)
+        userNameTextField.text = nil
+        emailTextField.text = nil
+        passwordTextField.text = nil
+        passwordConfirmTextField.text = nil
         
-        signInBtn.contentHorizontalAlignment = .left
-        signUpBtn.contentHorizontalAlignment = .left
+        signInModeButtonView.isSelected = true
+        signUpModeButtonView.isSelected = false
         
+        signInMode.accept(true)
+        
+        bindNextButton()
+        
+        #if DEBUG
+        emailTextField.text = "rex@huijun.org"
+//        emailTextField.text = "cool890104@gmail.com"
+        passwordTextField.text = "123456"
+        nextButton.isEnabled = true
+        #endif
+    }
+    
+    private func setupUI() {
+        view.backgroundColor = .black181C23_70
+        
+        containerView.backgroundColor = .white
+        containerView.layer.cornerRadius = 10
+        
+        logoImageView.image = "ic_sign_in_logo".image()
+        
+        sloganLabel.text = "Connect everything about crypto trading."
+        sloganLabel.font = .systemFont(ofSize: 12, weight: .medium)
+        sloganLabel.textAlignment = .center
+        
+        signInModeButtonView.delegate = self
+        signInModeButtonView.mode = .signIn
+        
+        signUpModeButtonView.delegate = self
+        signUpModeButtonView.mode = .signUp
+        
+        textFieldStackView.axis = .vertical
+        textFieldStackView.spacing = 24
+        
+        userNameInputView.isHidden = true
+        userNameTextField.placeholder = "使用者名稱"
         userNameTextField.delegate = self
         userNameTextField.tag = 0
         userNameTextField.returnKeyType = .next
+        
+        emailTextField.placeholder = "信箱"
         emailTextField.delegate = self
         emailTextField.tag = 1
         emailTextField.keyboardType = .emailAddress
         emailTextField.returnKeyType = .next
+        
+        passwordTextField.placeholder = "密碼"
         passwordTextField.delegate = self
         passwordTextField.tag = 2
         passwordTextField.isSecureTextEntry = true
         passwordTextField.returnKeyType = .done
+        
+        passwordConfirmInputView.isHidden = true
+        passwordConfirmTextField.placeholder = "密碼確認"
         passwordConfirmTextField.delegate = self
         passwordConfirmTextField.tag = 3
         passwordConfirmTextField.isSecureTextEntry = true
         passwordConfirmTextField.returnKeyType = .done
         
+        nextButton.setTitle("下一步", for: .normal)
+        nextButton.setTitle("下一步", for: .selected)
+        nextButton.font = .boldSystemFont(ofSize: 16)
+    }
+    
+    private func setupLayout() {
+        view.addSubview(containerView)
+        containerView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(34)
+            make.trailing.equalToSuperview().offset(-34)
+            make.centerY.equalToSuperview()
+        }
+        
+        containerView.addSubview(containerPaddingView)
+        containerPaddingView.snp.makeConstraints { make in
+            make.edges.equalTo(UIEdgeInsets(top: 32, left: 24, bottom: 32, right: 24))
+        }
+        
+        containerPaddingView.addSubview(logoImageView)
+        logoImageView.snp.makeConstraints { make in
+            make.leading.top.trailing.equalToSuperview()
+        }
+        
+        containerPaddingView.addSubview(sloganLabel)
+        sloganLabel.snp.makeConstraints { make in
+            make.height.equalTo(20)
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(logoImageView.snp.bottom).offset(24)
+        }
+        
+        containerPaddingView.addSubview(modeButtonSectionView)
+        modeButtonSectionView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(sloganLabel.snp.bottom).offset(24)
+        }
+        
+        modeButtonSectionView.addSubview(signInModeButtonView)
+        signInModeButtonView.snp.makeConstraints { make in
+            make.width.equalToSuperview().multipliedBy(0.5)
+            make.leading.top.bottom.equalToSuperview()
+        }
+        
+        modeButtonSectionView.addSubview(signUpModeButtonView)
+        signUpModeButtonView.snp.makeConstraints { make in
+            make.width.equalToSuperview().multipliedBy(0.5)
+            make.top.trailing.bottom.equalToSuperview()
+        }
+        
+        containerPaddingView.addSubview(textFieldStackView)
+        textFieldStackView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
+            make.top.equalTo(signUpModeButtonView.snp.bottom).offset(32)
+        }
+        
+        textFieldStackView.addArrangedSubview(userNameInputView)
+        textFieldStackView.addArrangedSubview(emailInputView)
+        textFieldStackView.addArrangedSubview(passwordInputView)
+        textFieldStackView.addArrangedSubview(passwordConfirmInputView)
+        
+        containerPaddingView.addSubview(nextButton)
+        nextButton.snp.makeConstraints { make in
+            make.height.equalTo(40)
+            make.leading.trailing.bottom.equalToSuperview()
+            make.top.equalTo(textFieldStackView.snp.bottom).offset(40)
+        }
+    }
+    
+    private func setupBinding() {
         forgetPasswordBtn.rx
             .tapGesture()
             .when(.recognized)
@@ -75,132 +181,133 @@ final class SignInViewController: BaseViewController, Storyboarded {
                 self?.promptForgetPasswordAlert()
             })
             .disposed(by: disposeBag)
-    
-        nextBtn.rx
+        
+        nextButton.rx
             .tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
-                self?.nextBtn.isEnabled = false
-                if self?.radioButtonGruop.selectedButton == self?.signInBtn {
-                    self?.signIn()
+                guard let self = self else { return }
+                self.nextButton.isEnabled = false
+                if self.signInMode.value {
+                    self.viewModel
+                        .inputs
+                        .signIn
+                        .accept((self.emailTextField.text!, self.passwordTextField.text!))
                 } else {
-                    self?.signUp()
+                    self.viewModel
+                        .inputs
+                        .signUp
+                        .accept((
+                            self.userNameTextField.text!,
+                            self.emailTextField.text!,
+                            self.passwordTextField.text!
+                        ))
                 }
             })
             .disposed(by: disposeBag)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    
-        clearPage()
         
-        #if DEBUG
-        emailTextField.text = "rex@huijun.org"
-//        emailTextField.text = "cool890104@gmail.com"
-        passwordTextField.text = "123456"
-        #endif
-        
-        bindNextButton()
-        
-        authViewModel.successObservable
-            .subscribe(onNext: { [weak self] result in
-                self?.preload()
+        viewModel.outputs
+            .uiEvent
+            .emit(onNext: { [weak self] uiEvent in
+                self?.handleUiEvent(uiEvent)
             })
-            .disposed(by: shortLifecycleOwner)
-
-        authViewModel.resetPasswordSent
-            .asSignal()
-            .emit(
-                onNext: {
-                    AlertBuilder()
-                        .setTitle("重設密碼的信件已寄出")
-                        .setMessage("快去信箱收信喔！")
-                        .setOkButton()
-                        .show(self)
-                }
-            )
             .disposed(by: disposeBag)
-
-        authViewModel.errorMessageObservable
-            .observe(on: MainScheduler.asyncInstance)
+        
+        viewModel.outputs
+            .errorMessage
             .subscribe(onNext: { [weak self] msg in
-                self?.nextBtn.isEnabled = true
+                self?.nextButton.isEnabled = true
                 self?.promptAlert(message: msg)
             })
-            .disposed(by: shortLifecycleOwner)
+            .disposed(by: disposeBag)
     }
     
-    private func signIn() {
-        authViewModel.signIn(
-            email: emailTextField.text!,
-            password: passwordTextField.text!
-        )
-    }
+    private let containerView = UIView()
+    private let containerPaddingView = UIView()
+    private let logoImageView = UIImageView()
+    private let sloganLabel = UILabel()
+    private let modeButtonSectionView = UIView()
+    private let modeButtonSeparatorView = UIView()
+    private let signInModeButtonView = SignInModeButtonView()
+    private let signUpModeButtonView = SignInModeButtonView()
+    private let textFieldStackView = UIStackView()
+    private let userNameInputView = NormalInputView()
+    private let emailInputView = NormalInputView()
+    private let passwordInputView = NormalInputView()
+    private let passwordConfirmInputView = NormalInputView()
+    private let forgetPasswordBtn = UIButton()
+    private let nextButton = BlablaBlockOrangeButtonView()
     
-    private func signUp() {
-        authViewModel.signUp(
-            userName: userNameTextField.text!,
-            email: emailTextField.text!,
-            password: passwordTextField.text!
-        )
-    }
-    
-    private func promptForgetPasswordAlert() {
-        if forgetPasswordInputAlert == nil {
-            forgetPasswordInputAlert = InputAlertBuilder()
-                .setTitle("忘記密碼")
-                .setMessage("輸入註冊時的信箱，我們將寄送驗證信件給您")
-                .addTextField(tag: 1, placeholder: "電子信箱")
-                .setConfirmButton(title: "確定") { [weak self] texts in
-                    Timber.i("texts: \(texts)")
-                    if let email = texts[1], email.isEmail {
-                        self?.sendForgetPasswordMail(email)
-                    } else {
-                        self?.promptAlert(message: "電子信箱似乎輸入錯誤@@")
+    private var userNameTextField: UITextField { userNameInputView.textField }
+    private var emailTextField: UITextField { emailInputView.textField }
+    private var passwordTextField: UITextField { passwordInputView.textField }
+    private var passwordConfirmTextField: UITextField { passwordConfirmInputView.textField }
+    private var forgetPasswordInputAlert: InputAlertBuilder? = nil
+    private let signInMode = BehaviorRelay<Bool>(value: true)
+}
+
+extension SignInViewController: SignInModeButtonViewDelegate {
+    func signModeButtonView(_ view: SignInModeButtonView, mode: SignInModeButtonView.Mode) {
+        if mode == .signIn {
+            signInModeButtonView.isSelected = true
+            signUpModeButtonView.isSelected = false
+            passwordTextField.returnKeyType = .done
+            passwordConfirmTextField.tag = -1
+            userNameInputView.fadeIn { [weak self] in
+                self?.userNameInputView.isHidden = true
+            }
+            passwordConfirmInputView.fadeIn { [weak self] in
+                self?.passwordConfirmInputView.isHidden = true
+                UIView.animate(
+                    withDuration: 0.3,
+                    animations: {
+                        self?.textFieldStackView.layoutIfNeeded()
+                        self?.containerView.layoutIfNeeded()
                     }
-                }.build()
+                )
+            }
+            signInMode.accept(true)
+        } else {
+            signInModeButtonView.isSelected = false
+            signUpModeButtonView.isSelected = true
+            userNameInputView.isHidden = false
+            passwordConfirmInputView.isHidden = false
+            passwordTextField.returnKeyType = .next
+            passwordConfirmTextField.tag = 3
+            UIView.animate(
+                withDuration: 0.2,
+                animations: { [weak self] in
+                    self?.textFieldStackView.layoutIfNeeded()
+                    self?.containerView.layoutIfNeeded()
+                },
+                completion: { [weak self] completed in
+                    if completed {
+                        self?.userNameInputView.fadeOut()
+                        self?.passwordConfirmInputView.fadeOut()
+                    }
+                }
+            )
+            signInMode.accept(false)
+       }
+    }
+}
+
+extension SignInViewController: UITextFieldDelegate {
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        let nextTag = textField.tag + 1
+        if let nextResponder = view?.viewWithTag(nextTag) {
+            nextResponder.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
         }
-        forgetPasswordInputAlert?.show(self)
+        return true
     }
-    
-    private func sendForgetPasswordMail(_ email: String) {
-//        authViewModel.forgetPassword(email: email)
-    }
-    
-    private func clearPage() {
-        userNameTextField.text = nil
-        emailTextField.text = nil
-        passwordTextField.text = nil
-        passwordConfirmTextField.text = nil
-        signInBtn.sendActions(for: .touchUpInside)
-    }
-    
-    private func preload() {
-        let userId = keychainUser[.userId]!
-//        mainCoordinator.main(userId: userId)
-//        exchangeApiViewModel.getApiStatus()
-//            .subscribe(
-//                onNext: { [weak self] hasLinked in
-//                    self?.mainCoordinator.main(isSignIn: false, hasLinked: hasLinked)
-//                },
-//                onError: { [weak self] error in
-//                    self?.promptAlert(error: error) { [weak self] in
-//                        self?.mainCoordinator.main(isSignIn: false, hasLinked: false)
-//                    }
-//                }
-//            )
-//            .disposed(by: shortLifecycleOwner)
-    }
-    
 }
 
 extension SignInViewController {
     
-    func bindNextButton() {
-        
-        signInMode.accept(true)
-        
+    private func bindNextButton() {
         let userNameValid = userNameTextField.rx
             .text.orEmpty
             .map { !$0.isEmpty }
@@ -215,7 +322,7 @@ extension SignInViewController {
             .text.orEmpty
             .map { $0.isValidPassword }
             .share(replay: 1)
-        
+
         let passwordConfirmValid = passwordConfirmTextField.rx
             .text.orEmpty
             .map { [weak self] in $0 == self?.passwordTextField.text }
@@ -230,66 +337,39 @@ extension SignInViewController {
             resultSelector: { ($0 || ($1 && $4)) && $2 && $3 }
         )
         .share(replay: 1)
-        .bind(to: nextBtn.rx.isEnabled)
+        .bind(to: nextButton.rx.isEnabled)
         .disposed(by: shortLifecycleOwner)
     }
     
-}
-
-extension SignInViewController: RadioButtonGroupDelegate {
-    
-    func onClicked(radioButton: RadioButton) {
-        let shouldHidden = radioButton == signInBtn
-        if shouldHidden {
-            passwordTextField.returnKeyType = .done
-            passwordConfirmTextField.tag = -1
-            userNameInputView.fadeIn { [weak self] in
-                self?.userNameInputView.isHidden = true
-            }
-            passwordConfirmInputView.fadeIn { [weak self] in
-                self?.passwordConfirmInputView.isHidden = true
-                UIView.animate(
-                    withDuration: 0.2,
-                    animations: {
-                        self?.textFieldsStackView.layoutIfNeeded()
-                        self?.containerView.layoutIfNeeded()
-                    }
-                )
-            }
-            signInMode.accept(true)
-        } else {
-            userNameInputView.isHidden = false
-            passwordConfirmInputView.isHidden = false
-            passwordTextField.returnKeyType = .next
-            passwordConfirmTextField.tag = 3
-            UIView.animate(
-                withDuration: 0.2,
-                animations: { [weak self] in
-                    self?.textFieldsStackView.layoutIfNeeded()
-                    self?.containerView.layoutIfNeeded()
-                },
-                completion: { [weak self] completed in
-                    if completed {
-                        self?.userNameInputView.fadeOut()
-                        self?.passwordConfirmInputView.fadeOut()
-                    }
-                }
-            )
-            signInMode.accept(false)
+    private func handleUiEvent(_ event: SignInUiEvent) {
+        switch event {
+        case .success:
+            parentCoordinator?.main()
+        case .resetPassword:
+            AlertBuilder()
+                .setTitle("重設密碼的信件已寄出")
+                .setMessage("快去信箱收信喔！")
+                .setOkButton()
+                .show(self)
         }
     }
-}
-
-extension SignInViewController: UITextFieldDelegate {
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        let nextTag = textField.tag + 1
-        if let nextResponder = view?.viewWithTag(nextTag) {
-            nextResponder.becomeFirstResponder()
-        } else {
-            textField.resignFirstResponder()
+    private func promptForgetPasswordAlert() {
+        if forgetPasswordInputAlert == nil {
+            forgetPasswordInputAlert = InputAlertBuilder()
+                .setTitle("忘記密碼")
+                .setMessage("輸入註冊時的信箱，我們將寄送驗證信件給您")
+                .addTextField(tag: 1, placeholder: "電子信箱")
+                .setConfirmButton(title: "確定") { [weak self] texts in
+                    if let email = texts[1], email.isEmail {
+                        self?.viewModel
+                            .inputs
+                            .forgetPassword.accept(email)
+                    } else {
+                        self?.promptAlert(message: "電子信箱似乎輸入錯誤@@")
+                    }
+                }.build()
         }
-        return true
+        forgetPasswordInputAlert?.show(self)
     }
-    
 }

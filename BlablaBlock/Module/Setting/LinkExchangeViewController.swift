@@ -40,7 +40,7 @@ final class LinkExchangeViewController: BaseViewController {
     }
     
     private func setupUI() {
-        view.backgroundColor = #colorLiteral(red: 0.09411764706, green: 0.1098039216, blue: 0.137254902, alpha: 0.7)
+        view.backgroundColor = .black181C23_70
         
         containerView.backgroundColor = .white
         containerView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
@@ -167,8 +167,9 @@ final class LinkExchangeViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         submitButton.rx
-            .tap
-            .subscribe(onNext: { [weak self] in
+            .tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 if let apiKey = self.apiKeyInputView.textField.text, let apiSecret = self.apiSecretInputView.textField.text {
                     if let exchange = self.exchange {
@@ -194,7 +195,7 @@ final class LinkExchangeViewController: BaseViewController {
     private let howToUseLabel = UILabel()
     private let apiKeyInputView = NormalInputView()
     private let apiSecretInputView = NormalInputView()
-    private let submitButton = OrangeButton()
+    private let submitButton = BlablaBlockOrangeButtonView()
 }
 
 extension LinkExchangeViewController {

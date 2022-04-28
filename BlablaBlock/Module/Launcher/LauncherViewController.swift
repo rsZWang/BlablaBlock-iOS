@@ -12,8 +12,8 @@ import RxSwift
 
 final class LauncherViewController: BaseViewController {
     
-    @Injected var mainCoordinator: MainCoordinator
-    @Injected var viewModel: LauncherViewModelType
+    private weak var parentCoordinator: MainCoordinator?
+    private let viewModel: LauncherViewModelType
 //    private let homePageViewModel: HomePageViewModelType
 //    private let exploreUserViewModel: ExploreUserViewModelType
 //    private let portfolioViewModel: PortfolioViewModelType
@@ -32,7 +32,12 @@ final class LauncherViewController: BaseViewController {
 //        super.init(nibName: nil, bundle: nil)
 //    }
     
-    init() {
+    init(
+        parentCoordinator: MainCoordinator?,
+        viewModel: LauncherViewModelType
+    ) {
+        self.parentCoordinator = parentCoordinator
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -106,11 +111,11 @@ final class LauncherViewController: BaseViewController {
     }
     
     private func signIn() {
-        mainCoordinator.signIn()
+        parentCoordinator?.signIn()
     }
     
     private func preload(userId: String) {
-        mainCoordinator.main(userId: userId)
+        parentCoordinator?.main()
 //        mainCoordinator.main(
 //            homePageViewModel: homePageViewModel,
 //            exploreUserViewModel: exploreUserViewModel,

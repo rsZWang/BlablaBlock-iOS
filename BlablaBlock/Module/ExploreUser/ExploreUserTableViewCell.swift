@@ -214,8 +214,8 @@ final class ExploreUserTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    private let followButton: OrangeButton = {
-        let button = OrangeButton()
+    private let followButton: BlablaBlockOrangeButtonView = {
+        let button = BlablaBlockOrangeButtonView()
         button.setTitle("追蹤", for: .normal)
         button.setTitle("追蹤中", for: .selected)
         return button

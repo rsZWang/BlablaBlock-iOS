@@ -6,17 +6,15 @@
 //
 
 import UIKit
-import Resolver
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UISceneDelegate {
 
     var window: UIWindow?
-    @Injected var mainCoordinator: MainCoordinator
+    let mainCoordinator = MainCoordinator()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        Resolver.registerAllServices()
         EventTracker.initialize()
         
         if #available(iOS 13, *) { } else {

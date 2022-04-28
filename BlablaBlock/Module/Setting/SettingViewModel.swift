@@ -155,6 +155,30 @@ final class SettingViewModel:
             errorCodeHandler(responseFailure)
         }
     }
+    
+//    func signOut() {
+//        AuthService.logout()
+//            .request()
+//            .subscribe(
+//                onSuccess: { [weak self] response in
+//                    self?.doSignOut()
+//                },
+//                onFailure: { [weak self] error in
+////                    self?.errorHandler(error: error)
+//                    self?.doSignOut()
+//                }
+//            )
+//            .disposed(by: disposeBag)
+//    }
+    
+//    private func doSignOut() {
+//        do {
+//            try keychainUser.removeAll()
+//        } catch {
+//            Timber.e("Sign out error: \(error)")
+//        }
+//        successObservable.onNext(true)
+//    }
 }
 
 extension SettingViewModel {
