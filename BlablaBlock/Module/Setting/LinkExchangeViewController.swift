@@ -10,6 +10,7 @@ import Resolver
 import SnapKit
 import RxSwift
 import RxGesture
+import SafariServices
 
 final class LinkExchangeViewController: BaseViewController {
     
@@ -155,6 +156,15 @@ final class LinkExchangeViewController: BaseViewController {
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 self?.dismiss()
+            })
+            .disposed(by: disposeBag)
+        
+        howToUseLabel.rx
+            .tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                let safariVC = SFSafariViewController(url: URL(string: "https://medium.com/blablablock2021/24ff8fc81770")!)
+                self?.present(safariVC, animated: true, completion: nil)
             })
             .disposed(by: disposeBag)
         
