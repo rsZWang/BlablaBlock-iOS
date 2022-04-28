@@ -44,11 +44,31 @@ public enum ExchangeType: String, Equatable {
     static let titleList = ["所有交易所", "Binance", "FTX"]
     static let typeList = ["all", "binance", "ftx"]
     
-    static func map(type: String) -> String {
+    init?(title: String) {
+        if let typeIndex = Self.titleList.firstIndex(where: { $0 == title }) {
+            self.init(rawValue: Self.typeList[typeIndex])
+        } else {
+            return nil
+        }
+    }
+    
+    init?(index: Int) {
+        self.init(rawValue: Self.typeList[index])
+    }
+    
+    init?(name: String) {
+        if let typeIndex = Self.typeList.firstIndex(where: { $0 == name }) {
+            self.init(rawValue: Self.typeList[typeIndex])
+        } else {
+            return nil
+        }
+    }
+    
+    static func map(type: String) -> String? {
         if let index = typeList.firstIndex(where: { $0 == type }) {
             return titleList[index]
         } else {
-            return "Unknown type \(type)"
+            return nil
         }
     }
 }

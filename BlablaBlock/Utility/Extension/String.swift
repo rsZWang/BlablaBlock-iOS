@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 public extension String {
     
@@ -141,5 +142,9 @@ public extension String {
             string.append(contentsOf: "0")
         }
         return string
+    }
+
+    func image() -> UIImage {
+        UIImage(named: self)!
     }
 }

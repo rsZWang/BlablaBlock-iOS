@@ -9,7 +9,7 @@ import Moya
 
 struct UserService {
     
-    struct getNotifications: HttpResponseTargetType {
+    struct getNotifications: HttpTargetType {
         var method: Method { .get }
         var tokenType: TokenType { .user }
         var path: String { "notifications" }
@@ -20,7 +20,7 @@ struct UserService {
         typealias FailureType = ResponseFailure
     }
     
-    struct getUsers: HttpResponseTargetType {
+    struct getUsers: HttpTargetType {
         var method: Method { .get }
         var tokenType: TokenType { .user }
         var path: String { "users" }
@@ -35,7 +35,7 @@ struct UserService {
         let name: String
     }
     
-    struct getPortfolioByID: HttpResponseTargetType {
+    struct getPortfolioByID: HttpTargetType {
         var method: Method { .get }
         var tokenType: TokenType { .user }
         var path: String { "portfolio/\(userId)" }
@@ -51,7 +51,7 @@ struct UserService {
         let exchange: String
     }
     
-    struct getPNLByID: HttpResponseTargetType {
+    struct getPNLByID: HttpTargetType {
         var method: Method { .get }
         var tokenType: TokenType { .user }
         var path: String { "pnl/\(userId)" }
@@ -69,7 +69,7 @@ struct UserService {
         let period: String
     }
     
-    struct getTradeHistoryByID: HttpResponseTargetType {
+    struct getTradeHistoryByID: HttpTargetType {
         var method: Method { .get }
         var tokenType: TokenType { .user }
         var path: String { "trade_history/\(userId)" }
@@ -82,7 +82,7 @@ struct UserService {
         let userId: Int
     }
     
-    struct getFollowPortfolioByID: HttpResponseTargetType {
+    struct getFollowPortfolioByID: HttpTargetType {
         var method: Method { .get }
         var tokenType: TokenType { .user }
         var path: String { "follow_portfolio/\(userId)" }
@@ -98,7 +98,7 @@ struct UserService {
         let exchange: String
     }
     
-    struct getFollowerByID: HttpResponseTargetType {
+    struct getFollowerByID: HttpTargetType {
         var method: Method { .get }
         var tokenType: TokenType { .user }
         var path: String { "follower/\(userId)" }

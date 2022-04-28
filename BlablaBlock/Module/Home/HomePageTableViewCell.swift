@@ -1,0 +1,283 @@
+//
+//  HomePageTableViewCell.swift
+//  BlablaBlock
+//
+//  Created by Harry on 2022/2/28.
+//
+
+import UIKit
+import SnapKit
+import RxCocoa
+import RxSwift
+
+final class HomePageTableViewCell: UITableViewCell {
+    
+    static let identifier = "HomePageTableViewCell"
+    
+    private var disposeBag = DisposeBag()
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupUI()
+        setupLayout()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
+    
+    private func setupUI() {
+        contentView.backgroundColor = .grayE5E5E5
+        
+        bgBottomView.layer.cornerRadius = 4
+        bgBottomView.backgroundColor = .black
+        
+        bgView.layer.cornerRadius = 4
+        bgView.backgroundColor = .white
+        
+        avatarImageView.image = "ic_profile_avatar_placeholder".image()
+        avatarImageView.layer.cornerRadius = 17
+        avatarImageView.clipsToBounds = true
+        
+        nameLabel.font = .boldSystemFont(ofSize: 13)
+        nameLabel.textColor = .black2D2D2D
+        
+        timestampCounterLabel.font = .systemFont(ofSize: 10, weight: .medium)
+        timestampCounterLabel.textColor = .gray2D2D2D_40
+        
+        followButton.setTitle("追蹤", for: .normal)
+        followButton.setTitle("追蹤中", for: .selected)
+        followButton.font = .boldSystemFont(ofSize: 12)
+        
+        separatorView.backgroundColor = .gray2D2D2D_40
+        
+        currencyLabel.font = .boldSystemFont(ofSize: 16)
+        currencyLabel.textColor = .black2D2D2D
+        currencyLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        
+        currencyTypeLabel.font = .systemFont(ofSize: 10, weight: .medium)
+        currencyTypeLabel.textColor = .black2D2D2D
+        currencyTypeLabel.textAlignment = .left
+        
+        timestampLabel.font = .systemFont(ofSize: 10, weight: .medium)
+        timestampLabel.textColor = .gray2D2D2D_40
+        timestampLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        
+        actionLabel.font = .systemFont(ofSize: 12, weight: .semibold)
+        
+        exchangeTtitleLabel.text = "交易所"
+        exchangeTtitleLabel.font = .systemFont(ofSize: 12, weight: .medium)
+        exchangeTtitleLabel.textColor = .black2D2D2D_80
+        
+        exchangeLabel.font = .systemFont(ofSize: 12, weight: .medium)
+        exchangeLabel.textColor = .black2D2D2D
+        
+        priceTitleLabel.text = "價格"
+        priceTitleLabel.font = .systemFont(ofSize: 12, weight: .medium)
+        priceTitleLabel.textColor = .black2D2D2D_80
+        
+        priceLabel.font = .systemFont(ofSize: 12, weight: .medium)
+        priceLabel.textColor = .black2D2D2D
+        
+        amountTitleLabel.text = "成交數量"
+        amountTitleLabel.font = .systemFont(ofSize: 12, weight: .medium)
+        amountTitleLabel.textColor = .black2D2D2D_80
+        
+        amountLabel.font = .systemFont(ofSize: 12, weight: .medium)
+        amountLabel.textColor = .black2D2D2D
+    }
+    
+    private func setupLayout() {
+        contentView.addSubview(bgBottomView)
+        bgBottomView.snp.makeConstraints { make in
+            make.edges.equalTo(UIEdgeInsets(top: 0, left: 24, bottom: 10, right: 24))
+        }
+
+        bgBottomView.addSubview(bgView)
+        bgView.snp.makeConstraints { make in
+            make.edges.equalTo(UIEdgeInsets(top: 0, left: 0, bottom: 2, right: 0))
+        }
+        
+        bgView.addSubview(containerView)
+        containerView.snp.makeConstraints { make in
+            make.edges.equalTo(UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12))
+        }
+        
+        containerView.addSubview(avatarImageView)
+        avatarImageView.snp.makeConstraints { make in
+            make.width.height.equalTo(34)
+            make.leading.top.equalToSuperview()
+        }
+
+        containerView.addSubview(followButton)
+        followButton.snp.makeConstraints { make in
+            make.width.equalTo(70)
+            make.height.equalTo(22)
+            make.centerY.equalTo(avatarImageView)
+            make.trailing.equalToSuperview()
+        }
+        
+        containerView.addSubview(nameSectionView)
+        nameSectionView.snp.makeConstraints { make in
+            make.height.equalTo(34)
+            make.top.equalToSuperview()
+            make.leading.equalTo(avatarImageView.snp.trailing).offset(16)
+            make.trailing.equalTo(followButton.snp.leading).offset(-16)
+        }
+        
+        nameSectionView.addSubview(nameLabel)
+        nameLabel.snp.makeConstraints { make in
+            make.height.equalTo(20)
+            make.leading.top.trailing.equalToSuperview()
+        }
+
+        nameSectionView.addSubview(timestampCounterLabel)
+        timestampCounterLabel.snp.makeConstraints { make in
+            make.height.equalTo(14)
+            make.leading.bottom.trailing.equalToSuperview()
+        }
+
+        containerView.addSubview(separatorView)
+        separatorView.snp.makeConstraints { make in
+            make.height.equalTo(1)
+            make.top.equalTo(nameSectionView.snp.bottom).offset(8)
+            make.leading.trailing.equalToSuperview()
+        }
+        
+        containerView.addSubview(currencyImageView)
+        currencyImageView.snp.makeConstraints { make in
+            make.width.height.equalTo(22)
+            make.top.equalTo(separatorView.snp.bottom).offset(8)
+            make.leading.equalToSuperview()
+        }
+
+        containerView.addSubview(currencyLabel)
+        currencyLabel.snp.makeConstraints { make in
+            make.height.equalTo(20)
+            make.centerY.equalTo(currencyImageView)
+            make.leading.equalTo(currencyImageView.snp.trailing).offset(8)
+        }
+
+        containerView.addSubview(timestampLabel)
+        timestampLabel.snp.makeConstraints { make in
+            make.height.equalTo(20)
+            make.centerY.equalTo(currencyImageView)
+            make.trailing.equalToSuperview()
+        }
+
+        containerView.addSubview(currencyTypeLabel)
+        currencyTypeLabel.snp.makeConstraints { make in
+            make.height.equalTo(14)
+            make.centerY.equalTo(currencyImageView)
+            make.leading.equalTo(currencyLabel.snp.trailing).offset(8)
+            make.trailing.equalTo(timestampLabel.snp.leading).offset(-8)
+        }
+
+        containerView.addSubview(actionLabel)
+        actionLabel.snp.makeConstraints { make in
+            make.height.equalTo(19)
+            make.top.equalTo(currencyImageView.snp.bottom).offset(5)
+            make.leading.equalToSuperview()
+        }
+
+        containerView.addSubview(exchangeTtitleLabel)
+        exchangeTtitleLabel.snp.makeConstraints { make in
+            make.height.equalTo(19)
+            make.top.equalTo(actionLabel.snp.bottom)
+            make.leading.equalToSuperview()
+        }
+
+        containerView.addSubview(exchangeLabel)
+        exchangeLabel.snp.makeConstraints { make in
+            make.height.equalTo(19)
+            make.centerY.equalTo(exchangeTtitleLabel)
+            make.trailing.equalToSuperview()
+        }
+
+        containerView.addSubview(priceTitleLabel)
+        priceTitleLabel.snp.makeConstraints { make in
+            make.height.equalTo(19)
+            make.top.equalTo(exchangeTtitleLabel.snp.bottom)
+            make.leading.equalToSuperview()
+        }
+
+        containerView.addSubview(priceLabel)
+        priceLabel.snp.makeConstraints { make in
+            make.height.equalTo(19)
+            make.centerY.equalTo(priceTitleLabel)
+            make.trailing.equalToSuperview()
+        }
+
+        containerView.addSubview(amountTitleLabel)
+        amountTitleLabel.snp.makeConstraints { make in
+            make.height.equalTo(19)
+            make.top.equalTo(priceTitleLabel.snp.bottom)
+            make.leading.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
+
+        containerView.addSubview(amountLabel)
+        amountLabel.snp.makeConstraints { make in
+            make.height.equalTo(19)
+            make.centerY.equalTo(amountTitleLabel)
+            make.trailing.equalToSuperview()
+        }
+    }
+    
+    private let bgBottomView = UIView()
+    private let bgView = UIView()
+    private let containerView = UIView()
+    private let avatarImageView = UIImageView()
+    private let nameSectionView = UIView()
+    private let nameLabel = UILabel()
+    private let timestampCounterLabel = UILabel()
+    private let followButton = BlablaBlockOrangeButtonView()
+    private let separatorView = UIView()
+    private let currencyImageView = UIImageView()
+    private let currencyLabel = UILabel()
+    private let currencyTypeLabel = UILabel()
+    private let timestampLabel = UILabel()
+    private let actionLabel = UILabel()
+    private let exchangeTtitleLabel = UILabel()
+    private let exchangeLabel = UILabel()
+    private let priceTitleLabel = UILabel()
+    private let priceLabel = UILabel()
+    private let amountTitleLabel = UILabel()
+    private let amountLabel = UILabel()
+}
+
+extension HomePageTableViewCell {
+    
+    func bind(notification: NotificationApiData, followBtnTap: PublishRelay<Int>?) {
+        currencyImageView.currency(name: notification.baseCurrency)
+        followButton.isSelected = notification.isFollow
+        nameLabel.text = notification.name
+        timestampCounterLabel.text = notification.timestamp.ago()
+        currencyLabel.text = notification.currency
+        currencyTypeLabel.text = AssetType.map(type: notification.type)
+        timestampLabel.text = notification.timestamp.format()
+        if notification.side.caseInsensitiveCompare("buy") == .orderedSame {
+            actionLabel.text = "買入"
+            actionLabel.textColor = .systemGreen
+        } else {
+            actionLabel.text = "賣出"
+            actionLabel.textColor = .red
+        }
+        exchangeLabel.text = notification.exchange.uppercased()
+        priceLabel.text = notification.price?.toPrettyPrecisedString()
+        amountLabel.text = notification.executedQty.toPrettyPrecisedString()
+        
+        followButton.rx
+            .tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { _ in
+                followBtnTap?.accept(notification.userId)
+            })
+            .disposed(by: disposeBag)
+    }
+}

@@ -14,13 +14,17 @@ struct MoyaLoggerPlugin: PluginType {
     private let shouldPrint = true
 
     func willSend(_ request: RequestType, target: TargetType) {
-        debugRequest(request.request as URLRequest?, target: target)
+        if shouldPrint {
+            debugRequest(request.request as URLRequest?, target: target)
+        }
     }
 
     func didReceive(_ result: Result<Response, MoyaError>, target: TargetType) {
         switch result {
         case .success(let response):
-            debugResponse(response, target: target)
+            if shouldPrint {
+                debugResponse(response, target: target)
+            }
         case .failure(let error):
             Timber.e(error)
         }
@@ -58,14 +62,12 @@ struct MoyaLoggerPlugin: PluginType {
     }
 
     func printLogs(_ title: String, logs: [Log]) {
-        if shouldPrint {
-            let title = "==============\(title)======================="
-            print(title)
-            for log in logs {
-                print("\(log.0): \(log.1)")
-            }
-            let separator = title.map { _ in "=" }.joined()
-            print("\(separator)=")
+        let title = "==============\(title)======================="
+        print(title)
+        for log in logs {
+            print("\(log.0): \(log.1)")
         }
+        let separator = title.map { _ in "=" }.joined()
+        print("\(separator)=")
     }
 }

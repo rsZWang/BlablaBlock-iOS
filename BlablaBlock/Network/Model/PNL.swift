@@ -140,4 +140,16 @@ public enum PNLPeriod: String {
     
     static let titleList = ["全部", "1Y", "1M", "YTD"]
     static let periodList = ["all", "1y", "1m", "ytd"]
+    
+    init?(title: String) {
+        if let typeIndex = Self.titleList.firstIndex(where: { $0 == title }) {
+            self.init(rawValue: Self.periodList[typeIndex])
+        } else {
+            return nil
+        }
+    }
+    
+    init?(index: Int) {
+        self.init(rawValue: Self.periodList[index])
+    }
 }

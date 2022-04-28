@@ -119,8 +119,8 @@ public extension UIView {
         layer.mask = mask
     }
     
-    func makeCircle() {
-        self.layer.cornerRadius = self.frame.height / 2
+    func makeCircle(base: CGFloat?) {
+        self.layer.cornerRadius = (base ?? self.frame.height) / 2
         self.clipsToBounds = true
     }
 }

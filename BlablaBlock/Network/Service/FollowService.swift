@@ -9,7 +9,7 @@ import Moya
 
 struct FollowService {
     
-    struct getFollower: HttpResponseTargetType {
+    struct getFollower: HttpTargetType {
         var method: Method { .get }
         var tokenType: TokenType { .user }
         var path: String { "follower" }
@@ -20,7 +20,7 @@ struct FollowService {
         typealias FailureType = ResponseFailure
     }
     
-    struct follow: HttpResponseTargetType {
+    struct follow: HttpTargetType {
         var method: Method { .post }
         var tokenType: TokenType { .user }
         var path: String { "follow" }
@@ -35,7 +35,7 @@ struct FollowService {
         let userId: Int
     }
     
-    struct unfollow: HttpResponseTargetType {
+    struct unfollow: HttpTargetType {
         var method: Method { .post }
         var tokenType: TokenType { .user }
         var path: String { "unfollow" }

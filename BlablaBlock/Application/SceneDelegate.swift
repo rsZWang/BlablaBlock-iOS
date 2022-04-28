@@ -21,12 +21,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        mainCoordinator.start()
         let window = UIWindow(windowScene: windowScene)
         window.rootViewController = mainCoordinator.navigationController
         window.makeKeyAndVisible()
         window.overrideUserInterfaceStyle = .light
         self.window = window
+        
+        mainCoordinator.start()
     }
     
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
@@ -35,7 +36,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if url.contains("/users/password/edit") {
             // Reset password link
             if let token = Utils.getQueryStringParameter(url: url, param: "reset_password_token") {
-                mainCoordinator.resetPassword(token: token)
+//                mainCoordinator.resetPassword(token: token)
             }
         }
     }

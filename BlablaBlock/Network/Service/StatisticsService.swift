@@ -9,7 +9,7 @@ import Moya
 
 struct StatisticsService {
     
-    struct getPortfolio: HttpResponseTargetType {
+    struct getPortfolio: HttpTargetType {
         var method: Method { .get }
         var tokenType: TokenType { .user }
         var path: String { "portfolio" }
@@ -24,7 +24,7 @@ struct StatisticsService {
         let exchange: String
     }
     
-    struct getPNL: HttpResponseTargetType {
+    struct getPNL: HttpTargetType {
         var method: Method { .get }
         var tokenType: TokenType { .user }
         var path: String { "pnl" }
@@ -41,7 +41,7 @@ struct StatisticsService {
         let period: String
     }
     
-    struct getTradeHistory: HttpResponseTargetType {
+    struct getTradeHistory: HttpTargetType {
         var method: Method { .get }
         var tokenType: TokenType { .user }
         var path: String { "trade_history" }
