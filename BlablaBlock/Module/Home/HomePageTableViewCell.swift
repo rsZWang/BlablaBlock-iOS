@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 import RxCocoa
 import RxSwift
 
@@ -96,7 +97,7 @@ final class HomePageTableViewCell: UITableViewCell {
         bgBottomView.snp.makeConstraints { make in
             make.edges.equalTo(UIEdgeInsets(top: 0, left: 24, bottom: 10, right: 24))
         }
-        
+
         bgBottomView.addSubview(bgView)
         bgView.snp.makeConstraints { make in
             make.edges.equalTo(UIEdgeInsets(top: 0, left: 0, bottom: 2, right: 0))
@@ -112,7 +113,7 @@ final class HomePageTableViewCell: UITableViewCell {
             make.width.height.equalTo(34)
             make.leading.top.equalToSuperview()
         }
-        
+
         containerView.addSubview(followButton)
         followButton.snp.makeConstraints { make in
             make.width.equalTo(70)
@@ -124,7 +125,7 @@ final class HomePageTableViewCell: UITableViewCell {
         containerView.addSubview(nameSectionView)
         nameSectionView.snp.makeConstraints { make in
             make.height.equalTo(34)
-            make.centerY.equalTo(avatarImageView)
+            make.top.equalToSuperview()
             make.leading.equalTo(avatarImageView.snp.trailing).offset(16)
             make.trailing.equalTo(followButton.snp.leading).offset(-16)
         }
@@ -134,97 +135,97 @@ final class HomePageTableViewCell: UITableViewCell {
             make.height.equalTo(20)
             make.leading.top.trailing.equalToSuperview()
         }
-        
+
         nameSectionView.addSubview(timestampCounterLabel)
         timestampCounterLabel.snp.makeConstraints { make in
             make.height.equalTo(14)
             make.leading.bottom.trailing.equalToSuperview()
         }
-        
+
         containerView.addSubview(separatorView)
         separatorView.snp.makeConstraints { make in
-            make.height.equalTo(0.5)
+            make.height.equalTo(1)
+            make.top.equalTo(nameSectionView.snp.bottom).offset(8)
             make.leading.trailing.equalToSuperview()
-            make.top.equalTo(avatarImageView.snp.bottom).offset(8)
         }
         
         containerView.addSubview(currencyImageView)
         currencyImageView.snp.makeConstraints { make in
             make.width.height.equalTo(22)
-            make.leading.equalToSuperview()
             make.top.equalTo(separatorView.snp.bottom).offset(8)
+            make.leading.equalToSuperview()
         }
-        
+
         containerView.addSubview(currencyLabel)
         currencyLabel.snp.makeConstraints { make in
             make.height.equalTo(20)
-            make.leading.equalTo(currencyImageView.snp.trailing).offset(8)
             make.centerY.equalTo(currencyImageView)
+            make.leading.equalTo(currencyImageView.snp.trailing).offset(8)
         }
-        
+
         containerView.addSubview(timestampLabel)
         timestampLabel.snp.makeConstraints { make in
             make.height.equalTo(20)
-            make.trailing.equalToSuperview()
             make.centerY.equalTo(currencyImageView)
+            make.trailing.equalToSuperview()
         }
-        
+
         containerView.addSubview(currencyTypeLabel)
         currencyTypeLabel.snp.makeConstraints { make in
             make.height.equalTo(14)
+            make.centerY.equalTo(currencyImageView)
             make.leading.equalTo(currencyLabel.snp.trailing).offset(8)
             make.trailing.equalTo(timestampLabel.snp.leading).offset(-8)
-            make.centerY.equalTo(currencyImageView)
         }
-        
+
         containerView.addSubview(actionLabel)
         actionLabel.snp.makeConstraints { make in
             make.height.equalTo(19)
-            make.leading.equalToSuperview()
             make.top.equalTo(currencyImageView.snp.bottom).offset(5)
+            make.leading.equalToSuperview()
         }
-        
+
         containerView.addSubview(exchangeTtitleLabel)
         exchangeTtitleLabel.snp.makeConstraints { make in
             make.height.equalTo(19)
-            make.leading.equalToSuperview()
             make.top.equalTo(actionLabel.snp.bottom)
+            make.leading.equalToSuperview()
         }
-        
+
         containerView.addSubview(exchangeLabel)
         exchangeLabel.snp.makeConstraints { make in
             make.height.equalTo(19)
-            make.trailing.equalToSuperview()
             make.centerY.equalTo(exchangeTtitleLabel)
+            make.trailing.equalToSuperview()
         }
-        
+
         containerView.addSubview(priceTitleLabel)
         priceTitleLabel.snp.makeConstraints { make in
             make.height.equalTo(19)
-            make.leading.equalToSuperview()
             make.top.equalTo(exchangeTtitleLabel.snp.bottom)
+            make.leading.equalToSuperview()
         }
-        
+
         containerView.addSubview(priceLabel)
         priceLabel.snp.makeConstraints { make in
             make.height.equalTo(19)
-            make.trailing.equalToSuperview()
             make.centerY.equalTo(priceTitleLabel)
+            make.trailing.equalToSuperview()
         }
-        
+
         containerView.addSubview(amountTitleLabel)
         amountTitleLabel.snp.makeConstraints { make in
             make.height.equalTo(19)
-            make.leading.equalToSuperview()
             make.top.equalTo(priceTitleLabel.snp.bottom)
+            make.leading.equalToSuperview()
             make.bottom.equalToSuperview()
         }
-        
+
         containerView.addSubview(amountLabel)
         amountLabel.snp.makeConstraints { make in
             make.height.equalTo(19)
-            make.trailing.equalToSuperview()
             make.centerY.equalTo(amountTitleLabel)
+            make.trailing.equalToSuperview()
         }
     }
     

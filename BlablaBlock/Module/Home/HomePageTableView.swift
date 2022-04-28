@@ -35,9 +35,6 @@ final class HomePageTableView: UITableView {
         let oldNotifications = self.notifications
         self.notifications = notifications
         self.animateRowChanges(oldData: oldNotifications, newData: notifications)
-        DispatchQueue.main.asyncAfter(deadline: .now()+2) { [weak self] in
-            self?.reloadVisibleCells()
-        }
     }
     
     func update(notifications: [NotificationApiData]) {

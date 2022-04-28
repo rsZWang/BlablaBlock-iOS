@@ -18,7 +18,6 @@ class PagedViewCell: UICollectionViewCell {
     private var bottom: CGFloat = 0
     
     private var isNotUpdated = true
-    private var collectionViewHeightConstraint: Constraint?
     
     // MARK: - Initialization
     override init(frame: CGRect) {
@@ -43,7 +42,6 @@ class PagedViewCell: UICollectionViewCell {
         view.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(left)
             make.trailing.equalToSuperview().offset(-right)
-            collectionViewHeightConstraint = make.height.equalToSuperview().constraint
         }
     }
     
