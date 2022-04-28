@@ -7,6 +7,7 @@
 
 import Foundation
 import RxCocoa
+import RxSwift
 
 public protocol ExploreUserViewModelInputs: AnyObject {
     var viewDidLoad: PublishRelay<()> { get }
@@ -16,7 +17,7 @@ public protocol ExploreUserViewModelInputs: AnyObject {
     var filter: BehaviorRelay<ExploreUserFilter> { get }
 }
 
-public protocol ExploreUserViewModelOutputs: AnyObject {
+public protocol ExploreUserViewModelOutputs: BaseViewModelOutputs {
     var users: Driver<[UserApiData]> { get }
     var isNotEmpty: Driver<Bool> { get }
     var selectedUser: Signal<UserApiData> { get }
@@ -85,20 +86,23 @@ final class ExploreUserViewModel:
             .disposed(by: disposeBag)
         
         userName
+            .debounce(.milliseconds(500), scheduler: MainScheduler.asyncInstance)
+            .observe(on: backgroundScheduler)
             .subscribe(onNext: { [weak self] name in
                 EventTracker.Builder()
                     .logEvent(.REFRESH_EXPLORE_PAGE)
-//                self?.getAllUsers(
-//                    name: name,
-//                    users: users,
-//                    isNotEmpty: isNotEmpty,
-//                    refreshControl: refreshControl,
-//                    filter: filter
-//                )
+                self?.getAllUsers(
+                    name: name,
+                    users: users,
+                    isNotEmpty: isNotEmpty,
+                    refreshControl: refreshControl,
+                    filter: filter
+                )
             })
             .disposed(by: disposeBag)
         
         selectedIndexPath
+            .debounce(.milliseconds(500), scheduler: MainScheduler.asyncInstance)
             .map { users.value[$0.row] }
             .subscribe(onNext: { user in
                 EventTracker.Builder()

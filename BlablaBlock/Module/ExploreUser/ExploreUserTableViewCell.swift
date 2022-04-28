@@ -218,6 +218,7 @@ final class ExploreUserTableViewCell: UITableViewCell {
         let button = BlablaBlockOrangeButtonView()
         button.setTitle("追蹤", for: .normal)
         button.setTitle("追蹤中", for: .selected)
+        button.font = .boldSystemFont(ofSize: 12)
         return button
     }()
     

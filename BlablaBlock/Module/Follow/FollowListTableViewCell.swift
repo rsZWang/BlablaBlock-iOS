@@ -37,15 +37,16 @@ final class FollowListTableViewCell: UITableViewCell {
         
         followButton.setTitle("追蹤", for: .normal)
         followButton.setTitle("追蹤中", for: .selected)
+        followButton.font = .boldSystemFont(ofSize: 12)
     }
     
     private func setupLayout() {
-        contentView.addSubview(bgView)
-        bgView.addSubview(avatarImageView)
-        bgView.addSubview(userNameLabel)
-        bgView.addSubview(followButton)
+        contentView.addSubview(containerView)
+        containerView.addSubview(avatarImageView)
+        containerView.addSubview(userNameLabel)
+        containerView.addSubview(followButton)
         
-        bgView.snp.makeConstraints { make in
+        containerView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
@@ -88,7 +89,7 @@ final class FollowListTableViewCell: UITableViewCell {
         } else {
             followButton.isHidden = true
         }
-        bgView.rx
+        containerView.rx
             .tapGesture()
             .when(.recognized)
             .subscribe(onNext: { _ in
@@ -97,7 +98,7 @@ final class FollowListTableViewCell: UITableViewCell {
             .disposed(by: disposeBag)
     }
     
-    private let bgView = UIView()
+    private let containerView = UIView()
     private let avatarImageView = UIImageView()
     private let userNameLabel = UILabel()
     private let followButton = BlablaBlockOrangeButtonView()

@@ -12,9 +12,14 @@ import RxDataSources
 
 final class ExploreUserViewController: BaseViewController {
     
+    private weak var parentCoordinator: MainCoordinator!
     private let viewModel: ExploreUserViewModelType
     
-    init(viewModel: ExploreUserViewModelType) {
+    init(
+        parentCoordinator: MainCoordinator?,
+        viewModel: ExploreUserViewModelType
+    ) {
+        self.parentCoordinator = parentCoordinator
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -103,13 +108,18 @@ final class ExploreUserViewController: BaseViewController {
         searchTextField.rx
             .text
             .orEmpty
-            .skip(1)
+            .skip(2)
             .bind(to: viewModel.inputs.userName)
             .disposed(by: disposeBag)
         
         refreshControl.rx
             .controlEvent(.valueChanged)
             .bind(to: viewModel.inputs.refresh)
+            .disposed(by: disposeBag)
+        
+        tableView.rx
+            .itemSelected
+            .bind(to: viewModel.inputs.selectedIndexPath)
             .disposed(by: disposeBag)
         
         viewModel.outputs
@@ -146,10 +156,12 @@ final class ExploreUserViewController: BaseViewController {
             .drive(emptyLabel.rx.isHidden)
             .disposed(by: disposeBag)
         
-//        viewModel.outputs
-//            .selectedUser
-//            .emit(onNext: coordinator.showPortfolioBy)
-//            .disposed(by: disposeBag)
+        viewModel.outputs
+            .selectedUser
+            .emit(onNext: { [weak self] user in
+                self?.parentCoordinator?.toPortfolio(user: user)
+            })
+            .disposed(by: disposeBag)
         
         viewModel.outputs
             .refreshControl

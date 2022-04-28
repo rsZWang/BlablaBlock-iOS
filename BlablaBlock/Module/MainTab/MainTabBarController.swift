@@ -118,7 +118,10 @@ final class MainTabBarController: BaseViewController {
     
     private func setupContainer() {
         viewControllers.append(HomePageViewController(viewModel: HomePageViewModel()))
-        viewControllers.append(ExploreUserViewController(viewModel: ExploreUserViewModel()))
+        viewControllers.append(ExploreUserViewController(
+            parentCoordinator: parentCoordinator,
+            viewModel: ExploreUserViewModel()
+        ))
         viewControllers.append(PortfolioViewController(
             parentCoordinator: parentCoordinator,
             viewModel: PortfolioViewModel(),

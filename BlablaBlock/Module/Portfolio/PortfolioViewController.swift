@@ -71,6 +71,7 @@ final class PortfolioViewController: BaseViewController {
             navigationSectionView.delegate = self
             actionButton.setTitle("追蹤", for: .normal)
             actionButton.setTitle("追蹤中", for: .selected)
+            actionButton.font = .boldSystemFont(ofSize: 12)
         }
         
         avatarImageView.image = "ic_profile_avatar_placeholder".image()

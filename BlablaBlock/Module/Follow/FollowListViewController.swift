@@ -7,10 +7,11 @@
 
 import UIKit
 import Resolver
+import RxSwift
 
 final class FollowListViewController: BaseViewController {
     
-    let tableView = FollowListTableView()
+    weak var viewModel: FollowViewModelType!
     
     deinit {
         Timber.i("\(type(of: self)) deinit")
@@ -27,5 +28,6 @@ final class FollowListViewController: BaseViewController {
             make.edges.equalToSuperview()
         }
     }
-    
+
+    let tableView = FollowListTableView()
 }
