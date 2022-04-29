@@ -107,7 +107,7 @@ final class FollowViewModel:
             .disposed(by: disposeBag)
         
         portfolioFollowBtnTap
-            .debounce(.milliseconds(500), scheduler: MainScheduler.asyncInstance)
+            .debounce(.milliseconds(300), scheduler: MainScheduler.asyncInstance)
             .observe(on: ConcurrentDispatchQueueScheduler.init(qos: .utility))
             .subscribe(onNext: { [weak self] userId in
                 self?.tell(userId: userId, isProfolioPage: true)
@@ -115,7 +115,7 @@ final class FollowViewModel:
             .disposed(by: disposeBag)
         
         followBtnTap
-            .debounce(.milliseconds(500), scheduler: MainScheduler.asyncInstance)
+            .debounce(.milliseconds(300), scheduler: MainScheduler.asyncInstance)
             .observe(on: ConcurrentDispatchQueueScheduler.init(qos: .utility))
             .subscribe(onNext: { [weak self] userId in
                 self?.tell(userId: userId, isProfolioPage: false)
@@ -123,7 +123,7 @@ final class FollowViewModel:
             .disposed(by: disposeBag)
         
         followCellTap
-            .debounce(.milliseconds(500), scheduler: MainScheduler.asyncInstance)
+            .debounce(.milliseconds(300), scheduler: MainScheduler.asyncInstance)
             .filter { $0.userId != Int(keychainUser[.userId] ?? "-1") }
             .map {
                 UserApiData(

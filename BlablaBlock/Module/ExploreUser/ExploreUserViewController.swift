@@ -106,12 +106,10 @@ final class ExploreUserViewController: BaseViewController {
             make.leading.trailing.bottom.equalToSuperview()
         }
         
-//        view.addSubview(emptyLabel)
-//        emptyLabel.snp.makeConstraints { make in
-//            make.centerX.equalToSuperview()
-//            make.top.equalTo(topSearchSectionView.snp.bottom)
-//            make.bottom.equalToSuperview()
-//        }
+        view.addSubview(emptyLabel)
+        emptyLabel.snp.makeConstraints { make in
+            make.centerX.equalTo(tableView)
+        }
     }
     
     private func setupBinding() {
@@ -139,7 +137,8 @@ final class ExploreUserViewController: BaseViewController {
                     cellIdentifier: ExploreUserTableViewCell.identifier,
                     cellType: ExploreUserTableViewCell.self
                 ),
-                curriedArgument: { (row, element, cell) in
+                curriedArgument: { [weak self] (row, element, cell) in
+                    cell.viewModel = self?.viewModel
                     cell.bind(element)
                 }
             )

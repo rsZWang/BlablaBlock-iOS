@@ -19,7 +19,7 @@ public struct HistoryApiData: Decodable {
     let type: String
     let timestamp: TimeInterval
     let side: String
-    let price: Double
+    let price: Double?
     let executedQty: Double
     
     func getCurrencyString() -> NSAttributedString {

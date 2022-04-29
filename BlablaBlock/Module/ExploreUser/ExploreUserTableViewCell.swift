@@ -13,6 +13,7 @@ final class ExploreUserTableViewCell: UITableViewCell {
     static let identifier = "ExploreUserTableViewCell"
     
     private var disposeBag = DisposeBag()
+    weak var viewModel: ExploreUserViewModelType?
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -38,6 +39,17 @@ final class ExploreUserTableViewCell: UITableViewCell {
         mDDLabel.text = "\(data.mdd?.toPrettyPrecisedString() ?? "")％"
         winRateLabel.text = "\(data.dailyWinRate?.toPrettyPrecisedString() ?? "")％"
         sharpRatioLabel.text = "\(data.sharpeRatio?.toPrettyPrecisedString() ?? "")"
+        
+        followButton.rx
+            .tapGesture()
+            .when(.recognized)
+            .map { _ in data.userId }
+            .bind(to: viewModel!.inputs.followBtnTap)
+//            .subscribe(onNext: { [weak self] _ in
+//                Timber.i("followButton followButton")
+//                self?.viewModel?.inputs.followBtnTap.accept(data.userId)
+//            })
+            .disposed(by: disposeBag)
     }
     
     private func setupUI() {

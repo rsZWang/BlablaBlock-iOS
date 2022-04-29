@@ -186,7 +186,7 @@ extension TradeHistoryTableViewCell {
         }
         exchangeLabel.text = history.exchange.uppercased()
         priceTitleLabel.text = "價格"
-        priceLabel.text = history.price.toPrettyPrecisedString()
+        priceLabel.text = history.price?.toPrettyPrecisedString()
         amountTitleLabel.text = "成交數量"
         amountLabel.text = history.executedQty.toPrettyPrecisedString()
     }

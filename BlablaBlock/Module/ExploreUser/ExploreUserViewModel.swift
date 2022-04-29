@@ -15,6 +15,7 @@ public protocol ExploreUserViewModelInputs: AnyObject {
     var selectedIndexPath: PublishRelay<IndexPath> { get }
     var refresh: PublishRelay<()> { get }
     var filter: BehaviorRelay<ExploreUserFilter> { get }
+    var followBtnTap: PublishRelay<Int> { get }
 }
 
 public protocol ExploreUserViewModelOutputs: BaseViewModelOutputs {
@@ -43,6 +44,7 @@ final class ExploreUserViewModel:
     var selectedIndexPath: PublishRelay<IndexPath>
     var refresh: PublishRelay<()>
     var filter: BehaviorRelay<ExploreUserFilter>
+    var followBtnTap: PublishRelay<Int>
     
     // MARK: - outputs
     
@@ -60,6 +62,7 @@ final class ExploreUserViewModel:
         let selectedIndexPath = PublishRelay<IndexPath>()
         let refresh = PublishRelay<()>()
         let filter = BehaviorRelay<ExploreUserFilter>(value: .random)
+        let followBtnTap = PublishRelay<Int>()
         
         let users = BehaviorRelay<[UserApiData]>(value: [])
         let isNotEmpty = BehaviorRelay<Bool>(value: true)
@@ -71,6 +74,7 @@ final class ExploreUserViewModel:
         self.userName = userName
         self.selectedIndexPath = selectedIndexPath
         self.filter = filter
+        self.followBtnTap = followBtnTap
         
         self.users = users.asDriver()
         self.isNotEmpty = isNotEmpty.asDriver()
@@ -125,6 +129,13 @@ final class ExploreUserViewModel:
                 self?.doFilter(data: users.value, users: users, filter: filter)
             })
             .disposed(by: disposeBag)
+        
+        followBtnTap
+            .debounce(.milliseconds(300), scheduler: backgroundScheduler)
+            .subscribe(onNext: { [weak self] userId in
+                self?.follow(users: users, userId: userId)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func getAllUsers(
@@ -171,6 +182,65 @@ final class ExploreUserViewModel:
             users.accept(data.sorted(by: { $0.dailyWinRate ?? 0 > $1.dailyWinRate ?? 0 }))
         case .sharp:
             users.accept(data.sorted(by: { $0.sharpeRatio ?? 0 > $1.sharpeRatio ?? 0 }))
+        }
+    }
+    
+    private func follow(
+        users: BehaviorRelay<[UserApiData]>,
+        userId: Int
+    ) {
+        func refreshUsers(isFollow: Bool) {
+            if let index = users.value.firstIndex(where: { $0.userId == userId }) {
+                var user = users.value[index]
+                user.isFollow = isFollow
+                var newList = users.value
+                newList.remove(at: index)
+                newList.insert(user, at: index)
+                users.accept(newList)
+//                doFilter(data: newList, users: users, filter: filter.value)
+            }
+        }
+        
+        if users.value.first(where: { $0.userId == userId })?.isFollow == true {
+            refreshUsers(isFollow: false)
+            FollowService.unfollow(userId: userId)
+                .request()
+                .subscribe(
+                    onSuccess: { [weak self] response in
+                        switch response {
+                        case .success(_):
+                            break
+                        case let .failure(responseFailure):
+                            self?.errorCodeHandler(responseFailure)
+                            refreshUsers(isFollow: true)
+                        }
+                    },
+                    onFailure: { [weak self] error in
+                        self?.errorHandler(error: error)
+                        refreshUsers(isFollow: true)
+                    }
+                )
+                .disposed(by: disposeBag)
+        } else {
+            refreshUsers(isFollow: true)
+            FollowService.follow(userId: userId)
+                .request()
+                .subscribe(
+                    onSuccess: { [weak self] response in
+                        switch response {
+                        case .success(_):
+                            break
+                        case let .failure(responseFailure):
+                            self?.errorCodeHandler(responseFailure)
+                            refreshUsers(isFollow: false)
+                        }
+                    },
+                    onFailure: { [weak self] error in
+                        self?.errorHandler(error: error)
+                        refreshUsers(isFollow: false)
+                    }
+                )
+                .disposed(by: disposeBag)
         }
     }
 }

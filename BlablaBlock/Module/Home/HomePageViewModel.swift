@@ -140,7 +140,7 @@ final class HomePageViewModel:
             .disposed(by: disposeBag)
         
         followBtnTap
-            .debounce(.milliseconds(500), scheduler: backgroundScheduler)
+            .debounce(.milliseconds(300), scheduler: backgroundScheduler)
             .observe(on: backgroundScheduler)
             .subscribe(onNext: { [weak self] userId in
                 self?.follow(userId: userId, selectedCurrencyIndex: selectedCurrencyIndex)
