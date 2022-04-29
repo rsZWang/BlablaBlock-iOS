@@ -35,7 +35,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         Timber.i("Open from: \(url)")
         if url.contains("/users/password/edit") {
             // Reset password link
-            if let token = Utils.getQueryStringParameter(url: url, param: "reset_password_token") {
+            if let _ = Utils.getQueryStringParameter(url: url, param: "reset_password_token") {
 //                mainCoordinator.resetPassword(token: token)
             }
         }

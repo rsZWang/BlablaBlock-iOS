@@ -28,6 +28,9 @@ public final class BlablaBlockPickerView: UIView {
             if itemList?.isNotEmpty == true {
                 pickerView.itemList = itemList!
                 label.text = itemList!.first
+            } else {
+                pickerView.itemList = []
+                label.text = nil
             }
         }
     }

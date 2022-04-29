@@ -368,7 +368,7 @@
 			children = (
 				A0DAD5B6277861B600CD8760 /* Coordinator */,
 				4ABDADA627F4BB5300BC94B6 /* Launcher */,
-				4ABDADAB27F4BE6200BC94B6 /* Auth */,
+				4ABDADAB27F4BE6200BC94B6 /* SignIn */,
 				4ABDADA127F4BA5000BC94B6 /* MainTab */,
 				4ABDADA727F4BBF700BC94B6 /* Home */,
 				4ABDADA827F4BDA000BC94B6 /* ExploreUser */,
@@ -444,14 +444,14 @@
 			path = TradeHistory;
 			sourceTree = "<group>";
 		};
-		4ABDADAB27F4BE6200BC94B6 /* Auth */ = {
+		4ABDADAB27F4BE6200BC94B6 /* SignIn */ = {
 			isa = PBXGroup;
 			children = (
 				4ABA209E273BDC5000F66DB9 /* SignInViewModel.swift */,
 				A0C8E58A271FFAEE00848FCB /* SignInViewController.swift */,
 				4AD27E37281A453500DDC1E1 /* SignInModeButtonView.swift */,
 			);
-			path = Auth;
+			path = SignIn;
 			sourceTree = "<group>";
 		};
 		4ABDADAC27F4BE8C00BC94B6 /* Follow */ = {

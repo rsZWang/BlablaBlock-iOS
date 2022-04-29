@@ -7,20 +7,19 @@
 
 import RxCocoa
 import RxSwift
+import Dispatch
 
 public protocol HomePageViewModelInputs: AnyObject {
     var viewDidLoad: PublishRelay<()> { get }
     var viewWillAppear: PublishRelay<()> { get }
-    var currencySelected: BehaviorRelay<String> { get }
+    var selectedCurrencyIndex: BehaviorRelay<Int> { get }
     var refresh: PublishRelay<()> { get }
     var followBtnTap: PublishRelay<Int> { get }
 }
 
 public protocol HomePageViewModelOutputs: BaseViewModelOutputs {
-    var currencyList: Signal<[String]> { get }
-    var selectedCurrency: Signal<String> { get }
-    var notificationsRefresh: Signal<[NotificationApiData]> { get }
-    var notificationsUpdate: Signal<[NotificationApiData]> { get }
+    var currencyList: Driver<[String]> { get }
+    var notifications: Driver<[NotificationApiData]> { get }
     var isNotEmpty: Signal<Bool> { get }
     var refreshControl: Signal<Bool> { get }
 }
@@ -40,23 +39,20 @@ final class HomePageViewModel:
     
     var viewDidLoad: PublishRelay<()>
     var viewWillAppear: PublishRelay<()>
-    var currencySelected: BehaviorRelay<String>
+    var selectedCurrencyIndex: BehaviorRelay<Int>
     var refresh: PublishRelay<()>
     var followBtnTap: PublishRelay<Int>
     
     // MARK: - Outputs
     
-    var currencyList: Signal<[String]>
-    var selectedCurrency: Signal<String>
-    var notificationsRefresh: Signal<[NotificationApiData]>
-    var notificationsUpdate: Signal<[NotificationApiData]>
+    var currencyList: Driver<[String]>
+    var notifications: Driver<[NotificationApiData]>
     var isNotEmpty: Signal<Bool>
     var refreshControl: Signal<Bool>
     
     // MARK: - internals
     
     private let notificationsCache = BehaviorRelay<[NotificationApiData]>(value: [])
-    private let currencyListCache = BehaviorRelay<[String]>(value: [])
     
     var inputs: HomePageViewModelInputs { self }
     var outputs: HomePageViewModelOutputs { self }
@@ -68,27 +64,24 @@ final class HomePageViewModel:
     override init() {
         let viewDidLoad = PublishRelay<()>()
         let viewWillAppear = PublishRelay<()>()
-        let currencySelected = BehaviorRelay<String>(value: "所有幣別")
+        let selectedCurrencyIndex = BehaviorRelay<Int>(value: 0)
         let refresh = PublishRelay<()>()
         let followBtnTap = PublishRelay<Int>()
         
-        let currencyList = PublishRelay<[String]>()
-        let selectedCurrency = PublishRelay<String>()
-        let notificationsRefresh = PublishRelay<[NotificationApiData]>()
-        let notificationsUpdate = PublishRelay<[NotificationApiData]>()
-        let isNotEmpty = PublishRelay<Bool>()
-        let refreshControl = PublishRelay<Bool>()
-        
         self.viewDidLoad = viewDidLoad
         self.viewWillAppear = viewWillAppear
-        self.currencySelected = currencySelected
+        self.selectedCurrencyIndex = selectedCurrencyIndex
         self.refresh = refresh
         self.followBtnTap = followBtnTap
         
-        self.currencyList = currencyList.asSignal()
-        self.selectedCurrency = selectedCurrency.asSignal()
-        self.notificationsRefresh = notificationsRefresh.asSignal()
-        self.notificationsUpdate = notificationsUpdate.asSignal()
+        
+        let currencyList = BehaviorRelay<[String]>(value: [])
+        let notifications = PublishRelay<[NotificationApiData]>()
+        let isNotEmpty = PublishRelay<Bool>()
+        let refreshControl = PublishRelay<Bool>()
+        
+        self.currencyList = currencyList.asDriver()
+        self.notifications = notifications.asDriver(onErrorJustReturn: [])
         self.isNotEmpty = isNotEmpty.asSignal()
         self.refreshControl = refreshControl.asSignal()
         
@@ -99,38 +92,37 @@ final class HomePageViewModel:
                 if let userId = keychainUser[.userId] {
                     EventTracker.setUser(id: userId)
                 }
-                selectedCurrency.accept("所有幣別")
             })
             .disposed(by: disposeBag)
         
         viewWillAppear
             .subscribe(onNext: { [weak self] in
                 if self?.notificationsCache.value.isEmpty == true {
+                    refreshControl.accept(true)
                     self?.loadNotifications(
-                        currencySelected: currencySelected,
                         currencyList: currencyList,
-                        selectedCurrency: selectedCurrency,
-                        notificationsRefresh: notificationsRefresh,
-                        notificationsUpdate: notificationsUpdate,
+                        selectedCurrencyIndex: selectedCurrencyIndex,
                         isNotEmpty: isNotEmpty,
                         refreshControl: refreshControl
                     )
                 }
-                refreshControl.accept(true)
             })
             .disposed(by: disposeBag)
         
-        currencySelected
-            .subscribe(onNext: { [weak self] currency in
-                selectedCurrency.accept(currency)
-                if let notifications = self?.notificationsCache.value {
+        selectedCurrencyIndex
+            .skip(1)
+            .withLatestFrom(
+                notificationsCache,
+                resultSelector: { index, notifications in
+                    let currency = currencyList.value[index]
                     if currency == "所有幣別" {
-                        notificationsRefresh.accept(notifications)
+                        return notifications
                     } else {
-                        notificationsRefresh.accept(notifications.filter({ $0.baseCurrency == currency }))
+                        return notifications.filter({ $0.baseCurrency == currency })
                     }
                 }
-            })
+            )
+            .bind(to: notifications)
             .disposed(by: disposeBag)
         
         refresh
@@ -139,11 +131,8 @@ final class HomePageViewModel:
                 EventTracker.Builder()
                     .logEvent(.REFRESH_HOME_PAGE)
                 self?.loadNotifications(
-                    currencySelected: currencySelected,
                     currencyList: currencyList,
-                    selectedCurrency: selectedCurrency,
-                    notificationsRefresh: notificationsRefresh,
-                    notificationsUpdate: notificationsUpdate,
+                    selectedCurrencyIndex: selectedCurrencyIndex,
                     isNotEmpty: isNotEmpty,
                     refreshControl: refreshControl
                 )
@@ -154,14 +143,7 @@ final class HomePageViewModel:
             .debounce(.milliseconds(500), scheduler: backgroundScheduler)
             .observe(on: backgroundScheduler)
             .subscribe(onNext: { [weak self] userId in
-                self?.follow(
-                    currencySelected: currencySelected,
-                    currencyList: currencyList,
-                    selectedCurrency: selectedCurrency,
-                    userId: userId,
-                    notificationsRefresh: notificationsRefresh,
-                    notificationsUpdate: notificationsUpdate
-                )
+                self?.follow(userId: userId, selectedCurrencyIndex: selectedCurrencyIndex)
             })
             .disposed(by: disposeBag)
     }
@@ -170,11 +152,8 @@ final class HomePageViewModel:
 private extension HomePageViewModel {
     
     func loadNotifications(
-        currencySelected: BehaviorRelay<String>,
-        currencyList: PublishRelay<[String]>,
-        selectedCurrency: PublishRelay<String>,
-        notificationsRefresh: PublishRelay<[NotificationApiData]>,
-        notificationsUpdate: PublishRelay<[NotificationApiData]>,
+        currencyList: BehaviorRelay<[String]>,
+        selectedCurrencyIndex: BehaviorRelay<Int>,
         isNotEmpty: PublishRelay<Bool>,
         refreshControl: PublishRelay<Bool>
     ) {
@@ -185,16 +164,16 @@ private extension HomePageViewModel {
                     refreshControl.accept(false)
                     switch response {
                     case let .success(historyApiResponse):
-                        self?.refreshOrUpdate(
-                            currencySelected: currencySelected,
-                            currencyList: currencyList,
-                            selectedCurrency: selectedCurrency,
-                            newNotifications: historyApiResponse.data,
-                            notificationsRefresh: notificationsRefresh,
-                            notificationsUpdate: notificationsUpdate
-                        )
                         isNotEmpty.accept(historyApiResponse.data.isNotEmpty)
+                        self?.updateNotifications(
+                            currencyList: currencyList,
+                            selectedCurrencyIndex: selectedCurrencyIndex,
+                            newNotifications: historyApiResponse.data
+                        )
+                        refreshControl.accept(false)
+                        
                     case let .failure(responseFailure):
+                        refreshControl.accept(false)
                         self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
                     }
                 },
@@ -206,24 +185,30 @@ private extension HomePageViewModel {
             .disposed(by: disposeBag)
     }
     
+    func updateNotifications(
+        currencyList: BehaviorRelay<[String]>,
+        selectedCurrencyIndex: BehaviorRelay<Int>,
+        newNotifications: [NotificationApiData]
+    ) {
+        notificationsCache.accept(newNotifications)
+        var newCurrencyList = Array(Set(newNotifications.map { $0.baseCurrency })).sorted(by: { $0 < $1 })
+        newCurrencyList.insert("所有幣別", at: 0)
+        if currencyList.value != newCurrencyList {
+            currencyList.accept(newCurrencyList)
+            selectedCurrencyIndex.accept(0)
+        } else {
+            selectedCurrencyIndex.accept(selectedCurrencyIndex.value)
+        }
+    }
+    
     func follow(
-        currencySelected: BehaviorRelay<String>,
-        currencyList: PublishRelay<[String]>,
-        selectedCurrency: PublishRelay<String>,
         userId: Int,
-        notificationsRefresh: PublishRelay<[NotificationApiData]>,
-        notificationsUpdate: PublishRelay<[NotificationApiData]>
+        selectedCurrencyIndex: BehaviorRelay<Int>
     ) {
         func refreshNotifications(isFollow: Bool) {
             let newNotifications = updateFollow(userId: userId, isFollow: isFollow)
-            refreshOrUpdate(
-                currencySelected: currencySelected,
-                currencyList: currencyList,
-                selectedCurrency: selectedCurrency,
-                newNotifications: newNotifications,
-                notificationsRefresh: notificationsRefresh,
-                notificationsUpdate: notificationsUpdate
-            )
+            notificationsCache.accept(newNotifications)
+            selectedCurrencyIndex.accept(selectedCurrencyIndex.value)
         }
         
         if notificationsCache.value.first(where: { $0.userId == userId })?.isFollow == true {
@@ -281,53 +266,5 @@ private extension HomePageViewModel {
                 }
                 return new
             })
-    }
-    
-    func refreshOrUpdate(
-        currencySelected: BehaviorRelay<String>,
-        currencyList: PublishRelay<[String]>,
-        selectedCurrency: PublishRelay<String>,
-        newNotifications: [NotificationApiData],
-        notificationsRefresh: PublishRelay<[NotificationApiData]>,
-        notificationsUpdate: PublishRelay<[NotificationApiData]>
-    ) {
-        var newCurrencyList = newNotifications.map { $0.baseCurrency }.unique().sorted(by: { $0 < $1 })
-        newCurrencyList.insert("所有幣別", at: 0)
-        if !newCurrencyList.contains(currencySelected.value) {
-            currencySelected.accept("所有幣別")
-            selectedCurrency.accept("所有幣別")
-        }
-        currencyList.accept(newCurrencyList)
-        
-        let sortedNotifications = newNotifications.sorted(by: { $0.timestamp > $1.timestamp })
-        
-        let cachedNotifications: [NotificationApiData]
-        let notifications: [NotificationApiData]
-        if currencySelected.value != "所有幣別" {
-            cachedNotifications = notificationsCache.value.filter({ $0.currency == currencySelected.value })
-            notifications = sortedNotifications.filter({ $0.currency == currencySelected.value })
-        } else {
-            cachedNotifications = notificationsCache.value
-            notifications = sortedNotifications
-        }
-        
-        if notifications.count != cachedNotifications.count {
-            notificationsRefresh.accept(notifications)
-        } else {
-            var isNotSame = false
-            for i in 0 ..< notifications.count {
-                if notifications[i].identity != cachedNotifications[i].identity {
-                    isNotSame = true
-                    break
-                }
-            }
-            if isNotSame {
-                notificationsRefresh.accept(notifications)
-            } else {
-                notificationsUpdate.accept(notifications)
-            }
-        }
-        
-        notificationsCache.accept(sortedNotifications)
     }
 }

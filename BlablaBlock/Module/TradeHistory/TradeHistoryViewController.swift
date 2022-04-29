@@ -51,9 +51,8 @@ final class TradeHistoryViewController: BaseViewController {
     
     private func setupLayout() {
         view.addSubview(statusBarSection)
-        let statusBarHeight = UIApplication.shared.statusBarFrame.height
         statusBarSection.snp.makeConstraints { make in
-            make.height.equalTo(statusBarHeight)
+            make.height.equalTo(Utils.statusBarHeight)
             make.leading.top.trailing.equalToSuperview()
         }
         
@@ -114,8 +113,8 @@ extension TradeHistoryViewController: BlablaBlockNavigationBarViewDelegate {
 
 extension TradeHistoryViewController: BlablaBlockPickerViewDelegate {
     func blablaBlockPickerView(_ view: BlablaBlockPickerView, selectedIndex: Int) {
-//        viewModel.inputs
-//            .selectedCurrencyIndex
-//            .accept(selectedIndex)
+        viewModel.inputs
+            .selectedCurrencyIndex
+            .accept(selectedIndex)
     }
 }

@@ -9,6 +9,14 @@ import UIKit
 
 public class Utils {
     
+    static var statusBarHeight: CGFloat = {
+        var statusBarHeight = UIApplication.shared.statusBarFrame.height
+        if statusBarHeight == 20 {
+            statusBarHeight += 11
+        }
+        return statusBarHeight
+    }()
+    
     // Top most ViewController
     public static func findMostTopViewController() -> UIViewController? {
         if let visibleViewController = UIApplication.shared.keyWindow?.visibleViewController {

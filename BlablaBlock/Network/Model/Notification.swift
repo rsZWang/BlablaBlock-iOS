@@ -13,11 +13,11 @@ public struct NotificationApi: Decodable {
     let data: [NotificationApiData]
 }
 
-public struct NotificationApiData: Decodable, IdentifiableType, Equatable {
+public struct NotificationApiData: Decodable, Equatable {
     
-    public var identity: String {
-        "\(userId)\(currency)\(type)\(side)\(timestamp)"
-    }
+//    public var identity: String {
+//        "\(userId)\(currency)\(type)\(side)\(timestamp)"
+//    }
     
     let userId: Int
     let name: String?

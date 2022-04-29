@@ -63,9 +63,8 @@ final class ExploreUserViewController: BaseViewController {
     
     private func setupLayout() {
         view.addSubview(statusBarSection)
-        let statusBarHeight = UIApplication.shared.statusBarFrame.height
         statusBarSection.snp.makeConstraints { make in
-            make.height.equalTo(statusBarHeight)
+            make.height.equalTo(Utils.statusBarHeight)
             make.leading.top.trailing.equalToSuperview()
         }
         

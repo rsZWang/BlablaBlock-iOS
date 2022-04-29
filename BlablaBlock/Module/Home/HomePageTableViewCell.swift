@@ -15,6 +15,7 @@ final class HomePageTableViewCell: UITableViewCell {
     static let identifier = "HomePageTableViewCell"
     
     private var disposeBag = DisposeBag()
+    weak var viewModel: HomePageViewModelType!
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -218,7 +219,7 @@ final class HomePageTableViewCell: UITableViewCell {
             make.height.equalTo(19)
             make.top.equalTo(priceTitleLabel.snp.bottom)
             make.leading.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.bottom.equalToSuperview().priority(.low)
         }
 
         containerView.addSubview(amountLabel)
@@ -253,7 +254,7 @@ final class HomePageTableViewCell: UITableViewCell {
 
 extension HomePageTableViewCell {
     
-    func bind(notification: NotificationApiData, followBtnTap: PublishRelay<Int>?) {
+    func bind(notification: NotificationApiData) {
         currencyImageView.currency(name: notification.baseCurrency)
         followButton.isSelected = notification.isFollow
         nameLabel.text = notification.name
@@ -275,9 +276,8 @@ extension HomePageTableViewCell {
         followButton.rx
             .tapGesture()
             .when(.recognized)
-            .subscribe(onNext: { _ in
-                followBtnTap?.accept(notification.userId)
-            })
+            .map { _ in notification.userId }
+            .bind(to: viewModel.inputs.followBtnTap)
             .disposed(by: disposeBag)
     }
 }
