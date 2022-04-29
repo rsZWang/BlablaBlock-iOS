@@ -16,7 +16,7 @@ public protocol FollowViewModelInputs: AnyObject {
     var followCellTap: PublishRelay<FollowApiDataFollowUser> { get }
 }
 
-public protocol FollowViewModelOutputs: AnyObject {
+public protocol FollowViewModelOutputs: BaseViewModelOutputs {
     var isFollowing: BehaviorRelay<Bool> { get }
     var followerAmount: BehaviorRelay<Int> { get }
     var followingAmount: BehaviorRelay<Int> { get }

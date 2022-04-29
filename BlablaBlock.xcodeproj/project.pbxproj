@@ -65,6 +65,7 @@
 		4A8B9CC827F44AFC001A80CE /* EventTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9CC727F44AFC001A80CE /* EventTracker.swift */; };
 		4A8B9CCC27F44B9C001A80CE /* LauncherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9CCB27F44B9C001A80CE /* LauncherViewModel.swift */; };
 		4A8D1DDE2817ACD4002A8C87 /* FollowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8D1DDD2817ACD4002A8C87 /* FollowViewController.swift */; };
+		4A99C509281BB34F00E22FB0 /* privacy_agreement.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4A99C508281BB34F00E22FB0 /* privacy_agreement.txt */; };
 		4AA9F810276DD68B00D775F0 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA9F80F276DD68B00D775F0 /* Resolver.swift */; };
 		4AA9F812276DD6A200D775F0 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA9F811276DD6A200D775F0 /* BaseViewController.swift */; };
 		4AA9F814276E473800D775F0 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA9F813276E473800D775F0 /* BaseViewModel.swift */; };
@@ -197,6 +198,7 @@
 		4A8B9CC727F44AFC001A80CE /* EventTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTracker.swift; sourceTree = "<group>"; };
 		4A8B9CCB27F44B9C001A80CE /* LauncherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LauncherViewModel.swift; sourceTree = "<group>"; };
 		4A8D1DDD2817ACD4002A8C87 /* FollowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowViewController.swift; sourceTree = "<group>"; };
+		4A99C508281BB34F00E22FB0 /* privacy_agreement.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = privacy_agreement.txt; sourceTree = "<group>"; };
 		4AA9F80F276DD68B00D775F0 /* Resolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
 		4AA9F811276DD6A200D775F0 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		4AA9F813276E473800D775F0 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
@@ -591,6 +593,7 @@
 				4AC2F35127E6E60700E187FE /* CurrencyIcon.xcassets */,
 				A0C8E566271FF19000848FCB /* Info.plist */,
 				4A7AFE2127393ED4005E0A72 /* GoogleService-Info.plist */,
+				4A99C508281BB34F00E22FB0 /* privacy_agreement.txt */,
 				A0C8E589271FF1B200848FCB /* Application */,
 				A0C8E58C271FFCA200848FCB /* Utility */,
 				A0C1FB6B27647CB000C4201A /* Network */,
@@ -810,6 +813,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A99C509281BB34F00E22FB0 /* privacy_agreement.txt in Resources */,
 				4AC2F35227E6E60700E187FE /* CurrencyIcon.xcassets in Resources */,
 				A0290E242722F55B00A07224 /* Colors.xcassets in Resources */,
 				4ABDADA527F4BACC00BC94B6 /* NewUI.xcassets in Resources */,

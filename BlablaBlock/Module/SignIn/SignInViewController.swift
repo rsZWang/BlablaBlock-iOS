@@ -47,16 +47,19 @@ final class SignInViewController: BaseViewController {
         signInModeButtonView.isSelected = true
         signUpModeButtonView.isSelected = false
         
-        signInMode.accept(true)
-        
-        bindNextButton()
+        privacyCancelButton.isEnabled = true
+        privacyConfirmButton.isEnabled = true
+        privacyContainerView.isHidden = true
         
         #if DEBUG
         emailTextField.text = "rex@huijun.org"
 //        emailTextField.text = "cool890104@gmail.com"
         passwordTextField.text = "123456"
-        nextButton.isEnabled = true
         #endif
+        
+        signInMode.accept(true)
+        
+        bindNextButton()
     }
     
     private func setupUI() {
@@ -108,6 +111,29 @@ final class SignInViewController: BaseViewController {
         nextButton.setTitle("下一步", for: .normal)
         nextButton.setTitle("下一步", for: .selected)
         nextButton.font = .boldSystemFont(ofSize: 16)
+        
+        privacyTitleLabel.text = "服務條款"
+        privacyTitleLabel.textColor = .black2D2D2D
+        privacyTitleLabel.font = .boldSystemFont(ofSize: 16)
+        
+        privacyTextView.isEditable = false
+        if let path = Bundle.main.path(forResource: "privacy_agreement", ofType: "txt") {
+            do {
+                let text = try String(contentsOfFile: path, encoding: .utf8)
+                privacyTextView.text = text
+            } catch let error {
+                // Handle error here
+                Timber.e("Error: \(error.localizedDescription)")
+            }
+        }
+        
+        privacyContainerView.backgroundColor = .white
+        privacyContainerView.layer.cornerRadius = 10
+        
+        privacyCancelButton.setImage("ic_navigation_back_arrow".image(),for: .normal)
+        
+        privacyConfirmButton.setTitle("同意並繼續", for: .normal)
+        privacyConfirmButton.font = .boldSystemFont(ofSize: 16)
     }
     
     private func setupLayout() {
@@ -171,6 +197,41 @@ final class SignInViewController: BaseViewController {
             make.leading.trailing.bottom.equalToSuperview()
             make.top.equalTo(textFieldStackView.snp.bottom).offset(40)
         }
+        
+        view.addSubview(privacyContainerView)
+        privacyContainerView.snp.makeConstraints { make in
+            make.edges.equalTo(containerView)
+        }
+        
+        privacyContainerView.addSubview(privacyTitleLabel)
+        privacyTitleLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(24)
+            make.top.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
+        }
+        
+        privacyContainerView.addSubview(privacyCancelButton)
+        privacyCancelButton.snp.makeConstraints { make in
+            make.width.height.equalTo(40)
+            make.bottom.equalToSuperview().offset(-24)
+            make.leading.equalToSuperview().offset(24)
+        }
+        
+        privacyContainerView.addSubview(privacyConfirmButton)
+        privacyConfirmButton.snp.makeConstraints { make in
+            make.height.equalTo(40)
+            make.bottom.equalToSuperview().offset(-24)
+            make.leading.equalTo(privacyCancelButton.snp.trailing).offset(4)
+            make.trailing.equalToSuperview().offset(-24)
+        }
+        
+        privacyContainerView.addSubview(privacyTextView)
+        privacyTextView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(24)
+            make.top.equalTo(privacyTitleLabel.snp.bottom).offset(12)
+            make.trailing.equalToSuperview().offset(-24)
+            make.bottom.equalTo(privacyConfirmButton.snp.top).offset(-12)
+        }
     }
     
     private func setupBinding() {
@@ -187,22 +248,41 @@ final class SignInViewController: BaseViewController {
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                self.nextButton.isEnabled = false
                 if self.signInMode.value {
+                    self.nextButton.isEnabled = false
                     self.viewModel
                         .inputs
                         .signIn
                         .accept((self.emailTextField.text!, self.passwordTextField.text!))
                 } else {
-                    self.viewModel
-                        .inputs
-                        .signUp
-                        .accept((
-                            self.userNameTextField.text!,
-                            self.emailTextField.text!,
-                            self.passwordTextField.text!
-                        ))
+                    self.privacyContainerView.isHidden = false
                 }
+            })
+            .disposed(by: disposeBag)
+        
+        privacyCancelButton.rx
+            .tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                self?.privacyContainerView.isHidden = true
+            })
+            .disposed(by: disposeBag)
+        
+        privacyConfirmButton.rx
+            .tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.privacyCancelButton.isEnabled = false
+                self.privacyConfirmButton.isEnabled = false
+                self.viewModel
+                    .inputs
+                    .signUp
+                    .accept((
+                        self.userNameTextField.text!,
+                        self.emailTextField.text!,
+                        self.passwordTextField.text!
+                    ))
             })
             .disposed(by: disposeBag)
         
@@ -215,8 +295,11 @@ final class SignInViewController: BaseViewController {
         
         viewModel.outputs
             .errorMessage
-            .subscribe(onNext: { [weak self] msg in
+            .asSignal()
+            .emit(onNext: { [weak self] msg in
                 self?.nextButton.isEnabled = true
+                self?.privacyCancelButton.isEnabled = true
+                self?.privacyConfirmButton.isEnabled = true
                 self?.promptAlert(message: msg)
             })
             .disposed(by: disposeBag)
@@ -238,6 +321,12 @@ final class SignInViewController: BaseViewController {
     private let forgetPasswordBtn = UIButton()
     private let nextButton = BlablaBlockOrangeButtonView()
     
+    private let privacyContainerView = UIView()
+    private let privacyTitleLabel = UILabel()
+    private let privacyTextView = UITextView()
+    private let privacyCancelButton = BlablaBlockOrangeButtonView()
+    private let privacyConfirmButton = BlablaBlockOrangeButtonView()
+    
     private var userNameTextField: UITextField { userNameInputView.textField }
     private var emailTextField: UITextField { emailInputView.textField }
     private var passwordTextField: UITextField { passwordInputView.textField }
@@ -247,6 +336,7 @@ final class SignInViewController: BaseViewController {
 }
 
 extension SignInViewController: SignInModeButtonViewDelegate {
+    
     func signModeButtonView(_ view: SignInModeButtonView, mode: SignInModeButtonView.Mode) {
         if mode == .signIn {
             signInModeButtonView.isSelected = true
@@ -336,7 +426,6 @@ extension SignInViewController {
             passwordConfirmValid,
             resultSelector: { ($0 || ($1 && $4)) && $2 && $3 }
         )
-        .share(replay: 1)
         .bind(to: nextButton.rx.isEnabled)
         .disposed(by: shortLifecycleOwner)
     }
@@ -371,5 +460,9 @@ extension SignInViewController {
                 }.build()
         }
         forgetPasswordInputAlert?.show(self)
+    }
+    
+    private func promptPrivacyView() {
+        
     }
 }

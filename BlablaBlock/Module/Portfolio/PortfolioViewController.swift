@@ -403,6 +403,22 @@ final class PortfolioViewController: BaseViewController {
                 self?.setupAssetDayChange(dayChange: dayChange)
             })
             .disposed(by: disposeBag)
+        
+        viewModel.outputs
+            .uiEvent
+            .asSignal()
+            .emit(onNext: { [weak self] event in
+                self?.handleUiEvent(event)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs
+            .errorMessage
+            .asSignal()
+            .emit(onNext: { [weak self] msg in
+                self?.promptAlert(message: msg)
+            })
+            .disposed(by: disposeBag)
 
         followViewModel.outputs
             .followerAmount
@@ -417,22 +433,14 @@ final class PortfolioViewController: BaseViewController {
             .asSignal(onErrorJustReturn: "")
             .emit(to: followingLabel.rx.text)
             .disposed(by: disposeBag)
-
-        viewModel.outputs
-            .uiEvent
+        
+        followViewModel.outputs
+            .errorMessage
             .asSignal()
-            .emit(onNext: { [weak self] event in
-                self?.handleUiEvent(event)
+            .emit(onNext: { [weak self] msg in
+                self?.promptAlert(message: msg)
             })
             .disposed(by: disposeBag)
-        
-//        statisticsViewModel.errorMessageObservable
-//            .observe(on: MainScheduler.asyncInstance)
-//            .subscribe(onNext: { [weak self] msg in
-//                self?.portfolioView.refreshControl.endRefreshing()
-//                self?.promptAlert(message: msg)
-//            })
-//            .disposed(by: disposeBag)
         
         portfolioSectionView.viewModel = viewModel
         pnlSectionView.viewModel = viewModel

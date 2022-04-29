@@ -23,7 +23,7 @@ public protocol PortfolioViewModelInputs: AnyObject {
     var followingPortfolioPull: PublishRelay<()> { get }
 }
 
-public protocol PortfolioViewModelOutputs: AnyObject {
+public protocol PortfolioViewModelOutputs: BaseViewModelOutputs {
     var sum: Signal<NSAttributedString> { get }
     var profit: Signal<Double> { get }
     var portfolio: Driver<[PortfolioAssetViewData]> { get }

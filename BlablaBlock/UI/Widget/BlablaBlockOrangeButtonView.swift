@@ -34,6 +34,11 @@ final public class BlablaBlockOrangeButtonView: UIView {
         button.setTitle(title, for: state)
     }
     
+    public func setImage(_ image: UIImage?, for state: UIControl.State) {
+        button.setImage(image?.withRenderingMode(.alwaysTemplate), for: state)
+        button.tintColor = .white
+    }
+    
     convenience init() {
         self.init(frame: .zero)
     }

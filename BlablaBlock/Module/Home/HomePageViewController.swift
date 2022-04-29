@@ -134,8 +134,8 @@ final class HomePageViewController: BaseViewController {
         
         viewModel.outputs
             .errorMessage
-            .subscribe(onNext: { [weak self] msg in
-                
+            .asSignal()
+            .emit(onNext: { [weak self] msg in
                 self?.promptAlert(message: msg)
             })
             .disposed(by: disposeBag)

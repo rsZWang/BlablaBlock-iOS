@@ -175,7 +175,15 @@ final class ExploreUserViewController: BaseViewController {
         viewModel.outputs
             .refreshControl
             .emit(to: refreshControl.rx.isRefreshing)
-            .disposed(by: disposeBag) 
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs
+            .errorMessage
+            .asSignal()
+            .emit(onNext: { [weak self] msg in
+                self?.promptAlert(message: msg)
+            })
+            .disposed(by: disposeBag)
     }
     
     private let statusBarSection = UIView()
