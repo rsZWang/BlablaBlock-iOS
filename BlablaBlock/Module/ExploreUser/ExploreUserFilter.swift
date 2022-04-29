@@ -18,6 +18,10 @@ public enum ExploreUserFilter: String {
     static let titleList = ["隨機", "總資產", "總報酬", "勝率", "夏普值"]
     static let typeList = ["random", "asset", "profit", "winRate", "sharp"]
     
+    init?(index: Int) {
+        self.init(rawValue: Self.typeList[index])
+    }
+    
     static func map(type: String) -> String {
         if let index = typeList.firstIndex(where: { $0 == type }) {
             return titleList[index]

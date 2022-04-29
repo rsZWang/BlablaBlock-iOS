@@ -52,6 +52,9 @@ final class ExploreUserViewController: BaseViewController {
         searchTextField.placeholder = "🔍  搜尋"
         searchTextField.backgroundColor = .white
         
+        pickerView.delegate = self
+        pickerView.itemList = ExploreUserFilter.titleList
+        
         tableView.addSubview(refreshControl)
         
         emptyLabel.text = "請至設定頁面串接交易所API，\n以獲取追蹤他人投資組合"
@@ -71,21 +74,29 @@ final class ExploreUserViewController: BaseViewController {
         view.addSubview(topSearchSectionView)
         topSearchSectionView.snp.makeConstraints { make in
             make.top.equalTo(statusBarSection.snp.bottom)
-            make.leading.trailing.equalToSuperview()
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
         }
         
         topSearchSectionView.addSubview(searchTitleLabel)
-        topSearchSectionView.addSubview(searchTextField)
-        
         searchTitleLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(24)
-            make.centerY.equalTo(searchTextField)
+            make.centerY.equalToSuperview()
+            make.leading.equalToSuperview()
         }
-
+        
+        topSearchSectionView.addSubview(pickerView)
+        pickerView.snp.makeConstraints { make in
+            make.width.equalTo(70)
+            make.height.equalTo(24)
+            make.centerY.equalToSuperview()
+            make.trailing.equalToSuperview()
+        }
+        
+        topSearchSectionView.addSubview(searchTextField)
         searchTextField.snp.makeConstraints { make in
             make.leading.equalTo(searchTitleLabel.snp.trailing).offset(24)
-            make.top.equalToSuperview().offset(24)
-            make.trailing.equalToSuperview().offset(-24)
+            make.top.equalToSuperview().offset(12)
+            make.trailing.equalTo(pickerView.snp.leading).offset(-24)
             make.bottom.equalToSuperview().offset(-12)
         }
         
@@ -95,12 +106,12 @@ final class ExploreUserViewController: BaseViewController {
             make.leading.trailing.bottom.equalToSuperview()
         }
         
-        view.addSubview(emptyLabel)
-        emptyLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(topSearchSectionView)
-            make.bottom.equalToSuperview()
-        }
+//        view.addSubview(emptyLabel)
+//        emptyLabel.snp.makeConstraints { make in
+//            make.centerX.equalToSuperview()
+//            make.top.equalTo(topSearchSectionView.snp.bottom)
+//            make.bottom.equalToSuperview()
+//        }
     }
     
     private func setupBinding() {
@@ -169,10 +180,19 @@ final class ExploreUserViewController: BaseViewController {
     }
     
     private let statusBarSection = UIView()
+    private let pickerView = BlablaBlockPickerView(style: .bordered)
     private let topSearchSectionView = UIView()
     private let searchTitleLabel = UILabel()
     private let searchTextField: UITextField = TextFieldWithPadding()
     private let tableView = ExploreUserTableView()
     private let refreshControl = UIRefreshControl()
     private let emptyLabel = UILabel()
+}
+
+extension ExploreUserViewController: BlablaBlockPickerViewDelegate {
+    func blablaBlockPickerView(_ view: BlablaBlockPickerView, selectedIndex: Int) {
+        if let filter = ExploreUserFilter(index: selectedIndex) {
+            viewModel.inputs.filter.accept(filter)
+        }
+    }
 }
