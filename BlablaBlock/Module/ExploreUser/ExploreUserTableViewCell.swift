@@ -45,45 +45,117 @@ final class ExploreUserTableViewCell: UITableViewCell {
             .when(.recognized)
             .map { _ in data.userId }
             .bind(to: viewModel!.inputs.followBtnTap)
-//            .subscribe(onNext: { [weak self] _ in
-//                Timber.i("followButton followButton")
-//                self?.viewModel?.inputs.followBtnTap.accept(data.userId)
-//            })
             .disposed(by: disposeBag)
     }
     
     private func setupUI() {
         contentView.backgroundColor = .grayE5E5E5
+        
+        bgBottomView.layer.cornerRadius = 4
+        bgBottomView.backgroundColor = .black
+        
+        bgView.layer.cornerRadius = 4
+        bgView.backgroundColor = .white
+        
+        avatarImageView.image = "ic_profile_avatar_placeholder".image()
+        avatarImageView.layer.cornerRadius = 25
+        avatarImageView.clipsToBounds = true
+        
+        followButton.setTitle("追蹤", for: .normal)
+        followButton.setTitle("追蹤中", for: .selected)
+        followButton.font = .boldSystemFont(ofSize: 12)
+        
+        totalAssetLabel.font = .boldSystemFont(ofSize: 10)
+        totalAssetLabel.textColor = .black2D2D2D_80
+        
+        userNameLabel.font = .boldSystemFont(ofSize: 18)
+        userNameLabel.textColor = .black2D2D2D
+        
+        leftSectionView.axis = .vertical
+        
+        separatorView.backgroundColor = .gray2D2D2D_40
+        
+        rightSectionView.axis = .vertical
+        
+        roiTitleLabel.text = "總報酬率"
+        roiTitleLabel.font = .systemFont(ofSize: 10)
+        roiTitleLabel.textColor = .black2D2D2D_80
+        roiTitleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        
+        roiLabel.textColor = .black2D2D2D
+        roiLabel.font = .systemFont(ofSize: 10)
+        roiLabel.numberOfLines = 1
+        roiLabel.adjustsFontSizeToFitWidth = true
+        roiLabel.textAlignment = .right
+        
+        annualRoiTitleLabel.text = "年化報酬率"
+        annualRoiTitleLabel.font = .systemFont(ofSize: 10)
+        annualRoiTitleLabel.textColor = .black2D2D2D_80
+        annualRoiTitleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        
+        annualRoiLabel.textColor = .black2D2D2D
+        annualRoiLabel.font = .systemFont(ofSize: 10)
+        annualRoiLabel.numberOfLines = 1
+        annualRoiLabel.adjustsFontSizeToFitWidth = true
+        annualRoiLabel.textAlignment = .right
+        
+        mDDTitleLabel.text = "最大回撤"
+        mDDTitleLabel.font = .systemFont(ofSize: 10)
+        mDDTitleLabel.textColor = .black2D2D2D_80
+        mDDTitleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        
+        mDDLabel.textColor = .black2D2D2D
+        mDDLabel.font = .systemFont(ofSize: 10)
+        mDDLabel.numberOfLines = 1
+        mDDLabel.adjustsFontSizeToFitWidth = true
+        mDDLabel.textAlignment = .right
+        
+        winRateTitleLabel.text = "勝率"
+        winRateTitleLabel.font = .systemFont(ofSize: 10)
+        winRateTitleLabel.textColor = .black2D2D2D_80
+        winRateTitleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        
+        winRateLabel.textColor = .black2D2D2D
+        winRateLabel.font = .systemFont(ofSize: 10)
+        winRateLabel.numberOfLines = 1
+        winRateLabel.adjustsFontSizeToFitWidth = true
+        winRateLabel.textAlignment = .right
+        
+        sharpRatioTitleLabel.text = "Sharp Ratio"
+        sharpRatioTitleLabel.font = .systemFont(ofSize: 10)
+        sharpRatioTitleLabel.textColor = .black2D2D2D_80
+        sharpRatioTitleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        
+        sharpRatioLabel.textColor = .black2D2D2D
+        sharpRatioLabel.font = .systemFont(ofSize: 10)
+        sharpRatioLabel.numberOfLines = 1
+        sharpRatioLabel.adjustsFontSizeToFitWidth = true
+        sharpRatioLabel.textAlignment = .right
     }
     
     private func setupLayout() {
         contentView.addSubview(bgBottomView)
-        bgBottomView.addSubview(bgView)
-        bgView.addSubview(contentMarginView)
-        contentMarginView.addSubview(avatarImageView)
-        contentMarginView.addSubview(followButton)
-        contentMarginView.addSubview(totalAssetLabel)
-        contentMarginView.addSubview(userNameLabel)
-        contentMarginView.addSubview(bottomSectionView)
-        
         bgBottomView.snp.makeConstraints { make in
             make.edges.equalTo(UIEdgeInsets(top: 0, left: 24, bottom: 10, right: 24))
         }
         
+        bgBottomView.addSubview(bgView)
         bgView.snp.makeConstraints { make in
-            make.leading.top.trailing.equalToSuperview()
-            make.bottom.equalTo(bgBottomView.snp.bottom).offset(-3)
+            make.edges.equalTo(UIEdgeInsets(top: 0, left: 0, bottom: 3, right: 0))
         }
-    
-        contentMarginView.snp.makeConstraints { make in
+        
+        bgView.addSubview(containerView)
+        containerView.snp.makeConstraints { make in
             make.edges.equalTo(UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12))
         }
         
+        containerView.addSubview(avatarImageView)
         avatarImageView.snp.makeConstraints { make in
             make.width.height.equalTo(50)
             make.leading.top.equalToSuperview()
         }
         
+        containerView.addSubview(followButton)
         followButton.snp.makeConstraints { make in
             make.width.equalTo(70)
             make.height.equalTo(22)
@@ -91,6 +163,7 @@ final class ExploreUserTableViewCell: UITableViewCell {
             make.bottom.equalTo(avatarImageView)
         }
         
+        containerView.addSubview(totalAssetLabel)
         totalAssetLabel.snp.makeConstraints { make in
             make.leading.equalTo(avatarImageView.snp.trailing).offset(16)
             make.top.equalTo(followButton)
@@ -98,11 +171,13 @@ final class ExploreUserTableViewCell: UITableViewCell {
             make.bottom.equalTo(followButton)
         }
         
+        containerView.addSubview(userNameLabel)
         userNameLabel.snp.makeConstraints { make in
             make.leading.equalTo(avatarImageView.snp.trailing).offset(16)
             make.bottom.equalTo(followButton.snp.top).offset(-4)
         }
         
+        containerView.addSubview(bottomSectionView)
         bottomSectionView.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalToSuperview()
             make.top.equalTo(avatarImageView.snp.bottom).offset(8)
@@ -202,174 +277,30 @@ final class ExploreUserTableViewCell: UITableViewCell {
         }
     }
     
-    private let bgBottomView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 4
-        view.backgroundColor = .black
-        return view
-    }()
-    
-    private let bgView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 4
-        view.backgroundColor = .white
-        return view
-    }()
-    
-    private let contentMarginView = UIView()
-    
-    private let avatarImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = "ic_profile_avatar_placeholder".image()
-        imageView.layer.cornerRadius = 25
-        imageView.clipsToBounds = true
-        return imageView
-    }()
-    
-    private let followButton: BlablaBlockOrangeButtonView = {
-        let button = BlablaBlockOrangeButtonView()
-        button.setTitle("追蹤", for: .normal)
-        button.setTitle("追蹤中", for: .selected)
-        button.font = .boldSystemFont(ofSize: 12)
-        return button
-    }()
-    
-    private let totalAssetLabel: UILabel = {
-        let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 10)
-        label.textColor = .black2D2D2D_80
-        return label
-    }()
-    
-    private let userNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 18)
-        label.textColor = .black2D2D2D
-        return label
-    }()
-    
+    private let bgBottomView = UIView()
+    private let bgView = UIView()
+    private let containerView = UIView()
+    private let avatarImageView = UIImageView()
+    private let followButton = BlablaBlockOrangeButtonView()
+    private let totalAssetLabel = UILabel()
+    private let userNameLabel = UILabel()
     private let bottomSectionView = UIView()
-    
-    private let leftSectionView: UIStackView = {
-        let view = UIStackView()
-        view.axis = .vertical
-        return view
-    }()
-    
-    private let separatorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .gray2D2D2D_40
-        return view
-    }()
-    
-    private let rightSectionView: UIStackView = {
-        let view = UIStackView()
-        view.axis = .vertical
-        return view
-    }()
-    
+    private let leftSectionView = UIStackView()
+    private let separatorView = UIView()
+    private let rightSectionView = UIStackView()
     private let roiView = UIView()
-    
-    private let roiTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "總報酬率"
-        label.font = .systemFont(ofSize: 10)
-        label.textColor = .black2D2D2D_80
-        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        return label
-    }()
-    
-    private let roiLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black2D2D2D
-        label.font = .systemFont(ofSize: 10)
-        label.numberOfLines = 1
-        label.adjustsFontSizeToFitWidth = true
-        label.textAlignment = .right
-        return label
-    }()
-    
+    private let roiTitleLabel = UILabel()
+    private let roiLabel = UILabel()
     private let annualRoiView = UIView()
-    
-    private let annualRoiTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "年化報酬率"
-        label.font = .systemFont(ofSize: 10)
-        label.textColor = .black2D2D2D_80
-        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        return label
-    }()
-    
-    private let annualRoiLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black2D2D2D
-        label.font = .systemFont(ofSize: 10)
-        label.numberOfLines = 1
-        label.adjustsFontSizeToFitWidth = true
-        label.textAlignment = .right
-        return label
-    }()
-    
+    private let annualRoiTitleLabel = UILabel()
+    private let annualRoiLabel = UILabel()
     private let mDDView = UIView()
-    
-    private let mDDTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "最大回撤"
-        label.font = .systemFont(ofSize: 10)
-        label.textColor = .black2D2D2D_80
-        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        return label
-    }()
-    
-    private let mDDLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black2D2D2D
-        label.font = .systemFont(ofSize: 10)
-        label.numberOfLines = 1
-        label.adjustsFontSizeToFitWidth = true
-        label.textAlignment = .right
-        return label
-    }()
-    
+    private let mDDTitleLabel = UILabel()
+    private let mDDLabel = UILabel()
     private let winRateView = UIView()
-    
-    private let winRateTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "勝率"
-        label.font = .systemFont(ofSize: 10)
-        label.textColor = .black2D2D2D_80
-        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        return label
-    }()
-    
-    private let winRateLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black2D2D2D
-        label.font = .systemFont(ofSize: 10)
-        label.numberOfLines = 1
-        label.adjustsFontSizeToFitWidth = true
-        label.textAlignment = .right
-        return label
-    }()
-    
+    private let winRateTitleLabel = UILabel()
+    private let winRateLabel = UILabel()
     private let sharpRatioView = UIView()
-    
-    private let sharpRatioTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Sharp Ratio"
-        label.font = .systemFont(ofSize: 10)
-        label.textColor = .black2D2D2D_80
-        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        return label
-    }()
-    
-    private let sharpRatioLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black2D2D2D
-        label.font = .systemFont(ofSize: 10)
-        label.numberOfLines = 1
-        label.adjustsFontSizeToFitWidth = true
-        label.textAlignment = .right
-        return label
-    }()
+    private let sharpRatioTitleLabel = UILabel()
+    private let sharpRatioLabel = UILabel()
 }

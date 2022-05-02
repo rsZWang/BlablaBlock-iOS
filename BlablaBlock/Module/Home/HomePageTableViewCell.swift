@@ -101,7 +101,7 @@ final class HomePageTableViewCell: UITableViewCell {
 
         bgBottomView.addSubview(bgView)
         bgView.snp.makeConstraints { make in
-            make.edges.equalTo(UIEdgeInsets(top: 0, left: 0, bottom: 2, right: 0))
+            make.edges.equalTo(UIEdgeInsets(top: 0, left: 0, bottom: 3, right: 0))
         }
         
         bgView.addSubview(containerView)
