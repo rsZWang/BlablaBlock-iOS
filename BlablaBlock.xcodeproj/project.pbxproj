@@ -1237,7 +1237,7 @@
 				CODE_SIGN_ENTITLEMENTS = BlablaBlock/BlablaBlockDebug.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 44;
+				CURRENT_PROJECT_VERSION = 45;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QRN2TFCH8G;
 				ENABLE_BITCODE = NO;
@@ -1266,7 +1266,7 @@
 				CODE_SIGN_ENTITLEMENTS = BlablaBlock/BlablaBlock.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 44;
+				CURRENT_PROJECT_VERSION = 45;
 				DEVELOPMENT_TEAM = QRN2TFCH8G;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = BlablaBlock/Info.plist;

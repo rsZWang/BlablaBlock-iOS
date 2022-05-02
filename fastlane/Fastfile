@@ -65,13 +65,8 @@ API Secret: CHpW8MZwBuBHuPncE2KIN78gH06tpTCJ0JIrpt7PWXcC2i6yBRkMiZaIUVspIUqL
 
 @changelog = "
 feat:
- - 註冊頁增加隱私權條款
- - 首頁 filter UI
- - 探索頁 Filter， 追蹤/退追
-
-fix 
- - 歷史交易頁 filter not working
- - 歷史交易頁 price 為空時列表載入失敗
+ - 推播通知
+ - 忘記密碼
 "
 
 default_platform(:ios)
