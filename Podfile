@@ -7,7 +7,7 @@ inhibit_all_warnings!
 target 'BlablaBlock' do
 
   # App
-  pod 'Resolver'
+  # pod 'Resolver'
   pod 'KeychainAccess'
   pod 'Defaults'
   pod 'Mixpanel-swift'  

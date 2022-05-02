@@ -13,7 +13,7 @@ import FirebaseMessaging
 class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UISceneDelegate {
 
     var window: UIWindow?
-    let mainCoordinator = MainCoordinator()
+    private let mainCoordinator = MainCoordinator()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -43,8 +43,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UI
             window.makeKeyAndVisible()
             self.window = window
         }
+        mainCoordinator.start()
         
         return true
+    }
+    
+    func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        let urlString = url.absoluteString
+        Timber.i("Open from: \(urlString)")
+        if urlString.contains("/users/password/edit") {
+            // Reset password link
+            if let token = Utils.getQueryStringParameter(url: urlString, param: "reset_password_token") {
+                mainCoordinator.resetPassword(token: token)
+                return true
+            } else {
+                return false
+            }
+        } else {
+            return false
+        }
     }
 }
 
@@ -70,9 +87,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         didReceive response: UNNotificationResponse,
         withCompletionHandler completionHandler: @escaping () -> Void)
     {
-        print(#function)
-        let content = response.notification.request.content
-        print(content.userInfo)
+        EventTracker.Builder()
+            .logEvent(.CHECK_NOTIFICATIONS)
         completionHandler()
     }
     

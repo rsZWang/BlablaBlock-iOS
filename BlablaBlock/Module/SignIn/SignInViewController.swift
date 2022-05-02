@@ -10,6 +10,7 @@ import SnapKit
 import RxCocoa
 import RxSwift
 import RxGesture
+import Toast_Swift
 
 final class SignInViewController: BaseViewController {
     
@@ -63,7 +64,8 @@ final class SignInViewController: BaseViewController {
     }
     
     private func setupUI() {
-        view.backgroundColor = .black181C23_70
+        view.backgroundColor = .white
+        bgView.backgroundColor = .black181C23_70
         
         containerView.backgroundColor = .white
         containerView.layer.cornerRadius = 10
@@ -108,6 +110,9 @@ final class SignInViewController: BaseViewController {
         passwordConfirmTextField.isSecureTextEntry = true
         passwordConfirmTextField.returnKeyType = .done
         
+        forgetPasswordBtn.setTitle("忘記密碼", for: .normal)
+        forgetPasswordBtn.titleLabel?.font = .systemFont(ofSize: 12)
+        
         nextButton.setTitle("下一步", for: .normal)
         nextButton.setTitle("下一步", for: .selected)
         nextButton.font = .boldSystemFont(ofSize: 16)
@@ -137,6 +142,11 @@ final class SignInViewController: BaseViewController {
     }
     
     private func setupLayout() {
+        view.addSubview(bgView)
+        bgView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
         view.addSubview(containerView)
         containerView.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(34)
@@ -190,6 +200,12 @@ final class SignInViewController: BaseViewController {
         textFieldStackView.addArrangedSubview(emailInputView)
         textFieldStackView.addArrangedSubview(passwordInputView)
         textFieldStackView.addArrangedSubview(passwordConfirmInputView)
+        
+        containerPaddingView.addSubview(forgetPasswordBtn)
+        forgetPasswordBtn.snp.makeConstraints { make in
+            make.top.equalTo(textFieldStackView.snp.bottom).offset(-2)
+            make.trailing.equalTo(textFieldStackView.snp.trailing)
+        }
         
         containerPaddingView.addSubview(nextButton)
         nextButton.snp.makeConstraints { make in
@@ -305,6 +321,7 @@ final class SignInViewController: BaseViewController {
             .disposed(by: disposeBag)
     }
     
+    private let bgView = UIView()
     private let containerView = UIView()
     private let containerPaddingView = UIView()
     private let logoImageView = UIImageView()
@@ -318,7 +335,7 @@ final class SignInViewController: BaseViewController {
     private let emailInputView = NormalInputView()
     private let passwordInputView = NormalInputView()
     private let passwordConfirmInputView = NormalInputView()
-    private let forgetPasswordBtn = UIButton()
+    private let forgetPasswordBtn = UIButton(type: .system)
     private let nextButton = BlablaBlockOrangeButtonView()
     
     private let privacyContainerView = UIView()
@@ -333,6 +350,7 @@ final class SignInViewController: BaseViewController {
     private var passwordConfirmTextField: UITextField { passwordConfirmInputView.textField }
     private var forgetPasswordInputAlert: InputAlertBuilder? = nil
     private let signInMode = BehaviorRelay<Bool>(value: true)
+    private var resetPasswordDialog: UIAlertController? = nil
 }
 
 extension SignInViewController: SignInModeButtonViewDelegate {
@@ -434,12 +452,16 @@ extension SignInViewController {
         switch event {
         case .success:
             parentCoordinator?.main()
+            
         case .resetPassword:
             AlertBuilder()
                 .setTitle("重設密碼的信件已寄出")
                 .setMessage("快去信箱收信喔！")
                 .setOkButton()
                 .show(self)
+            
+        case .passwordReset:
+            view.makeToast("重設成功🥳\n請再嘗試登入", duration: 2.0)
         }
     }
     
@@ -453,7 +475,8 @@ extension SignInViewController {
                     if let email = texts[1], email.isEmail {
                         self?.viewModel
                             .inputs
-                            .forgetPassword.accept(email)
+                            .forgetPassword
+                            .accept(email)
                     } else {
                         self?.promptAlert(message: "電子信箱似乎輸入錯誤@@")
                     }
@@ -462,7 +485,20 @@ extension SignInViewController {
         forgetPasswordInputAlert?.show(self)
     }
     
-    private func promptPrivacyView() {
-        
+    func resetPassword(token: String) {
+        resetPasswordDialog = InputAlertBuilder()
+            .setTitle("重設密碼")
+            .setMessage("")
+            .addTextField(tag: 1, placeholder: "新密碼")
+            .setConfirmButton(title: "送出", action: { [weak self] result in
+                if let password = result[1] {
+                    self?.viewModel
+                        .inputs
+                        .resetPassword
+                        .accept((token, password))
+                }
+            })
+            .build()
+            .show(self)
     }
 }

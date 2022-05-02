@@ -125,6 +125,7 @@ final class ExploreUserViewModel:
         filter
             .subscribe(onNext: { [weak self] filter in
                 EventTracker.Builder()
+                    .setProperty(name: .method, value: filter.rawValue)
                     .logEvent(.SORT_PORFILES_EXPLORE_PAGE)
                 self?.doFilter(data: users.value, users: users, filter: filter)
             })

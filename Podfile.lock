@@ -124,7 +124,6 @@ PODS:
   - nanopb/encode (2.30908.0)
   - Pageboy (3.6.2)
   - PromisesObjC (2.0.0)
-  - Resolver (1.5.0)
   - RxCocoa (6.5.0):
     - RxRelay (= 6.5.0)
     - RxSwift (= 6.5.0)
@@ -154,7 +153,6 @@ DEPENDENCIES:
   - KeychainAccess
   - Mixpanel-swift
   - Moya/RxSwift
-  - Resolver
   - RxCocoa
   - RxDataSources
   - RxGesture
@@ -187,7 +185,6 @@ SPEC REPOS:
     - nanopb
     - Pageboy
     - PromisesObjC
-    - Resolver
     - RxCocoa
     - RxDataSources
     - RxGesture
@@ -220,7 +217,6 @@ SPEC CHECKSUMS:
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   Pageboy: cf121b9dd48c63f3f281b2a9ec93d02e0f23879b
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
-  Resolver: 68984624572763018fd8ec7b8e3e8df0e3b6bba5
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
   RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
   RxGesture: abadd243fc36db74df43dfc893829ddde94f1a3d
@@ -231,6 +227,6 @@ SPEC CHECKSUMS:
   Tabman: 447a50447ed2869c39ab3b1a779327e43e067c4e
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
 
-PODFILE CHECKSUM: 2a6735cd91c250c5ab69e24cfa50003f87def7c9
+PODFILE CHECKSUM: 30658d30c691b091ab0e6fdbb58c5a1ecd679104
 
 COCOAPODS: 1.11.3

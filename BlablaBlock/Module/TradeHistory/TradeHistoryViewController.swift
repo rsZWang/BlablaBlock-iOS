@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-import Resolver
 
 final class TradeHistoryViewController: BaseViewController {
     

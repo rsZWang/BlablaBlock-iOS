@@ -91,9 +91,13 @@ public extension EventTracker {
         
         // v1.0/41
         case SORT_PORFILES_EXPLORE_PAGE = "sortProfiles_ExplorePage"
+        
+        // v1.0/42
+        case CHECK_NOTIFICATIONS = "check_Notifications"
     }
     
     enum Property: String {
         case USER_B = "userB"
+        case method = "method"
     }
 }

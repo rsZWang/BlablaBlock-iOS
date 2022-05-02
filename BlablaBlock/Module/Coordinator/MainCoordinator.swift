@@ -46,6 +46,12 @@ final class MainCoordinator: Coordinator {
 //        navigationController.pushViewController(vc, animated: true)
 //    }
     
+    func resetPassword(token: String) {
+        if let vc = Utils.findMostTopViewController() as? SignInViewController {
+            vc.resetPassword(token: token)
+        }
+    }
+    
     func start() {
         let vc = LauncherViewController(
             parentCoordinator: self,

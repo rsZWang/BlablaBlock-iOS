@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-import Resolver
 import RxDataSources
 
 final class ExploreUserViewController: BaseViewController {

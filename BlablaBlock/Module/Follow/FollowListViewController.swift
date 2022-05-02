@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Resolver
 import RxSwift
 
 final class FollowListViewController: BaseViewController {

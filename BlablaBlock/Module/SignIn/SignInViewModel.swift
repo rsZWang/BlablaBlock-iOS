@@ -5,7 +5,6 @@
 //  Created by Harry on 2021/11/10.
 //
 
-import Resolver
 import RxCocoa
 import RxSwift
 import KeychainAccess
@@ -13,12 +12,14 @@ import KeychainAccess
 public enum SignInUiEvent {
     case success
     case resetPassword
+    case passwordReset
 }
 
 protocol SignInViewModelInputs: AnyObject {
     var signIn: PublishRelay<(String, String)> { get }
     var signUp: PublishRelay<(String, String, String)> { get }
     var forgetPassword: PublishRelay<String> { get }
+    var resetPassword: PublishRelay<(String, String)> { get }
 }
 
 protocol SignInViewModelOutputs: BaseViewModelOutputs {
@@ -42,6 +43,7 @@ final class SignInViewModel:
     var signIn: PublishRelay<(String, String)>
     var signUp: PublishRelay<(String, String, String)>
     var forgetPassword: PublishRelay<String>
+    var resetPassword: PublishRelay<(String, String)>
     
     // MARK: - outputs
     var uiEvent: Signal<SignInUiEvent>
@@ -53,10 +55,12 @@ final class SignInViewModel:
         let signIn = PublishRelay<(String, String)>()
         let signUp = PublishRelay<(String, String, String)>()
         let forgetPassword = PublishRelay<String>()
+        let resetPassword = PublishRelay<(String, String)>()
         
         self.signIn = signIn
         self.signUp = signUp
         self.forgetPassword = forgetPassword
+        self.resetPassword = resetPassword
         
         let uiEvent = PublishRelay<SignInUiEvent>()
         
@@ -79,6 +83,12 @@ final class SignInViewModel:
         forgetPassword
             .subscribe(onNext: { [weak self] email in
                 self?.forgetPassword(email: email, uiEvent: uiEvent)
+            })
+            .disposed(by: disposeBag)
+        
+        resetPassword
+            .subscribe(onNext: { [weak self] (token, password) in
+                self?.resetPassword(token: token, password: password, uiEvent: uiEvent)
             })
             .disposed(by: disposeBag)
     }
@@ -175,6 +185,29 @@ final class SignInViewModel:
                     switch response {
                     case .success(_):
                         uiEvent.accept(.resetPassword)
+                    case let .failure(responseFailure):
+                        self?.errorCodeHandler(responseFailure)
+                    }
+                },
+                onFailure: { [weak self] error in
+                    self?.errorHandler(error: error)
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    
+    private func resetPassword(
+        token: String,
+        password: String,
+        uiEvent: PublishRelay<SignInUiEvent>
+    ) {
+        AuthService.resetPassword(token: token, password: password)
+            .request()
+            .subscribe(
+                onSuccess: { [weak self] response in
+                    switch response {
+                    case .success(_):
+                        uiEvent.accept(.passwordReset)
                     case let .failure(responseFailure):
                         self?.errorCodeHandler(responseFailure)
                     }

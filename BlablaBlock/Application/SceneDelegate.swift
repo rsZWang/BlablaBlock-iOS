@@ -6,13 +6,12 @@
 //
 
 import UIKit
-import Resolver
 
 @available(iOS 13, *)
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    @Injected var mainCoordinator: MainCoordinator
+    private let mainCoordinator = MainCoordinator()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -35,8 +34,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         Timber.i("Open from: \(url)")
         if url.contains("/users/password/edit") {
             // Reset password link
-            if let _ = Utils.getQueryStringParameter(url: url, param: "reset_password_token") {
-//                mainCoordinator.resetPassword(token: token)
+            if let token = Utils.getQueryStringParameter(url: url, param: "reset_password_token") {
+                mainCoordinator.resetPassword(token: token)
             }
         }
     }

@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Resolver
 import Tabman
 import Pageboy
 
