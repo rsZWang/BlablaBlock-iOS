@@ -20,7 +20,6 @@ public final class EventTracker {
         #else
         mixpanel.optInTracking()
         #endif
-        FirebaseApp.configure()
     }
     
     static func setUser(id: String) {

@@ -13,6 +13,9 @@ PODS:
   - Firebase/Crashlytics (8.13.0):
     - Firebase/CoreOnly
     - FirebaseCrashlytics (~> 8.13.0)
+  - Firebase/Messaging (8.13.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (~> 8.13.0)
   - FirebaseAnalytics (8.13.0):
     - FirebaseAnalytics/AdIdSupport (= 8.13.0)
     - FirebaseCore (~> 8.0)
@@ -52,6 +55,15 @@ PODS:
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/UserDefaults (~> 7.7)
     - PromisesObjC (< 3.0, >= 1.2)
+  - FirebaseMessaging (8.13.0):
+    - FirebaseCore (~> 8.0)
+    - FirebaseInstallations (~> 8.0)
+    - GoogleDataTransport (~> 9.1)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
+    - GoogleUtilities/Environment (~> 7.7)
+    - GoogleUtilities/Reachability (~> 7.7)
+    - GoogleUtilities/UserDefaults (~> 7.7)
+    - nanopb (~> 2.30908.0)
   - GoogleAppMeasurement (8.13.0):
     - GoogleAppMeasurement/AdIdSupport (= 8.13.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
@@ -137,6 +149,7 @@ DEPENDENCIES:
   - Differ
   - Firebase/Analytics
   - Firebase/Crashlytics
+  - Firebase/Messaging
   - IQKeyboardManager
   - KeychainAccess
   - Mixpanel-swift
@@ -163,6 +176,7 @@ SPEC REPOS:
     - FirebaseCoreDiagnostics
     - FirebaseCrashlytics
     - FirebaseInstallations
+    - FirebaseMessaging
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleUtilities
@@ -195,6 +209,7 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnostics: c2836d254a8f0bbb4121ff18f2c2ea39d118fd08
   FirebaseCrashlytics: 3b6eafb7e508c26d37ff7a256d0f74406f7e47bd
   FirebaseInstallations: 60edbf7e11d91ae4c751d26c200dfd037099abe0
+  FirebaseMessaging: 8cddb4c478663611d58c03b353e10dd0ed6468f6
   GoogleAppMeasurement: 135c2fbcf5038e0f37dbce04fa641a702fc275d1
   GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
@@ -216,6 +231,6 @@ SPEC CHECKSUMS:
   Tabman: 447a50447ed2869c39ab3b1a779327e43e067c4e
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
 
-PODFILE CHECKSUM: e83ac86dd4edcf702109fd89f852d4277ceaf1ac
+PODFILE CHECKSUM: 2a6735cd91c250c5ab69e24cfa50003f87def7c9
 
 COCOAPODS: 1.11.3

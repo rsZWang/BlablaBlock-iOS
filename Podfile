@@ -10,9 +10,10 @@ target 'BlablaBlock' do
   pod 'Resolver'
   pod 'KeychainAccess'
   pod 'Defaults'
+  pod 'Mixpanel-swift'  
   pod 'Firebase/Analytics'
   pod 'Firebase/Crashlytics'
-  pod 'Mixpanel-swift'
+  pod 'Firebase/Messaging'
 
   # UI
   pod 'SnapKit', '~> 5.0.0'

@@ -55,6 +55,7 @@
 		4A7A190E27D332DC00AF24A8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7A190D27D332DC00AF24A8 /* User.swift */; };
 		4A7AFE2227393ED4005E0A72 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4A7AFE2127393ED4005E0A72 /* GoogleService-Info.plist */; };
 		4A7B8AA4276FBEB200756E05 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7B8AA3276FBEB200756E05 /* SettingViewModel.swift */; };
+		4A7CEE74281F9DB8004E82C2 /* GoogleService-Info-debug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4A7CEE73281F9DB8004E82C2 /* GoogleService-Info-debug.plist */; };
 		4A7FBFB6281537120087DA49 /* PortfolioTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7FBFB5281537120087DA49 /* PortfolioTableView.swift */; };
 		4A7FBFB82815373E0087DA49 /* PortfolioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7FBFB72815373E0087DA49 /* PortfolioTableViewCell.swift */; };
 		4A7FBFBB28155F400087DA49 /* PNLSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7FBFBA28155F400087DA49 /* PNLSectionView.swift */; };
@@ -188,6 +189,8 @@
 		4A7A190D27D332DC00AF24A8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		4A7AFE2127393ED4005E0A72 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4A7B8AA3276FBEB200756E05 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
+		4A7CEE73281F9DB8004E82C2 /* GoogleService-Info-debug.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-debug.plist"; sourceTree = "<group>"; };
+		4A7CEE75281FA19F004E82C2 /* BlablaBlockDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BlablaBlockDebug.entitlements; sourceTree = "<group>"; };
 		4A7FBFB5281537120087DA49 /* PortfolioTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTableView.swift; sourceTree = "<group>"; };
 		4A7FBFB72815373E0087DA49 /* PortfolioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTableViewCell.swift; sourceTree = "<group>"; };
 		4A7FBFBA28155F400087DA49 /* PNLSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PNLSectionView.swift; sourceTree = "<group>"; };
@@ -586,6 +589,7 @@
 		A0C8E557271FF18900848FCB /* BlablaBlock */ = {
 			isa = PBXGroup;
 			children = (
+				4A7CEE75281FA19F004E82C2 /* BlablaBlockDebug.entitlements */,
 				4A61598627D4CEDE0085BF4D /* BlablaBlock.entitlements */,
 				A0C8E561271FF19000848FCB /* Assets.xcassets */,
 				A0290E232722F55B00A07224 /* Colors.xcassets */,
@@ -593,6 +597,7 @@
 				4AC2F35127E6E60700E187FE /* CurrencyIcon.xcassets */,
 				A0C8E566271FF19000848FCB /* Info.plist */,
 				4A7AFE2127393ED4005E0A72 /* GoogleService-Info.plist */,
+				4A7CEE73281F9DB8004E82C2 /* GoogleService-Info-debug.plist */,
 				4A99C508281BB34F00E22FB0 /* privacy_agreement.txt */,
 				A0C8E589271FF1B200848FCB /* Application */,
 				A0C8E58C271FFCA200848FCB /* Utility */,
@@ -817,6 +822,7 @@
 				4AC2F35227E6E60700E187FE /* CurrencyIcon.xcassets in Resources */,
 				A0290E242722F55B00A07224 /* Colors.xcassets in Resources */,
 				4ABDADA527F4BACC00BC94B6 /* NewUI.xcassets in Resources */,
+				4A7CEE74281F9DB8004E82C2 /* GoogleService-Info-debug.plist in Resources */,
 				A0C8E5922720075A00848FCB /* NormalInputView.xib in Resources */,
 				A0C8E565271FF19000848FCB /* LaunchScreen.storyboard in Resources */,
 				A0C8E562271FF19000848FCB /* Assets.xcassets in Resources */,
@@ -1232,7 +1238,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = BlablaBlock/BlablaBlock.entitlements;
+				CODE_SIGN_ENTITLEMENTS = BlablaBlock/BlablaBlockDebug.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 43;
