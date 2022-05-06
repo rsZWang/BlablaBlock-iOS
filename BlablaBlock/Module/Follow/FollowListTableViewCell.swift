@@ -9,7 +9,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-final class FollowListTableViewCell: UITableViewCell {
+final public class FollowListTableViewCell: UITableViewCell {
     
     static let identifier = "FollowListTableViewCell"
     private var disposeBag = DisposeBag()
@@ -24,7 +24,7 @@ final class FollowListTableViewCell: UITableViewCell {
         setupLayout()
     }
     
-    override func prepareForReuse() {
+    override public func prepareForReuse() {
         super.prepareForReuse()
         disposeBag = DisposeBag()
     }
@@ -33,7 +33,7 @@ final class FollowListTableViewCell: UITableViewCell {
         avatarImageView.image = UIImage(named: "ic_profile_avatar_placeholder")
         avatarImageView.makeCircle(base: 32)
         
-        userNameLabel.font = .boldSystemFont(ofSize: 16)
+        userNameView.font = .boldSystemFont(ofSize: 16)
         
         followButton.setTitle("追蹤", for: .normal)
         followButton.setTitle("追蹤中", for: .selected)
@@ -42,14 +42,11 @@ final class FollowListTableViewCell: UITableViewCell {
     
     private func setupLayout() {
         contentView.addSubview(containerView)
-        containerView.addSubview(avatarImageView)
-        containerView.addSubview(userNameLabel)
-        containerView.addSubview(followButton)
-        
         containerView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
+        containerView.addSubview(avatarImageView)
         avatarImageView.snp.makeConstraints { make in
             make.width.height.equalTo(32)
             make.leading.equalToSuperview().offset(24)
@@ -57,26 +54,37 @@ final class FollowListTableViewCell: UITableViewCell {
             make.bottom.equalToSuperview().offset(-12)
         }
         
-        userNameLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.leading.equalTo(avatarImageView.snp.trailing).offset(16)
-            make.trailing.lessThanOrEqualTo(followButton.snp.leading).offset(-16)
-        }
-        
+        containerView.addSubview(followButton)
         followButton.snp.makeConstraints { make in
             make.width.equalTo(70)
             make.height.equalTo(22)
             make.centerY.equalToSuperview()
             make.trailing.equalToSuperview().offset(-24)
         }
+        
+        containerView.addSubview(userNameView)
+        userNameView.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.leading.equalTo(avatarImageView.snp.trailing).offset(16)
+            make.trailing.lessThanOrEqualTo(followButton.snp.leading).offset(-16)
+        }
     }
     
+    private let containerView = UIView()
+    private let avatarImageView = UIImageView()
+    private let userNameView = BlablablockUserNameLabelView()
+    private let followButton = BlablaBlockOrangeButtonView()
+}
+
+public extension FollowListTableViewCell {
     func bind(
         follow: FollowApiDataFollowUser,
         followBtnTap: PublishRelay<Int>,
         cellTap: PublishRelay<FollowApiDataFollowUser>
     ) {
-        userNameLabel.text = follow.name
+        userNameView.text = follow.name
+        userNameView.setCertification(userId: follow.userId)
+        
         if follow.userId != Int(keychainUser[.userId] ?? "-1") {
             followButton.isSelected = follow.isFollow
             followButton.rx
@@ -101,9 +109,4 @@ final class FollowListTableViewCell: UITableViewCell {
             })
             .disposed(by: disposeBag)
     }
-    
-    private let containerView = UIView()
-    private let avatarImageView = UIImageView()
-    private let userNameLabel = UILabel()
-    private let followButton = BlablaBlockOrangeButtonView()
 }

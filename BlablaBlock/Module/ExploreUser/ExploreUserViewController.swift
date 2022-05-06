@@ -58,7 +58,7 @@ final class ExploreUserViewController: BaseViewController {
         
         emptyLabel.text = "請至設定頁面串接交易所API，\n以獲取追蹤他人投資組合"
         emptyLabel.font = .boldSystemFont(ofSize: 18)
-        emptyLabel.textColor = .white
+        emptyLabel.textColor = .black2D2D2D
         emptyLabel.numberOfLines = 5
         emptyLabel.isHidden = true
     }
@@ -107,7 +107,7 @@ final class ExploreUserViewController: BaseViewController {
         
         view.addSubview(emptyLabel)
         emptyLabel.snp.makeConstraints { make in
-            make.centerX.equalTo(tableView)
+            make.center.equalTo(tableView)
         }
     }
     

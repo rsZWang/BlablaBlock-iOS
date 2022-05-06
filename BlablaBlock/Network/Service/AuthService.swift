@@ -9,7 +9,7 @@ import Moya
 
 public typealias Method = Moya.Method
 
-struct AuthService {
+public struct AuthService {
     
     struct login: HttpTargetType {
         var method: Method { .post }

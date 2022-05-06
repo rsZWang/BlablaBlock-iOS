@@ -183,7 +183,7 @@ fileprivate final class ApiProvider {
     ) -> MoyaProvider<MultiTarget> {
         var pluginList = [PluginType]()
         #if DEBUG
-//        pluginList.append(MoyaLoggerPlugin())
+        pluginList.append(MoyaLoggerPlugin())
         #endif
         pluginList.append(AccessTokenPlugin { _ in
             switch tokenType {

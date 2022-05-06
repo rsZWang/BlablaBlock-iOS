@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import RxSwift
 
-final class LauncherViewController: BaseViewController {
+final public class LauncherViewController: BaseViewController {
     
     private weak var parentCoordinator: MainCoordinator?
     private let viewModel: LauncherViewModelType
@@ -48,13 +48,13 @@ final class LauncherViewController: BaseViewController {
         Timber.i("\(type(of: self)) deinit")
     }
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupBinding()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.inputs.viewDidAppear.accept(())
     }
@@ -65,7 +65,8 @@ final class LauncherViewController: BaseViewController {
         let containerView = UIView()
         view.addSubview(containerView)
         containerView.snp.makeConstraints { make in
-            make.centerX.centerY.equalTo(view)
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(6)
         }
         
         let appNameLabel = UILabel()
@@ -88,8 +89,8 @@ final class LauncherViewController: BaseViewController {
         
         containerView.addSubview(sloganLabel)
         sloganLabel.snp.makeConstraints { make in
-            make.leading.trailing.bottom.equalTo(containerView)
             make.top.equalTo(appNameLabel.snp.bottom).offset(20)
+            make.leading.trailing.bottom.equalTo(containerView)
         }
     }
     
@@ -122,5 +123,4 @@ final class LauncherViewController: BaseViewController {
 //            exchangeViewModel: exchangeViewModel
 //        )
     }
-    
 }

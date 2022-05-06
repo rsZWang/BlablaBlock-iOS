@@ -49,10 +49,8 @@ final class MainTabBarController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black2D2D2D
+        setupUI()
         setupLayout()
-        setupTabBarButton()
-        setupContainer()
     }
     
     override func viewDidLayoutSubviews() {
@@ -60,40 +58,21 @@ final class MainTabBarController: BaseViewController {
         setupTabBar()
     }
     
-    private func setupLayout() {
-        view.addSubview(backgroundColorView)
-        view.addSubview(tabBarView)
-        view.addSubview(containerView)
-        containerView.addSubview(pageViewController.view)
+    private func setupUI() {
+        view.backgroundColor = .grayE5E5E5
+        pageViewController.isScrollEnabled = false
         
-        backgroundColorView.backgroundColor = .white
-        backgroundColorView.snp.makeConstraints { make in
-            make.leading.top.trailing.equalToSuperview()
-            make.bottom.equalTo(view.layoutMarginsGuide)
-        }
-        
-        tabBarView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.bottom.equalTo(view.layoutMarginsGuide)
-            make.height.equalTo(50)
-        }
-        
-        containerView.snp.makeConstraints { make in
-            make.leading.top.trailing.equalToSuperview()
-            make.bottom.equalTo(tabBarView.snp.top)
-        }
-        
-        pageViewController.view.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
+        setupTabBarButton()
+        setupContainer()
     }
     
     private func setupTabBar() {
+        bottomPaddingView.backgroundColor = .black2D2D2D
         tabBarView.backgroundColor = .black2D2D2D
         let path = UIBezierPath(
             roundedRect: tabBarView.bounds,
             byRoundingCorners: [.topLeft, .topRight],
-            cornerRadii: CGSize(width: 12, height: 12)
+            cornerRadii: CGSize(width: 16, height: 16)
         )
         let maskLayer = CAShapeLayer()
         maskLayer.path = path.cgPath
@@ -112,8 +91,19 @@ final class MainTabBarController: BaseViewController {
         tabBarButtons.first?.isSelected = true
         radioGroup.delegate = self
         for index in tabBarButtons.indices {
-            buttonStackView.addArrangedSubview(setupTabBarButton(index: index))
+            buttonStackView.addArrangedSubview(addTabBarButton(index: index))
         }
+    }
+    
+    private func addTabBarButton(index: Int) -> UIButton {
+        let button = tabBarButtons[index]
+        let image = tabBarIcons[index]
+        button.setImage(image.image(), for: .normal)
+        let selectedImage = "\(image)_selected"
+        button.setImage(selectedImage.image(), for: .selected)
+        button.setImage(selectedImage.image(), for: .highlighted)
+        radioGroup.add(button)
+        return button
     }
     
     private func setupContainer() {
@@ -148,28 +138,43 @@ final class MainTabBarController: BaseViewController {
         pageViewController.didMove(toParent: self)
     }
     
-    private let backgroundColorView = UIView()
+    private func setupLayout() {
+        view.addSubview(tabBarView)
+        tabBarView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(view.layoutMarginsGuide)
+            make.height.equalTo(50)
+        }
+        
+        let bottomPadding = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+        if bottomPadding != 0 {
+            view.addSubview(bottomPaddingView)
+            bottomPaddingView.snp.makeConstraints { make in
+                make.height.equalTo(bottomPadding)
+                make.leading.trailing.bottom.equalToSuperview()
+            }
+        }
+        
+        view.addSubview(containerView)
+        containerView.snp.makeConstraints { make in
+            make.leading.top.trailing.equalToSuperview()
+            make.bottom.equalTo(tabBarView.snp.top)
+        }
+
+        containerView.addSubview(pageViewController.view)
+        pageViewController.view.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+    
     private let tabBarView = UIView()
+    private lazy var bottomPaddingView = UIView()
     private let radioGroup = RadioButtonGroup()
     private let tabBarButtons = [RadioButton(), RadioButton(), RadioButton(), RadioButton()]
     private let tabBarIcons = ["ic_main_tab_home", "ic_main_tab_search", "ic_main_tab_portfolio", "ic_main_tab_setting"]
     private let containerView = UIView()
     private let pageViewController = PageboyViewController()
     private var viewControllers: [UIViewController] = []
-}
-
-private extension MainTabBarController {
-    
-    func setupTabBarButton(index: Int) -> UIButton {
-        let button = tabBarButtons[index]
-        let image = tabBarIcons[index]
-        button.setImage(image.image(), for: .normal)
-        let selectedImage = "\(image)_selected"
-        button.setImage(selectedImage.image(), for: .selected)
-        button.setImage(selectedImage.image(), for: .highlighted)
-        radioGroup.add(button)
-        return button
-    }
 }
 
 extension MainTabBarController: PageboyViewControllerDataSource, RadioButtonGroupDelegate {
@@ -191,6 +196,12 @@ extension MainTabBarController: PageboyViewControllerDataSource, RadioButtonGrou
 
     func onClicked(radioButton: RadioButton) {
         if let index = tabBarButtons.firstIndex(of: radioButton) {
+            switch index {
+            case 0, 1:
+                view.backgroundColor = .grayE5E5E5
+            default:
+                view.backgroundColor = .white
+            }
             pageViewController.scrollToPage(.at(index: index), animated: true)
         }
     }

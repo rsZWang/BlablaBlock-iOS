@@ -11,14 +11,15 @@ public class Utils {
     
     static var statusBarHeight: CGFloat = {
         var statusBarHeight = UIApplication.shared.statusBarFrame.height
-        if statusBarHeight == 20 {
-            statusBarHeight += 11
+        if statusBarHeight != 20 {
+//            statusBarHeight += 11
+            statusBarHeight -= 10
         }
         return statusBarHeight
     }()
     
     // Top most ViewController
-    public static func findMostTopViewController() -> UIViewController? {
+    static func findMostTopViewController() -> UIViewController? {
         if let visibleViewController = UIApplication.shared.keyWindow?.visibleViewController {
             return visibleViewController
         } else {
@@ -26,7 +27,7 @@ public class Utils {
         }
     }
     
-    public static func getThreadName() -> String {
+    static func getThreadName() -> String {
         if Thread.current.isMainThread {
             return "Main Thread"
         } else if let name = Thread.current.name {
@@ -40,9 +41,8 @@ public class Utils {
         }
     }
     
-    public static func getQueryStringParameter(url: String, param: String) -> String? {
+    static func getQueryStringParameter(url: String, param: String) -> String? {
         guard let url = URLComponents(string: url) else { return nil }
         return url.queryItems?.first(where: { $0.name == param })?.value
     }
-    
 }

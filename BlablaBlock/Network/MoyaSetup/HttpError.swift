@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class HttpError: Error {
+final public class HttpError: Error {
     let code: Int
     let message: String
     let body: Data

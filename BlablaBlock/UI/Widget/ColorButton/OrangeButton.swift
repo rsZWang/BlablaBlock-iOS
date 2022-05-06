@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class OrangeButton: ColorButton {
+final public class OrangeButton: ColorButton {
     
     convenience init() {
         self.init(type: .custom)

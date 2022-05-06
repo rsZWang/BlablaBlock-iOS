@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct HttpApiConfig {
+public struct HttpApiConfig {
     static let apiVersion = "v1"
     static let domain = "https://api.blablablock.com"
     static let baseURL = URL(string: "\(domain)/\(apiVersion)")

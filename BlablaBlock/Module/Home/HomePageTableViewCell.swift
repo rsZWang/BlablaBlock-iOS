@@ -10,7 +10,7 @@ import SnapKit
 import RxCocoa
 import RxSwift
 
-final class HomePageTableViewCell: UITableViewCell {
+final public class HomePageTableViewCell: UITableViewCell {
     
     static let identifier = "HomePageTableViewCell"
     
@@ -27,7 +27,7 @@ final class HomePageTableViewCell: UITableViewCell {
         setupLayout()
     }
     
-    override func prepareForReuse() {
+    override public func prepareForReuse() {
         super.prepareForReuse()
         disposeBag = DisposeBag()
     }
@@ -45,8 +45,8 @@ final class HomePageTableViewCell: UITableViewCell {
         avatarImageView.layer.cornerRadius = 17
         avatarImageView.clipsToBounds = true
         
-        nameLabel.font = .boldSystemFont(ofSize: 13)
-        nameLabel.textColor = .black2D2D2D
+        userNameView.font = .boldSystemFont(ofSize: 13)
+        userNameView.textColor = .black2D2D2D
         
         timestampCounterLabel.font = .systemFont(ofSize: 10, weight: .medium)
         timestampCounterLabel.textColor = .gray2D2D2D_40
@@ -123,21 +123,21 @@ final class HomePageTableViewCell: UITableViewCell {
             make.trailing.equalToSuperview()
         }
         
-        containerView.addSubview(nameSectionView)
-        nameSectionView.snp.makeConstraints { make in
+        containerView.addSubview(userNameSectionView)
+        userNameSectionView.snp.makeConstraints { make in
             make.height.equalTo(34)
             make.top.equalToSuperview()
             make.leading.equalTo(avatarImageView.snp.trailing).offset(16)
             make.trailing.equalTo(followButton.snp.leading).offset(-16)
         }
         
-        nameSectionView.addSubview(nameLabel)
-        nameLabel.snp.makeConstraints { make in
+        userNameSectionView.addSubview(userNameView)
+        userNameView.snp.makeConstraints { make in
             make.height.equalTo(20)
             make.leading.top.trailing.equalToSuperview()
         }
 
-        nameSectionView.addSubview(timestampCounterLabel)
+        userNameSectionView.addSubview(timestampCounterLabel)
         timestampCounterLabel.snp.makeConstraints { make in
             make.height.equalTo(14)
             make.leading.bottom.trailing.equalToSuperview()
@@ -146,7 +146,7 @@ final class HomePageTableViewCell: UITableViewCell {
         containerView.addSubview(separatorView)
         separatorView.snp.makeConstraints { make in
             make.height.equalTo(1)
-            make.top.equalTo(nameSectionView.snp.bottom).offset(8)
+            make.top.equalTo(userNameSectionView.snp.bottom).offset(8)
             make.leading.trailing.equalToSuperview()
         }
         
@@ -234,8 +234,8 @@ final class HomePageTableViewCell: UITableViewCell {
     private let bgView = UIView()
     private let containerView = UIView()
     private let avatarImageView = UIImageView()
-    private let nameSectionView = UIView()
-    private let nameLabel = UILabel()
+    private let userNameSectionView = UIView()
+    private let userNameView = BlablablockUserNameLabelView()
     private let timestampCounterLabel = UILabel()
     private let followButton = BlablaBlockOrangeButtonView()
     private let separatorView = UIView()
@@ -252,12 +252,15 @@ final class HomePageTableViewCell: UITableViewCell {
     private let amountLabel = UILabel()
 }
 
-extension HomePageTableViewCell {
+public extension HomePageTableViewCell {
     
     func bind(notification: NotificationApiData) {
         currencyImageView.currency(name: notification.baseCurrency)
         followButton.isSelected = notification.isFollow
-        nameLabel.text = notification.name
+        
+        userNameView.text = notification.name
+        userNameView.setCertification(userId: notification.userId)
+        
         timestampCounterLabel.text = notification.timestamp.ago()
         currencyLabel.text = notification.currency
         currencyTypeLabel.text = AssetType.map(type: notification.type)

@@ -21,13 +21,13 @@ final public class SignInModeButtonView: UIView {
         case signUp
     }
     
-    weak var delegate: SignInModeButtonViewDelegate?
-    var mode: Mode! {
+    public weak var delegate: SignInModeButtonViewDelegate?
+    public var mode: Mode! {
         didSet {
             setupMode()
         }
     }
-    var isSelected = false {
+    public var isSelected = false {
         didSet {
             setStatus()
         }

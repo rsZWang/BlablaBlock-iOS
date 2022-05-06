@@ -7,10 +7,10 @@
 
 import UIKit
 
-final class MainCoordinator: Coordinator {
+final public class MainCoordinator: Coordinator {
     
-    var childCoordinators = [Coordinator]()
-    var navigationController: UINavigationController
+    public var childCoordinators = [Coordinator]()
+    public var navigationController: UINavigationController
     private let signInViewController = SignInViewController(viewModel: SignInViewModel())
     
     init() {
@@ -46,13 +46,13 @@ final class MainCoordinator: Coordinator {
 //        navigationController.pushViewController(vc, animated: true)
 //    }
     
-    func resetPassword(token: String) {
+    public func resetPassword(token: String) {
         if let vc = Utils.findMostTopViewController() as? SignInViewController {
             vc.resetPassword(token: token)
         }
     }
     
-    func start() {
+    public func start() {
         let vc = LauncherViewController(
             parentCoordinator: self,
             viewModel: LauncherViewModel()
@@ -60,12 +60,12 @@ final class MainCoordinator: Coordinator {
         navigationController.pushViewController(vc, animated: false)
     }
     
-    func signIn() {
+    public func signIn() {
         signInViewController.parentCoordinator = self
         navigationController.pushViewController(signInViewController, animated: true)
     }
     
-    func main() {
+    public func main() {
         let vc = MainTabBarController(
             parentCoordinator: self
 //            parentCoordinator: self,
@@ -82,7 +82,7 @@ final class MainCoordinator: Coordinator {
         }
     }
     
-    func toPortfolio(user: UserApiData) {
+    public func toPortfolio(user: UserApiData) {
         let vc = PortfolioViewController(
             parentCoordinator: self,
             viewModel: PortfolioViewModel(),
@@ -92,7 +92,7 @@ final class MainCoordinator: Coordinator {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func toFollow(
+    public func toFollow(
         isDefaultPageFollower: Bool,
         viewModel: FollowViewModelType
     ) {
@@ -104,7 +104,7 @@ final class MainCoordinator: Coordinator {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func toTradyHistory(userId: Int) {
+    public func toTradyHistory(userId: Int) {
         let vc = TradeHistoryViewController(
             viewModel: TradeHistoryViewModel(),
             userId: userId
@@ -112,11 +112,11 @@ final class MainCoordinator: Coordinator {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func loguot() {
+    public func loguot() {
         navigationController.popToViewController(signInViewController, animated: true)
     }
     
-    func childDidFinish(_ child: Coordinator?) {
+    public func childDidFinish(_ child: Coordinator?) {
         for (index, coordinator) in childCoordinators.enumerated() {
             if coordinator === child {
                 childCoordinators.remove(at: index)

@@ -22,7 +22,7 @@ public protocol LauncherViewModelType {
     var outputs: LauncherViewModelOutputs { get }
 }
 
-final class LauncherViewModel:
+final public class LauncherViewModel:
     BaseViewModel,
     LauncherViewModelInputs,
     LauncherViewModelOutputs,
@@ -31,15 +31,15 @@ final class LauncherViewModel:
     
     // MARK: - inputs
     
-    var viewDidAppear: PublishRelay<()>
+    public var viewDidAppear: PublishRelay<()>
     
     // MARK: - outpus
     
-    var login: PublishRelay<()>
-    var preload: PublishRelay<String>
+    public var login: PublishRelay<()>
+    public var preload: PublishRelay<String>
     
-    var inputs: LauncherViewModelInputs { self }
-    var outputs: LauncherViewModelOutputs { self }
+    public var inputs: LauncherViewModelInputs { self }
+    public var outputs: LauncherViewModelOutputs { self }
     
     override init() {
         let viewDidAppear = PublishRelay<()>()
@@ -62,7 +62,7 @@ final class LauncherViewModel:
     }
 }
 
-extension LauncherViewModel {
+public extension LauncherViewModel {
     
     func checkLogin(
         preload: PublishRelay<String>,

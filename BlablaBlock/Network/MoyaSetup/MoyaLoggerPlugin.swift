@@ -8,18 +8,18 @@
 import Foundation
 import Moya
 
-struct MoyaLoggerPlugin: PluginType {
+public struct MoyaLoggerPlugin: PluginType {
     
     typealias Log = (String, Any)
     private let shouldPrint = true
 
-    func willSend(_ request: RequestType, target: TargetType) {
+    public func willSend(_ request: RequestType, target: TargetType) {
         if shouldPrint {
             debugRequest(request.request as URLRequest?, target: target)
         }
     }
 
-    func didReceive(_ result: Result<Response, MoyaError>, target: TargetType) {
+    public func didReceive(_ result: Result<Response, MoyaError>, target: TargetType) {
         switch result {
         case .success(let response):
             if shouldPrint {

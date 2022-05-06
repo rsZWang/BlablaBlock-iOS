@@ -10,21 +10,21 @@ import SnapKit
 
 final public class BlablaBlockOrangeButtonView: UIView {
     
-    var isSelected: Bool = false {
+    public var isSelected: Bool = false {
         didSet {
             button.isSelected = isSelected
             update()
         }
     }
     
-    var isEnabled: Bool = true {
+    public var isEnabled: Bool = true {
         didSet {
             button.isEnabled = isEnabled
             update()
         }
     }
     
-    var font: UIFont? {
+    public var font: UIFont? {
         didSet {
             button.font = font
         }
@@ -39,7 +39,7 @@ final public class BlablaBlockOrangeButtonView: UIView {
         button.tintColor = .white
     }
     
-    convenience init() {
+    convenience public init() {
         self.init(frame: .zero)
     }
     

@@ -12,9 +12,9 @@ import RxSwift
 import RxGesture
 import Toast_Swift
 
-final class SignInViewController: BaseViewController {
+final public class SignInViewController: BaseViewController {
     
-    weak var parentCoordinator: MainCoordinator?
+    public weak var parentCoordinator: MainCoordinator?
     private let viewModel: SignInViewModelType
     
     init(viewModel: SignInViewModelType) {
@@ -30,14 +30,14 @@ final class SignInViewController: BaseViewController {
         Timber.i("\(type(of: self)) deinit")
     }
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupLayout()
         setupBinding()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         userNameTextField.text = nil
@@ -350,12 +350,12 @@ final class SignInViewController: BaseViewController {
     private var passwordConfirmTextField: UITextField { passwordConfirmInputView.textField }
     private var forgetPasswordInputAlert: InputAlertBuilder? = nil
     private let signInMode = BehaviorRelay<Bool>(value: true)
-    private var resetPasswordDialog: UIAlertController? = nil
+    private var resetPasswordInputAlert: InputAlertBuilder? = nil
 }
 
 extension SignInViewController: SignInModeButtonViewDelegate {
     
-    func signModeButtonView(_ view: SignInModeButtonView, mode: SignInModeButtonView.Mode) {
+    public func signModeButtonView(_ view: SignInModeButtonView, mode: SignInModeButtonView.Mode) {
         if mode == .signIn {
             signInModeButtonView.isSelected = true
             signUpModeButtonView.isSelected = false
@@ -402,7 +402,7 @@ extension SignInViewController: SignInModeButtonViewDelegate {
 
 extension SignInViewController: UITextFieldDelegate {
 
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         let nextTag = textField.tag + 1
         if let nextResponder = view?.viewWithTag(nextTag) {
             nextResponder.becomeFirstResponder()
@@ -413,7 +413,7 @@ extension SignInViewController: UITextFieldDelegate {
     }
 }
 
-extension SignInViewController {
+public extension SignInViewController {
     
     private func bindNextButton() {
         let userNameValid = userNameTextField.rx
@@ -486,19 +486,21 @@ extension SignInViewController {
     }
     
     func resetPassword(token: String) {
-        resetPasswordDialog = InputAlertBuilder()
-            .setTitle("重設密碼")
-            .setMessage("")
-            .addTextField(tag: 1, placeholder: "新密碼")
-            .setConfirmButton(title: "送出", action: { [weak self] result in
-                if let password = result[1] {
-                    self?.viewModel
-                        .inputs
-                        .resetPassword
-                        .accept((token, password))
+        if resetPasswordInputAlert == nil {
+            resetPasswordInputAlert = InputAlertBuilder()
+                .setTitle("重設密碼")
+                .setMessage("")
+                .addTextField(tag: 1, placeholder: "新密碼")
+                .setConfirmButton(title: "送出") { [weak self] result in
+                    if let password = result[1] {
+                        self?.viewModel
+                            .inputs
+                            .resetPassword
+                            .accept((token, password))
+                    }
                 }
-            })
-            .build()
-            .show(self)
+                .build()
+        }
+        resetPasswordInputAlert?.show(self)
     }
 }

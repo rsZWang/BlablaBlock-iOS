@@ -2,7 +2,7 @@
 //  LinkExchangeViewController.swift
 //  BlablaBlock
 //
-//  Created by Harry@rooit on 2021/11/6.
+//  Created by Harry on 2021/11/6.
 //
 
 import UIKit
@@ -11,11 +11,11 @@ import RxSwift
 import RxGesture
 import SafariServices
 
-final class LinkExchangeViewController: BaseViewController {
+final public class LinkExchangeViewController: BaseViewController {
     
-    weak var viewModel: SettingViewModelType!
-    var exchangeType: ExchangeType!
-    var exchange: ExchangeApiData?
+    public weak var viewModel: SettingViewModelType!
+    public var exchangeType: ExchangeType!
+    public var exchange: ExchangeApiData?
     
     convenience init() {
         self.init(nibName: nil, bundle: nil)
@@ -27,14 +27,14 @@ final class LinkExchangeViewController: BaseViewController {
         Timber.i("\(type(of: self)) deinit")
     }
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupLayout()
         setupBinding()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         slide(up: true)
     }
@@ -87,9 +87,9 @@ final class LinkExchangeViewController: BaseViewController {
     private func setupLayout() {
         view.addSubview(containerView)
         containerView.snp.makeConstraints { make in
-            make.height.equalTo(260)
+            make.height.equalTo(height)
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview().offset(260)
+            make.bottom.equalToSuperview().offset(height)
         }
         
         containerView.addSubview(paddingContainerView)
@@ -141,7 +141,6 @@ final class LinkExchangeViewController: BaseViewController {
             make.height.equalTo(40)
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(apiSecretInputView.snp.bottom).offset(32)
-            make.bottom.equalToSuperview()
         }
     }
     
@@ -196,6 +195,7 @@ final class LinkExchangeViewController: BaseViewController {
             .disposed(by: disposeBag)
     }
     
+    private let height = 260 + (UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0)
     private let containerView = UIView()
     private let paddingContainerView = UIView()
     private let imageView = UIImageView()
@@ -207,11 +207,11 @@ final class LinkExchangeViewController: BaseViewController {
     private let submitButton = BlablaBlockOrangeButtonView()
 }
 
-extension LinkExchangeViewController {
+public extension LinkExchangeViewController {
     
     private func slide(up: Bool) {
         containerView.snp.updateConstraints { make in
-            make.bottom.equalTo(view).offset(up ? 0 : 260)
+            make.bottom.equalTo(view).offset(up ? 0 : height)
         }
         UIView.animate(
             withDuration: 0.1,

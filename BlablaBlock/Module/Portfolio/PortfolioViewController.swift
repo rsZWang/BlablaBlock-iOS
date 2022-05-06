@@ -11,7 +11,7 @@ import RxSwift
 import RxGesture
 import RxDataSources
 
-final class PortfolioViewController: BaseViewController {
+final public class PortfolioViewController: BaseViewController {
     
     private weak var parentCoordinator: MainCoordinator!
     private let viewModel: PortfolioViewModelType
@@ -39,7 +39,7 @@ final class PortfolioViewController: BaseViewController {
         Timber.i("\(type(of: self)) deinit")
     }
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupUser()
@@ -50,16 +50,18 @@ final class PortfolioViewController: BaseViewController {
         followViewModel.inputs.user.accept(user)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         followViewModel.inputs.viewWillAppear.accept(())
     }
 
     private func setupUser() {
         if let user = user {
-            userNameLabel.text = user.name
+            userNameView.text = user.name
+            userNameView.setCertification(userId: user.userId)
         } else {
-            userNameLabel.text = keychainUser[.userName] ?? keychainUser[.userEmail]
+            userNameView.text = keychainUser[.userName] ?? keychainUser[.userEmail]
+            userNameView.setCertification(userId: Int(keychainUser[.userId]!)!)
         }
     }
     
@@ -77,8 +79,8 @@ final class PortfolioViewController: BaseViewController {
         avatarImageView.makeCircle(base: 74)
         avatarImageView.contentMode = .scaleAspectFit
         
-        userNameLabel.textColor = .black2D2D2D
-        userNameLabel.font = .boldSystemFont(ofSize: 18)
+        userNameView.textColor = .black2D2D2D
+        userNameView.font = .boldSystemFont(ofSize: 18)
         
         assetSumLabel.textColor = .black2D2D2D
         assetSumLabel.font = .systemFont(ofSize: 20, weight: .semibold)
@@ -195,8 +197,8 @@ final class PortfolioViewController: BaseViewController {
             make.trailing.equalToSuperview()
         }
 
-        basicAssetInfoSectionView.addSubview(userNameLabel)
-        userNameLabel.snp.makeConstraints { make in
+        basicAssetInfoSectionView.addSubview(userNameView)
+        userNameView.snp.makeConstraints { make in
             make.height.equalTo(20)
             make.leading.top.trailing.equalToSuperview()
         }
@@ -205,7 +207,7 @@ final class PortfolioViewController: BaseViewController {
         assetSumLabel.snp.makeConstraints { make in
             make.height.equalTo(20)
             make.leading.trailing.equalToSuperview()
-            make.top.equalTo(userNameLabel.snp.bottom).offset(12)
+            make.top.equalTo(userNameView.snp.bottom).offset(12)
         }
 
         basicAssetInfoSectionView.addSubview(assetSumTitleLabel)
@@ -452,7 +454,7 @@ final class PortfolioViewController: BaseViewController {
     private let basicInfoTopSectionView = UIView()
     private let avatarImageView = UIImageView()
     private let basicAssetInfoSectionView = UIView()
-    private let userNameLabel = UILabel()
+    private let userNameView = BlablablockUserNameLabelView()
     private let assetSumLabel = UILabel()
     private let assetSumTitleLabel = UILabel()
     private let assetDayChangeLabel = UILabel()
@@ -480,7 +482,7 @@ final class PortfolioViewController: BaseViewController {
     private let followingPortfolioSectionView = FollowingPortfolioSectionView()
 }
 
-extension PortfolioViewController {
+private extension PortfolioViewController {
     func handleUiEvent(_ event: PortfolioViewUiEvent) {
         switch event {
         case .history(let userId):
@@ -492,13 +494,13 @@ extension PortfolioViewController {
 }
 
 extension PortfolioViewController: BlablaBlockNavigationBarViewDelegate {
-    func onBack() {
+    public func onBack() {
         navigationController?.popViewController(animated: true)
     }
 }
 
 extension PortfolioViewController: RadioButtonGroupDelegate {
-    func onClicked(radioButton: RadioButton) {
+    public func onClicked(radioButton: RadioButton) {
         switch radioButton {
         case portfolioTabButton:
             pagedView.moveToPage(at: 0)

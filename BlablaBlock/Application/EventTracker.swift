@@ -9,7 +9,7 @@ import Firebase
 import FirebaseAnalytics
 import Mixpanel
 
-public final class EventTracker {
+final public class EventTracker {
     
     private static var mixpanel = Mixpanel.mainInstance()
     

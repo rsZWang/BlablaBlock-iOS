@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import SnapKit
 import RxSwift
 
-final class ExploreUserTableViewCell: UITableViewCell {
+final public class ExploreUserTableViewCell: UITableViewCell {
     
     static let identifier = "ExploreUserTableViewCell"
     
@@ -25,27 +26,9 @@ final class ExploreUserTableViewCell: UITableViewCell {
         setupLayout()
     }
     
-    override func prepareForReuse() {
+    override public func prepareForReuse() {
         super.prepareForReuse()
         disposeBag = DisposeBag()
-    }
-    
-    func bind(_ data: UserApiData) {
-        userNameLabel.text = data.name ?? " "
-        totalAssetLabel.text = "$\(data.totalValue.toPrettyPrecisedString()) USDT"
-        followButton.isSelected = data.isFollow
-        roiLabel.text = "\(data.roi?.toPrettyPrecisedString() ?? "")％"
-        annualRoiLabel.text = "\(data.roiAnnual?.toPrettyPrecisedString() ?? "")％"
-        mDDLabel.text = "\(data.mdd?.toPrettyPrecisedString() ?? "")％"
-        winRateLabel.text = "\(data.dailyWinRate?.toPrettyPrecisedString() ?? "")％"
-        sharpRatioLabel.text = "\(data.sharpeRatio?.toPrettyPrecisedString() ?? "")"
-        
-        followButton.rx
-            .tapGesture()
-            .when(.recognized)
-            .map { _ in data.userId }
-            .bind(to: viewModel!.inputs.followBtnTap)
-            .disposed(by: disposeBag)
     }
     
     private func setupUI() {
@@ -68,8 +51,8 @@ final class ExploreUserTableViewCell: UITableViewCell {
         totalAssetLabel.font = .boldSystemFont(ofSize: 10)
         totalAssetLabel.textColor = .black2D2D2D_80
         
-        userNameLabel.font = .boldSystemFont(ofSize: 18)
-        userNameLabel.textColor = .black2D2D2D
+        userNameSectionView.font = .boldSystemFont(ofSize: 18)
+        userNameSectionView.textColor = .black2D2D2D
         
         leftSectionView.axis = .vertical
         
@@ -171,8 +154,8 @@ final class ExploreUserTableViewCell: UITableViewCell {
             make.bottom.equalTo(followButton)
         }
         
-        containerView.addSubview(userNameLabel)
-        userNameLabel.snp.makeConstraints { make in
+        containerView.addSubview(userNameSectionView)
+        userNameSectionView.snp.makeConstraints { make in
             make.leading.equalTo(avatarImageView.snp.trailing).offset(16)
             make.bottom.equalTo(followButton.snp.top).offset(-4)
         }
@@ -283,7 +266,7 @@ final class ExploreUserTableViewCell: UITableViewCell {
     private let avatarImageView = UIImageView()
     private let followButton = BlablaBlockOrangeButtonView()
     private let totalAssetLabel = UILabel()
-    private let userNameLabel = UILabel()
+    private let userNameSectionView = BlablablockUserNameLabelView()
     private let bottomSectionView = UIView()
     private let leftSectionView = UIStackView()
     private let separatorView = UIView()
@@ -303,4 +286,25 @@ final class ExploreUserTableViewCell: UITableViewCell {
     private let sharpRatioView = UIView()
     private let sharpRatioTitleLabel = UILabel()
     private let sharpRatioLabel = UILabel()
+}
+
+public extension ExploreUserTableViewCell {
+    func bind(_ user: UserApiData) {
+        userNameSectionView.text = user.name ?? " "
+        userNameSectionView.setCertification(userId: user.userId)
+        totalAssetLabel.text = "$\(user.totalValue.toPrettyPrecisedString()) USDT"
+        followButton.isSelected = user.isFollow
+        roiLabel.text = "\(user.roi?.toPrettyPrecisedString() ?? "")％"
+        annualRoiLabel.text = "\(user.roiAnnual?.toPrettyPrecisedString() ?? "")％"
+        mDDLabel.text = "\(user.mdd?.toPrettyPrecisedString() ?? "")％"
+        winRateLabel.text = "\(user.dailyWinRate?.toPrettyPrecisedString() ?? "")％"
+        sharpRatioLabel.text = "\(user.sharpeRatio?.toPrettyPrecisedString() ?? "")"
+        
+        followButton.rx
+            .tapGesture()
+            .when(.recognized)
+            .map { _ in user.userId }
+            .bind(to: viewModel!.inputs.followBtnTap)
+            .disposed(by: disposeBag)
+    }
 }

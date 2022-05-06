@@ -15,9 +15,9 @@ public enum LogLevel {
     case ERROR
 }
 
-public class Timber {
+public final class Timber {
     
-    public static func v(
+    static func v(
         _ message: Any,
         fileName: String = #file,
         functionName: String = #function,
@@ -26,7 +26,7 @@ public class Timber {
         print(message, level: .VERBOSE, fileName: fileName, functionName: functionName, line: line)
     }
     
-    public static func d(
+    static func d(
         _ message: Any,
         fileName: String = #file,
         functionName: String = #function,
@@ -35,7 +35,7 @@ public class Timber {
         print(message, level: .DEBUG, fileName: fileName, functionName: functionName, line: line)
     }
     
-    public static func i(
+    static func i(
         _ message: Any,
         fileName: String = #file,
         functionName: String = #function,
@@ -44,7 +44,7 @@ public class Timber {
         print(message, level: .INFO, fileName: fileName, functionName: functionName, line: line)
     }
     
-    public static func w(
+    static func w(
         _ message: Any,
         fileName: String = #file,
         functionName: String = #function,
@@ -53,7 +53,7 @@ public class Timber {
         print(message, level: .WARN, fileName: fileName, functionName: functionName, line: line)
     }
     
-    public static func e(
+    static func e(
         _ message: Any,
         fileName: String = #file,
         functionName: String = #function,

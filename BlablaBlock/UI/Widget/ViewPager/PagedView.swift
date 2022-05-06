@@ -8,11 +8,11 @@
 import UIKit
 import SnapKit
 
-protocol PagedViewDelegate: AnyObject {
+public protocol PagedViewDelegate: AnyObject {
     func didMoveToPage(index: Int)
 }
 
-class PagedView: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+final public class PagedView: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     private var pages: [UIView] = []
     
@@ -66,17 +66,17 @@ class PagedView: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewDat
     
     // MARK: - Delegate
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let page = Int(self.collectionView.contentOffset.x / self.collectionView.frame.size.width)
         self.delegate?.didMoveToPage(index: page)
     }
     
     // MARK: - Data Source
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         pages.count
     }
     
-    func collectionView(
+    public func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
@@ -88,7 +88,7 @@ class PagedView: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewDat
     }
     
     // MARK: - Layout Delegate
-    func collectionView(
+    public func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
@@ -99,7 +99,7 @@ class PagedView: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewDat
         )
     }
 
-    func collectionView(
+    public func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
         minimumLineSpacingForSectionAt section: Int

@@ -90,6 +90,7 @@ final class ExploreUserViewModel:
             .disposed(by: disposeBag)
         
         userName
+            .distinctUntilChanged()
             .debounce(.milliseconds(500), scheduler: MainScheduler.asyncInstance)
             .observe(on: backgroundScheduler)
             .subscribe(onNext: { [weak self] name in
@@ -154,7 +155,9 @@ final class ExploreUserViewModel:
                     switch response {
                     case let .success(userApiResponse):
                         self?.doFilter(data: userApiResponse.data, users: users, filter: filter.value)
-                        isNotEmpty.accept(userApiResponse.data.isNotEmpty)
+                        if name.isEmpty {
+                            isNotEmpty.accept(userApiResponse.data.isNotEmpty)
+                        }
                     case let .failure(responseFailure):
                         self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
                     }

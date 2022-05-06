@@ -7,7 +7,7 @@
 
 import UIKit
 
-class InputAlertBuilder {
+final public class InputAlertBuilder {
     
     private lazy var alertController = UIAlertController(
         title: "標題",
@@ -56,5 +56,4 @@ class InputAlertBuilder {
         parent?.present(alertController, animated: true, completion: nil)
         return alertController
     }
-    
 }

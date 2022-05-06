@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class AlertBuilder {
+final public class AlertBuilder {
     
     private var style: UIAlertController.Style = .alert
     private var title: String!

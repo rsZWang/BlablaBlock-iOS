@@ -11,7 +11,7 @@ public protocol RadioButtonGroupDelegate: NSObject {
     func onClicked(radioButton: RadioButton)
 }
 
-public class RadioButtonGroup: RadioButtonDelegate {
+final public class RadioButtonGroup: RadioButtonDelegate {
     
     private var buttons = [RadioButton]()
     public var selectedButton: RadioButton! {

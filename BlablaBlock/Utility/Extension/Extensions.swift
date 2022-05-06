@@ -151,7 +151,6 @@ public extension NSError {
     static func create(_ failure: ResponseFailure) -> NSError {
         NSError(domain: failure.msg, code: failure.code, userInfo: nil)
     }
-    
 }
 
 public extension UIImageView {

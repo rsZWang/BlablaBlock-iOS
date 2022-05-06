@@ -8,7 +8,7 @@
 import RxCocoa
 import RxSwift
 
-protocol SettingViewModelInputs: AnyObject {
+public protocol SettingViewModelInputs: AnyObject {
     var viewDidLoad: PublishRelay<()> { get }
     var onCreate: PublishRelay<(ExchangeType, String, String)> { get }
     var onEdit: PublishRelay<(Int, ExchangeType, String, String)> { get }
@@ -16,35 +16,35 @@ protocol SettingViewModelInputs: AnyObject {
     var onSignOut: PublishRelay<()> { get }
 }
 
-protocol SettingViewModelOutputs: BaseViewModelOutputs {
+public protocol SettingViewModelOutputs: BaseViewModelOutputs {
     var exchanges: BehaviorRelay<[ExchangeApiData]> { get }
     var signOut: Signal<()> { get }
 }
 
-protocol SettingViewModelType: AnyObject {
+public protocol SettingViewModelType: AnyObject {
     var inputs: SettingViewModelInputs { get }
     var outputs: SettingViewModelOutputs { get }
 }
 
-final class SettingViewModel:
+public final class SettingViewModel:
     BaseViewModel,
     SettingViewModelInputs,
     SettingViewModelOutputs,
     SettingViewModelType
 {
     // MARK: - inputs
-    var viewDidLoad: PublishRelay<()>
-    var onCreate: PublishRelay<(ExchangeType, String, String)>
-    var onEdit: PublishRelay<(Int, ExchangeType, String, String)>
-    var onDelete: PublishRelay<Int>
-    var onSignOut: PublishRelay<()>
+    public var viewDidLoad: PublishRelay<()>
+    public var onCreate: PublishRelay<(ExchangeType, String, String)>
+    public var onEdit: PublishRelay<(Int, ExchangeType, String, String)>
+    public var onDelete: PublishRelay<Int>
+    public var onSignOut: PublishRelay<()>
     
     // MARK: - outputs
-    var exchanges: BehaviorRelay<[ExchangeApiData]>
-    var signOut: Signal<()>
+    public var exchanges: BehaviorRelay<[ExchangeApiData]>
+    public var signOut: Signal<()>
     
-    var inputs: SettingViewModelInputs { self }
-    var outputs: SettingViewModelOutputs { self }
+    public var inputs: SettingViewModelInputs { self }
+    public var outputs: SettingViewModelOutputs { self }
     
     override init() {
         let viewDidLoad = PublishRelay<()>()

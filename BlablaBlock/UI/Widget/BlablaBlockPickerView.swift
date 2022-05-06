@@ -23,7 +23,7 @@ public final class BlablaBlockPickerView: UIView {
     
     private let disposeBag = DisposeBag()
     private var style: Style = .normal
-    var itemList: [String]? {
+    public var itemList: [String]? {
         didSet {
             if itemList?.isNotEmpty == true {
                 pickerView.itemList = itemList!
@@ -34,9 +34,9 @@ public final class BlablaBlockPickerView: UIView {
             }
         }
     }
-    weak var delegate: BlablaBlockPickerViewDelegate?
+    public weak var delegate: BlablaBlockPickerViewDelegate?
     
-    convenience init(style: BlablaBlockPickerView.Style) {
+    convenience public  init(style: BlablaBlockPickerView.Style) {
         self.init(frame: .zero)
         self.style = style
         self.commonInit()

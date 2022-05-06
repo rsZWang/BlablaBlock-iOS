@@ -8,7 +8,7 @@
 import UIKit
 
 @IBDesignable
-class NormalInputView: UIView, NibOwnerLoadable {
+final public class NormalInputView: UIView, NibOwnerLoadable {
     
     @IBInspectable var placeholder: String? {
         didSet { textField.placeholder = placeholder }
@@ -34,5 +34,4 @@ class NormalInputView: UIView, NibOwnerLoadable {
         loadNibContent()
         textField.contentVerticalAlignment =  .bottom
     }
-
 }

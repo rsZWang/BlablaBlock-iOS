@@ -22,6 +22,7 @@
 		4A51C38D27F9859000E78EE4 /* ExploreUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A51C38C27F9859000E78EE4 /* ExploreUserTableViewCell.swift */; };
 		4A543A482779CF1700662B12 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A543A472779CF1700662B12 /* PickerView.swift */; };
 		4A581C9827CBCFB200276BA9 /* PaddingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A581C9727CBCFB200276BA9 /* PaddingTextField.swift */; };
+		4A5AA97728255282000533A5 /* BlablablockUserNameLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5AA97628255282000533A5 /* BlablablockUserNameLabelView.swift */; };
 		4A5FE1F827365E0F004AD836 /* LinkExchangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */; };
 		4A670ECC281032F20052F345 /* ExploreUserFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A670ECB281032F20052F345 /* ExploreUserFilter.swift */; };
 		4A6C9F0F27CD09F3003B42F8 /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C9F0E27CD09F3003B42F8 /* HomePageViewController.swift */; };
@@ -154,6 +155,7 @@
 		4A51C38C27F9859000E78EE4 /* ExploreUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreUserTableViewCell.swift; sourceTree = "<group>"; };
 		4A543A472779CF1700662B12 /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
 		4A581C9727CBCFB200276BA9 /* PaddingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingTextField.swift; sourceTree = "<group>"; };
+		4A5AA97628255282000533A5 /* BlablablockUserNameLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlablablockUserNameLabelView.swift; sourceTree = "<group>"; };
 		4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkExchangeViewController.swift; sourceTree = "<group>"; };
 		4A61598627D4CEDE0085BF4D /* BlablaBlock.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BlablaBlock.entitlements; sourceTree = "<group>"; };
 		4A670ECB281032F20052F345 /* ExploreUserFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreUserFilter.swift; sourceTree = "<group>"; };
@@ -394,8 +396,8 @@
 		4ABDADA627F4BB5300BC94B6 /* Launcher */ = {
 			isa = PBXGroup;
 			children = (
-				4A8B9CCB27F44B9C001A80CE /* LauncherViewModel.swift */,
 				A0C8E563271FF19000848FCB /* LaunchScreen.storyboard */,
+				4A8B9CCB27F44B9C001A80CE /* LauncherViewModel.swift */,
 				A0DAD58E2778441C00CD8760 /* LauncherViewController.swift */,
 			);
 			path = Launcher;
@@ -429,6 +431,7 @@
 			children = (
 				4A7744C4276FA1B50087A447 /* PortfolioViewModel.swift */,
 				A0290E2E272319DE00A07224 /* PortfolioViewController.swift */,
+				4A0C17D928106CE5005FAB29 /* PortfolioTabButton */,
 				4A361A22281117ED001B772F /* PortfolioSection */,
 				4A7FBFB928155F2A0087DA49 /* PNLSection */,
 				4A7FBFBC28156BD90087DA49 /* FollowingPortfolioSection */,
@@ -662,7 +665,6 @@
 				4AFC6578276E7E4300ADEDA7 /* Alert */,
 				A09D70E02725182B00ACE44A /* ColorButton */,
 				4A4B4DEB2770E0AA00075933 /* ViewPager */,
-				4A0C17D928106CE5005FAB29 /* PortfolioTabButton */,
 				A0290E252722F6D900A07224 /* RadioButton */,
 				A0C8E590272006C300848FCB /* NormalInputView */,
 				4A543A472779CF1700662B12 /* PickerView.swift */,
@@ -670,6 +672,7 @@
 				4AB411252816F34800D04248 /* BlablaBlockNavigationBarView.swift */,
 				4A361A2428111A3A001B772F /* BlablaBlockPickerView.swift */,
 				4AD27E3B281A86F600DDC1E1 /* BlablaBlockOrangeButtonView.swift */,
+				4A5AA97628255282000533A5 /* BlablablockUserNameLabelView.swift */,
 			);
 			path = Widget;
 			sourceTree = "<group>";
@@ -975,6 +978,7 @@
 				4A6C9F1427CD1277003B42F8 /* HomePageTableViewCell.swift in Sources */,
 				A0DAD5C027787A1800CD8760 /* Exchange.swift in Sources */,
 				A0DAD5B32778510100CD8760 /* UserDefaults.swift in Sources */,
+				4A5AA97728255282000533A5 /* BlablablockUserNameLabelView.swift in Sources */,
 				A0C1FB722764935300C4201A /* ResponseSuccess.swift in Sources */,
 				A0C1FB7A2764B5B900C4201A /* MoyaLoggerPlugin.swift in Sources */,
 				A0C8E5982720125800848FCB /* ColorTextButton.swift in Sources */,

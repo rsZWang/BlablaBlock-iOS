@@ -15,23 +15,23 @@ public enum SignInUiEvent {
     case passwordReset
 }
 
-protocol SignInViewModelInputs: AnyObject {
+public protocol SignInViewModelInputs: AnyObject {
     var signIn: PublishRelay<(String, String)> { get }
     var signUp: PublishRelay<(String, String, String)> { get }
     var forgetPassword: PublishRelay<String> { get }
     var resetPassword: PublishRelay<(String, String)> { get }
 }
 
-protocol SignInViewModelOutputs: BaseViewModelOutputs {
+public protocol SignInViewModelOutputs: BaseViewModelOutputs {
     var uiEvent: Signal<SignInUiEvent> { get }
 }
 
-protocol SignInViewModelType: AnyObject {
+public protocol SignInViewModelType: AnyObject {
     var inputs: SignInViewModelInputs { get }
     var outputs: SignInViewModelOutputs { get }
 }
 
-final class SignInViewModel:
+final public class SignInViewModel:
     BaseViewModel,
     SignInViewModelInputs,
     SignInViewModelOutputs,
@@ -40,16 +40,16 @@ final class SignInViewModel:
     
     // MARK: - inputs
     
-    var signIn: PublishRelay<(String, String)>
-    var signUp: PublishRelay<(String, String, String)>
-    var forgetPassword: PublishRelay<String>
-    var resetPassword: PublishRelay<(String, String)>
+    public var signIn: PublishRelay<(String, String)>
+    public var signUp: PublishRelay<(String, String, String)>
+    public var forgetPassword: PublishRelay<String>
+    public var resetPassword: PublishRelay<(String, String)>
     
     // MARK: - outputs
-    var uiEvent: Signal<SignInUiEvent>
+    public var uiEvent: Signal<SignInUiEvent>
     
-    var inputs: SignInViewModelInputs { self }
-    var outputs: SignInViewModelOutputs { self }
+    public var inputs: SignInViewModelInputs { self }
+    public var outputs: SignInViewModelOutputs { self }
     
     override init() {
         let signIn = PublishRelay<(String, String)>()

@@ -15,8 +15,8 @@ public final class PickerView: UIPickerView, UIPickerViewDataSource, UIPickerVie
     
     public private(set) var toolbar: UIToolbar?
     private weak var textField: UITextField?
-    weak var pickerViewDelegate: PickerViewDelegate?
-    var itemList = [String]()
+    public weak var pickerViewDelegate: PickerViewDelegate?
+    public var itemList = [String]()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -54,7 +54,7 @@ public final class PickerView: UIPickerView, UIPickerViewDataSource, UIPickerVie
         self.toolbar = toolbar
     }
     
-    func bind(textField: UITextField) {
+    public func bind(textField: UITextField) {
         textField.inputView = self
         textField.inputAccessoryView = toolbar
         textField.tintColor = .clear

@@ -7,10 +7,10 @@
 
 import UIKit
 
-final class PorfolioCoordinator: Coordinator {
+final public class PorfolioCoordinator: Coordinator {
     
-    var childCoordinators = [Coordinator]()
-    var navigationController: UINavigationController
+    public var childCoordinators = [Coordinator]()
+    public var navigationController: UINavigationController
     
     init() {
         navigationController = UINavigationController()
@@ -19,9 +19,9 @@ final class PorfolioCoordinator: Coordinator {
         navigationController.isNavigationBarHidden = true
     }
     
-    func start() {}
+    public func start() {}
     
-    func toTradeHistory(userId: Int) {
+    public func toTradeHistory(userId: Int) {
         let vc = TradeHistoryViewController(
             viewModel: TradeHistoryViewModel(),
             userId: userId
@@ -29,7 +29,7 @@ final class PorfolioCoordinator: Coordinator {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func didFinishTradeHistory() {
+    public func didFinishTradeHistory() {
         
     }
 }

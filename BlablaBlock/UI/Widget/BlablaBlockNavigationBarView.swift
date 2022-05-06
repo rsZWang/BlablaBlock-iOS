@@ -10,21 +10,21 @@ import SnapKit
 import RxSwift
 import RxGesture
 
-protocol BlablaBlockNavigationBarViewDelegate: AnyObject {
+public protocol BlablaBlockNavigationBarViewDelegate: AnyObject {
     func onBack()
 }
 
-final class BlablaBlockNavigationBarView: UIView {
+final public class BlablaBlockNavigationBarView: UIView {
     
     private let disposeBag = DisposeBag()
-    weak var delegate: BlablaBlockNavigationBarViewDelegate?
-    var title: String? {
+    public weak var delegate: BlablaBlockNavigationBarViewDelegate?
+    public var title: String? {
         didSet {
             titleLabel.text = title
         }
     }
     
-    convenience init() {
+    convenience public init() {
         self.init(frame: .zero)
     }
     

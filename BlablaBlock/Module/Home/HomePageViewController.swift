@@ -8,7 +8,7 @@
 import UIKit
 import RxDataSources
 
-final class HomePageViewController: BaseViewController {
+final public class HomePageViewController: BaseViewController {
     
     private let viewModel: HomePageViewModelType
     
@@ -25,7 +25,7 @@ final class HomePageViewController: BaseViewController {
         Timber.i("\(type(of: self)) deinit")
     }
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupLayout()
@@ -33,7 +33,7 @@ final class HomePageViewController: BaseViewController {
         viewModel.inputs.viewDidLoad.accept(())
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.inputs.viewWillAppear.accept(())
     }
@@ -43,6 +43,12 @@ final class HomePageViewController: BaseViewController {
         pickerView.delegate = self
         logoImageView.image = "ic_home_page_logo".image()
         tableView.viewModel = viewModel
+        
+        emptyLabel.text = "請至設定頁面串接交易所API，\n以獲取追蹤他人投資組合"
+        emptyLabel.font = .boldSystemFont(ofSize: 18)
+        emptyLabel.textColor = .black
+        emptyLabel.numberOfLines = 5
+        emptyLabel.isHidden = true
     }
     
     private func setupLayout() {
@@ -63,7 +69,8 @@ final class HomePageViewController: BaseViewController {
         logoImageView.snp.makeConstraints { make in
             make.height.equalTo(42)
             make.leading.equalToSuperview()
-            make.top.bottom.equalToSuperview()
+            make.top.equalToSuperview().offset(12)
+            make.bottom.equalToSuperview()
         }
         
         topSectionView.addSubview(pickerView)
@@ -146,20 +153,11 @@ final class HomePageViewController: BaseViewController {
     private let logoImageView = UIImageView()
     private let tableView = HomePageTableView()
     private let refreshControl = UIRefreshControl()
-    
-    private let emptyLabel: UILabel = {
-        let label = UILabel()
-        label.text = "請至設定頁面串接交易所API，\n以獲取追蹤他人投資組合"
-        label.font = .boldSystemFont(ofSize: 18)
-        label.textColor = .black
-        label.numberOfLines = 5
-        label.isHidden = true
-        return label
-    }()
+    private let emptyLabel = UILabel()
 }
 
 extension HomePageViewController: BlablaBlockPickerViewDelegate {
-    func blablaBlockPickerView(_ view: BlablaBlockPickerView, selectedIndex: Int) {
+    public func blablaBlockPickerView(_ view: BlablaBlockPickerView, selectedIndex: Int) {
         viewModel.inputs
             .selectedCurrencyIndex
             .accept(selectedIndex)

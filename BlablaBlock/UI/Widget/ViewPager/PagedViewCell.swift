@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class PagedViewCell: UICollectionViewCell {
+final public class PagedViewCell: UICollectionViewCell {
     
     static let identifier = "PagedViewCell"
     

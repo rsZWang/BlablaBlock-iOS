@@ -12,7 +12,7 @@ public protocol BaseViewModelOutputs: AnyObject {
     var errorMessage: PublishRelay<String> { get }
 }
 
-public class BaseViewModel:
+open class BaseViewModel:
     NSObject,
     BaseViewModelOutputs
 {

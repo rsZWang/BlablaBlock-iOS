@@ -71,5 +71,4 @@ public class ColorTextButton: RadioButton {
             titleLabel!.font = .systemFont(ofSize: fontSize)
         }
     }
-
 }
