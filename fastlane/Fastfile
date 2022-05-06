@@ -65,8 +65,8 @@ API Secret: CHpW8MZwBuBHuPncE2KIN78gH06tpTCJ0JIrpt7PWXcC2i6yBRkMiZaIUVspIUqL
 
 @changelog = "
 feat:
- - 推播通知
- - 忘記密碼
+ - certificated account
+ - ui fix
 "
 
 default_platform(:ios)
