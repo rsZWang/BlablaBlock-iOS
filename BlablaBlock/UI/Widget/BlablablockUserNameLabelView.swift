@@ -76,6 +76,6 @@ final public class BlablablockUserNameLabelView: UIView {
 
 public extension BlablablockUserNameLabelView {
     func setCertification(userId: Int) {
-        isCertificated = userId == 52
+        isCertificated = userId == 57
     }
 }
