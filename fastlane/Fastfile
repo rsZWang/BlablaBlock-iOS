@@ -65,8 +65,8 @@ API Secret: CHpW8MZwBuBHuPncE2KIN78gH06tpTCJ0JIrpt7PWXcC2i6yBRkMiZaIUVspIUqL
 
 @changelog = "
 feat:
- - certificated account
- - ui fix
+ - Config PNL graph (date to date time at tapped point)
+ - Wrong gesture in Portfolio page (table's items selected when long click)
 "
 
 default_platform(:ios)
@@ -163,8 +163,8 @@ platform :ios do
         demo_account_password: "Abc123",
         notes: @review_notes
       },
-      # distribute_external: true,
-      # groups: "External_1",
+      distribute_external: true,
+      groups: "External_1",
       changelog: @changelog
     )
   end
