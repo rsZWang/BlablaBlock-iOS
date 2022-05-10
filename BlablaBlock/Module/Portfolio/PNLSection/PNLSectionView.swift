@@ -21,8 +21,6 @@ final class PNLSectionView: UIView {
         }
     }
     
-//    private let chartBounds = BehaviorRelay<CGRect>(value: .zero)
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.commonInit()
@@ -42,7 +40,8 @@ final class PNLSectionView: UIView {
         periodPickerView.delegate = self
         periodPickerView.itemList = PNLPeriod.titleList
         
-        displayFormatter.dateFormat = "yyyy/MM/dd"
+        dateTimeFormatter.dateFormat = "yyyy/MM/dd\nHH:mm:ss"
+        dateFormatter.dateFormat = "yyyy/MM/dd"
         
         scrollView.alwaysBounceVertical = true
         scrollView.showsVerticalScrollIndicator = false
@@ -236,8 +235,8 @@ final class PNLSectionView: UIView {
     private let dailyWinRateLabel = UILabel()
     private let sharpeRatioTitleLabel = UILabel()
     private let sharpeRatioLabel = UILabel()
-    
-    private let displayFormatter = DateFormatter()
+    private let dateTimeFormatter = DateFormatter()
+    private let dateFormatter = DateFormatter()
     private var chart: Chart!
     private var currentPositionLabels: [UIView] = []
     private let xAxisLabelSettings = ChartLabelSettings(font: .systemFont(ofSize: 8))
@@ -332,7 +331,7 @@ extension PNLSectionView {
         )
         
         // Touch tracker layer
-        let thumbSettings = ChartPointsLineTrackerLayerThumbSettings(thumbSize: 10, thumbBorderWidth: 1)
+        let thumbSettings = ChartPointsLineTrackerLayerThumbSettings(thumbSize: 5, thumbBorderWidth: 1)
         let trackerLayerSettings = ChartPointsLineTrackerLayerSettings(thumbSettings: thumbSettings)
         let chartPointsTrackerLayer = ChartPointsLineTrackerLayer<ChartPoint, Any>(
             xAxis: xAxisLayer.axis,
@@ -345,36 +344,68 @@ extension PNLSectionView {
         ) { [weak self] chartPointsWithScreenLoc in
             self?.currentPositionLabels.forEach { $0.removeFromSuperview() }
             for (_, chartPointWithScreenLoc) in chartPointsWithScreenLoc.enumerated() {
-                let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 69, height: 30))
-                stackView.sizeToFit()
-                stackView.layer.borderWidth = 1
-                stackView.layer.borderColor = UIColor.systemBlue.cgColor
-                stackView.layer.cornerRadius = 4
-                stackView.axis = .vertical
-                stackView.center = CGPoint(
-                    x: chartPointWithScreenLoc.screenLoc.x + stackView.frame.width / 2,
-                    y: chartPointWithScreenLoc.screenLoc.y + chartFrame.minY - stackView.frame.height / 2
+                
+                let containerView = UIView(frame: CGRect(x: 0, y: 0, width: 70, height: 50))
+                let dateLabel = UILabel()
+                let profitLabel = UILabel()
+                
+                let x: CGFloat
+                if chartPointWithScreenLoc.screenLoc.x > chartFrame.width / 2 {
+                    x = chartPointWithScreenLoc.screenLoc.x - 38
+                    dateLabel.textAlignment = .right
+                    profitLabel.textAlignment = .right
+                } else {
+                    x = chartPointWithScreenLoc.screenLoc.x + 38
+                    dateLabel.textAlignment = .left
+                    profitLabel.textAlignment = .left
+                }
+                
+                let y: CGFloat
+                if chartPointWithScreenLoc.screenLoc.y > 100 {
+                    y = chartPointWithScreenLoc.screenLoc.y - 25
+                } else {
+                    y = chartPointWithScreenLoc.screenLoc.y + 25
+                }
+            
+                containerView.center = CGPoint(
+                    x: x,
+                    y: y
                 )
                 
-                let dateLabel = UILabel()
+                containerView.layer.borderWidth = 1
+                containerView.layer.borderColor = UIColor.systemBlue.cgColor
+                containerView.layer.cornerRadius = 4
+               
                 dateLabel.sizeToFit()
-                dateLabel.text = " \(chartPointWithScreenLoc.chartPoint.x.description) "
+                dateLabel.text = chartPointWithScreenLoc.chartPoint.x.description
                 dateLabel.font = .systemFont(ofSize: 12)
                 dateLabel.adjustsFontSizeToFitWidth = true
-                dateLabel.numberOfLines = 1
+                dateLabel.numberOfLines = 2
                 dateLabel.textColor = .systemBlue
-                stackView.addArrangedSubview(dateLabel)
-                
-                let profitLabel = UILabel()
+               
                 profitLabel.sizeToFit()
-                profitLabel.text = " \(chartPointWithScreenLoc.chartPoint.y.description)% "
+                profitLabel.text = "\(chartPointWithScreenLoc.chartPoint.y.description)%"
                 profitLabel.font = .systemFont(ofSize: 12)
                 profitLabel.adjustsFontSizeToFitWidth = true
                 profitLabel.numberOfLines = 1
                 profitLabel.textColor = .systemBlue
-                stackView.addArrangedSubview(profitLabel)
-                self?.currentPositionLabels.append(stackView)
-                self?.chartSectionView.addSubview(stackView)
+                
+                containerView.addSubview(dateLabel)
+                dateLabel.snp.makeConstraints { make in
+                    make.leading.equalToSuperview().offset(2)
+                    make.trailing.equalToSuperview().offset(-2)
+                    make.top.equalToSuperview().offset(2)
+                }
+                containerView.addSubview(profitLabel)
+                profitLabel.snp.makeConstraints { make in
+                    make.leading.equalToSuperview().offset(2)
+                    make.trailing.equalToSuperview().offset(-2)
+                    make.top.equalTo(dateLabel.snp.bottom).offset(2)
+                    make.bottom.equalToSuperview().offset(-2)
+                }
+                
+                self?.currentPositionLabels.append(containerView)
+                self?.chartSectionView.addSubview(containerView)
             }
         }
         
@@ -420,14 +451,19 @@ extension PNLSectionView {
     
     private func createChartPoint(point: PNLCharData) -> ChartPoint {
         ChartPoint(
-            x: createDateAxisValue(timestamp: point.timestamp),
+            x: createDateTimeAxisValue(timestamp: point.timestamp),
             y: ChartAxisValueDouble(point.value)
         )
     }
     
+    private func createDateTimeAxisValue(timestamp: Int) -> ChartAxisValue {
+        let date = Date(timeIntervalSince1970: TimeInterval(timestamp))
+        return ChartAxisValueDate(date: date, formatter: dateTimeFormatter, labelSettings: xAxisLabelSettings)
+    }
+    
     private func createDateAxisValue(timestamp: Int) -> ChartAxisValue {
         let date = Date(timeIntervalSince1970: TimeInterval(timestamp))
-        return ChartAxisValueDate(date: date, formatter: displayFormatter, labelSettings: xAxisLabelSettings)
+        return ChartAxisValueDate(date: date, formatter: dateFormatter, labelSettings: xAxisLabelSettings)
     }
     
     private class ChartYAxisValue: ChartAxisValueDouble {

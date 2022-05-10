@@ -10,27 +10,22 @@ import Moya
 
 public struct MoyaLoggerPlugin: PluginType {
     
-    typealias Log = (String, Any)
-    private let shouldPrint = true
+    private typealias Log = (String, Any)
 
     public func willSend(_ request: RequestType, target: TargetType) {
-        if shouldPrint {
-            debugRequest(request.request as URLRequest?, target: target)
-        }
+        debugRequest(request.request as URLRequest?, target: target)
     }
 
     public func didReceive(_ result: Result<Response, MoyaError>, target: TargetType) {
         switch result {
         case .success(let response):
-            if shouldPrint {
-                debugResponse(response, target: target)
-            }
+            debugResponse(response, target: target)
         case .failure(let error):
             Timber.e(error)
         }
     }
 
-    func debugRequest(_ request: URLRequest?, target: TargetType) {
+    private func debugRequest(_ request: URLRequest?, target: TargetType) {
         guard let request = request else {
             return
         }
@@ -47,7 +42,7 @@ public struct MoyaLoggerPlugin: PluginType {
         printLogs(" Request⏩ =", logs: logs)
     }
 
-    func debugResponse(_ response: Response, target: TargetType) {
+    private func debugResponse(_ response: Response, target: TargetType) {
         var logs: [Log] = []
         logs.append(("Target", target))
 //        logs.append((response.request?.httpMethod ?? "Unknown Method", response.request?.url?.absoluteURL ?? "empty url"))
@@ -61,7 +56,7 @@ public struct MoyaLoggerPlugin: PluginType {
         printLogs(" Response⏪ ", logs: logs)
     }
 
-    func printLogs(_ title: String, logs: [Log]) {
+    private func printLogs(_ title: String, logs: [Log]) {
         let title = "==============\(title)======================="
         print(title)
         for log in logs {

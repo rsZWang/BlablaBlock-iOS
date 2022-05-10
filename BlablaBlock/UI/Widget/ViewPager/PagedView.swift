@@ -44,6 +44,8 @@ final public class PagedView: UIView, UICollectionViewDelegateFlowLayout, UIColl
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = .white
+        collectionView.allowsSelection = false
+        collectionView.allowsMultipleSelection = false
         return collectionView
     }()
     

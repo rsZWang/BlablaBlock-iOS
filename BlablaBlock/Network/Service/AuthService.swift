@@ -56,6 +56,7 @@ public struct AuthService {
                 "email" : email
             ], encoding: JSONEncoding.default)
         }
+        var log: Bool { false }
         typealias SuccessType = ResponseSuccess
         typealias FailureType = ResponseFailure
         

@@ -38,7 +38,6 @@ public extension HttpTargetType {
     var headers: [String : String]? { nil }
     var sampleData: Data { Data() }
     var authorizationType: AuthorizationType? { .bearer }
-    var log: Bool { false }
     
     var decoder: JSONDecoder {
         ApiProvider.decoder
