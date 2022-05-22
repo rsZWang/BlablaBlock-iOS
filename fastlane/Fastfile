@@ -64,7 +64,7 @@ API Secret: CHpW8MZwBuBHuPncE2KIN78gH06tpTCJ0JIrpt7PWXcC2i6yBRkMiZaIUVspIUqL
 "
 
 @changelog = "
-fix some UI
+feat: some EN resources
 "
 
 default_platform(:ios)
