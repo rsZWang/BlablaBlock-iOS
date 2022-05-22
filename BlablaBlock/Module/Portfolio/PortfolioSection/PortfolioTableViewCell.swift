@@ -108,7 +108,6 @@ final class PortfolioTableViewCell: UITableViewCell {
         percentageLabel.snp.makeConstraints { make in
             make.height.equalTo(20)
             make.leading.equalTo(currencyImageView.snp.trailing).offset(8)
-//            make.top.equalTo(currencyLabel.snp.bottom)
             make.bottom.equalToSuperview()
             make.trailing.equalToSuperview().offset(-8)
         }
@@ -132,7 +131,6 @@ final class PortfolioTableViewCell: UITableViewCell {
         valueLabel.snp.makeConstraints { make in
             make.height.equalTo(20)
             make.leading.equalToSuperview().offset(8)
-//            make.top.equalTo(currencyLabel.snp.bottom)
             make.trailing.bottom.equalToSuperview()
         }
 

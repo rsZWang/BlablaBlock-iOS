@@ -25,11 +25,11 @@ final class TradeHistoryTableViewCell: UITableViewCell {
     private func setupUI() {
         contentView.backgroundColor = .grayEDEDED
         
-        bgView.layer.cornerRadius = 4
-        bgView.backgroundColor = .black2D2D2D
+        bottomBgView.layer.cornerRadius = 4
+        bottomBgView.backgroundColor = .black2D2D2D
         
-        containerView.layer.cornerRadius = 4
-        containerView.backgroundColor = .white
+        bgView.layer.cornerRadius = 4
+        bgView.backgroundColor = .white
         
         currencyLabel.font = .boldSystemFont(ofSize: 16)
         currencyLabel.textColor = .black2D2D2D
@@ -66,22 +66,22 @@ final class TradeHistoryTableViewCell: UITableViewCell {
     }
     
     private func setupLayuot() {
-        contentView.addSubview(bgView)
-        bgView.snp.makeConstraints { make in
+        contentView.addSubview(bottomBgView)
+        bottomBgView.snp.makeConstraints { make in
             make.edges.equalTo(UIEdgeInsets(top: 5, left: 22, bottom: 5, right: 22))
+        }
+        
+        bottomBgView.addSubview(bgView)
+        bgView.snp.makeConstraints { make in
+            make.edges.equalTo(UIEdgeInsets(top: 0, left: 0, bottom: 2, right: 0))
         }
         
         bgView.addSubview(containerView)
         containerView.snp.makeConstraints { make in
-            make.edges.equalTo(UIEdgeInsets(top: 0, left: 0, bottom: 1, right: 0))
-        }
-        
-        containerView.addSubview(subContainerView)
-        subContainerView.snp.makeConstraints { make in
             make.edges.equalTo(UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12))
         }
         
-        subContainerView.addSubview(currencyImageView)
+        containerView.addSubview(currencyImageView)
         currencyImageView.snp.makeConstraints { make in
             make.leading.equalToSuperview()
             make.top.equalToSuperview()
@@ -93,54 +93,54 @@ final class TradeHistoryTableViewCell: UITableViewCell {
         currencyStackView.addArrangedSubview(currencyLabel)
         currencyStackView.addArrangedSubview(currencyType)
         
-        subContainerView.addSubview(currencyStackView)
+        containerView.addSubview(currencyStackView)
         currencyStackView.snp.makeConstraints { make in
             make.leading.equalTo(currencyImageView.snp.trailing).offset(8)
             make.centerY.equalTo(currencyImageView)
         }
         
-        subContainerView.addSubview(timestampLabel)
+        containerView.addSubview(timestampLabel)
         timestampLabel.snp.makeConstraints { make in
             make.bottom.equalTo(currencyType)
             make.trailing.equalToSuperview()
         }
         
-        subContainerView.addSubview(actionLabel)
+        containerView.addSubview(actionLabel)
         actionLabel.snp.makeConstraints { make in
             make.height.equalTo(19)
             make.leading.equalToSuperview()
             make.top.equalTo(currencyImageView.snp.bottom).offset(5)
         }
         
-        subContainerView.addSubview(exchangeTtitleLabel)
+        containerView.addSubview(exchangeTtitleLabel)
         exchangeTtitleLabel.snp.makeConstraints { make in
             make.height.equalTo(19)
             make.leading.equalToSuperview()
             make.top.equalTo(actionLabel.snp.bottom)
         }
 
-        subContainerView.addSubview(exchangeLabel)
+        containerView.addSubview(exchangeLabel)
         exchangeLabel.snp.makeConstraints { make in
             make.height.equalTo(19)
             make.centerY.equalTo(exchangeTtitleLabel)
             make.trailing.equalToSuperview()
         }
 
-        subContainerView.addSubview(priceTitleLabel)
+        containerView.addSubview(priceTitleLabel)
         priceTitleLabel.snp.makeConstraints { make in
             make.height.equalTo(19)
             make.leading.equalToSuperview()
             make.top.equalTo(exchangeTtitleLabel.snp.bottom)
         }
 
-        subContainerView.addSubview(priceLabel)
+        containerView.addSubview(priceLabel)
         priceLabel.snp.makeConstraints { make in
             make.height.equalTo(19)
             make.centerY.equalTo(priceTitleLabel)
             make.trailing.equalToSuperview()
         }
 
-        subContainerView.addSubview(amountTitleLabel)
+        containerView.addSubview(amountTitleLabel)
         amountTitleLabel.snp.makeConstraints { make in
             make.height.equalTo(19)
             make.leading.equalToSuperview()
@@ -148,16 +148,16 @@ final class TradeHistoryTableViewCell: UITableViewCell {
             make.bottom.equalToSuperview()
         }
 
-        subContainerView.addSubview(amountLabel)
+        containerView.addSubview(amountLabel)
         amountLabel.snp.makeConstraints { make in
             make.centerY.equalTo(amountTitleLabel)
             make.trailing.equalToSuperview()
         }
     }
     
-    private let bgView =  UIView()
+    private let bottomBgView =  UIView()
+    private let bgView = UIView()
     private let containerView = UIView()
-    private let subContainerView = UIView()
     private let currencyImageView = UIImageView()
     private let currencyLabel = UILabel()
     private let currencyType = UILabel()

@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-protocol ExchangeCardViewDelegate: NSObject {
+public protocol ExchangeCardViewDelegate: NSObject {
     func onTap(type: ExchangeType, exchange: ExchangeApiData?)
 }
 

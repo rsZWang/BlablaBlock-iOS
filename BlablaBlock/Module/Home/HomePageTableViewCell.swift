@@ -35,8 +35,8 @@ final public class HomePageTableViewCell: UITableViewCell {
     private func setupUI() {
         contentView.backgroundColor = .grayE5E5E5
         
-        bgBottomView.layer.cornerRadius = 4
-        bgBottomView.backgroundColor = .black
+        bottomBgView.layer.cornerRadius = 4
+        bottomBgView.backgroundColor = .black2D2D2D
         
         bgView.layer.cornerRadius = 4
         bgView.backgroundColor = .white
@@ -94,14 +94,14 @@ final public class HomePageTableViewCell: UITableViewCell {
     }
     
     private func setupLayout() {
-        contentView.addSubview(bgBottomView)
-        bgBottomView.snp.makeConstraints { make in
+        contentView.addSubview(bottomBgView)
+        bottomBgView.snp.makeConstraints { make in
             make.edges.equalTo(UIEdgeInsets(top: 0, left: 24, bottom: 10, right: 24))
         }
 
-        bgBottomView.addSubview(bgView)
+        bottomBgView.addSubview(bgView)
         bgView.snp.makeConstraints { make in
-            make.edges.equalTo(UIEdgeInsets(top: 0, left: 0, bottom: 3, right: 0))
+            make.edges.equalTo(UIEdgeInsets(top: 0, left: 0, bottom: 2, right: 0))
         }
         
         bgView.addSubview(containerView)
@@ -230,7 +230,7 @@ final public class HomePageTableViewCell: UITableViewCell {
         }
     }
     
-    private let bgBottomView = UIView()
+    private let bottomBgView = UIView()
     private let bgView = UIView()
     private let containerView = UIView()
     private let avatarImageView = UIImageView()
