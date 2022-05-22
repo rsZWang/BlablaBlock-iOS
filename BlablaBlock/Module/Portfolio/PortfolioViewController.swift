@@ -221,7 +221,6 @@ final public class PortfolioViewController: BaseViewController {
         basicAssetInfoSectionView.addSubview(assetDayChangeLabel)
         assetDayChangeLabel.snp.makeConstraints { make in
             make.width.equalTo(49)
-            make.height.equalTo(13)
             make.leading.equalTo(assetSumTitleLabel.snp.trailing).offset(8)
             make.centerY.equalTo(assetSumTitleLabel)
         }
