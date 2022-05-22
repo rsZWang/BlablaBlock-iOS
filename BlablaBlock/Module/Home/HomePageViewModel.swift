@@ -115,7 +115,7 @@ final class HomePageViewModel:
                 notificationsCache,
                 resultSelector: { index, notifications in
                     let currency = currencyList.value[index]
-                    if currency == "所有幣別" {
+                    if currency == HomePageViewController.filterAll {
                         return notifications
                     } else {
                         return notifications.filter({ $0.baseCurrency == currency })
@@ -192,7 +192,7 @@ private extension HomePageViewModel {
     ) {
         notificationsCache.accept(newNotifications)
         var newCurrencyList = Array(Set(newNotifications.map { $0.baseCurrency })).sorted(by: { $0 < $1 })
-        newCurrencyList.insert("所有幣別", at: 0)
+        newCurrencyList.insert(HomePageViewController.filterAll, at: 0)
         if currencyList.value != newCurrencyList {
             currencyList.accept(newCurrencyList)
             selectedCurrencyIndex.accept(0)

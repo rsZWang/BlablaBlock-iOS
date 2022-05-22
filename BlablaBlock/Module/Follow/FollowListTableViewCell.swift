@@ -35,8 +35,8 @@ final public class FollowListTableViewCell: UITableViewCell {
         
         userNameView.font = .boldSystemFont(ofSize: 16)
         
-        followButton.setTitle("追蹤", for: .normal)
-        followButton.setTitle("追蹤中", for: .selected)
+        followButton.setTitle("vc_follow_follow".localized(), for: .normal)
+        followButton.setTitle("vc_follow_following".localized(), for: .selected)
         followButton.font = .boldSystemFont(ofSize: 12)
     }
     

@@ -10,6 +10,8 @@ import SnapKit
 
 final class TradeHistoryViewController: BaseViewController {
     
+    static let filterAll = "vc_trade_history_fitler_crypto_currency".localized()
+    
     private let viewModel: TradeHistoryViewModelType!
     private let userId: Int
     
@@ -42,7 +44,7 @@ final class TradeHistoryViewController: BaseViewController {
     private func setupUI() {
         view.backgroundColor = .grayEDEDED
         
-        navigationSectionView.title = "交易歷史"
+        navigationSectionView.title = "vc_trade_history_order_history".localized()
         navigationSectionView.delegate = self
         
         pickerView.delegate = self

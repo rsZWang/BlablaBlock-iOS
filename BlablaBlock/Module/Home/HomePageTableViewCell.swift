@@ -51,8 +51,8 @@ final public class HomePageTableViewCell: UITableViewCell {
         timestampCounterLabel.font = .systemFont(ofSize: 10, weight: .medium)
         timestampCounterLabel.textColor = .gray2D2D2D_40
         
-        followButton.setTitle("追蹤", for: .normal)
-        followButton.setTitle("追蹤中", for: .selected)
+        followButton.setTitle("vc_home_follow".localized(), for: .normal)
+        followButton.setTitle("vc_home_following".localized(), for: .selected)
         followButton.font = .boldSystemFont(ofSize: 12)
         
         separatorView.backgroundColor = .gray2D2D2D_40
@@ -71,21 +71,21 @@ final public class HomePageTableViewCell: UITableViewCell {
         
         actionLabel.font = .systemFont(ofSize: 12, weight: .semibold)
         
-        exchangeTtitleLabel.text = "交易所"
+        exchangeTtitleLabel.text = "vc_home_exchange".localized()
         exchangeTtitleLabel.font = .systemFont(ofSize: 12, weight: .medium)
         exchangeTtitleLabel.textColor = .black2D2D2D_80
         
         exchangeLabel.font = .systemFont(ofSize: 12, weight: .medium)
         exchangeLabel.textColor = .black2D2D2D
         
-        priceTitleLabel.text = "價格"
+        priceTitleLabel.text = "vc_home_price".localized()
         priceTitleLabel.font = .systemFont(ofSize: 12, weight: .medium)
         priceTitleLabel.textColor = .black2D2D2D_80
         
         priceLabel.font = .systemFont(ofSize: 12, weight: .medium)
         priceLabel.textColor = .black2D2D2D
         
-        amountTitleLabel.text = "成交數量"
+        amountTitleLabel.text = "vc_home_amount".localized()
         amountTitleLabel.font = .systemFont(ofSize: 12, weight: .medium)
         amountTitleLabel.textColor = .black2D2D2D_80
         
@@ -266,10 +266,10 @@ public extension HomePageTableViewCell {
         currencyTypeLabel.text = AssetType.map(type: notification.type)
         timestampLabel.text = notification.timestamp.format()
         if notification.side.caseInsensitiveCompare("buy") == .orderedSame {
-            actionLabel.text = "買入"
+            actionLabel.text = "vc_home_buy".localized()
             actionLabel.textColor = .systemGreen
         } else {
-            actionLabel.text = "賣出"
+            actionLabel.text = "vc_home_sell".localized()
             actionLabel.textColor = .red
         }
         exchangeLabel.text = notification.exchange.uppercased()

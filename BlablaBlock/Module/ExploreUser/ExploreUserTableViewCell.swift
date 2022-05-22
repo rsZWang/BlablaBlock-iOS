@@ -44,8 +44,8 @@ final public class ExploreUserTableViewCell: UITableViewCell {
         avatarImageView.layer.cornerRadius = 25
         avatarImageView.clipsToBounds = true
         
-        followButton.setTitle("追蹤", for: .normal)
-        followButton.setTitle("追蹤中", for: .selected)
+        followButton.setTitle("vc_explore_follow".localized(), for: .normal)
+        followButton.setTitle("vc_explore_following".localized(), for: .selected)
         followButton.font = .boldSystemFont(ofSize: 12)
         
         totalAssetLabel.font = .boldSystemFont(ofSize: 10)
@@ -60,7 +60,7 @@ final public class ExploreUserTableViewCell: UITableViewCell {
         
         rightSectionView.axis = .vertical
         
-        roiTitleLabel.text = "總報酬率"
+        roiTitleLabel.text = "vc_explore_total_profit".localized()
         roiTitleLabel.font = .systemFont(ofSize: 10)
         roiTitleLabel.textColor = .black2D2D2D_80
         roiTitleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
@@ -71,7 +71,7 @@ final public class ExploreUserTableViewCell: UITableViewCell {
         roiLabel.adjustsFontSizeToFitWidth = true
         roiLabel.textAlignment = .right
         
-        annualRoiTitleLabel.text = "年化報酬率"
+        annualRoiTitleLabel.text = "vc_explore_annual_profit".localized()
         annualRoiTitleLabel.font = .systemFont(ofSize: 10)
         annualRoiTitleLabel.textColor = .black2D2D2D_80
         annualRoiTitleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
@@ -82,7 +82,7 @@ final public class ExploreUserTableViewCell: UITableViewCell {
         annualRoiLabel.adjustsFontSizeToFitWidth = true
         annualRoiLabel.textAlignment = .right
         
-        mDDTitleLabel.text = "最大回撤"
+        mDDTitleLabel.text = "vc_explore_drawndown".localized()
         mDDTitleLabel.font = .systemFont(ofSize: 10)
         mDDTitleLabel.textColor = .black2D2D2D_80
         mDDTitleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
@@ -93,7 +93,7 @@ final public class ExploreUserTableViewCell: UITableViewCell {
         mDDLabel.adjustsFontSizeToFitWidth = true
         mDDLabel.textAlignment = .right
         
-        winRateTitleLabel.text = "勝率"
+        winRateTitleLabel.text = "vc_explore_daily_win_rate".localized()
         winRateTitleLabel.font = .systemFont(ofSize: 10)
         winRateTitleLabel.textColor = .black2D2D2D_80
         winRateTitleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
@@ -104,7 +104,7 @@ final public class ExploreUserTableViewCell: UITableViewCell {
         winRateLabel.adjustsFontSizeToFitWidth = true
         winRateLabel.textAlignment = .right
         
-        sharpRatioTitleLabel.text = "Sharp Ratio"
+        sharpRatioTitleLabel.text = "vc_explore_sharpe_ratio".localized()
         sharpRatioTitleLabel.font = .systemFont(ofSize: 10)
         sharpRatioTitleLabel.textColor = .black2D2D2D_80
         sharpRatioTitleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)

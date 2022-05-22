@@ -70,8 +70,8 @@ final public class PortfolioViewController: BaseViewController {
         
         if user != nil {
             navigationSectionView.delegate = self
-            actionButton.setTitle("追蹤", for: .normal)
-            actionButton.setTitle("追蹤中", for: .selected)
+            actionButton.setTitle("vc_portfolio_follow".localized(), for: .normal)
+            actionButton.setTitle("vc_portfolio_following".localized(), for: .selected)
             actionButton.font = .boldSystemFont(ofSize: 12)
         }
         
@@ -85,7 +85,7 @@ final public class PortfolioViewController: BaseViewController {
         assetSumLabel.textColor = .black2D2D2D
         assetSumLabel.font = .systemFont(ofSize: 20, weight: .semibold)
         
-        assetSumTitleLabel.text = "總資產"
+        assetSumTitleLabel.text = "vc_portfolio_total_asset".localized()
         assetSumTitleLabel.textColor = .black2D2D2D
         assetSumTitleLabel.font = .systemFont(ofSize: 10, weight: .medium)
         
@@ -99,14 +99,14 @@ final public class PortfolioViewController: BaseViewController {
         followerLabel.textColor = .black2D2D2D
         followerLabel.font = .systemFont(ofSize: 20, weight: .semibold)
         
-        followerTitleLabel.text = "粉絲"
+        followerTitleLabel.text = "vc_portfolio_follower".localized()
         followerTitleLabel.textColor = .black2D2D2D
         followerTitleLabel.font = .systemFont(ofSize: 10, weight: .medium)
         
         followingLabel.textColor = .black2D2D2D
         followingLabel.font = .systemFont(ofSize: 20, weight: .semibold)
         
-        followingTitleLabel.text = "追蹤中"
+        followingTitleLabel.text = "vc_portfolio_following".localized()
         followingTitleLabel.textColor = .black2D2D2D
         followingTitleLabel.font = .systemFont(ofSize: 10, weight: .medium)
         
@@ -116,11 +116,13 @@ final public class PortfolioViewController: BaseViewController {
         radioGroup.add(followingPortfolioTabButton)
         
         portfolioTabButton.isSelected = true
-        portfolioTabButton.setTitle("投資組合", for: .normal)
+        portfolioTabButton.setTitle("vc_portfolio_positions".localized(), for: .normal)
+        
         tabButtonSeparatorViewLeft.backgroundColor = .white
-        pnlTabButton.setTitle("交易績效", for: .normal)
+        pnlTabButton.setTitle("vc_portfolio_pnl".localized(), for: .normal)
+        
         tabButtonSeparatorViewRight.backgroundColor = .white
-        followingPortfolioTabButton.setTitle("追蹤中組合", for: .normal)
+        followingPortfolioTabButton.setTitle("vc_portfolio_following_portfolio".localized(), for: .normal)
         
         assetSumLabel.text = " "
         followerLabel.text = " "

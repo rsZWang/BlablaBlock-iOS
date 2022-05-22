@@ -1,0 +1,110 @@
+/*
+  Localizable.strings
+  BlablaBlock
+
+  Created by Harry on 2022/5/22.
+  
+*/
+
+// SignInViewController
+"vc_sign_in_sign_in" = "Log in";
+"vc_sign_in_register" = "Register";
+"vc_sign_in_email" = "Email";
+"vc_sign_in_password" = "Password";
+"vc_sign_in_user_name" = "User Name";
+"vc_sign_in_password_confirm" = "Confirm your password";
+"vc_sign_in_next_step" = "Next Step";
+
+// HomeViewController
+"vc_home_follow" = "Follow";
+"vc_home_following" = "Following";
+"vc_home_buy" = "Buy";
+"vc_home_sell" = "Sell";
+"vc_home_exchange" = "Exchange";
+"vc_home_price" = "Price";
+"vc_home_amount" = "Amount";
+
+"vc_home_filter_currency_all" = "Cryptocurrencies";
+
+// ExploreViewController
+"vc_explore_explore" = "Explore";
+"vc_explore_search" = "🔍 Search";
+"vc_explore_follow" = "Follow";
+"vc_explore_following" = "Following";
+"vc_explore_total_profit" = "Return on Total Assets";
+"vc_explore_annual_profit" = "Internal Rate of Return";
+"vc_explore_drawndown" = "Drawdown";
+"vc_explore_daily_win_rate" = "Daily Win Rate";
+"vc_explore_sharpe_ratio" = "Sharpe Ratio";
+
+"vc_explore_filter_sort_random" = "Random";
+"vc_explore_filter_sort_total_asset" = "Total Asset";
+"vc_explore_filter_sort_roa" = "ROA";
+"vc_explore_filter_sort_win_rate" = "Win Rate";
+"vc_explore_filter_sort_sharpe_ratio" = "Sharpe Ratio";
+
+// PortfolioViewController
+"vc_portfolio_total_asset" = "Total Asset";
+"vc_portfolio_follower" = "Folllower";
+"vc_portfolio_following" = "Following";
+"vc_portfolio_positions" = "Positions";
+"vc_portfolio_follow" = "Follow";
+"vc_portfolio_following" = "Following";
+"vc_portfolio_pnl" = "PnL";
+"vc_portfolio_following_portfolio" = "Following Portfolio";
+"vc_portfolio_crypto_currency" = "Cryptocurrencies";
+"vc_portfolio_value" = "Value";
+"vc_portfolio_day_change" = "24H %";
+"vc_portfolio_filter_all_exchange" = "All Exchanges";
+
+"vc_portfolio_pnl_total_profit" = "Return on Total Assets";
+"vc_portfolio_pnl_annual_profit" = "Internal Rate of Return";
+"vc_portfolio_pnl_drawndown" = "Drawdown";
+"vc_portfolio_pnl_daily_win_rate" = "Daily Win Rate";
+"vc_portfolio_pnl_sharpe_ratio" = "Sharpe Ratio";
+
+// FollowViewController
+"vc_follow_follower" = "Folllower";
+"vc_follow_following" = "Following";
+"vc_follow_follow" = "Follow";
+
+// TradeHistoryViewController
+"vc_trade_history_order_history" = "Order History";
+"vc_trade_history_page_back" = "Back";
+"vc_trade_history_spot" = "Spot";
+"vc_trade_history_buy" = "Buy";
+"vc_trade_history_sell" = "Sell";
+"vc_trade_history_exchange" = "Exchange";
+"vc_trade_history_price" = "Price";
+"vc_trade_history_amount" = "Amount";
+
+"vc_trade_history_fitler_crypto_currency" = "Cryptocurrencies";
+
+// SettingViewController
+"vc_setting_sign_out" = "Log out";
+"vc_setting_connect" = "Connect %@";
+"vc_setting_connected" = "Connected";
+"vc_setting_disconnected" = "Disconnected";
+"vc_setting_faq" = "FAQ";
+"vc_setting_submit" = "Submit";
+
+// Portfoilo type
+"portfolio_type_futures" = "Asset (futures)";
+"portfolio_type_spot" = "Spot";
+"portfolio_type_positions" = "Position (futures)";
+"portfolio_type_margin" = "Margin";
+"portfolio_type_earn" = "Earn";
+
+// Asset type
+"asset_type_futures" = "Asset (futures)";
+"asset_type_spot" = "Spot";
+"asset_type_positions" = "Position (futures)";
+"asset_type_margin" = "Margin";
+"asset_type_earn" = "Earn";
+
+// Exchanges
+"exchange_type_binance" = "Binance";
+"exchange_type_ftx" = "FTX";
+
+// PNL type
+"pnl_type_all" = "全部";

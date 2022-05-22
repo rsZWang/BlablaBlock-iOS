@@ -1,0 +1,110 @@
+/* 
+  Localizable.strings
+  BlablaBlock
+
+  Created by Harry on 2022/5/22.
+  
+*/
+
+// SignInViewController
+"vc_sign_in_sign_in" = "登入";
+"vc_sign_in_register" = "註冊";
+"vc_sign_in_email" = "信箱";
+"vc_sign_in_password" = "密碼";
+"vc_sign_in_user_name" = "使用者名稱";
+"vc_sign_in_password_confirm" = "密碼確認";
+"vc_sign_in_next_step" = "下一步";
+
+// HomeViewController
+"vc_home_follow" = "追蹤";
+"vc_home_following" = "追蹤中";
+"vc_home_buy" = "買入";
+"vc_home_sell" = "賣出";
+"vc_home_exchange" = "交易所";
+"vc_home_price" = "價格";
+"vc_home_amount" = "數量";
+
+"vc_home_filter_currency_all" = "所有幣別";
+
+// ExploreViewController
+"vc_explore_explore" = "探索";
+"vc_explore_search" = "🔍  搜尋";
+"vc_explore_follow" = "追蹤";
+"vc_explore_following" = "追蹤中";
+"vc_explore_total_profit" = "總報酬率";
+"vc_explore_annual_profit" = "年化報酬率";
+"vc_explore_drawndown" = "最大回撤";
+"vc_explore_daily_win_rate" = "每日勝率";
+"vc_explore_sharpe_ratio" = "夏普值";
+
+"vc_explore_filter_sort_random" = "隨機";
+"vc_explore_filter_sort_total_asset" = "總資產";
+"vc_explore_filter_sort_roa" = "總報酬";
+"vc_explore_filter_sort_win_rate" = "勝率";
+"vc_explore_filter_sort_sharpe_ratio" = "夏普值";
+
+// PortfolioViewController
+"vc_portfolio_total_asset" = "總資產";
+"vc_portfolio_follower" = "粉絲";
+"vc_portfolio_following" = "追蹤中";
+"vc_portfolio_positions" = "投資組合";
+"vc_portfolio_follow" = "追蹤";
+"vc_portfolio_following" = "追蹤中";
+"vc_portfolio_pnl" = "交易績效";
+"vc_portfolio_following_portfolio" = "追蹤中組合";
+"vc_portfolio_crypto_currency" = "代幣";
+"vc_portfolio_value" = "曝險";
+"vc_portfolio_day_change" = "24H 漲跌";
+"vc_portfolio_filter_all_exchange" = "所有交易所";
+
+"vc_portfolio_pnl_total_profit" = "總報酬率";
+"vc_portfolio_pnl_annual_profit" = "年化報酬率";
+"vc_portfolio_pnl_drawndown" = "最大回撤";
+"vc_portfolio_pnl_daily_win_rate" = "每日勝率";
+"vc_portfolio_pnl_sharpe_ratio" = "夏普值";
+
+// FollowViewController
+"vc_follow_follower" = "粉絲";
+"vc_follow_following" = "追蹤中";
+"vc_follow_follow" = "追蹤";
+
+// TradeHistoryViewController
+"vc_trade_history_order_history" = "交易歷史";
+"vc_trade_history_page_back" = "上一頁";
+"vc_trade_history_spot" = "現貨";
+"vc_trade_history_buy" = "買入";
+"vc_trade_history_sell" = "賣出";
+"vc_trade_history_exchange" = "交易所";
+"vc_trade_history_price" = "價格";
+"vc_trade_history_amount" = "成交數量";
+
+"vc_trade_history_fitler_crypto_currency" = "所有幣別";
+
+// SettingViewController
+"vc_setting_sign_out" = "登出";
+"vc_setting_connect" = "連結 %@";
+"vc_setting_connected" = "已連結";
+"vc_setting_disconnected" = "未連結";
+"vc_setting_faq" = "常見問題";
+"vc_setting_submit" = "提交";
+
+// Portfoilo type
+"portfolio_type_futures" = "合約裡的現貨";
+"portfolio_type_spot" = "現貨";
+"portfolio_type_positions" = "合約的持倉";
+"portfolio_type_margin" = "現貨槓桿";
+"portfolio_type_earn" = "理財";
+
+// Asset type
+"asset_type_futures" = "合約裡的現貨";
+"asset_type_spot" = "現貨";
+"asset_type_positions" = "合約的持倉";
+"asset_type_margin" = "現貨槓桿";
+"asset_type_earn" = "理財";
+
+// Exchanges
+"exchange_type_binance" = "幣安";
+"exchange_type_ftx" = "FTX";
+
+// PNL type
+"pnl_type_all" = "全部";

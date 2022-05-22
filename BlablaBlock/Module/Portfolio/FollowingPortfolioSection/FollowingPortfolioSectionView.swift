@@ -48,15 +48,15 @@ public final class FollowingPortfolioSectionView: UIView {
         typePicker.isHidden = true
         
         setupLabel(currencyTitleLabel)
-        currencyTitleLabel.text = "代幣"
+        currencyTitleLabel.text = "vc_portfolio_crypto_currency".localized()
         currencyTitleLabel.textAlignment = .left
         
         setupLabel(balanceTitleLabel)
-        balanceTitleLabel.text = "曝險"
+        balanceTitleLabel.text = "vc_portfolio_value".localized()
         balanceTitleLabel.textAlignment = .right
         
         setupLabel(dayChangeTitleLabel)
-        dayChangeTitleLabel.text = "24h漲跌"
+        dayChangeTitleLabel.text = "vc_portfolio_day_change".localized()
         dayChangeTitleLabel.textAlignment = .right
         
         adjustWeightButton.setTitle("調整權重", for: .normal)

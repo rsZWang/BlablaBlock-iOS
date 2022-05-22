@@ -41,8 +41,20 @@ public enum ExchangeType: String, Equatable {
     case binance = "binance"
     case ftx = "ftx"
     
-    static let titleList = ["所有交易所", "Binance", "FTX"]
+    static let titleList = [
+        "vc_portfolio_filter_all_exchange".localized(),
+        "exchange_type_binance".localized(),
+        "exchange_type_ftx".localized()
+    ]
     static let typeList = ["all", "binance", "ftx"]
+    
+    var title: String {
+        if let typeIndex = Self.typeList.firstIndex(where: { $0 == self.rawValue }) {
+            return Self.titleList[typeIndex]
+        } else {
+            return "Unknows"
+        }
+    }
     
     init?(title: String) {
         if let typeIndex = Self.titleList.firstIndex(where: { $0 == title }) {

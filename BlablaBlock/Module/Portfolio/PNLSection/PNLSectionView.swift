@@ -51,23 +51,23 @@ final class PNLSectionView: UIView {
         
         separatorView.backgroundColor = .black2D2D2D
         
-        roiTitleLabel.text = "總報酬率"
+        roiTitleLabel.text = "vc_portfolio_pnl_total_profit".localized()
         setupLabel(roiTitleLabel)
         setupLabel(roiLabel)
         
-        roiAnnualTitleLabel.text = "年化報酬率"
+        roiAnnualTitleLabel.text = "vc_portfolio_pnl_annual_profit".localized()
         setupLabel(roiAnnualTitleLabel)
         setupLabel(roiAnnualLabel)
         
-        mddTitleLabel.text = "最大回撤"
+        mddTitleLabel.text = "vc_portfolio_pnl_drawndown".localized()
         setupLabel(mddTitleLabel)
         setupLabel(mddLabel)
         
-        dailyWinRateTitleLabel.text = "每日勝率"
+        dailyWinRateTitleLabel.text = "vc_portfolio_pnl_daily_win_rate".localized()
         setupLabel(dailyWinRateTitleLabel)
         setupLabel(dailyWinRateLabel)
         
-        sharpeRatioTitleLabel.text = "Sharp ratio"
+        sharpeRatioTitleLabel.text = "vc_portfolio_pnl_sharpe_ratio".localized()
         setupLabel(sharpeRatioTitleLabel)
         setupLabel(sharpeRatioLabel)
     }

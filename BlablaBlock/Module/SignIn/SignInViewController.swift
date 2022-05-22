@@ -86,25 +86,25 @@ final public class SignInViewController: BaseViewController {
         textFieldStackView.spacing = 24
         
         userNameInputView.isHidden = true
-        userNameTextField.placeholder = "使用者名稱"
+        userNameTextField.placeholder = "vc_sign_in_user_name".localized()
         userNameTextField.delegate = self
         userNameTextField.tag = 0
         userNameTextField.returnKeyType = .next
         
-        emailTextField.placeholder = "信箱"
+        emailTextField.placeholder = "vc_sign_in_email".localized()
         emailTextField.delegate = self
         emailTextField.tag = 1
         emailTextField.keyboardType = .emailAddress
         emailTextField.returnKeyType = .next
         
-        passwordTextField.placeholder = "密碼"
+        passwordTextField.placeholder = "vc_sign_in_password".localized()
         passwordTextField.delegate = self
         passwordTextField.tag = 2
         passwordTextField.isSecureTextEntry = true
         passwordTextField.returnKeyType = .done
         
         passwordConfirmInputView.isHidden = true
-        passwordConfirmTextField.placeholder = "密碼確認"
+        passwordConfirmTextField.placeholder = "vc_sign_in_password_confirm".localized()
         passwordConfirmTextField.delegate = self
         passwordConfirmTextField.tag = 3
         passwordConfirmTextField.isSecureTextEntry = true
@@ -113,8 +113,7 @@ final public class SignInViewController: BaseViewController {
         forgetPasswordBtn.setTitle("忘記密碼", for: .normal)
         forgetPasswordBtn.titleLabel?.font = .systemFont(ofSize: 12)
         
-        nextButton.setTitle("下一步", for: .normal)
-        nextButton.setTitle("下一步", for: .selected)
+        nextButton.setTitle("vc_sign_in_next_step".localized(), for: .normal)
         nextButton.font = .boldSystemFont(ofSize: 16)
         
         privacyTitleLabel.text = "服務條款"

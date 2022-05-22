@@ -107,6 +107,18 @@ public extension String {
 //        }
 //    }
     
+    var _localized: String {
+        NSLocalizedString(self, comment: "")
+    }
+    
+    func localized() -> String {
+        _localized
+    }
+    
+    func localized(arguments: CVarArg...) -> String {
+        String(format: _localized, arguments: arguments)
+    }
+    
     func repeated(count: Int) -> String {
         if count <= 0 {
             return self

@@ -85,7 +85,7 @@ final class TradeHistoryViewModel:
                         return []
                     } else {
                         let currency = currencyList.value[index]
-                        if currency == "所有幣別" {
+                        if currency == TradeHistoryViewController.filterAll {
                             return history.sorted(by: { $0.timestamp > $1.timestamp })
                         } else {
                             return history.filter({ $0.baseCurrency == currency }).sorted(by: { $0.timestamp > $1.timestamp })
@@ -107,7 +107,7 @@ final class TradeHistoryViewModel:
                         .map { $0.baseCurrency }
                         .unique()
                         .sorted(by: { $0 < $1 })
-                    currencies.insert("所有幣別", at: 0)
+                    currencies.insert(TradeHistoryViewController.filterAll, at: 0)
                     currencyList.accept(currencies)
                     self?.historyCache.accept(historyApiResponse.data)
                 case let .failure(responseFailure):

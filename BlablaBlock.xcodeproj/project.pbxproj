@@ -81,6 +81,8 @@
 		4AC2F35227E6E60700E187FE /* CurrencyIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AC2F35127E6E60700E187FE /* CurrencyIcon.xcassets */; };
 		4AD27E38281A453500DDC1E1 /* SignInModeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD27E37281A453500DDC1E1 /* SignInModeButtonView.swift */; };
 		4AD27E3C281A86F600DDC1E1 /* BlablaBlockOrangeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD27E3B281A86F600DDC1E1 /* BlablaBlockOrangeButtonView.swift */; };
+		4AEC37C3283A08D900EF154D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4AEC37C5283A08D900EF154D /* Localizable.strings */; };
+		4AEC37C8283A804200EF154D /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEC37C7283A804200EF154D /* PaddingLabel.swift */; };
 		4AF1CC5F27E836AD0035A4F7 /* FollowingPortfolio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF1CC5E27E836AD0035A4F7 /* FollowingPortfolio.swift */; };
 		4AFC6577276E7E3900ADEDA7 /* InputAlertBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFC6576276E7E3900ADEDA7 /* InputAlertBuilder.swift */; };
 		7C21BD24E9DFC3B795B0358B /* Pods_BlablaBlock_BlablaBlockUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD43244C5F0653EAD9217690 /* Pods_BlablaBlock_BlablaBlockUITests.framework */; };
@@ -216,6 +218,10 @@
 		4AC2F35127E6E60700E187FE /* CurrencyIcon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CurrencyIcon.xcassets; sourceTree = "<group>"; };
 		4AD27E37281A453500DDC1E1 /* SignInModeButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInModeButtonView.swift; sourceTree = "<group>"; };
 		4AD27E3B281A86F600DDC1E1 /* BlablaBlockOrangeButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlablaBlockOrangeButtonView.swift; sourceTree = "<group>"; };
+		4AEC37BA283A087100EF154D /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		4AEC37C4283A08D900EF154D /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		4AEC37C6283A715500EF154D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		4AEC37C7283A804200EF154D /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		4AF1CC5E27E836AD0035A4F7 /* FollowingPortfolio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingPortfolio.swift; sourceTree = "<group>"; };
 		4AFC6576276E7E3900ADEDA7 /* InputAlertBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputAlertBuilder.swift; sourceTree = "<group>"; };
 		8A4F9FA2216368FC2234CB9B /* Pods_BlablaBlockTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlablaBlockTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -478,8 +484,8 @@
 			children = (
 				4A7B8AA3276FBEB200756E05 /* SettingViewModel.swift */,
 				A09D70E627251C3500ACE44A /* SettingViewController.swift */,
-				4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */,
 				A09D70E2272518F700ACE44A /* ExchangeCardView.swift */,
+				4A5FE1F727365E0F004AD836 /* LinkExchangeViewController.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -600,6 +606,7 @@
 				4A7AFE2127393ED4005E0A72 /* GoogleService-Info.plist */,
 				4A7CEE73281F9DB8004E82C2 /* GoogleService-Info-debug.plist */,
 				4A99C508281BB34F00E22FB0 /* privacy_agreement.txt */,
+				4AEC37C5283A08D900EF154D /* Localizable.strings */,
 				A0C8E589271FF1B200848FCB /* Application */,
 				A0C8E58C271FFCA200848FCB /* Utility */,
 				A0C1FB6B27647CB000C4201A /* Network */,
@@ -668,6 +675,7 @@
 				A0290E252722F6D900A07224 /* RadioButton */,
 				A0C8E590272006C300848FCB /* NormalInputView */,
 				4A543A472779CF1700662B12 /* PickerView.swift */,
+				4AEC37C7283A804200EF154D /* PaddingLabel.swift */,
 				4A581C9727CBCFB200276BA9 /* PaddingTextField.swift */,
 				4AB411252816F34800D04248 /* BlablaBlockNavigationBarView.swift */,
 				4A361A2428111A3A001B772F /* BlablaBlockPickerView.swift */,
@@ -800,6 +808,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hant",
 			);
 			mainGroup = A0C8E54C271FF18900848FCB;
 			productRefGroup = A0C8E556271FF18900848FCB /* Products */;
@@ -820,6 +829,7 @@
 			files = (
 				4A99C509281BB34F00E22FB0 /* privacy_agreement.txt in Resources */,
 				4AC2F35227E6E60700E187FE /* CurrencyIcon.xcassets in Resources */,
+				4AEC37C3283A08D900EF154D /* Localizable.strings in Resources */,
 				A0290E242722F55B00A07224 /* Colors.xcassets in Resources */,
 				4ABDADA527F4BACC00BC94B6 /* NewUI.xcassets in Resources */,
 				4A7CEE74281F9DB8004E82C2 /* GoogleService-Info-debug.plist in Resources */,
@@ -984,6 +994,7 @@
 				A0C8E5982720125800848FCB /* ColorTextButton.swift in Sources */,
 				4A6C9F0F27CD09F3003B42F8 /* HomePageViewController.swift in Sources */,
 				4A6C9F1A27CD2A3E003B42F8 /* Notification.swift in Sources */,
+				4AEC37C8283A804200EF154D /* PaddingLabel.swift in Sources */,
 				4A7744BF276F97520087A447 /* PNL.swift in Sources */,
 				A01B78E2277711880061E86A /* Login.swift in Sources */,
 				4A670ECC281032F20052F345 /* ExploreUserFilter.swift in Sources */,
@@ -1104,10 +1115,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		4AEC37C5283A08D900EF154D /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4AEC37C4283A08D900EF154D /* zh-Hant */,
+				4AEC37C6283A715500EF154D /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		A0C8E563271FF19000848FCB /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				A0C8E564271FF19000848FCB /* Base */,
+				4AEC37BA283A087100EF154D /* zh-Hant */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -1119,6 +1140,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1180,6 +1202,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

@@ -42,15 +42,15 @@ final class TradeHistoryTableViewCell: UITableViewCell {
         
         actionLabel.font = .systemFont(ofSize: 12, weight: .semibold)
         
-        exchangeTtitleLabel.text = "交易所"
+        exchangeTtitleLabel.text = "vc_trade_history_exchange".localized()
         setupTitleLabel(exchangeTtitleLabel)
         setupValueLabel(exchangeLabel)
         
-        priceTitleLabel.text = "價格"
+        priceTitleLabel.text = "vc_trade_history_price".localized()
         setupTitleLabel(priceTitleLabel)
         setupValueLabel(priceLabel)
         
-        amountTitleLabel.text = "成交數量"
+        amountTitleLabel.text = "vc_trade_history_amount".localized()
         setupTitleLabel(amountTitleLabel)
         setupValueLabel(amountLabel)
     }
@@ -178,16 +178,16 @@ extension TradeHistoryTableViewCell {
         currencyType.text = AssetType.map(type: history.type)
         timestampLabel.text = history.timestamp.format()
         if history.side.caseInsensitiveCompare("buy") == .orderedSame {
-            actionLabel.text = "買入"
+            actionLabel.text = "vc_trade_history_buy".localized()
             actionLabel.textColor = .systemGreen
         } else {
-            actionLabel.text = "賣出"
+            actionLabel.text = "vc_trade_history_sell".localized()
             actionLabel.textColor = .red
         }
         exchangeLabel.text = history.exchange.uppercased()
-        priceTitleLabel.text = "價格"
+        priceTitleLabel.text = "vc_trade_history_price".localized()
         priceLabel.text = history.price?.toPrettyPrecisedString()
-        amountTitleLabel.text = "成交數量"
+        amountTitleLabel.text = "vc_trade_history_amount".localized()
         amountLabel.text = history.executedQty.toPrettyPrecisedString()
     }
 }

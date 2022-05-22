@@ -179,9 +179,25 @@ public enum PortfolioType: String, Equatable {
     case futures = "futures"        // 合約裡的現貨
     case positions = "positions"    // 合約的持倉
     case management = "management"  // 理財
+//    case lending = "lending"        // 借貸
+//    case liquidity = "liquidity"    // 流動性資產
     
-    static let titleList = ["所有類別", "現貨", "現貨槓桿", "合約裡的現貨", "合約的持倉", "理財"]
-    static let typeList = ["all", "spot", "margin", "futures", "positions", "management"]
+    static let titleList = [
+        "所有類別",
+        "portfolio_type_spot".localized(),
+        "portfolio_type_margin".localized(),
+        "portfolio_type_futures".localized(),
+        "portfolio_type_positions".localized(),
+        "portfolio_type_earn".localized()
+    ]
+    static let typeList = [
+        "all",
+        "spot",
+        "margin",
+        "futures",
+        "positions",
+        "management"
+    ]
     
     init?(title: String) {
         if let typeIndex = Self.titleList.firstIndex(where: { $0 == title }) {
@@ -198,7 +214,7 @@ public enum PortfolioType: String, Equatable {
     static func map(type: String) -> String {
         switch type {
         case "lending", "liquidity":
-            return "理財"
+            return "portfolio_type_earn".localized()
         default:
             if let index = typeList.firstIndex(where: { $0 == type }) {
                 return titleList[index]
@@ -214,13 +230,28 @@ public enum AssetType: String, Equatable {
     case all = "all"
     case spot = "spot"              // 現貨
     case margin = "margin"          // 現貨槓桿
-    case lending = "lending"        // 借貸
     case futures = "futures"        // 合約裡的現貨
     case positions = "positions"    // 合約的持倉
-    case liquidity = "liquidity"    // 流動性資產
+    case management = "management"  // 理財
+//    case lending = "lending"        // 借貸
+//    case liquidity = "liquidity"    // 流動性資產
     
-    static let titleList = ["所有類別", "現貨", "現貨槓桿", "借貸", "合約裡的現貨", "合約的持倉", "流動性資產"]
-    static let typeList = ["all", "spot", "margin", "lending", "futures", "positions", "liquidity"]
+    static let titleList = [
+        "所有類別",
+        "asset_type_spot".localized(),
+        "asset_type_margin".localized(),
+        "asset_type_futures".localized(),
+        "asset_type_positions".localized(),
+        "asset_type_earn".localized()
+    ]
+    static let typeList = [
+        "all",
+        "spot",
+        "margin",
+        "futures",
+        "positions",
+        "management"
+    ]
     
     init?(title: String) {
         if let typeIndex = Self.titleList.firstIndex(where: { $0 == title }) {
@@ -231,10 +262,15 @@ public enum AssetType: String, Equatable {
     }
     
     static func map(type: String) -> String {
-        if let index = typeList.firstIndex(where: { $0 == type }) {
-            return titleList[index]
-        } else {
-            return type
+        switch type {
+        case "lending", "liquidity":
+            return "asset_type_earn".localized()
+        default:
+            if let index = typeList.firstIndex(where: { $0 == type }) {
+                return titleList[index]
+            } else {
+                return type
+            }
         }
     }
 }

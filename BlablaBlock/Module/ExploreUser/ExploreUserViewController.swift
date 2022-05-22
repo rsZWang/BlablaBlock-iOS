@@ -43,12 +43,12 @@ final class ExploreUserViewController: BaseViewController {
         view.backgroundColor = .grayE5E5E5
         
         searchTitleLabel.font = .boldSystemFont(ofSize: 24)
-        searchTitleLabel.text = "探索"
+        searchTitleLabel.text = "vc_explore_explore".localized()
         searchTitleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         
         searchTextField.layer.cornerRadius = 4
         searchTextField.font = .systemFont(ofSize: 14)
-        searchTextField.placeholder = "🔍  搜尋"
+        searchTextField.placeholder = "vc_explore_search".localized()
         searchTextField.backgroundColor = .white
         
         pickerView.delegate = self

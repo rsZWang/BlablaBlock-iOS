@@ -52,10 +52,10 @@ final public class LinkExchangeViewController: BaseViewController {
         switch exchangeType! {
         case .binance:
             exchangeIcon = "ic_setting_binance"
-            exchangeName = "連結幣安"
+            exchangeName = "vc_setting_connect".localized(arguments: "幣安")
         case .ftx:
             exchangeIcon = "ic_setting_ftx"
-            exchangeName = "連結FTX"
+            exchangeName = "vc_setting_connect".localized(arguments: "FTX")
         default:
             exchangeIcon = ""
             exchangeName = "UNKNOWN"

@@ -10,6 +10,8 @@ import RxDataSources
 
 final public class HomePageViewController: BaseViewController {
     
+    static let filterAll = "vc_home_filter_currency_all".localized()
+    
     private let viewModel: HomePageViewModelType
     
     init(viewModel: HomePageViewModelType) {

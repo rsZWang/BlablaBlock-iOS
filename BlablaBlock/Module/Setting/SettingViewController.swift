@@ -65,7 +65,7 @@ final class SettingViewController: BaseViewController {
 //            editButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 4)
 //        }
 //        editButton.setTitle("編輯資訊", for: .normal)
-        editButton.setTitle("登出", for: .normal)
+        editButton.setTitle("vc_setting_sign_out".localized(), for: .normal)
         
         exchangeSectionView.backgroundColor = .white
         
@@ -79,7 +79,7 @@ final class SettingViewController: BaseViewController {
         
         questionImageView.image = "ic_setting_question_mark".image()
         
-        questionLabel.text = "常見問題"
+        questionLabel.text = "vc_setting_faq".localized()
         questionLabel.font = .boldSystemFont(ofSize: 18)
         questionLabel.textColor = .black2D2D2D
         

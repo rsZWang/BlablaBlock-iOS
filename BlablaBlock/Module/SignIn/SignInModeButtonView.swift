@@ -71,9 +71,9 @@ final public class SignInModeButtonView: UIView {
     
     private func setupMode() {
         if mode == .signIn {
-            titleLabel.text = "登入"
+            titleLabel.text = "vc_sign_in_sign_in".localized()
         } else {
-            titleLabel.text = "註冊"
+            titleLabel.text = "vc_sign_in_register".localized()
         }
     }
     

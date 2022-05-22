@@ -131,9 +131,9 @@ extension FollowTabViewController: PageboyViewControllerDataSource, TMBarDataSou
 
     func barItem(for bar: TMBar, at index: Int) -> TMBarItemable {
         if index == 0 {
-            return TMBarItem(title: "粉絲")
+            return TMBarItem(title: "vc_follow_follower".localized())
         } else {
-            return TMBarItem(title: "追蹤中")
+            return TMBarItem(title: "vc_follow_following".localized())
         }
     }
 }

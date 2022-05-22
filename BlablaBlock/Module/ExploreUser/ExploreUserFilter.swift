@@ -15,8 +15,22 @@ public enum ExploreUserFilter: String {
     case winRate = "winRate"
     case sharp = "sharp"
     
-    static let titleList = ["隨機", "總資產", "總報酬", "勝率", "夏普值"]
+    static let titleList = [
+        "vc_explore_filter_sort_random".localized(),
+        "vc_explore_filter_sort_total_asset".localized(),
+        "vc_explore_filter_sort_roa".localized(),
+        "vc_explore_filter_sort_win_rate".localized(),
+        "vc_explore_filter_sort_sharpe_ratio".localized()
+    ]
     static let typeList = ["random", "asset", "profit", "winRate", "sharp"]
+    
+    var title: String {
+        if let typeIndex = Self.typeList.firstIndex(where: { $0 == self.rawValue }) {
+            return Self.titleList[typeIndex]
+        } else {
+            return "Unknows"
+        }
+    }
     
     init?(index: Int) {
         self.init(rawValue: Self.typeList[index])
