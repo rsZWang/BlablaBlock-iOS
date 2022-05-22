@@ -182,14 +182,16 @@ public enum PortfolioType: String, Equatable {
 //    case lending = "lending"        // 借貸
 //    case liquidity = "liquidity"    // 流動性資產
     
-    static let titleList = [
-        "所有類別",
-        "portfolio_type_spot".localized(),
-        "portfolio_type_margin".localized(),
-        "portfolio_type_futures".localized(),
-        "portfolio_type_positions".localized(),
-        "portfolio_type_earn".localized()
-    ]
+    static var titleList: [String] {
+        [
+            "所有類別",
+            "portfolio_type_spot".localized(),
+            "portfolio_type_margin".localized(),
+            "portfolio_type_futures".localized(),
+            "portfolio_type_positions".localized(),
+            "portfolio_type_earn".localized()
+        ]
+    }
     static let typeList = [
         "all",
         "spot",
@@ -236,14 +238,16 @@ public enum AssetType: String, Equatable {
 //    case lending = "lending"        // 借貸
 //    case liquidity = "liquidity"    // 流動性資產
     
-    static let titleList = [
-        "所有類別",
-        "asset_type_spot".localized(),
-        "asset_type_margin".localized(),
-        "asset_type_futures".localized(),
-        "asset_type_positions".localized(),
-        "asset_type_earn".localized()
-    ]
+    static var titleList: [String] {
+        [
+            "所有類別",
+            "asset_type_spot".localized(),
+            "asset_type_margin".localized(),
+            "asset_type_futures".localized(),
+            "asset_type_positions".localized(),
+            "asset_type_earn".localized()
+        ]
+    }
     static let typeList = [
         "all",
         "spot",

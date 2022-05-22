@@ -83,6 +83,7 @@
 		4AD27E3C281A86F600DDC1E1 /* BlablaBlockOrangeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD27E3B281A86F600DDC1E1 /* BlablaBlockOrangeButtonView.swift */; };
 		4AEC37C3283A08D900EF154D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4AEC37C5283A08D900EF154D /* Localizable.strings */; };
 		4AEC37C8283A804200EF154D /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEC37C7283A804200EF154D /* PaddingLabel.swift */; };
+		4AEC37CA283A8E1900EF154D /* BundleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEC37C9283A8E1900EF154D /* BundleExtension.swift */; };
 		4AF1CC5F27E836AD0035A4F7 /* FollowingPortfolio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF1CC5E27E836AD0035A4F7 /* FollowingPortfolio.swift */; };
 		4AFC6577276E7E3900ADEDA7 /* InputAlertBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFC6576276E7E3900ADEDA7 /* InputAlertBuilder.swift */; };
 		7C21BD24E9DFC3B795B0358B /* Pods_BlablaBlock_BlablaBlockUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD43244C5F0653EAD9217690 /* Pods_BlablaBlock_BlablaBlockUITests.framework */; };
@@ -222,6 +223,7 @@
 		4AEC37C4283A08D900EF154D /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		4AEC37C6283A715500EF154D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4AEC37C7283A804200EF154D /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
+		4AEC37C9283A8E1900EF154D /* BundleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleExtension.swift; sourceTree = "<group>"; };
 		4AF1CC5E27E836AD0035A4F7 /* FollowingPortfolio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingPortfolio.swift; sourceTree = "<group>"; };
 		4AFC6576276E7E3900ADEDA7 /* InputAlertBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputAlertBuilder.swift; sourceTree = "<group>"; };
 		8A4F9FA2216368FC2234CB9B /* Pods_BlablaBlockTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlablaBlockTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -370,6 +372,7 @@
 				4A252CCD273F9737005E4C93 /* View.swift */,
 				4A252CCF273F9751005E4C93 /* ViewController.swift */,
 				A0DAD5BB2778627000CD8760 /* Storyboarded.swift */,
+				4AEC37C9283A8E1900EF154D /* BundleExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1000,6 +1003,7 @@
 				4A670ECC281032F20052F345 /* ExploreUserFilter.swift in Sources */,
 				4A7A190A27D331D400AF24A8 /* ExploreUserViewModel.swift in Sources */,
 				4A51C38927F9835000E78EE4 /* ExploreUserViewController.swift in Sources */,
+				4AEC37CA283A8E1900EF154D /* BundleExtension.swift in Sources */,
 				A0290E2F272319DE00A07224 /* PortfolioViewController.swift in Sources */,
 				4A6C9F1827CD28D8003B42F8 /* Follow.swift in Sources */,
 				4AFC6577276E7E3900ADEDA7 /* InputAlertBuilder.swift in Sources */,

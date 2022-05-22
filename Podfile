@@ -10,7 +10,7 @@ target 'BlablaBlock' do
   # pod 'Resolver'
   pod 'KeychainAccess'
   pod 'Defaults'
-  pod 'Mixpanel-swift'  
+  pod 'Mixpanel-swift'
   pod 'Firebase/Analytics'
   pod 'Firebase/Crashlytics'
   pod 'Firebase/Messaging'

@@ -47,28 +47,6 @@ public extension Array {
     }
 }
 
-public extension Bundle {
-    var appName: String {
-        infoDictionary?["CFBundleName"] as! String
-    }
-
-    var bundleId: String {
-        bundleIdentifier!
-    }
-
-    var versionNumber: String {
-        infoDictionary!["CFBundleShortVersionString"] as! String
-    }
-
-    var buildNumber: String {
-        infoDictionary!["CFBundleVersion"] as! String
-    }
-    
-    var versionString: String {
-        "v \(versionNumber)"
-    }
-}
-
 public extension UIWindow {
     /// Returns the currently visible view controller if any reachable within the window.
     var visibleViewController: UIViewController? {

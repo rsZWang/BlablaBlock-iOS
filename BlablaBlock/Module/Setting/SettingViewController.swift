@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import RxSwift
+import RxGesture
 
 final class SettingViewController: BaseViewController {
     
@@ -190,7 +191,7 @@ final class SettingViewController: BaseViewController {
             make.height.equalTo(36)
             make.centerX.equalToSuperview()
             make.top.equalTo(questionSectionView.snp.bottom).offset(36)
-            make.bottom.equalToSuperview().offset(36)
+            make.bottom.equalToSuperview().offset(-36)
         }
     }
     
@@ -201,6 +202,22 @@ final class SettingViewController: BaseViewController {
             .subscribe(onNext: { [weak self] _ in
                 self?.editButton.isEnabled = false
                 self?.viewModel.inputs.onSignOut.accept(())
+            })
+            .disposed(by: disposeBag)
+        
+        questionSectionView.rx
+            .tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { _ in
+                Timber.i("questionSectionView")
+            })
+            .disposed(by: disposeBag)
+        
+        logoImageView.rx
+            .longPressGesture()
+            .when(.began)
+            .subscribe(onNext: { [weak self] _ in
+                self?.changeLanguage()
             })
             .disposed(by: disposeBag)
         
@@ -226,6 +243,21 @@ final class SettingViewController: BaseViewController {
                 self?.promptAlert(message: msg)
             })
             .disposed(by: disposeBag)
+    }
+    
+    func changeLanguage() {
+        let current = UserDefaults.standard.string(forKey: "current_language") ?? "en"
+        let new = current == "en" ? "zh-Hant" : "en"
+        
+        Timber.i("Set language: \(new)")
+
+        UserDefaults.standard.set([new], forKey: "AppleLanguages")
+        UserDefaults.standard.synchronize()
+        
+        // Update the language by swaping bundle
+        Bundle.setLanguage(new)
+        UserDefaults.standard.set(new, forKey: "current_language")
+        parentCoordinator?.changeLanguage()
     }
     
     private let statusBarSection = UIView()

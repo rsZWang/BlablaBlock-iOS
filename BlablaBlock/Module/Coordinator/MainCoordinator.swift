@@ -112,6 +112,20 @@ final public class MainCoordinator: Coordinator {
         navigationController.pushViewController(vc, animated: true)
     }
     
+    public func changeLanguage() {
+        navigationController.popViewController(animated: false)
+        let vc = MainTabBarController(
+            parentCoordinator: self
+//            parentCoordinator: self,
+//            homePageViewModel: HomePageViewModel(),
+//            exploreUserViewModel: ExploreUserViewModel(),
+//            portfolioViewModel: PortfolioViewModel(),
+//            followViewModel: FollowViewModel(),
+//            exchangeViewModel: ExchangeApiViewModel()
+        )
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
     public func loguot() {
         navigationController.popToViewController(signInViewController, animated: true)
     }

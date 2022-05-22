@@ -138,12 +138,14 @@ public enum PNLPeriod: String {
     case _1m = "1m"
     case ytd = "ytd"
     
-    static let titleList = [
-        "pnl_type_all".localized(),
-        "1Y",
-        "1M",
-        "YTD"
-    ]
+    static var titleList: [String] {
+        [
+            "pnl_type_all".localized(),
+            "1Y",
+            "1M",
+            "YTD"
+        ]
+    }
     static let periodList = ["all", "1y", "1m", "ytd"]
     
     init?(title: String) {

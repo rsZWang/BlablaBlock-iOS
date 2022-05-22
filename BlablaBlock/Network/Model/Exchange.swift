@@ -41,11 +41,13 @@ public enum ExchangeType: String, Equatable {
     case binance = "binance"
     case ftx = "ftx"
     
-    static let titleList = [
-        "vc_portfolio_filter_all_exchange".localized(),
-        "exchange_type_binance".localized(),
-        "exchange_type_ftx".localized()
-    ]
+    static var titleList: [String] {
+        [
+            "vc_portfolio_filter_all_exchange".localized(),
+            "exchange_type_binance".localized(),
+            "exchange_type_ftx".localized()
+        ]
+    }
     static let typeList = ["all", "binance", "ftx"]
     
     var title: String {

@@ -10,7 +10,7 @@ import SnapKit
 
 final class TradeHistoryViewController: BaseViewController {
     
-    static let filterAll = "vc_trade_history_fitler_crypto_currency".localized()
+    static var filterAll: String { "vc_trade_history_fitler_crypto_currency".localized() }
     
     private let viewModel: TradeHistoryViewModelType!
     private let userId: Int
