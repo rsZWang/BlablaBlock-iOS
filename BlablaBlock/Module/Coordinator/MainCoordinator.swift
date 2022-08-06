@@ -82,14 +82,14 @@ final public class MainCoordinator: Coordinator {
         }
     }
     
-    public func toPortfolio(user: UserApiData) {
-        let vc = PortfolioViewController(
-            parentCoordinator: self,
-            viewModel: PortfolioViewModel(),
-            followViewModel: FollowViewModel(),
-            user: user
-        )
-        navigationController.pushViewController(vc, animated: true)
+    public func toPortfolio(user: UserPerformanceApiData) {
+//        let vc = PortfolioViewController(
+//            parentCoordinator: self,
+//            viewModel: PortfolioViewModel(),
+//            followViewModel: FollowViewModel(),
+//            user: user
+//        )
+//        navigationController.pushViewController(vc, animated: true)
     }
     
     public func toFollow(

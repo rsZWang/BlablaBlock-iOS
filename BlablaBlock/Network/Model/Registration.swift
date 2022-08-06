@@ -6,13 +6,11 @@
 //
 
 public struct RegistrationApi: Decodable {
-    let code: Int
+    let status: String
     let data: RegistrationApiData
 }
 
 public struct RegistrationApiData: Decodable {
-    let apiToken: String
-    let id: Int
-    let email: String
-    let name: String
+    let token: String
+    let user: String
 }

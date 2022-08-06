@@ -9,13 +9,13 @@ import UIKit
 import SnapKit
 
 public protocol ExchangeCardViewDelegate: NSObject {
-    func onTap(type: ExchangeType, exchange: ExchangeApiData?)
+    func onTap(type: FilterExchange, exchange: ExchangeApiData?)
 }
 
 final class ExchangeCardView: UIView, NibOwnerLoadable {
     
     private weak var delegate: ExchangeCardViewDelegate?
-    var type: ExchangeType!
+    var type: FilterExchange!
     var exchange: ExchangeApiData? {
         didSet {
             setStatus()
@@ -24,7 +24,7 @@ final class ExchangeCardView: UIView, NibOwnerLoadable {
     
     convenience init(
         _ delegate: ExchangeCardViewDelegate,
-        type: ExchangeType
+        type: FilterExchange
     ) {
         self.init(frame: .zero)
         self.delegate = delegate
@@ -66,10 +66,10 @@ final class ExchangeCardView: UIView, NibOwnerLoadable {
         titleLabel.text = "vc_setting_connect".localized(arguments: type!.title)
         
         switch type {
-        case .binance:
+        case .Binance:
             imageView.image = "ic_setting_binance".image()
             
-        case .ftx:
+        case .FTX:
             imageView.image = "ic_setting_ftx".image()
             
         default:

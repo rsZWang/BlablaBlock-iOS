@@ -8,6 +8,6 @@
 import Foundation
 
 public struct ResponseFailure: Decodable {
-    let code: Int
-    let msg: String
+    let status: String
+    let message: String
 }

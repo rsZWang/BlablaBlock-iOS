@@ -26,5 +26,5 @@ public extension UIColor {
     
     static let redE82020 = #colorLiteral(red: 0.9098039216, green: 0.1254901961, blue: 0.1254901961, alpha: 1)
     static let redFFA8A8 = #colorLiteral(red: 1, green: 0.6588235294, blue: 0.6588235294, alpha: 1)
-    
+
 }

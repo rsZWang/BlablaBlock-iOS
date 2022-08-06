@@ -174,7 +174,7 @@ private extension HomePageViewModel {
                         
                     case let .failure(responseFailure):
                         refreshControl.accept(false)
-                        self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
+                        self?.errorCodeHandler(responseFailure)
                     }
                 },
                 onFailure: { [weak self] error in

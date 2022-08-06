@@ -99,21 +99,16 @@ final public class SignInViewModel:
         uiEvent: PublishRelay<SignInUiEvent>
     ) {
         AuthService.login(email: email, password: password)
-            .request()
-            .observe(on: MainScheduler.asyncInstance)
             .subscribe(
                 onSuccess: { [weak self] login in
                     switch login {
-                    case let .success(login):
-                        self?.signIn(
-                            userEmail: email,
-                            userPassword: password,
-                            userToken: login.data.apiToken,
-                            userName: login.data.name ?? login.data.email,
-                            userId: login.data.userId
+                    case let .success(authData):
+                        self?.getUser(
+                            password: password,
+                            token: authData.data.token,
+                            uiEvent: uiEvent
                         )
                         
-                        uiEvent.accept(.success)
                     case let .failure(responseFailure):
                         self?.errorCodeHandler(responseFailure)
                     }
@@ -131,24 +126,19 @@ final public class SignInViewModel:
         password: String,
         uiEvent: PublishRelay<SignInUiEvent>
     ) {
-        AuthService.register(userName: userName, email: email, password: password)
-            .request()
+        AuthService.signup(userName: userName, email: email, password: password)
             .subscribe(
                 onSuccess: { [weak self] response in
                     switch response {
-                    case let .success(registrationApi):
+                    case let .success(authData):
                         EventTracker.Builder()
                             .logEvent(.SIGN_UP)
 
-                        self?.signIn(
-                            userEmail: email,
-                            userPassword: password,
-                            userToken: registrationApi.data.apiToken,
-                            userName: registrationApi.data.name,
-                            userId: registrationApi.data.id
+                        self?.getUser(
+                            password: password,
+                            token: authData.data.token,
+                            uiEvent: uiEvent
                         )
-                        
-                        uiEvent.accept(.success)
                     case let .failure(responseFailure):
                         self?.errorCodeHandler(responseFailure)
                     }
@@ -160,18 +150,33 @@ final public class SignInViewModel:
             .disposed(by: disposeBag)
     }
     
-    private func signIn(
-        userEmail: String,
-        userPassword: String,
-        userToken: String,
-        userName: String,
-        userId: Int
+    private func getUser(
+        password: String,
+        token: String,
+        uiEvent: PublishRelay<SignInUiEvent>
     ) {
-        keychainUser[.userEmail] = userEmail
-        keychainUser[.userPassword] = userPassword
-        keychainUser[.userToken] = userToken
-        keychainUser[.userName] = userName
-        keychainUser[.userId] = String(userId)
+        keychainUser[.userPassword] = password
+        keychainUser[.userToken] = token
+        UserService.getUser()
+            .subscribe(
+                onSuccess: { [weak self] response in
+                    switch response {
+                    case let .success(userData):
+                        let user = userData.data
+                        keychainUser[.userEmail] = user.email
+                        keychainUser[.userName] =  user.userName
+                        keychainUser[.userId] = String(user.userId)
+                        
+                        uiEvent.accept(.success)
+                    case let .failure(responseFailure):
+                        self?.errorCodeHandler(responseFailure)
+                    }
+                },
+                onFailure: { [weak self] error in
+                    self?.errorHandler(error: error)
+                }
+            )
+            .disposed(by: disposeBag)
     }
     
     private func forgetPassword(

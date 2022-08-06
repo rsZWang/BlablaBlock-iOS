@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		46C7EC6352C57222C77C9ABA /* Pods_BlablaBlock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C7DDF02B8A2C7ED2BA6233A /* Pods_BlablaBlock.framework */; };
 		4A0C17DB28106D02005FAB29 /* PortfolioTabButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0C17DA28106D02005FAB29 /* PortfolioTabButton.swift */; };
+		4A203F00289E4A3700687538 /* UserPerformance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A203EFF289E4A3700687538 /* UserPerformance.swift */; };
+		4A203F02289E5DC200687538 /* PortfolioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A203F01289E5DC200687538 /* PortfolioService.swift */; };
 		4A252CCA273F9209005E4C93 /* AlertBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A252CC9273F9209005E4C93 /* AlertBuilder.swift */; };
 		4A252CCC273F96A4005E4C93 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A252CCB273F96A4005E4C93 /* Utils.swift */; };
 		4A252CCE273F9737005E4C93 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A252CCD273F9737005E4C93 /* View.swift */; };
@@ -145,6 +147,8 @@
 		1EAA7F54C51D44E108C43650 /* Pods-BlablaBlock-BlablaBlockUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlablaBlock-BlablaBlockUITests.debug.xcconfig"; path = "Target Support Files/Pods-BlablaBlock-BlablaBlockUITests/Pods-BlablaBlock-BlablaBlockUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		2383D8BB6CEC99F34E3A3B03 /* Pods-BlablaBlock.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlablaBlock.debug.xcconfig"; path = "Target Support Files/Pods-BlablaBlock/Pods-BlablaBlock.debug.xcconfig"; sourceTree = "<group>"; };
 		4A0C17DA28106D02005FAB29 /* PortfolioTabButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTabButton.swift; sourceTree = "<group>"; };
+		4A203EFF289E4A3700687538 /* UserPerformance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPerformance.swift; sourceTree = "<group>"; };
+		4A203F01289E5DC200687538 /* PortfolioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioService.swift; sourceTree = "<group>"; };
 		4A252CC9273F9209005E4C93 /* AlertBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBuilder.swift; sourceTree = "<group>"; };
 		4A252CCB273F96A4005E4C93 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		4A252CCD273F9737005E4C93 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -548,6 +552,7 @@
 				4A741C0F27CB587300594A5D /* History.swift */,
 				A0DAD5BF27787A1800CD8760 /* Exchange.swift */,
 				4A6C9F1D27CD2C94003B42F8 /* CurrencyIcon.swift */,
+				4A203EFF289E4A3700687538 /* UserPerformance.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -570,6 +575,7 @@
 				4A7744BA276F95910087A447 /* StatisticsService.swift */,
 				4A6C9F1527CD288C003B42F8 /* FollowService.swift */,
 				4A7744B8276F8E3C0087A447 /* ExchangeService.swift */,
+				4A203F01289E5DC200687538 /* PortfolioService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -987,6 +993,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A7A190227D2FB4D00AF24A8 /* FollowListTableView.swift in Sources */,
+				4A203F00289E4A3700687538 /* UserPerformance.swift in Sources */,
 				A0C8E594272008BA00848FCB /* NormalInputView.swift in Sources */,
 				4A6C9F1427CD1277003B42F8 /* HomePageTableViewCell.swift in Sources */,
 				A0DAD5C027787A1800CD8760 /* Exchange.swift in Sources */,
@@ -1081,6 +1088,7 @@
 				4A7FBFBE28156C030087DA49 /* FollowingPortfolioSectionView.swift in Sources */,
 				A0290E2927230AAF00A07224 /* RadioButton.swift in Sources */,
 				4A0C17DB28106D02005FAB29 /* PortfolioTabButton.swift in Sources */,
+				4A203F02289E5DC200687538 /* PortfolioService.swift in Sources */,
 				4A543A482779CF1700662B12 /* PickerView.swift in Sources */,
 				A09D70E727251C3500ACE44A /* SettingViewController.swift in Sources */,
 				A08D5C1C278026FD00228ECE /* HttpApiConfig.swift in Sources */,

@@ -93,17 +93,6 @@ final public class ExploreUserTableViewCell: UITableViewCell {
         mDDLabel.adjustsFontSizeToFitWidth = true
         mDDLabel.textAlignment = .right
         
-        winRateTitleLabel.text = "vc_explore_daily_win_rate".localized()
-        winRateTitleLabel.font = .systemFont(ofSize: 10)
-        winRateTitleLabel.textColor = .black2D2D2D_80
-        winRateTitleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        
-        winRateLabel.textColor = .black2D2D2D
-        winRateLabel.font = .systemFont(ofSize: 10)
-        winRateLabel.numberOfLines = 1
-        winRateLabel.adjustsFontSizeToFitWidth = true
-        winRateLabel.textAlignment = .right
-        
         sharpRatioTitleLabel.text = "vc_explore_sharpe_ratio".localized()
         sharpRatioTitleLabel.font = .systemFont(ofSize: 10)
         sharpRatioTitleLabel.textColor = .black2D2D2D_80
@@ -244,20 +233,6 @@ final public class ExploreUserTableViewCell: UITableViewCell {
             make.centerY.trailing.equalToSuperview()
             make.leading.equalTo(mDDTitleLabel.snp.trailing)
         }
-        
-        rightSectionView.addArrangedSubview(winRateView)
-        winRateView.snp.makeConstraints { make in
-            make.height.equalTo(16)
-        }
-        winRateView.addSubview(winRateTitleLabel)
-        winRateTitleLabel.snp.makeConstraints { make in
-            make.leading.top.bottom.equalToSuperview()
-        }
-        winRateView.addSubview(winRateLabel)
-        winRateLabel.snp.makeConstraints { make in
-            make.centerY.trailing.equalToSuperview()
-            make.leading.equalTo(winRateTitleLabel.snp.trailing)
-        }
     }
     
     private let bgBottomView = UIView()
@@ -280,25 +255,22 @@ final public class ExploreUserTableViewCell: UITableViewCell {
     private let mDDView = UIView()
     private let mDDTitleLabel = UILabel()
     private let mDDLabel = UILabel()
-    private let winRateView = UIView()
-    private let winRateTitleLabel = UILabel()
-    private let winRateLabel = UILabel()
     private let sharpRatioView = UIView()
     private let sharpRatioTitleLabel = UILabel()
     private let sharpRatioLabel = UILabel()
 }
 
 public extension ExploreUserTableViewCell {
-    func bind(_ user: UserApiData) {
-        userNameSectionView.text = user.name ?? " "
+    func bind(_ user: UserPerformanceApiData) {
+        userNameSectionView.text = user.userName
         userNameSectionView.setCertification(userId: user.userId)
         totalAssetLabel.text = "$\(user.totalValue.toPrettyPrecisedString()) USDT"
-        followButton.isSelected = user.isFollow
-        roiLabel.text = "\(user.roi?.toPrettyPrecisedString() ?? "")％"
-        annualRoiLabel.text = "\(user.roiAnnual?.toPrettyPrecisedString() ?? "")％"
-        mDDLabel.text = "\(user.mdd?.toPrettyPrecisedString() ?? "")％"
-        winRateLabel.text = "\(user.dailyWinRate?.toPrettyPrecisedString() ?? "")％"
-        sharpRatioLabel.text = "\(user.sharpeRatio?.toPrettyPrecisedString() ?? "")"
+        followButton.isSelected = user.isFollowing
+        roiLabel.text = "\(user.roi.toPrettyPrecisedString())％"
+        annualRoiLabel.text = "\(user.roiAnnual.toPrettyPrecisedString())％"
+        mDDLabel.text = "\(user.mdd.toPrettyPrecisedString())％"
+//        winRateLabel.text = "\(user.dailyWinRate.toPrettyPrecisedString())％"
+        sharpRatioLabel.text = user.sharpeRatio.toPrettyPrecisedString()
         
         followButton.rx
             .tapGesture()

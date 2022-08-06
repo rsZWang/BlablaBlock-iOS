@@ -19,9 +19,9 @@ public protocol ExploreUserViewModelInputs: AnyObject {
 }
 
 public protocol ExploreUserViewModelOutputs: BaseViewModelOutputs {
-    var users: Driver<[UserApiData]> { get }
+    var users: Driver<[UserPerformanceApiData]> { get }
     var isNotEmpty: Driver<Bool> { get }
-    var selectedUser: Signal<UserApiData> { get }
+    var selectedUser: Signal<UserPerformanceApiData> { get }
     var refreshControl: Signal<Bool> { get }
 }
 
@@ -48,13 +48,17 @@ final class ExploreUserViewModel:
     
     // MARK: - outputs
     
-    var users: Driver<[UserApiData]>
+    var users: Driver<[UserPerformanceApiData]>
     var isNotEmpty: Driver<Bool>
-    var selectedUser: Signal<UserApiData>
+    var selectedUser: Signal<UserPerformanceApiData>
     var refreshControl: Signal<Bool>
 
     var inputs: ExploreUserViewModelInputs { self }
     var outputs: ExploreUserViewModelOutputs { self }
+    
+    deinit {
+        Timber.i("\(type(of: self)) deinit")
+    }
     
     override init() {
         let viewDidLoad = PublishRelay<()>()
@@ -64,9 +68,9 @@ final class ExploreUserViewModel:
         let filter = BehaviorRelay<ExploreUserFilter>(value: .random)
         let followBtnTap = PublishRelay<Int>()
         
-        let users = BehaviorRelay<[UserApiData]>(value: [])
+        let users = BehaviorRelay<[UserPerformanceApiData]>(value: [])
         let isNotEmpty = BehaviorRelay<Bool>(value: true)
-        let selectedUser = PublishRelay<UserApiData>()
+        let selectedUser = PublishRelay<UserPerformanceApiData>()
         let refreshControl = PublishRelay<Bool>()
         
         self.refresh = refresh
@@ -96,7 +100,7 @@ final class ExploreUserViewModel:
             .subscribe(onNext: { [weak self] name in
                 EventTracker.Builder()
                     .logEvent(.REFRESH_EXPLORE_PAGE)
-                self?.getAllUsers(
+                self?.getUserPerformance(
                     name: name,
                     users: users,
                     isNotEmpty: isNotEmpty,
@@ -107,7 +111,7 @@ final class ExploreUserViewModel:
             .disposed(by: disposeBag)
         
         selectedIndexPath
-            .debounce(.milliseconds(500), scheduler: MainScheduler.asyncInstance)
+            .debounce(.milliseconds(300), scheduler: MainScheduler.asyncInstance)
             .map { users.value[$0.row] }
             .subscribe(onNext: { user in
                 EventTracker.Builder()
@@ -122,7 +126,7 @@ final class ExploreUserViewModel:
             .subscribe(onNext: { [weak self] name in
                 EventTracker.Builder()
                     .logEvent(.REFRESH_EXPLORE_PAGE)
-                self?.getAllUsers(
+                self?.getUserPerformance(
                     name: name,
                     users: users,
                     isNotEmpty: isNotEmpty,
@@ -149,15 +153,14 @@ final class ExploreUserViewModel:
             .disposed(by: disposeBag)
     }
     
-    private func getAllUsers(
+    private func getUserPerformance(
         name: String,
-        users: BehaviorRelay<[UserApiData]>,
+        users: BehaviorRelay<[UserPerformanceApiData]>,
         isNotEmpty: BehaviorRelay<Bool>,
         refreshControl: PublishRelay<Bool>,
         filter: BehaviorRelay<ExploreUserFilter>
     ) {
-        UserService.getUsers(name: name)
-            .request()
+        UserService.getUserPerformance(userId: Int(keychainUser[.userId]!)!, sort: .totalValue)
             .subscribe(
                 onSuccess: { [weak self] response in
                     refreshControl.accept(false)
@@ -168,7 +171,7 @@ final class ExploreUserViewModel:
                             isNotEmpty.accept(userApiResponse.data.isNotEmpty)
                         }
                     case let .failure(responseFailure):
-                        self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
+                        self?.errorCodeHandler(responseFailure)
                     }
                 },
                 onFailure: { [weak self] error in
@@ -180,8 +183,8 @@ final class ExploreUserViewModel:
     }
     
     private func doFilter(
-        data: [UserApiData],
-        users: BehaviorRelay<[UserApiData]>,
+        data: [UserPerformanceApiData],
+        users: BehaviorRelay<[UserPerformanceApiData]>,
         filter: ExploreUserFilter
     ) {
         switch filter {
@@ -190,34 +193,30 @@ final class ExploreUserViewModel:
         case .asset:
             users.accept(data.sorted(by: { $0.totalValue > $1.totalValue }))
         case .profit:
-            users.accept(data.sorted(by: { $0.roi ?? 0 > $1.roi ?? 0 }))
-        case .winRate:
-            users.accept(data.sorted(by: { $0.dailyWinRate ?? 0 > $1.dailyWinRate ?? 0 }))
+            users.accept(data.sorted(by: { $0.roi > $1.roi }))
         case .sharp:
-            users.accept(data.sorted(by: { $0.sharpeRatio ?? 0 > $1.sharpeRatio ?? 0 }))
+            users.accept(data.sorted(by: { $0.sharpeRatio > $1.sharpeRatio }))
         }
     }
     
     private func follow(
-        users: BehaviorRelay<[UserApiData]>,
+        users: BehaviorRelay<[UserPerformanceApiData]>,
         userId: Int
     ) {
         func refreshUsers(isFollow: Bool) {
             if let index = users.value.firstIndex(where: { $0.userId == userId }) {
                 var user = users.value[index]
-                user.isFollow = isFollow
+                user.isFollowing = isFollow
                 var newList = users.value
                 newList.remove(at: index)
                 newList.insert(user, at: index)
                 users.accept(newList)
-//                doFilter(data: newList, users: users, filter: filter.value)
             }
         }
         
-        if users.value.first(where: { $0.userId == userId })?.isFollow == true {
+        if users.value.first(where: { $0.userId == userId })?.isFollowing == true {
             refreshUsers(isFollow: false)
             FollowService.unfollow(userId: userId)
-                .request()
                 .subscribe(
                     onSuccess: { [weak self] response in
                         switch response {
@@ -237,7 +236,6 @@ final class ExploreUserViewModel:
         } else {
             refreshUsers(isFollow: true)
             FollowService.follow(userId: userId)
-                .request()
                 .subscribe(
                     onSuccess: { [weak self] response in
                         switch response {

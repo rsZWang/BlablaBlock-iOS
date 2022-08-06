@@ -53,9 +53,9 @@ final public class SignInViewController: BaseViewController {
         privacyContainerView.isHidden = true
         
         #if DEBUG
-        emailTextField.text = "rex@huijun.org"
+        emailTextField.text = "cool890104@yahoo.com.tw"
 //        emailTextField.text = "cool890104@gmail.com"
-        passwordTextField.text = "123456"
+        passwordTextField.text = "harry890104"
         #endif
         
         signInMode.accept(true)

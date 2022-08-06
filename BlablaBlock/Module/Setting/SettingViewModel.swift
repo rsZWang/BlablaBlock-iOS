@@ -10,8 +10,8 @@ import RxSwift
 
 public protocol SettingViewModelInputs: AnyObject {
     var viewDidLoad: PublishRelay<()> { get }
-    var onCreate: PublishRelay<(ExchangeType, String, String)> { get }
-    var onEdit: PublishRelay<(Int, ExchangeType, String, String)> { get }
+    var onCreate: PublishRelay<(FilterExchange, String, String)> { get }
+    var onEdit: PublishRelay<(Int, FilterExchange, String, String)> { get }
     var onDelete: PublishRelay<Int> { get }
     var onSignOut: PublishRelay<()> { get }
 }
@@ -34,8 +34,8 @@ public final class SettingViewModel:
 {
     // MARK: - inputs
     public var viewDidLoad: PublishRelay<()>
-    public var onCreate: PublishRelay<(ExchangeType, String, String)>
-    public var onEdit: PublishRelay<(Int, ExchangeType, String, String)>
+    public var onCreate: PublishRelay<(FilterExchange, String, String)>
+    public var onEdit: PublishRelay<(Int, FilterExchange, String, String)>
     public var onDelete: PublishRelay<Int>
     public var onSignOut: PublishRelay<()>
     
@@ -46,10 +46,14 @@ public final class SettingViewModel:
     public var inputs: SettingViewModelInputs { self }
     public var outputs: SettingViewModelOutputs { self }
     
+    deinit {
+        Timber.i("\(type(of: self)) deinit")
+    }
+    
     override init() {
         let viewDidLoad = PublishRelay<()>()
-        let onCreate = PublishRelay<(ExchangeType, String, String)>()
-        let onEdit = PublishRelay<(Int, ExchangeType, String, String)>()
+        let onCreate = PublishRelay<(FilterExchange, String, String)>()
+        let onEdit = PublishRelay<(Int, FilterExchange, String, String)>()
         let onDelete = PublishRelay<Int>()
         let onSignOut = PublishRelay<()>()
         
@@ -97,7 +101,7 @@ public final class SettingViewModel:
             })
             .disposed(by: disposeBag)
         
-        viewDidLoad.accept(())
+//        viewDidLoad.accept(())
     }
     
     private func getExchangeStatus(exchages: BehaviorRelay<[ExchangeApiData]>) {
@@ -190,7 +194,6 @@ public final class SettingViewModel:
     
     private func doSignOut(signOut: PublishRelay<()>) {
         AuthService.logout()
-            .request()
             .subscribe(
                 onSuccess: { response in
                     do {

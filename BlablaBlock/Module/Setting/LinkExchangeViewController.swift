@@ -14,7 +14,7 @@ import SafariServices
 final public class LinkExchangeViewController: BaseViewController {
     
     public weak var viewModel: SettingViewModelType!
-    public var exchangeType: ExchangeType!
+    public var exchangeType: FilterExchange!
     public var exchange: ExchangeApiData?
     
     convenience init() {
@@ -50,10 +50,10 @@ final public class LinkExchangeViewController: BaseViewController {
         let exchangeIcon: String
         let exchangeName: String
         switch exchangeType! {
-        case .binance:
+        case .Binance:
             exchangeIcon = "ic_setting_binance"
             exchangeName = "vc_setting_connect".localized(arguments: "幣安")
-        case .ftx:
+        case .FTX:
             exchangeIcon = "ic_setting_ftx"
             exchangeName = "vc_setting_connect".localized(arguments: "FTX")
         default:

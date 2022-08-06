@@ -175,7 +175,7 @@ extension TradeHistoryTableViewCell {
     func bind(history: HistoryApiData) {
         currencyImageView.currency(name: history.baseCurrency)
         currencyLabel.text = history.currency.uppercased()
-        currencyType.text = AssetType.map(type: history.type)
+//        currencyType.text = AssetType.map(type: history.type)
         timestampLabel.text = history.timestamp.format()
         if history.side.caseInsensitiveCompare("buy") == .orderedSame {
             actionLabel.text = "vc_trade_history_buy".localized()

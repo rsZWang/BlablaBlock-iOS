@@ -12,14 +12,11 @@ public protocol PortfolioViewModelInputs: AnyObject {
     var user: BehaviorRelay<UserApiData?> { get }
     var viewDidLoad: PublishRelay<()> { get }
     var historyBtnTap: PublishRelay<()> { get }
-    var portfolioExchangeFilter: BehaviorRelay<ExchangeType> { get }
-    var portfolioTypeFilter: BehaviorRelay<PortfolioType> { get }
+    var portfolioExchangeFilter: BehaviorRelay<FilterExchange> { get }
+    var portfolioTypeFilter: BehaviorRelay<FilterType> { get }
     var portfolioPull: PublishRelay<()> { get }
     var pnlPeriodFilter: BehaviorRelay<PNLPeriod> { get }
     var pnlPull: PublishRelay<()> { get }
-    var followingPortfolioExchangeFilter: BehaviorRelay<ExchangeType> { get }
-    var followingPortfolioTypeFilter: BehaviorRelay<PortfolioType> { get }
-    var followingPortfolioPull: PublishRelay<()> { get }
 }
 
 public protocol PortfolioViewModelOutputs: BaseViewModelOutputs {
@@ -29,8 +26,6 @@ public protocol PortfolioViewModelOutputs: BaseViewModelOutputs {
     var portfolioRefresh: Signal<Bool> { get }
     var pnl: Signal<PNLApiData> { get }
     var pnlRefresh: Signal<Bool> { get }
-    var followingPortfolio: Driver<[PortfolioAssetViewData]> { get }
-    var followingPortfolioRefresh: Signal<Bool> { get }
     var uiEvent: PublishRelay<PortfolioViewUiEvent> { get }
 }
 
@@ -54,14 +49,11 @@ final class PortfolioViewModel:
     var user: BehaviorRelay<UserApiData?>
     var viewDidLoad: PublishRelay<()>
     var historyBtnTap: PublishRelay<()>
-    var portfolioExchangeFilter: BehaviorRelay<ExchangeType>
-    var portfolioTypeFilter: BehaviorRelay<PortfolioType>
+    var portfolioExchangeFilter: BehaviorRelay<FilterExchange>
+    var portfolioTypeFilter: BehaviorRelay<FilterType>
     var portfolioPull: PublishRelay<()>
     var pnlPeriodFilter: BehaviorRelay<PNLPeriod>
     var pnlPull: PublishRelay<()>
-    var followingPortfolioExchangeFilter: BehaviorRelay<ExchangeType>
-    var followingPortfolioTypeFilter: BehaviorRelay<PortfolioType>
-    var followingPortfolioPull: PublishRelay<()>
     
     // MARK: - outpus
     var sum: Signal<NSAttributedString>
@@ -70,8 +62,6 @@ final class PortfolioViewModel:
     var portfolioRefresh: Signal<Bool>
     var pnl: Signal<PNLApiData>
     var pnlRefresh: Signal<Bool>
-    var followingPortfolio: Driver<[PortfolioAssetViewData]>
-    var followingPortfolioRefresh: Signal<Bool>
     var uiEvent: PublishRelay<PortfolioViewUiEvent>
     
     var inputs: PortfolioViewModelInputs { self }
@@ -91,14 +81,11 @@ final class PortfolioViewModel:
         let user = BehaviorRelay<UserApiData?>(value: nil)
         let viewDidLoad = PublishRelay<()>()
         let historyBtnTap = PublishRelay<()>()
-        let portfolioExchangeFilter = BehaviorRelay<ExchangeType>(value: .all)
-        let portfolioTypeFilter = BehaviorRelay<PortfolioType>(value: .all)
+        let portfolioExchangeFilter = BehaviorRelay<FilterExchange>(value: .all)
+        let portfolioTypeFilter = BehaviorRelay<FilterType>(value: .all)
         let pnlPeriodFilter = BehaviorRelay<PNLPeriod>(value: .all)
-        let followingPortfolioExchangeFilter = BehaviorRelay<ExchangeType>(value: .all)
-        let followingPortfolioTypeFilter = BehaviorRelay<PortfolioType>(value: .all)
         let portfolioPull = PublishRelay<()>()
         let pnlPull = PublishRelay<()>()
-        let followingPortfolioPull = PublishRelay<()>()
         
         let sum = PublishRelay<NSAttributedString>()
         let profit = PublishRelay<Double>()
@@ -106,8 +93,6 @@ final class PortfolioViewModel:
         let portfolioRefresh = PublishRelay<Bool>()
         let pnl = PublishRelay<PNLApiData>()
         let pnlRefresh = PublishRelay<Bool>()
-        let followingPortfolio = PublishRelay<[PortfolioAssetViewData]>()
-        let followingPortfolioRefresh = PublishRelay<Bool>()
         let uiEvent = PublishRelay<PortfolioViewUiEvent>()
         
         self.user = user
@@ -116,11 +101,8 @@ final class PortfolioViewModel:
         self.portfolioExchangeFilter = portfolioExchangeFilter
         self.portfolioTypeFilter = portfolioTypeFilter
         self.pnlPeriodFilter = pnlPeriodFilter
-        self.followingPortfolioExchangeFilter = followingPortfolioExchangeFilter
-        self.followingPortfolioTypeFilter = followingPortfolioTypeFilter
         self.portfolioPull = portfolioPull
         self.pnlPull = pnlPull
-        self.followingPortfolioPull = followingPortfolioPull
         
         self.sum = sum.asSignal()
         self.profit = profit.asSignal()
@@ -128,8 +110,6 @@ final class PortfolioViewModel:
         self.portfolioRefresh = portfolioRefresh.asSignal()
         self.pnl = pnl.asSignal()
         self.pnlRefresh = pnlRefresh.asSignal()
-        self.followingPortfolio = followingPortfolio.asDriver(onErrorJustReturn: [])
-        self.followingPortfolioRefresh = followingPortfolioRefresh.asSignal()
         self.uiEvent = uiEvent
         
         super.init()
@@ -137,17 +117,10 @@ final class PortfolioViewModel:
         let refreshPortfolioAndPNL = PublishRelay<()>()
         
         viewDidLoad
-            .observe(on: ConcurrentDispatchQueueScheduler.init(qos: .utility))
-            .subscribe(onNext: { [weak self] _ in
+            .subscribe(onNext: {
                 portfolioRefresh.accept(true)
                 pnlRefresh.accept(true)
-                followingPortfolioRefresh.accept(true)
                 refreshPortfolioAndPNL.accept(())
-                self?.getFollowingPortfolio(
-                    followingProtfolioExchange: followingPortfolioExchangeFilter.value.rawValue,
-                    followingProtfolio: followingPortfolio,
-                    followingPortfolioRefresh: followingPortfolioRefresh
-                )
             })
             .disposed(by: disposeBag)
         
@@ -199,9 +172,12 @@ final class PortfolioViewModel:
             .disposed(by: disposeBag)
         
         refreshPortfolioAndPNL
-            .subscribe(onNext: { [weak self] in
+            .withLatestFrom(portfolioExchangeFilter) { return $1 }
+            .withLatestFrom(portfolioTypeFilter) { return ($0, $1) }
+            .subscribe(onNext: { [weak self] exchange, type in
                 self?.getPortfolio(
-                    exchange: portfolioExchangeFilter.value.rawValue,
+                    exchange: exchange,
+                    type: type,
                     sum: sum,
                     profit: profit,
                     protfolio: portfolio,
@@ -215,40 +191,38 @@ final class PortfolioViewModel:
             })
             .disposed(by: disposeBag)
         
-        // MARK: - following
-        
-        followingPortfolioPull
-            .observe(on: ConcurrentDispatchQueueScheduler.init(qos: .utility))
-            .subscribe(onNext: { [weak self] in
-                EventTracker.Builder()
-                    .logEvent(.REFRESH_PERSONAL_PAGE_FOLLOWED_PORTFOLIO)
-                self?.getFollowingPortfolio(
-                    followingProtfolioExchange: followingPortfolioExchangeFilter.value.rawValue,
-                    followingProtfolio: followingPortfolio,
-                    followingPortfolioRefresh: followingPortfolioRefresh
-                )
-            })
-            .disposed(by: disposeBag)
-        
-        followingPortfolioExchangeFilter
-            .skip(1)
-            .map { _ in () }
-            .bind(to: followingPortfolioPull)
-            .disposed(by: disposeBag)
+//        refreshPortfolioAndPNL
+//            .withLatestFrom(portfolioExchangeFilter) { return $1 }
+//            .withLatestFrom(portfolioTypeFilter) { return ($0, $1) }
+//            .subscribe(onNext: { [weak self] exchange, type in
+//                self?.getPortfolio(
+//                    exchange: exchange,
+//                    type: type,
+//                    sum: sum,
+//                    profit: profit,
+//                    protfolio: portfolio,
+//                    portfolioRefresh: portfolioRefresh
+//                )
+//                self?.getPNL(
+//                    period: pnlPeriodFilter.value.rawValue,
+//                    pnl: pnl,
+//                    pnlRefresh: pnlRefresh
+//                )
+//            })
+//            .disposed(by: disposeBag)
     }
 }
 
 private extension PortfolioViewModel {    
     func getPortfolio(
-        exchange: String,
+        exchange: FilterExchange,
+        type: FilterType,
         sum: PublishRelay<NSAttributedString>,
         profit: PublishRelay<Double>,
         protfolio: PublishRelay<[PortfolioAssetViewData]>,
         portfolioRefresh: PublishRelay<Bool>
     ) {
-        let userId = user.value?.userId ?? Int(keychainUser[.userId]!)!
-        UserService.getPortfolioByID(userId: userId, exchange: exchange)
-            .request()
+        PortfolioService.getPortfolio(filterExchange: exchange, filterType: type)
             .subscribe(
                 onSuccess: { [weak self] response in
                     switch response {
@@ -257,11 +231,7 @@ private extension PortfolioViewModel {
                         profit.accept(portfolio.data.percentage ?? 0)
                         protfolio.accept(portfolio.data.getAssetsViewData())
                     case let .failure(responseFailure):
-                        if responseFailure.code == 1006 {
-                            
-                        } else {
-                            self?.errorCodeHandler(responseFailure)
-                        }
+                        self?.errorCodeHandler(responseFailure)
                     }
                     portfolioRefresh.accept(false)
                 },
@@ -279,7 +249,7 @@ private extension PortfolioViewModel {
         pnlRefresh: PublishRelay<Bool>
     ) {
         let userId = user.value?.userId ?? Int(keychainUser[.userId]!)!
-        UserService.getPNLByID(userId: userId, exchange: "all", period: period)
+        PortfolioService.getPNL(userId: userId)
             .request()
             .subscribe(
                 onSuccess: { [weak self] response in
@@ -287,11 +257,7 @@ private extension PortfolioViewModel {
                     case let .success(pnlData):
                         pnl.accept(pnlData.data)
                     case let .failure(responseFailure):
-                        if responseFailure.code == 1007 {
-
-                        } else {
-                            self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
-                        }
+                        self?.errorCodeHandler(responseFailure)
                     }
                     pnlRefresh.accept(false)
                 }, onFailure: { [weak self] error in
@@ -300,36 +266,5 @@ private extension PortfolioViewModel {
                 }
             )
             .disposed(by: disposeBag)
-    }
-    
-    func getFollowingPortfolio(
-        followingProtfolioExchange: String,
-        followingProtfolio: PublishRelay<[PortfolioAssetViewData]>,
-        followingPortfolioRefresh: PublishRelay<Bool>
-    ) {
-        if let userId = user.value?.userId ?? Int(keychainUser[.userId] ?? "") {
-            UserService.getFollowPortfolioByID(userId: userId, exchange: followingProtfolioExchange)
-                .request()
-                .subscribe(
-                    onSuccess: { [weak self] response in
-                        switch response {
-                        case let .success(portfolio):
-                            followingProtfolio.accept(portfolio.getAssetsViewData())
-                        case let .failure(responseFailure):
-                            if responseFailure.code == 1006 {
-                                
-                            } else {
-                                self?.errorCodeHandler(responseFailure)
-                            }
-                        }
-                        followingPortfolioRefresh.accept(false)
-                    },
-                    onFailure: { [weak self] error in
-                        self?.errorHandler(error: error)
-                        followingPortfolioRefresh.accept(false)
-                    }
-                )
-                .disposed(by: disposeBag)
-        }
     }
 }

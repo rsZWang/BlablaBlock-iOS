@@ -107,7 +107,6 @@ final class MainTabBarController: BaseViewController {
     }
     
     private func setupContainer() {
-        viewControllers.append(HomePageViewController(viewModel: HomePageViewModel()))
         viewControllers.append(ExploreUserViewController(
             parentCoordinator: parentCoordinator,
             viewModel: ExploreUserViewModel()
@@ -123,7 +122,6 @@ final class MainTabBarController: BaseViewController {
             viewModel: SettingViewModel()
         ))
         
-//        viewControllers.append(HomePageViewController(viewModel: homePageViewModel))
 //        viewControllers.append(ExploreUserViewController(viewModel: exploreUserViewModel))
 //        viewControllers.append(PortfolioViewController(
 //            parentCoordinator: parentCoordinator,
@@ -170,8 +168,8 @@ final class MainTabBarController: BaseViewController {
     private let tabBarView = UIView()
     private lazy var bottomPaddingView = UIView()
     private let radioGroup = RadioButtonGroup()
-    private let tabBarButtons = [RadioButton(), RadioButton(), RadioButton(), RadioButton()]
-    private let tabBarIcons = ["ic_main_tab_home", "ic_main_tab_search", "ic_main_tab_portfolio", "ic_main_tab_setting"]
+    private let tabBarButtons = [RadioButton(), RadioButton(), RadioButton()]
+    private let tabBarIcons = ["ic_main_tab_search", "ic_main_tab_portfolio", "ic_main_tab_setting"]
     private let containerView = UIView()
     private let pageViewController = PageboyViewController()
     private var viewControllers: [UIViewController] = []

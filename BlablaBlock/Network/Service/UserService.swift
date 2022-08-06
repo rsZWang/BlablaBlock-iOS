@@ -9,6 +9,17 @@ import Moya
 
 struct UserService {
     
+    struct getUser: HttpTargetType {
+        var method: Method { .get }
+        var tokenType: TokenType { .user }
+        var path: String { "getUser" }
+        var task: Task {
+            .requestPlain
+        }
+        typealias SuccessType = UserApi
+        typealias FailureType = ResponseFailure
+    }
+    
     struct getNotifications: HttpTargetType {
         var method: Method { .get }
         var tokenType: TokenType { .user }
@@ -109,5 +120,19 @@ struct UserService {
         typealias FailureType = ResponseFailure
         
         let userId: Int
+    }
+    
+    struct getUserPerformance: HttpTargetType {
+        var method: Method { .get }
+        var tokenType: TokenType { .user }
+        var path: String { "getPerformance/\(userId)/\(sort)" }
+        var task: Task {
+            .requestPlain
+        }
+        typealias SuccessType = UserPerformanceApi
+        typealias FailureType = ResponseFailure
+        
+        let userId: Int
+        let sort: UserPerformanceSort
     }
 }

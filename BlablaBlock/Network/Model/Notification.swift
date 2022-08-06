@@ -40,7 +40,7 @@ public struct NotificationApiData: Decodable, Equatable {
             ]
         ))
         attribuedString.append(NSAttributedString(
-            string: "（\(PortfolioType.map(type: type))）",
+            string: "（\(FilterType.map(type: type))）",
             attributes: [
                 NSAttributedString.Key.font : UIFont.systemFont(ofSize: 12)
             ]

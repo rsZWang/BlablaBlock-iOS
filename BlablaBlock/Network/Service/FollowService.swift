@@ -26,8 +26,8 @@ struct FollowService {
         var path: String { "follow" }
         var task: Task {
             .requestParameters(parameters: [
-                "user_id" : userId
-            ], encoding: JSONEncoding.default)
+                "user_2" : userId
+            ], encoding: URLEncoding.default)
         }
         typealias SuccessType = ResponseSuccess
         typealias FailureType = ResponseFailure
@@ -41,8 +41,8 @@ struct FollowService {
         var path: String { "unfollow" }
         var task: Task {
             .requestParameters(parameters: [
-                "user_id" : userId
-            ], encoding: JSONEncoding.default)
+                "user_2" : userId
+            ], encoding: URLEncoding.default)
         }
         typealias SuccessType = ResponseSuccess
         typealias FailureType = ResponseFailure

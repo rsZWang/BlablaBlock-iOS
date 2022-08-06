@@ -101,6 +101,7 @@
 "asset_type_positions" = "Position (futures)";
 "asset_type_margin" = "Margin";
 "asset_type_earn" = "Earn";
+"asset_type_other" = "Others";
 
 // Exchanges
 "exchange_type_binance" = "Binance";

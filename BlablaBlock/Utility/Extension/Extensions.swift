@@ -127,7 +127,7 @@ public extension NSError {
     }
     
     static func create(_ failure: ResponseFailure) -> NSError {
-        NSError(domain: failure.msg, code: failure.code, userInfo: nil)
+        NSError(domain: failure.message, code: 000, userInfo: nil)
     }
 }
 

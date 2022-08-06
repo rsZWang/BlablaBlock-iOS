@@ -15,10 +15,7 @@ final class SettingViewController: BaseViewController {
     private weak var parentCoordinator: MainCoordinator?
     private let viewModel: SettingViewModelType
     private var cardViewList: [ExchangeCardView] = []
-    private let exchageList = [
-        ExchangeType.binance,
-        ExchangeType.ftx
-    ]
+    private let exchageList: [FilterExchange] = [ .Binance, .FTX]
     
     init(
         parentCoordinator: MainCoordinator?,
@@ -285,7 +282,7 @@ extension SettingViewController {
         }
     }
     
-    private func promptLinkView(type: ExchangeType, exchange: ExchangeApiData?) {
+    private func promptLinkView(type: FilterExchange, exchange: ExchangeApiData?) {
         let vc = LinkExchangeViewController()
         vc.viewModel = viewModel
         vc.exchangeType = type
@@ -293,7 +290,7 @@ extension SettingViewController {
         present(vc, animated: true)
     }
 
-    private func promptActionSheetAlert(type: ExchangeType, exchange: ExchangeApiData) {
+    private func promptActionSheetAlert(type: FilterExchange, exchange: ExchangeApiData) {
         AlertBuilder()
             .setStyle(.actionSheet)
             .setButton(title: "修改") { [weak self] in
@@ -319,7 +316,7 @@ extension SettingViewController {
 
 extension SettingViewController: ExchangeCardViewDelegate {
     
-    func onTap(type: ExchangeType, exchange: ExchangeApiData?) {
+    func onTap(type: FilterExchange, exchange: ExchangeApiData?) {
         if let exchange = exchange {
             promptActionSheetAlert(type: type, exchange: exchange)
         } else {

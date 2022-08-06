@@ -14,6 +14,7 @@ target 'BlablaBlock' do
   pod 'Firebase/Analytics'
   pod 'Firebase/Crashlytics'
   pod 'Firebase/Messaging'
+  pod 'WalletConnectSwift'
 
   # UI
   pod 'SnapKit', '~> 5.0.0'

@@ -40,10 +40,10 @@ public final class FollowingPortfolioSectionView: UIView {
     private func setupUI() {
         headerSectionSeparatorView.backgroundColor = .black2D2D2D
         
-        exchangePicker.itemList = ExchangeType.titleList
+        exchangePicker.itemList = FilterExchange.titleList
         exchangePicker.delegate = self
         
-        typePicker.itemList = PortfolioType.titleList
+        typePicker.itemList = FilterType.titleList
         typePicker.delegate = self
         typePicker.isHidden = true
         
@@ -154,43 +154,42 @@ public final class FollowingPortfolioSectionView: UIView {
     }
     
     private func setupBinding() {
-        guard let viewModel = viewModel else { return }
-
-        refreshControl.rx
-            .controlEvent(.valueChanged)
-            .bind(to: viewModel.inputs.followingPortfolioPull)
-            .disposed(by: disposeBag)
-        
-        viewModel.outputs
-            .followingPortfolio
-            .map { [AnimatableSectionModel<String, PortfolioAssetViewData>(model: "", items: $0)] }
-            .drive(
-                tableView.rx.items(
-                    dataSource: RxTableViewSectionedAnimatedDataSource<AnimatableSectionModel<String, PortfolioAssetViewData>>(
-                        configureCell: { dataSource, tableView, indexPath, item in
-                            let cell = tableView.dequeueReusableCell(
-                                withIdentifier: FollowingPortfolioTableViewCell.identifier,
-                                for: indexPath
-                            ) as! FollowingPortfolioTableViewCell
-                            cell.bind(item)
-                            return cell
-                        }
-                    )
-                )
-            )
-            .disposed(by: disposeBag)
-        
-        viewModel.outputs
-            .followingPortfolioRefresh
-            .emit(onNext: { [weak self] isRefreshIng in
-                guard let self = self else { return }
-                if isRefreshIng {
-                    self.refreshControl.beginRefreshing(in: self.tableView)
-                } else {
-                    self.refreshControl.endRefreshing()
-                }
-            })
-            .disposed(by: disposeBag)
+//        guard let viewModel = viewModel else { return }
+//        refreshControl.rx
+//            .controlEvent(.valueChanged)
+//            .bind(to: viewModel.inputs.followingPortfolioPull)
+//            .disposed(by: disposeBag)
+//        
+//        viewModel.outputs
+//            .followingPortfolio
+//            .map { [AnimatableSectionModel<String, PortfolioAssetViewData>(model: "", items: $0)] }
+//            .drive(
+//                tableView.rx.items(
+//                    dataSource: RxTableViewSectionedAnimatedDataSource<AnimatableSectionModel<String, PortfolioAssetViewData>>(
+//                        configureCell: { dataSource, tableView, indexPath, item in
+//                            let cell = tableView.dequeueReusableCell(
+//                                withIdentifier: FollowingPortfolioTableViewCell.identifier,
+//                                for: indexPath
+//                            ) as! FollowingPortfolioTableViewCell
+//                            cell.bind(item)
+//                            return cell
+//                        }
+//                    )
+//                )
+//            )
+//            .disposed(by: disposeBag)
+//        
+//        viewModel.outputs
+//            .followingPortfolioRefresh
+//            .emit(onNext: { [weak self] isRefreshIng in
+//                guard let self = self else { return }
+//                if isRefreshIng {
+//                    self.refreshControl.beginRefreshing(in: self.tableView)
+//                } else {
+//                    self.refreshControl.endRefreshing()
+//                }
+//            })
+//            .disposed(by: disposeBag)
     }
     
     private let containerView = UIView()
@@ -209,25 +208,24 @@ public final class FollowingPortfolioSectionView: UIView {
 
 extension FollowingPortfolioSectionView: BlablaBlockPickerViewDelegate {
     public func blablaBlockPickerView(_ view: BlablaBlockPickerView, selectedIndex: Int) {
-        guard let viewModel = viewModel else { return }
-        
-        switch view {
-        case exchangePicker:
-            if let exchangeType = ExchangeType.init(index: selectedIndex) {
-                viewModel.inputs
-                    .followingPortfolioExchangeFilter
-                    .accept(exchangeType)
-            }
-            
-        case typePicker:
-            if let portfolioType = PortfolioType.init(index: selectedIndex) {
-                viewModel.inputs
-                    .followingPortfolioTypeFilter
-                    .accept(portfolioType)
-            }
-            
-        default:
-            break
-        }
+//        guard let viewModel = viewModel else { return }
+//        switch view {
+//        case exchangePicker:
+//            if let exchangeType = FilterExchange.init(index: selectedIndex) {
+//                viewModel.inputs
+//                    .followingPortfolioExchangeFilter
+//                    .accept(exchangeType)
+//            }
+//            
+//        case typePicker:
+//            if let portfolioType = FilterType.init(index: selectedIndex) {
+//                viewModel.inputs
+//                    .followingPortfolioTypeFilter
+//                    .accept(portfolioType)
+//            }
+//            
+//        default:
+//            break
+//        }
     }
 }

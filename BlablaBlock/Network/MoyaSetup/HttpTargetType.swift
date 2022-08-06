@@ -34,7 +34,7 @@ public protocol HttpTargetType: Moya.TargetType, AccessTokenAuthorizable {
 
 public extension HttpTargetType {
     
-    var baseURL: URL { URL(string: "\(HttpApiConfig.domain)/\(HttpApiConfig.apiVersion)")! }
+    var baseURL: URL { HttpApiConfig.baseURL }
     var headers: [String : String]? { nil }
     var sampleData: Data { Data() }
     var authorizationType: AuthorizationType? { .bearer }
@@ -50,6 +50,14 @@ public extension HttpTargetType {
             }
             return Disposables.create {}
         }
+    }
+    
+    func subscribe(
+        onSuccess: ((HttpResponse<SuccessType, FailureType>) -> Void)? = nil,
+        onFailure: ((Error) -> Void)? = nil,
+        onDisposed: (() -> Void)? = nil
+    ) -> Disposable {
+        return request().subscribe(onSuccess: onSuccess, onFailure: onFailure, onDisposed: onDisposed)
     }
     
     private func perform(completion: @escaping (Result<HttpResponse<SuccessType, FailureType>, Error>) -> Void) {
@@ -77,11 +85,17 @@ public extension HttpTargetType {
     
     private func parseHttpResponse<S: Decodable, F: Decodable>(_ response: Response) -> Result<HttpResponse<S, F>, Error> {
         do {
-            let status = try decoder.decode(ResponseSuccess.self, from: response.data)
-            if status.code == 200 {
+            let status = (try decoder.decode(ResponseSuccess.self, from: response.data)).status
+            switch status {
+            case "success":
                 let successBody = try decoder.decode(S.self, from: response.data)
                 return Result.success(HttpResponse.success(successBody))
-            } else {
+                
+            case "error":
+                let errorBody = try decoder.decode(F.self, from: response.data)
+                return Result.success(HttpResponse.failure(errorBody))
+                
+            default:
                 let failureBody = try? decoder.decode(F.self, from: response.data)
                 if let failureBody = failureBody {
                     return Result.success(HttpResponse.failure(failureBody))
@@ -95,6 +109,23 @@ public extension HttpTargetType {
                     )
                 }
             }
+//            if status.code == 200 {
+//                let successBody = try decoder.decode(S.self, from: response.data)
+//                return Result.success(HttpResponse.success(successBody))
+//            } else {
+//                let failureBody = try? decoder.decode(F.self, from: response.data)
+//                if let failureBody = failureBody {
+//                    return Result.success(HttpResponse.failure(failureBody))
+//                } else {
+//                    return Result.failure(
+//                        HttpError(
+//                            code: response.statusCode,
+//                            message: "Parse error, empty",
+//                            body: response.data
+//                        )
+//                    )
+//                }
+//            }
         } catch {
             Timber.e(error)
             let failureBody = try? decoder.decode(F.self, from: response.data)
@@ -131,12 +162,18 @@ public extension HttpTargetType {
                                 case let .success(httpReponse):
                                     switch httpReponse {
                                     case let .success(login):
-                                        if login.code == 200 {
-                                            keychainUser[.userToken] = login.data.apiToken
+                                        if login.status == "success" {
+                                            keychainUser[.userToken] = login.data.token
                                             error = nil
                                         } else {
-                                            error = NSError.create(domain: "Unknown code", code: login.code)
+                                            error = NSError.create(domain: "Unknown code", code: -1)
                                         }
+//                                        if login.code == 200 {
+//                                            keychainUser[.userToken] = login.data.apiToken
+//                                            error = nil
+//                                        } else {
+//                                            error = NSError.create(domain: "Unknown code", code: login.code)
+//                                        }
                                     case let .failure(responseFailure):
                                         error = NSError.create(responseFailure)
                                     }

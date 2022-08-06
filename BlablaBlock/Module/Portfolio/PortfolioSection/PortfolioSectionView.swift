@@ -40,12 +40,11 @@ public final class PortfolioSectionView: UIView {
     private func setupUI() {
         headerSectionSeparatorView.backgroundColor = .black2D2D2D
         
-        exchangePicker.itemList = ExchangeType.titleList
+        exchangePicker.itemList = FilterExchange.titleList
         exchangePicker.delegate = self
         
-        typePicker.itemList = PortfolioType.titleList
+        typePicker.itemList = FilterType.titleList
         typePicker.delegate = self
-        typePicker.isHidden = true
         
         setupLabel(currencyTitleLabel)
         currencyTitleLabel.text = "vc_portfolio_crypto_currency".localized()
@@ -58,10 +57,6 @@ public final class PortfolioSectionView: UIView {
         setupLabel(dayChangeTitleLabel)
         dayChangeTitleLabel.text = "vc_portfolio_day_change".localized()
         dayChangeTitleLabel.textAlignment = .right
-       
-        historyButton.backgroundColor = .grayEDEDED
-        historyButton.layer.cornerRadius = 4
-        historyButton.setImage("ic_portfolio_history".image(), for: .normal)
         
         tableView.refreshControl = refreshControl
     }
@@ -96,13 +91,6 @@ public final class PortfolioSectionView: UIView {
         typePicker.snp.makeConstraints { make in
             make.width.equalTo(104)
             make.leading.equalTo(exchangePicker.snp.trailing).offset(8)
-            make.centerY.equalToSuperview()
-        }
-        
-        pickerSectionView.addSubview(historyButton)
-        historyButton.snp.makeConstraints { make in
-            make.width.height.equalTo(24)
-            make.trailing.equalToSuperview()
             make.centerY.equalToSuperview()
         }
         
@@ -151,11 +139,6 @@ public final class PortfolioSectionView: UIView {
     private func setupBinding() {
         guard let viewModel = viewModel else { return }
         
-        historyButton.rx
-            .tap
-            .bind(to: viewModel.inputs.historyBtnTap)
-            .disposed(by: disposeBag)
-        
         refreshControl.rx
             .controlEvent(.valueChanged)
             .bind(to: viewModel.inputs.portfolioPull)
@@ -197,7 +180,6 @@ public final class PortfolioSectionView: UIView {
     private let pickerSectionView = UIView()
     private let exchangePicker = BlablaBlockPickerView(style: .normal)
     private let typePicker = BlablaBlockPickerView(style: .normal)
-    private let historyButton = UIButton()
     private let headerSectionView = UIView()
     private let currencyTitleLabel = UILabel()
     private let balanceTitleLabel = UILabel()
@@ -213,14 +195,15 @@ extension PortfolioSectionView: BlablaBlockPickerViewDelegate {
         
         switch view {
         case exchangePicker:
-            if let exchangeType = ExchangeType.init(index: selectedIndex) {
+            if let exchangeType = FilterExchange.init(index: selectedIndex) {
+                Timber.i("exchangeType: \(exchangeType)")
                 viewModel.inputs
                     .portfolioExchangeFilter
                     .accept(exchangeType)
             }
             
         case typePicker:
-            if let portfolioType = PortfolioType.init(index: selectedIndex) {
+            if let portfolioType = FilterType.init(index: selectedIndex) {
                 viewModel.inputs
                     .portfolioTypeFilter
                     .accept(portfolioType)

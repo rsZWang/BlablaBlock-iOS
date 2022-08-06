@@ -101,6 +101,7 @@
 "asset_type_positions" = "合約的持倉";
 "asset_type_margin" = "現貨槓桿";
 "asset_type_earn" = "理財";
+"asset_type_other" = "其他";
 
 // Exchanges
 "exchange_type_binance" = "幣安";

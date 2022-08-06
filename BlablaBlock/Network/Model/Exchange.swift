@@ -35,54 +35,54 @@ public struct ExchangeApiData: Decodable {
     }
 }
 
-public enum ExchangeType: String, Equatable {
-    
-    case all = "all"
-    case binance = "binance"
-    case ftx = "ftx"
-    
-    static var titleList: [String] {
-        [
-            "vc_portfolio_filter_all_exchange".localized(),
-            "exchange_type_binance".localized(),
-            "exchange_type_ftx".localized()
-        ]
-    }
-    static let typeList = ["all", "binance", "ftx"]
-    
-    var title: String {
-        if let typeIndex = Self.typeList.firstIndex(where: { $0 == self.rawValue }) {
-            return Self.titleList[typeIndex]
-        } else {
-            return "Unknows"
-        }
-    }
-    
-    init?(title: String) {
-        if let typeIndex = Self.titleList.firstIndex(where: { $0 == title }) {
-            self.init(rawValue: Self.typeList[typeIndex])
-        } else {
-            return nil
-        }
-    }
-    
-    init?(index: Int) {
-        self.init(rawValue: Self.typeList[index])
-    }
-    
-    init?(name: String) {
-        if let typeIndex = Self.typeList.firstIndex(where: { $0 == name }) {
-            self.init(rawValue: Self.typeList[typeIndex])
-        } else {
-            return nil
-        }
-    }
-    
-    static func map(type: String) -> String? {
-        if let index = typeList.firstIndex(where: { $0 == type }) {
-            return titleList[index]
-        } else {
-            return nil
-        }
-    }
-}
+//public enum ExchangeType: String, Equatable {
+//    
+//    case all = "all"
+//    case binance = "binance"
+//    case ftx = "ftx"
+//    
+//    static var titleList: [String] {
+//        [
+//            "vc_portfolio_filter_all_exchange".localized(),
+//            "exchange_type_binance".localized(),
+//            "exchange_type_ftx".localized()
+//        ]
+//    }
+//    static let typeList = ["all", "binance", "ftx"]
+//    
+//    var title: String {
+//        if let typeIndex = Self.typeList.firstIndex(where: { $0 == self.rawValue }) {
+//            return Self.titleList[typeIndex]
+//        } else {
+//            return "Unknows"
+//        }
+//    }
+//    
+//    init?(title: String) {
+//        if let typeIndex = Self.titleList.firstIndex(where: { $0 == title }) {
+//            self.init(rawValue: Self.typeList[typeIndex])
+//        } else {
+//            return nil
+//        }
+//    }
+//    
+//    init?(index: Int) {
+//        self.init(rawValue: Self.typeList[index])
+//    }
+//    
+//    init?(name: String) {
+//        if let typeIndex = Self.typeList.firstIndex(where: { $0 == name }) {
+//            self.init(rawValue: Self.typeList[typeIndex])
+//        } else {
+//            return nil
+//        }
+//    }
+//    
+//    static func map(type: String) -> String? {
+//        if let index = typeList.firstIndex(where: { $0 == type }) {
+//            return titleList[index]
+//        } else {
+//            return nil
+//        }
+//    }
+//}

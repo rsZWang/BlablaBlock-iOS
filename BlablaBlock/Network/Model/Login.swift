@@ -6,14 +6,12 @@
 //
 
 public struct LoginApi: Decodable {
-    let code: Int
+    let status: String
     let data: LoginApiData
 }
 
 public struct LoginApiData: Decodable {
-    let apiToken: String
-    let userId: Int
-    let email: String
-    let name: String?
+    let token: String
+    let user: String
 }
 

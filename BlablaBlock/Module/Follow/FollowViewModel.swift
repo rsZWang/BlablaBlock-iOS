@@ -22,7 +22,7 @@ public protocol FollowViewModelOutputs: BaseViewModelOutputs {
     var followingAmount: BehaviorRelay<Int> { get }
     var followers: BehaviorRelay<[FollowApiDataFollowUser]> { get }
     var followings: BehaviorRelay<[FollowApiDataFollowUser]> { get }
-    var toProfile: Signal<UserApiData> { get }
+    var toProfile: Signal<UserPerformanceApiData> { get }
 }
 
 public protocol FollowViewModelType: AnyObject {
@@ -52,7 +52,7 @@ final class FollowViewModel:
     var followingAmount: BehaviorRelay<Int>
     var followers: BehaviorRelay<[FollowApiDataFollowUser]>
     var followings: BehaviorRelay<[FollowApiDataFollowUser]>
-    var toProfile: Signal<UserApiData>
+    var toProfile: Signal<UserPerformanceApiData>
     
     var inputs: FollowViewModelInputs { self }
     var outputs: FollowViewModelOutputs { self }
@@ -73,7 +73,7 @@ final class FollowViewModel:
         let followingAmount = BehaviorRelay<Int>(value: 0)
         let followers = BehaviorRelay<[FollowApiDataFollowUser]>(value: [])
         let followings = BehaviorRelay<[FollowApiDataFollowUser]>(value: [])
-        let toProfile = PublishRelay<UserApiData>()
+        let toProfile = PublishRelay<UserPerformanceApiData>()
         
         self.user = user
         self.viewWillAppear = viewWillAppear
@@ -90,13 +90,13 @@ final class FollowViewModel:
         
         super.init()
         
-        user
-            .subscribe(onNext: { [weak self] user in
-                if let user = user {
-                    self?.isFollowing.accept(user.isFollow)
-                }
-            })
-            .disposed(by: disposeBag)
+//        user
+//            .subscribe(onNext: { [weak self] user in
+//                if let user = user {
+//                    self?.isFollowing.accept(user.isFollow)
+//                }
+//            })
+//            .disposed(by: disposeBag)
         
         viewWillAppear
             .throttle(.milliseconds(1000), scheduler: MainScheduler.asyncInstance)
@@ -122,68 +122,69 @@ final class FollowViewModel:
             })
             .disposed(by: disposeBag)
         
-        followCellTap
-            .debounce(.milliseconds(300), scheduler: MainScheduler.asyncInstance)
-            .filter { $0.userId != Int(keychainUser[.userId] ?? "-1") }
-            .map {
-                UserApiData(
-                    userId: $0.userId,
-                    name: $0.name,
-                    totalValue: 0,
-                    roi: 0,
-                    roiAnnual: 0,
-                    mdd: 0,
-                    dailyWinRate: 0,
-                    sharpeRatio: 0,
-                    isFollow: $0.isFollow
-                )
-            }
-            .bind(to: toProfile)
-            .disposed(by: disposeBag)
+//        followCellTap
+//            .debounce(.milliseconds(300), scheduler: MainScheduler.asyncInstance)
+//            .filter { $0.userId != Int(keychainUser[.userId] ?? "-1") }
+//            .map {
+//                UserApiData(
+//                    userId: $0.userId,
+//                    name: $0.name,
+//                    totalValue: 0,
+//                    roi: 0,
+//                    roiAnnual: 0,
+//                    mdd: 0,
+//                    dailyWinRate: 0,
+//                    sharpeRatio: 0,
+//                    isFollow: $0.isFollow
+//                )
+//            }
+//            .bind(to: toProfile)
+//            .disposed(by: disposeBag)
     }
 }
 
 private extension FollowViewModel {
     func getFollowers() {
-        let target: Single<HttpResponse<FollowApi, ResponseFailure>>
-        if let userId = user.value?.userId {
-            target = UserService.getFollowerByID(userId: userId)
-                .request()
-        } else {
-            target = FollowService.getFollower()
-                .request()
-        }
-        target.subscribe(
-            onSuccess: { [weak self] response in
-                switch response {
-                case let .success(followerApiResponse):
-                    let data = followerApiResponse.data
-                    self?.followerAmount.accept(data.followers.count)
-                    self?.followingAmount.accept(data.followings.count)
-                    self?.followers.accept(data.followers.list)
-                    self?.followings.accept(data.followings.list)
-                case let .failure(responseFailure):
-                    self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
-                }
-            },
-            onFailure: { [weak self] error in
-                self?.errorHandler(error: error)
-            }
-        )
-        .disposed(by: disposeBag)
+//        let target: Single<HttpResponse<FollowApi, ResponseFailure>>
+//        if let userId = user.value?.userId {
+//            target = UserService.getFollowerByID(userId: userId)
+//                .request()
+//        } else {
+//            target = FollowService.getFollower()
+//                .request()
+//        }
+//        target.subscribe(
+//            onSuccess: { [weak self] response in
+//                switch response {
+//                case let .success(followerApiResponse):
+//                    let data = followerApiResponse.data
+//                    self?.followerAmount.accept(data.followers.count)
+//                    self?.followingAmount.accept(data.followings.count)
+//                    self?.followers.accept(data.followers.list)
+//                    self?.followings.accept(data.followings.list)
+//                case let .failure(responseFailure):
+//                    break
+////                    self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
+//                }
+//            },
+//            onFailure: { [weak self] error in
+//                self?.errorHandler(error: error)
+//            }
+//        )
+//        .disposed(by: disposeBag)
     }
     
     private func tell(userId: Int, isProfolioPage: Bool) {
-        if let isFollowing = followers.value.first(where: { $0.userId == userId })?.isFollow
-            ?? followings.value.first(where: { $0.userId == userId })?.isFollow
-            ?? user.value?.isFollow
-        {
-            if !isFollowing {
-                follow(userId: userId, isProfolioPage: isProfolioPage)
-            } else {
-                unfollow(userId: userId, isProfolioPage: isProfolioPage)
-            }
-        }
+//        if let isFollowing = followers.value.first(where: { $0.userId == userId })?.isFollow
+//            ?? followings.value.first(where: { $0.userId == userId })?.isFollow
+//            ?? user.value?.isFollow
+//        {
+//            if !isFollowing {
+//                follow(userId: userId, isProfolioPage: isProfolioPage)
+//            } else {
+//                unfollow(userId: userId, isProfolioPage: isProfolioPage)
+//            }
+//        }
     }
     
     private func follow(userId: Int, isProfolioPage: Bool) {
@@ -238,22 +239,22 @@ private extension FollowViewModel {
         )
         
         if isProfolioPage {
-            if var user = user.value {
-                user.isFollow = isFollow
-                self.user.accept(user)
-            }
-            
-            var newList = followers.value
-            if let userIdString = keychainUser[.userId], let userId = Int(userIdString) {
-                if isFollow {
-                    let userName = keychainUser[.userName] ?? keychainUser[.userEmail]
-                    newList.append(FollowApiDataFollowUser(userId: userId, name: userName, isFollow: isFollow))
-                } else {
-                    newList.removeAll(where: { $0.userId == userId })
-                }
-            }
-            followers.accept(newList)
-            followerAmount.accept(newList.count)
+//            if var user = user.value {
+//                user.isFollow = isFollow
+//                self.user.accept(user)
+//            }
+//            
+//            var newList = followers.value
+//            if let userIdString = keychainUser[.userId], let userId = Int(userIdString) {
+//                if isFollow {
+//                    let userName = keychainUser[.userName] ?? keychainUser[.userEmail]
+//                    newList.append(FollowApiDataFollowUser(userId: userId, name: userName, isFollow: isFollow))
+//                } else {
+//                    newList.removeAll(where: { $0.userId == userId })
+//                }
+//            }
+//            followers.accept(newList)
+//            followerAmount.accept(newList.count)
         }
     }
     

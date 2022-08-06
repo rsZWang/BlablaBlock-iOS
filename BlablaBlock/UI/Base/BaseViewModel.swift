@@ -36,7 +36,7 @@ open class BaseViewModel:
     }
     
     internal func errorCodeHandler(_ response: ResponseFailure) {
-        errorCodeHandler(code: response.code, msg: response.msg)
+        errorCodeHandler(code: 9999, msg: response.message)
     }
     
     internal func errorCodeHandler(code: Int, msg: String) {

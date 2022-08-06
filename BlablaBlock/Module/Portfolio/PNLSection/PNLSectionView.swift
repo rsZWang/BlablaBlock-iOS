@@ -63,10 +63,6 @@ final class PNLSectionView: UIView {
         setupLabel(mddTitleLabel)
         setupLabel(mddLabel)
         
-        dailyWinRateTitleLabel.text = "vc_portfolio_pnl_daily_win_rate".localized()
-        setupLabel(dailyWinRateTitleLabel)
-        setupLabel(dailyWinRateLabel)
-        
         sharpeRatioTitleLabel.text = "vc_portfolio_pnl_sharpe_ratio".localized()
         setupLabel(sharpeRatioTitleLabel)
         setupLabel(sharpeRatioLabel)
@@ -170,28 +166,16 @@ final class PNLSectionView: UIView {
             make.trailing.equalToSuperview()
         }
 
-        textSectionView.addSubview(dailyWinRateTitleLabel)
-        dailyWinRateTitleLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
-            make.top.equalTo(mddTitleLabel.snp.bottom).offset(8)
-        }
-
-        textSectionView.addSubview(dailyWinRateLabel)
-        dailyWinRateLabel.snp.makeConstraints { make in
-            make.top.equalTo(mddLabel.snp.bottom).offset(8)
-            make.trailing.equalToSuperview()
-        }
-
         textSectionView.addSubview(sharpeRatioTitleLabel)
         sharpeRatioTitleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview()
-            make.top.equalTo(dailyWinRateTitleLabel.snp.bottom).offset(8)
+            make.top.equalTo(mddTitleLabel.snp.bottom).offset(8)
             make.bottom.equalToSuperview()
         }
 
         textSectionView.addSubview(sharpeRatioLabel)
         sharpeRatioLabel.snp.makeConstraints { make in
-            make.top.equalTo(dailyWinRateLabel.snp.bottom).offset(8)
+            make.top.equalTo(mddLabel.snp.bottom).offset(8)
             make.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
         }
@@ -231,8 +215,6 @@ final class PNLSectionView: UIView {
     private let roiAnnualLabel = UILabel()
     private let mddTitleLabel = UILabel()
     private let mddLabel = UILabel()
-    private let dailyWinRateTitleLabel = UILabel()
-    private let dailyWinRateLabel = UILabel()
     private let sharpeRatioTitleLabel = UILabel()
     private let sharpeRatioLabel = UILabel()
     private let dateTimeFormatter = DateFormatter()
@@ -259,11 +241,10 @@ extension PNLSectionView {
     
     func bind(data: PNLApiData) {
         drawChart(data: data)
-        roiLabel.text = "\(data.roi?.toPrettyPrecisedString() ?? "0.0")%"
-        roiAnnualLabel.text = "\(data.roiAnnual?.toPrettyPrecisedString() ?? "0.0")%"
-        mddLabel.text = "\(data.mdd?.toPrettyPrecisedString() ?? "0.0")%"
-        dailyWinRateLabel.text = "\(data.dailyWinRate?.toPrettyPrecisedString() ?? "0.0")%"
-        sharpeRatioLabel.text = "\(data.sharpeRatio?.toPrettyPrecisedString() ?? "0.0")"
+        roiLabel.text = "\(data.roi.toPrettyPrecisedString())%"
+        roiAnnualLabel.text = "\(data.roiAnnual.toPrettyPrecisedString())%"
+        mddLabel.text = "\(data.mdd.toPrettyPrecisedString())%"
+        sharpeRatioLabel.text = "\(data.sharpeRatio.toPrettyPrecisedString())"
     }
     
     func drawChart(data: PNLApiData) {

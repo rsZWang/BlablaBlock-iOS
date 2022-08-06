@@ -263,7 +263,7 @@ public extension HomePageTableViewCell {
         
         timestampCounterLabel.text = notification.timestamp.ago()
         currencyLabel.text = notification.currency
-        currencyTypeLabel.text = AssetType.map(type: notification.type)
+//        currencyTypeLabel.text = AssetType.map(type: notification.type)
         timestampLabel.text = notification.timestamp.format()
         if notification.side.caseInsensitiveCompare("buy") == .orderedSame {
             actionLabel.text = "vc_home_buy".localized()

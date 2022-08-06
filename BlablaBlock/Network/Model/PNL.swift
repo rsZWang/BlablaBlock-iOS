@@ -8,43 +8,40 @@
 import Foundation
 
 public struct PNLApi: Decodable {
-    let code: Int
+    let status: String
     let data: PNLApiData
 }
 
 public struct PNLApiData: Decodable {
     
     let chartData: [PNLCharRawData]
-    let roi: Double?
-    let roiAnnual: Double?
-    let mdd: Double?
-    let dailyWinRate: Double?
-    let sharpeRatio: Double?
+    let roi: Double
+    let roiAnnual: Double
+    let mdd: Double
+    let sharpeRatio: Double
     
     func getChartDataList() -> [PNLCharData] {
         var list = [PNLCharData]()
-        for data in chartData {
-            if let value = data.value {
-                list.append(PNLCharData(value: value, timestamp: data.timestamp.int))
-            }
+        chartData.forEach {
+            list.append(PNLCharData(value: $0.value, timestamp: Int($0.timestamp)))
         }
         return list
     }
     
     func getMinX() -> Int {
-        chartData.map { $0.timestamp.int }.min() ?? 0
+        chartData.map { Int($0.timestamp) }.min() ?? 0
     }
     
     func getMaxX() -> Int {
-        chartData.map { $0.timestamp.int }.max() ?? 0
+        chartData.map { Int($0.timestamp) }.max() ?? 0
     }
     
     func getMinY() -> Double {
-        chartData.map { $0.value ?? 0 }.min() ?? 0
+        chartData.map { $0.value }.min() ?? 0
     }
     
     func getMaxY() -> Double {
-        chartData.map { $0.value ?? 0 }.max() ?? 0
+        chartData.map { $0.value }.max() ?? 0
     }
     
     func getXAxis() -> [Int] {
@@ -116,13 +113,13 @@ public struct PNLApiData: Decodable {
     }
     
     func getYAxisLabel() -> [Int] {
-        chartData.map { Int($0.value ?? 0) }
+        chartData.map { Int($0.value) }
     }
 }
 
 public struct PNLCharRawData: Decodable {
-    let value: Double?
-    let timestamp: String
+    let value: Double
+    let timestamp: Double
 }
 
 

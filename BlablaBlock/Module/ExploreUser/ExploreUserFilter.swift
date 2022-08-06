@@ -12,7 +12,6 @@ public enum ExploreUserFilter: String {
     case random = "random"
     case asset = "asset"
     case profit = "profit"
-    case winRate = "winRate"
     case sharp = "sharp"
     
     static let titleList = [

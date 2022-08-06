@@ -57,7 +57,7 @@ final public class PortfolioViewController: BaseViewController {
 
     private func setupUser() {
         if let user = user {
-            userNameView.text = user.name
+//            userNameView.text = user.name
             userNameView.setCertification(userId: user.userId)
         } else {
             userNameView.text = keychainUser[.userName] ?? keychainUser[.userEmail]
@@ -103,17 +103,17 @@ final public class PortfolioViewController: BaseViewController {
         followerTitleLabel.textColor = .black2D2D2D
         followerTitleLabel.font = .systemFont(ofSize: 10, weight: .medium)
         
-        followingLabel.textColor = .black2D2D2D
-        followingLabel.font = .systemFont(ofSize: 20, weight: .semibold)
-        
-        followingTitleLabel.text = "vc_portfolio_following".localized()
-        followingTitleLabel.textColor = .black2D2D2D
-        followingTitleLabel.font = .systemFont(ofSize: 10, weight: .medium)
+//        followingLabel.textColor = .black2D2D2D
+//        followingLabel.font = .systemFont(ofSize: 20, weight: .semibold)
+//
+//        followingTitleLabel.text = "vc_portfolio_following".localized()
+//        followingTitleLabel.textColor = .black2D2D2D
+//        followingTitleLabel.font = .systemFont(ofSize: 10, weight: .medium)
         
         radioGroup.delegate = self
         radioGroup.add(portfolioTabButton)
         radioGroup.add(pnlTabButton)
-        radioGroup.add(followingPortfolioTabButton)
+//        radioGroup.add(followingPortfolioTabButton)
         
         portfolioTabButton.isSelected = true
         portfolioTabButton.setTitle("vc_portfolio_positions".localized(), for: .normal)
@@ -122,18 +122,17 @@ final public class PortfolioViewController: BaseViewController {
         pnlTabButton.setTitle("vc_portfolio_pnl".localized(), for: .normal)
         
         tabButtonSeparatorViewRight.backgroundColor = .white
-        followingPortfolioTabButton.setTitle("vc_portfolio_following_portfolio".localized(), for: .normal)
+//        followingPortfolioTabButton.setTitle("vc_portfolio_following_portfolio".localized(), for: .normal)
         
         assetSumLabel.text = " "
         followerLabel.text = " "
-        followingLabel.text = " "
+//        followingLabel.text = " "
 
         pagerBackgroundView.backgroundColor = .white
         pagedView.setPages(
             pages: [
                 portfolioSectionView,
-                pnlSectionView,
-                followingPortfolioSectionView
+                pnlSectionView
             ]
         )
     }
@@ -273,23 +272,23 @@ final public class PortfolioViewController: BaseViewController {
             make.leading.trailing.bottom.equalToSuperview()
         }
 
-        followSectionView.addSubview(followingSectionView)
-        followingSectionView.snp.makeConstraints { make in
-            make.width.equalToSuperview().multipliedBy(0.5)
-            make.leading.equalTo(followerSectionView.snp.trailing)
-            make.top.bottom.trailing.equalToSuperview()
-        }
-
-        followingSectionView.addSubview(followingLabel)
-        followingLabel.snp.makeConstraints { make in
-            make.leading.top.trailing.equalToSuperview()
-        }
-
-        followingSectionView.addSubview(followingTitleLabel)
-        followingTitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(followingLabel.snp.bottom)
-            make.leading.trailing.bottom.equalToSuperview()
-        }
+//        followSectionView.addSubview(followingSectionView)
+//        followingSectionView.snp.makeConstraints { make in
+//            make.width.equalToSuperview().multipliedBy(0.5)
+//            make.leading.equalTo(followerSectionView.snp.trailing)
+//            make.top.bottom.trailing.equalToSuperview()
+//        }
+//
+//        followingSectionView.addSubview(followingLabel)
+//        followingLabel.snp.makeConstraints { make in
+//            make.leading.top.trailing.equalToSuperview()
+//        }
+//
+//        followingSectionView.addSubview(followingTitleLabel)
+//        followingTitleLabel.snp.makeConstraints { make in
+//            make.top.equalTo(followingLabel.snp.bottom)
+//            make.leading.trailing.bottom.equalToSuperview()
+//        }
         
         view.addSubview(tabButtonSectionView)
         tabButtonSectionView.snp.makeConstraints { make in
@@ -334,13 +333,13 @@ final public class PortfolioViewController: BaseViewController {
             make.bottom.equalToSuperview().offset(-13)
         }
         
-        tabButtonSectionView.addSubview(followingPortfolioTabButton)
-        followingPortfolioTabButton.snp.makeConstraints { make in
-            make.width.equalTo(tabButtonWidth)
-            make.leading.equalTo(tabButtonSeparatorViewRight.snp.trailing).offset(6)
-            make.trailing.equalToSuperview().offset(-6)
-            make.top.bottom.equalToSuperview()
-        }
+//        tabButtonSectionView.addSubview(followingPortfolioTabButton)
+//        followingPortfolioTabButton.snp.makeConstraints { make in
+//            make.width.equalTo(tabButtonWidth)
+//            make.leading.equalTo(tabButtonSeparatorViewRight.snp.trailing).offset(6)
+//            make.trailing.equalToSuperview().offset(-6)
+//            make.top.bottom.equalToSuperview()
+//        }
         
         view.addSubview(pagerBackgroundView)
         pagerBackgroundView.snp.makeConstraints { make in
@@ -384,15 +383,15 @@ final public class PortfolioViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
 
-        followingSectionView.rx
-            .tapGesture()
-            .when(.recognized)
-            .map { _ in false }
-            .subscribe(onNext: { [weak self] isDefaultPageFollower in
-                guard let self = self else { return }
-                self.parentCoordinator?.toFollow(isDefaultPageFollower: isDefaultPageFollower, viewModel: self.followViewModel)
-            })
-            .disposed(by: disposeBag)
+//        followingSectionView.rx
+//            .tapGesture()
+//            .when(.recognized)
+//            .map { _ in false }
+//            .subscribe(onNext: { [weak self] isDefaultPageFollower in
+//                guard let self = self else { return }
+//                self.parentCoordinator?.toFollow(isDefaultPageFollower: isDefaultPageFollower, viewModel: self.followViewModel)
+//            })
+//            .disposed(by: disposeBag)
 
         viewModel.outputs
             .sum
@@ -429,12 +428,12 @@ final public class PortfolioViewController: BaseViewController {
             .emit(to: followerLabel.rx.text)
             .disposed(by: disposeBag)
 
-        followViewModel.outputs
-            .followingAmount
-            .map { String($0) }
-            .asSignal(onErrorJustReturn: "")
-            .emit(to: followingLabel.rx.text)
-            .disposed(by: disposeBag)
+//        followViewModel.outputs
+//            .followingAmount
+//            .map { String($0) }
+//            .asSignal(onErrorJustReturn: "")
+//            .emit(to: followingLabel.rx.text)
+//            .disposed(by: disposeBag)
         
         followViewModel.outputs
             .errorMessage
@@ -446,7 +445,7 @@ final public class PortfolioViewController: BaseViewController {
         
         portfolioSectionView.viewModel = viewModel
         pnlSectionView.viewModel = viewModel
-        followingPortfolioSectionView.viewModel = viewModel
+//        followingPortfolioSectionView.viewModel = viewModel
     }
     
     private let statusBarSection = UIView()
@@ -466,21 +465,21 @@ final public class PortfolioViewController: BaseViewController {
     private let followerSectionView = UIView()
     private let followerLabel = UILabel()
     private let followerTitleLabel = UILabel()
-    private let followingSectionView = UIView()
-    private let followingLabel = UILabel()
-    private let followingTitleLabel = UILabel()
+//    private let followingSectionView = UIView()
+//    private let followingLabel = UILabel()
+//    private let followingTitleLabel = UILabel()
     private let tabButtonSectionView = UIView()
     private let radioGroup = RadioButtonGroup()
     private let portfolioTabButton = PortfolioTabButton()
     private let tabButtonSeparatorViewLeft = UIView()
     private let pnlTabButton = PortfolioTabButton()
     private let tabButtonSeparatorViewRight = UIView()
-    private let followingPortfolioTabButton = PortfolioTabButton()
+//    private let followingPortfolioTabButton = PortfolioTabButton()
     private let pagerBackgroundView = UIView()
     private let pagedView = PagedView()
     private let portfolioSectionView = PortfolioSectionView()
     private let pnlSectionView = PNLSectionView()
-    private let followingPortfolioSectionView = FollowingPortfolioSectionView()
+//    private let followingPortfolioSectionView = FollowingPortfolioSectionView()
 }
 
 private extension PortfolioViewController {
@@ -517,17 +516,17 @@ extension PortfolioViewController: RadioButtonGroupDelegate {
             }
             pagedView.moveToPage(at: 1)
             
-        case followingPortfolioTabButton:
-            if let user = user {
-                EventTracker.Builder()
-                    .setProperty(name: .USER_B, value: user.userId)
-                    .logEvent(.CHECK_OTHERS_PROFILE_FOLLOWED_PORTFOLIO)
-            } else {
-                EventTracker.Builder()
-                    .logEvent(.CHECK_PERSONAL_PAGE_FOLLOWED_PORTFOLIO)
-            }
-            pagedView.moveToPage(at: 2)
-            
+//        case followingPortfolioTabButton:
+//            if let user = user {
+//                EventTracker.Builder()
+//                    .setProperty(name: .USER_B, value: user.userId)
+//                    .logEvent(.CHECK_OTHERS_PROFILE_FOLLOWED_PORTFOLIO)
+//            } else {
+//                EventTracker.Builder()
+//                    .logEvent(.CHECK_PERSONAL_PAGE_FOLLOWED_PORTFOLIO)
+//            }
+//            pagedView.moveToPage(at: 2)
+//            
         default:
             break
         }

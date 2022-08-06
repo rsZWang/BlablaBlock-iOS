@@ -111,7 +111,7 @@ final class TradeHistoryViewModel:
                     currencyList.accept(currencies)
                     self?.historyCache.accept(historyApiResponse.data)
                 case let .failure(responseFailure):
-                    self?.errorCodeHandler(code: responseFailure.code, msg: responseFailure.msg)
+                    self?.errorCodeHandler(responseFailure)
                 }
             },
             onFailure: { [weak self] error in

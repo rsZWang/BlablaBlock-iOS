@@ -19,7 +19,7 @@ public struct AuthService {
             .requestParameters(parameters: [
                 "email" : email,
                 "password" : password
-            ], encoding: JSONEncoding.default)
+            ], encoding: URLEncoding.default)
         }
         typealias SuccessType = LoginApi
         typealias FailureType = ResponseFailure
@@ -28,16 +28,17 @@ public struct AuthService {
         let password: String
     }
     
-    struct register: HttpTargetType {
+    struct signup: HttpTargetType {
         var method: Method { .post }
         var tokenType: TokenType { .normal }
-        var path: String { "registration" }
+        var path: String { "signup" }
         var task: Task {
             .requestParameters(parameters: [
-                "name" : userName,
                 "email" : email,
-                "password" : password
-            ], encoding: JSONEncoding.default)
+                "password" : password,
+                "passwordConfirm" : password,
+                "userName" : userName,
+            ], encoding: URLEncoding.default)
         }
         typealias SuccessType = RegistrationApi
         typealias FailureType = ResponseFailure
@@ -54,7 +55,7 @@ public struct AuthService {
         var task: Task {
             .requestParameters(parameters: [
                 "email" : email
-            ], encoding: JSONEncoding.default)
+            ], encoding: URLEncoding.default)
         }
         var log: Bool { false }
         typealias SuccessType = ResponseSuccess
@@ -70,7 +71,7 @@ public struct AuthService {
         var task: Task {
             .requestParameters(parameters: [
                 "password" : password
-            ], encoding: JSONEncoding.default)
+            ], encoding: URLEncoding.default)
         }
         typealias SuccessType = ResponseSuccess
         typealias FailureType = ResponseFailure

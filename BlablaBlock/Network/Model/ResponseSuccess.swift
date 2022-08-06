@@ -8,5 +8,5 @@
 import Foundation
 
 public struct ResponseSuccess: Decodable {
-    let code: Int  // API status
+    let status: String  // API status
 }
