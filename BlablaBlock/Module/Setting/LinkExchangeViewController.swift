@@ -75,10 +75,10 @@ final public class LinkExchangeViewController: BaseViewController {
         
         if let exchange = exchange {
             apiKeyInputView.textField.text = exchange.apiKey
-            apiSecretInputView.textField.text = exchange.apiSecret
+            secretKeyInputView.textField.text = exchange.secretKey
         } else {
             apiKeyInputView.placeholder = "API Key"
-            apiSecretInputView.placeholder = "Secret Key"
+            secretKeyInputView.placeholder = "Secret Key"
         }
         
         submitButton.setTitle("提交", for: .normal)
@@ -130,8 +130,8 @@ final public class LinkExchangeViewController: BaseViewController {
             make.top.equalTo(howToUseLabel.snp.bottom).offset(24)
         }
         
-        paddingContainerView.addSubview(apiSecretInputView)
-        apiSecretInputView.snp.makeConstraints { make in
+        paddingContainerView.addSubview(secretKeyInputView)
+        secretKeyInputView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(apiKeyInputView.snp.bottom).offset(24)
         }
@@ -140,7 +140,7 @@ final public class LinkExchangeViewController: BaseViewController {
         submitButton.snp.makeConstraints { make in
             make.height.equalTo(40)
             make.leading.trailing.equalToSuperview()
-            make.top.equalTo(apiSecretInputView.snp.bottom).offset(32)
+            make.top.equalTo(secretKeyInputView.snp.bottom).offset(32)
         }
     }
     
@@ -178,18 +178,14 @@ final public class LinkExchangeViewController: BaseViewController {
             .tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                if let apiKey = self.apiKeyInputView.textField.text, let apiSecret = self.apiSecretInputView.textField.text {
-                    if let exchange = self.exchange {
-                        self.viewModel.inputs
-                            .onEdit
-                            .accept((exchange.id, self.exchangeType!, apiKey, apiSecret))
-                    } else {
-                        self.viewModel.inputs
-                            .onCreate
-                            .accept((self.exchangeType!, apiKey, apiSecret))
-                    }
-                    self.dismiss()
+                if let apiKey = self?.apiKeyInputView.textField.text,
+                   let apiSecret = self?.secretKeyInputView.textField.text,
+                   let exchangeType = self?.exchangeType
+                {
+                    self?.viewModel.inputs
+                        .onCreate
+                        .accept((exchangeType, apiKey, apiSecret))
+                    self?.dismiss()
                 }
             })
             .disposed(by: disposeBag)
@@ -203,7 +199,7 @@ final public class LinkExchangeViewController: BaseViewController {
     private let closeImageView = UIImageView()
     private let howToUseLabel = UILabel()
     private let apiKeyInputView = NormalInputView()
-    private let apiSecretInputView = NormalInputView()
+    private let secretKeyInputView = NormalInputView()
     private let submitButton = BlablaBlockOrangeButtonView()
 }
 

@@ -12,7 +12,7 @@ struct ExchangeService {
     struct getStatus: HttpTargetType {
         var method: Method { .get }
         var tokenType: TokenType { .user }
-        var path: String { "api_settings" }
+        var path: String { "getAllApis" }
         var task: Task {
             .requestPlain
         }
@@ -23,20 +23,20 @@ struct ExchangeService {
     struct create: HttpTargetType {
         var method: Method { .post }
         var tokenType: TokenType { .user }
-        var path: String { "api_settings" }
+        var path: String { "createApi" }
         var task: Task {
             .requestParameters(parameters: [
                 "exchange" : exchange,
-                "api_key" : apiKey,
-                "api_secret" : apiSecret
-            ], encoding: JSONEncoding.default)
+                "apiKey" : apiKey,
+                "secretKey" : secretKey
+            ], encoding: URLEncoding.default)
         }
-        typealias SuccessType = ExchangeApi
+        typealias SuccessType = ResponseSuccess
         typealias FailureType = ResponseFailure
         
         let exchange: String
         let apiKey: String
-        let apiSecret: String
+        let secretKey: String
     }
     
     struct edit: HttpTargetType {
@@ -62,16 +62,20 @@ struct ExchangeService {
     }
     
     struct delete: HttpTargetType {
-        var method: Method { .delete }
+        var method: Method { .post }
         var tokenType: TokenType { .user }
-        var path: String { "api_settings/\(id)" }
+        var path: String { "deleteApi" }
         var task: Task {
-            .requestPlain
+            .requestParameters(parameters: [
+                "exchange" : exchange,
+                "apiKey" : apiKey
+            ], encoding: URLEncoding.default)
         }
-        typealias SuccessType = ExchangeApi
+        typealias SuccessType = ResponseSuccess
         typealias FailureType = ResponseFailure
         
-        let id: Int
+        let exchange: String
+        let apiKey: String
     }
     
     struct getCurrency: HttpTargetType {

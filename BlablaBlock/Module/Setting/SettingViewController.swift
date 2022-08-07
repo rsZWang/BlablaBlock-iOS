@@ -15,7 +15,6 @@ final class SettingViewController: BaseViewController {
     private weak var parentCoordinator: MainCoordinator?
     private let viewModel: SettingViewModelType
     private var cardViewList: [ExchangeCardView] = []
-    private let exchageList: [FilterExchange] = [ .Binance, .FTX]
     
     init(
         parentCoordinator: MainCoordinator?,
@@ -69,6 +68,18 @@ final class SettingViewController: BaseViewController {
         
         cardSectionStackView.axis = .vertical
         cardSectionStackView.spacing = 20
+        
+        addSectionView.borderColor = .black2D2D2D
+        addSectionView.layer.borderWidth = 1
+        addSectionView.layer.cornerRadius = 4
+        addSectionView.layer.masksToBounds = true
+        
+        addImageView.image = UIImage(systemName: "square.and.arrow.up")?.withRenderingMode(.alwaysTemplate)
+        addImageView.tintColor = .black2D2D2D
+        
+        addLabel.text = "Add API"
+        addLabel.font = .boldSystemFont(ofSize: 18)
+        addLabel.textColor = .black2D2D2D
         
         questionSectionView.borderColor = .black2D2D2D
         questionSectionView.layer.borderWidth = 1
@@ -156,17 +167,32 @@ final class SettingViewController: BaseViewController {
             make.top.equalToSuperview().offset(24)
         }
         
-        for exchage in exchageList {
-            let cardView = ExchangeCardView(self, type: exchage)
-            cardViewList.append(cardView)
-            cardSectionStackView.addArrangedSubview(cardView)
+        scrollContainerView.addSubview(addSectionView)
+        addSectionView.snp.makeConstraints { make in
+            make.height.equalTo(64)
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(cardSectionStackView.snp.bottom).offset(20)
+        }
+        
+        addSectionView.addSubview(addImageView)
+        addImageView.snp.makeConstraints { make in
+            make.width.height.equalTo(20)
+            make.leading.equalToSuperview().offset(24)
+            make.centerY.equalToSuperview()
+        }
+        
+        addSectionView.addSubview(addLabel)
+        addLabel.snp.makeConstraints { make in
+            make.leading.equalTo(addImageView.snp.trailing).offset(12)
+            make.centerY.equalToSuperview()
+            make.trailing.equalToSuperview().offset(24)
         }
         
         scrollContainerView.addSubview(questionSectionView)
         questionSectionView.snp.makeConstraints { make in
             make.height.equalTo(64)
             make.leading.trailing.equalToSuperview()
-            make.top.equalTo(cardSectionStackView.snp.bottom).offset(20)
+            make.top.equalTo(addSectionView.snp.bottom).offset(20)
         }
         
         questionSectionView.addSubview(questionImageView)
@@ -202,11 +228,19 @@ final class SettingViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
         
+        addSectionView.rx
+            .tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                self?.promptAddApiAlert()
+            })
+            .disposed(by: disposeBag)
+        
         questionSectionView.rx
             .tapGesture()
             .when(.recognized)
             .subscribe(onNext: { _ in
-                Timber.i("questionSectionView")
+                
             })
             .disposed(by: disposeBag)
         
@@ -235,7 +269,8 @@ final class SettingViewController: BaseViewController {
         
         viewModel.outputs
             .errorMessage
-            .subscribe(onNext: { [weak self] msg in
+            .asSignal()
+            .emit(onNext: { [weak self] msg in
                 self?.editButton.isEnabled = true
                 self?.promptAlert(message: msg)
             })
@@ -268,6 +303,9 @@ final class SettingViewController: BaseViewController {
     private let scrollView = UIScrollView()
     private let scrollContainerView = UIView()
     private let cardSectionStackView = UIStackView()
+    private let addSectionView = UIView()
+    private let addImageView = UIImageView()
+    private let addLabel = UILabel()
     private let questionSectionView = UIView()
     private let questionImageView = UIImageView()
     private let questionLabel = UILabel()
@@ -277,9 +315,28 @@ final class SettingViewController: BaseViewController {
 extension SettingViewController {
     
     private func refreshList(exchanges: [ExchangeApiData]) {
-        for card in cardViewList {
-            card.exchange = exchanges.first { $0.exchange == card.type.rawValue }
+        cardViewList.forEach { $0.removeFromSuperview() }
+        cardViewList.removeAll()
+        for exchange in exchanges {
+            let cardView = ExchangeCardView(self, exchange: exchange)
+            cardViewList.append(cardView)
+            cardSectionStackView.addArrangedSubview(cardView)
         }
+    }
+    
+    private func promptAddApiAlert() {
+        AlertBuilder()
+            .setTitle("Exchanges")
+            .setMessage("Choose")
+            .setButton(title: "Binance") { [weak self] in
+                self?.promptLinkView(type: .Binance, exchange: nil)
+            }
+            .setButton(title: "FTX") { [weak self] in
+                self?.promptLinkView(type: .FTX, exchange: nil)
+            }
+            .setButton(title: "Cancel")
+            .setStyle(.alert)
+            .show()
     }
     
     private func promptLinkView(type: FilterExchange, exchange: ExchangeApiData?) {
@@ -293,9 +350,6 @@ extension SettingViewController {
     private func promptActionSheetAlert(type: FilterExchange, exchange: ExchangeApiData) {
         AlertBuilder()
             .setStyle(.actionSheet)
-            .setButton(title: "修改") { [weak self] in
-                self?.promptLinkView(type: type, exchange: exchange)
-            }
             .setButton(title: "刪除") { [weak self] in
                 self?.promptDeleteAlert(exchange: exchange)
             }
@@ -307,7 +361,7 @@ extension SettingViewController {
         AlertBuilder()
             .setTitle("確定要刪除嗎？")
             .setButton(title: "確定") { [weak self] in
-                self?.viewModel.inputs.onDelete.accept(exchange.id)
+                self?.viewModel.inputs.onDelete.accept(exchange)
             }
             .setButton(title: "取消", style: .cancel)
             .show(self)

@@ -93,6 +93,7 @@ final class PNLSectionView: UIView {
             make.leading.equalToSuperview()
             make.centerY.equalToSuperview()
         }
+        pickerSectionView.isHidden = true
         
         containerView.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in

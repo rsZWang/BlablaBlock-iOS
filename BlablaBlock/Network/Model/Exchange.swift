@@ -6,7 +6,7 @@
 //
 
 public struct ExchangeApi: Decodable {
-    let code: Int
+    let status: String
     let data: [ExchangeApiData]
     
     func hasLinked() -> Bool {
@@ -23,15 +23,14 @@ public struct ExchangeApi: Decodable {
 
 public struct ExchangeApiData: Decodable {
     
-    let id: Int
+    let accountAlias: String
+    let address: String
     let exchange: String
     let apiKey: String
-    let apiSecret: String
-    let subaccount: String?
-    let userId: Int
+    let secretKey: String
     
     func isLinked() -> Bool {
-        !apiKey.isEmpty && !apiSecret.isEmpty
+        !apiKey.isEmpty && !secretKey.isEmpty
     }
 }
 

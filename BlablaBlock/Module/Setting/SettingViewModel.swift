@@ -11,8 +11,7 @@ import RxSwift
 public protocol SettingViewModelInputs: AnyObject {
     var viewDidLoad: PublishRelay<()> { get }
     var onCreate: PublishRelay<(FilterExchange, String, String)> { get }
-    var onEdit: PublishRelay<(Int, FilterExchange, String, String)> { get }
-    var onDelete: PublishRelay<Int> { get }
+    var onDelete: PublishRelay<ExchangeApiData> { get }
     var onSignOut: PublishRelay<()> { get }
 }
 
@@ -35,8 +34,8 @@ public final class SettingViewModel:
     // MARK: - inputs
     public var viewDidLoad: PublishRelay<()>
     public var onCreate: PublishRelay<(FilterExchange, String, String)>
-    public var onEdit: PublishRelay<(Int, FilterExchange, String, String)>
-    public var onDelete: PublishRelay<Int>
+    public var onEdit: PublishRelay<(ExchangeApiData, FilterExchange, String, String)>
+    public var onDelete: PublishRelay<ExchangeApiData>
     public var onSignOut: PublishRelay<()>
     
     // MARK: - outputs
@@ -53,8 +52,8 @@ public final class SettingViewModel:
     override init() {
         let viewDidLoad = PublishRelay<()>()
         let onCreate = PublishRelay<(FilterExchange, String, String)>()
-        let onEdit = PublishRelay<(Int, FilterExchange, String, String)>()
-        let onDelete = PublishRelay<Int>()
+        let onEdit = PublishRelay<(ExchangeApiData, FilterExchange, String, String)>()
+        let onDelete = PublishRelay<ExchangeApiData>()
         let onSignOut = PublishRelay<()>()
         
         self.viewDidLoad = viewDidLoad
@@ -73,25 +72,19 @@ public final class SettingViewModel:
         
         viewDidLoad
             .subscribe(onNext: { [weak self] _ in
-                self?.getExchangeStatus(exchages: exchanges)
+                self?.getExchangeStatus(exchanges: exchanges)
             })
             .disposed(by: disposeBag)
         
         onCreate
             .subscribe(onNext: { [weak self] tuple in
-                self?.create(exchange: tuple.0.rawValue, apiKey: tuple.1, apiSecret: tuple.2, exchanges: exchanges)
-            })
-            .disposed(by: disposeBag)
-        
-        onEdit
-            .subscribe(onNext: { [weak self] tuple in
-                self?.edit(id: tuple.0, exchange: tuple.1.rawValue, apiKey: tuple.2, apiSecret: tuple.3, subaccount: "", exchanges: exchanges)
+                self?.create(exchange: tuple.0.rawValue, apiKey: tuple.1, secretKey: tuple.2, exchanges: exchanges)
             })
             .disposed(by: disposeBag)
         
         onDelete
-            .subscribe(onNext: { [weak self] id in
-                self?.delete(id: id, exchanges: exchanges)
+            .subscribe(onNext: { [weak self] exchangeApiData in
+                self?.delete(exchange: exchangeApiData, exchanges: exchanges)
             })
             .disposed(by: disposeBag)
         
@@ -101,23 +94,24 @@ public final class SettingViewModel:
             })
             .disposed(by: disposeBag)
         
-//        viewDidLoad.accept(())
+        viewDidLoad.accept(())
     }
     
-    private func getExchangeStatus(exchages: BehaviorRelay<[ExchangeApiData]>) {
+    private func getExchangeStatus(exchanges: BehaviorRelay<[ExchangeApiData]>) {
         ExchangeService.getStatus()
-            .request()
             .subscribe(
                 onSuccess: { [weak self] response in
                     switch response {
                     case let .success(exchange):
-                        exchages.accept(exchange.data)
+                        exchanges.accept(exchange.data)
                     case let .failure(responseFailure):
-                        self?.errorCodeHandler(responseFailure)
+//                        self?.errorCodeHandler(responseFailure)
+                        exchanges.accept([])
                     }
                 },
                 onFailure: { [weak self] error in
-                    self?.errorHandler(error: error)
+//                    self?.errorHandler(error: error)
+                    exchanges.accept([])
                 }
             )
             .disposed(by: disposeBag)
@@ -126,35 +120,13 @@ public final class SettingViewModel:
     private func create(
         exchange: String,
         apiKey: String,
-        apiSecret: String,
+        secretKey: String,
         exchanges: BehaviorRelay<[ExchangeApiData]>
     ) {
-        ExchangeService.create(exchange: exchange, apiKey: apiKey, apiSecret: apiSecret)
-            .request()
+        ExchangeService.create(exchange: exchange, apiKey: apiKey, secretKey: secretKey)
             .subscribe(
                 onSuccess: { [weak self] response in
-                    self?.newExchangeHandler(response: response, exchanges: exchanges)
-                },
-                onFailure: { [weak self] error in
-                    self?.errorHandler(error: error)
-                }
-            )
-            .disposed(by: disposeBag)
-    }
-
-    private func edit(
-        id: Int,
-        exchange: String,
-        apiKey: String,
-        apiSecret: String,
-        subaccount: String,
-        exchanges: BehaviorRelay<[ExchangeApiData]>
-    ) {
-        ExchangeService.edit(id: id, exchange: exchange, apiKey: apiKey, apiSecret: apiSecret, subAccount: subaccount)
-            .request()
-            .subscribe(
-                onSuccess: { [weak self] response in
-                    self?.newExchangeHandler(response: response, exchanges: exchanges)
+                    self?.getExchangeStatus(exchanges: exchanges)
                 },
                 onFailure: { [weak self] error in
                     self?.errorHandler(error: error)
@@ -164,14 +136,13 @@ public final class SettingViewModel:
     }
 
     private func delete(
-        id: Int,
+        exchange: ExchangeApiData,
         exchanges: BehaviorRelay<[ExchangeApiData]>
     ) {
-        ExchangeService.delete(id: id)
-            .request()
+        ExchangeService.delete(exchange: exchange.exchange, apiKey: exchange.apiKey)
             .subscribe(
                 onSuccess: { [weak self] response in
-                    self?.newExchangeHandler(response: response, exchanges: exchanges)
+                    self?.getExchangeStatus(exchanges: exchanges)
                 },
                 onFailure: { [weak self] error in
                     self?.errorHandler(error: error)

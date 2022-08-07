@@ -15,20 +15,17 @@ public protocol ExchangeCardViewDelegate: NSObject {
 final class ExchangeCardView: UIView, NibOwnerLoadable {
     
     private weak var delegate: ExchangeCardViewDelegate?
-    var type: FilterExchange!
-    var exchange: ExchangeApiData? {
-        didSet {
-            setStatus()
-        }
-    }
+    private var exchange: ExchangeApiData!
+    private var type: FilterExchange!
     
     convenience init(
         _ delegate: ExchangeCardViewDelegate,
-        type: FilterExchange
+        exchange: ExchangeApiData
     ) {
         self.init(frame: .zero)
         self.delegate = delegate
-        self.type = type
+        self.exchange = exchange
+        self.type = FilterExchange.init(title: exchange.exchange)
         self.commonInit()
     }
     
